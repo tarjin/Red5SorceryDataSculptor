@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Sculptor — Red5Sorcery</title>
+<meta name="description" content="A local-first analytical workbench for office analysts. Deterministic execution and optional AI help with no automatic data sharing. Built in public.">
+<meta property="og:title" content="Data Sculptor — Red5Sorcery">
+<meta property="og:description" content="A local-first analytical workbench for office analysts. Deterministic execution, inspectable work, review-ready outputs — and a daily public record of how it is being built.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://red5sorcerydatasculptor.com/">
+<meta property="og:site_name" content="Red5Sorcery">
+<meta property="og:image" content="https://red5sorcerydatasculptor.com/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Data Sculptor — data work you can explain. Free. Fast. Private. Pretty.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Data Sculptor — Red5Sorcery">
+<meta name="twitter:description" content="A local-first analytical workbench for office analysts. In development, built in public.">
+<meta name="twitter:image" content="https://red5sorcerydatasculptor.com/og-image.png">
+<link rel="canonical" href="https://red5sorcerydatasculptor.com/">
+<meta name="theme-color" content="#E7EAEE">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>
+(function(){try{var t=localStorage.getItem('r5-theme');
+if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --paper:#E7EAEE;
+  --paper-2:#F2F4F6;
+  --ink:#13191F;
+  --ink-soft:#4A5560;
+  --rule:#BFC7D0;
+  --rule-strong:#8D97A3;
+  --source:#1B3A6B;
+  --derived:#5E6A76;
+  --fabricated:#AE2F26;
+  --hatch:rgba(174,47,38,.13);
+  --invert-body:#D3D9E0;
+  --display:'Archivo',system-ui,sans-serif;
+  --body:'Newsreader',Georgia,serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --gut:clamp(20px,5vw,72px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#14181D;
+    --paper-2:#1C222A;
+    --ink:#DEE3E9;
+    --ink-soft:#8E99A5;
+    --rule:#2C343D;
+    --rule-strong:#4B5560;
+    --source:#82ABDE;
+    --derived:#9AA6B2;
+    --fabricated:#E8695C;
+    --hatch:rgba(232,105,92,.17);
+    --invert-body:#39424C;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#14181D;
+  --paper-2:#1C222A;
+  --ink:#DEE3E9;
+  --ink-soft:#8E99A5;
+  --rule:#2C343D;
+  --rule-strong:#4B5560;
+  --source:#82ABDE;
+  --derived:#9AA6B2;
+  --fabricated:#E8695C;
+  --hatch:rgba(232,105,92,.17);
+  --invert-body:#39424C;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-weight:300;
+  font-size:clamp(17px,1.15vw,19px);line-height:1.62;
+}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:var(--gut)}
+
+/* masthead */
+.masthead{border-bottom:1px solid var(--rule-strong);position:sticky;top:0;z-index:20;background:var(--paper)}
+.masthead .wrap{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding-block:13px;flex-wrap:wrap}
+.mark{font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:.16em;text-transform:uppercase}
+.mark span{color:var(--fabricated)}
+.mh-status{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+.mh-status b{font-weight:500;color:var(--ink)}
+.mh-status i{font-style:normal;color:var(--rule-strong);padding:0 6px}
+.theme-btn{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);background:none;border:1px solid var(--rule-strong);
+  padding:4px 9px;margin-left:14px;cursor:pointer;line-height:1.2;
+}
+.theme-btn:hover{color:var(--ink);border-color:var(--ink)}
+.theme-btn:focus-visible{outline:2px solid var(--source);outline-offset:2px}
+
+/* bands */
+.band{padding-block:clamp(46px,6.5vw,88px);border-bottom:1px solid var(--rule)}
+.band:last-of-type{border-bottom:0}
+.band-label{font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 20px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(44px,10vw,110px);line-height:.9;letter-spacing:-.035em;margin:6px 0 0;text-transform:uppercase}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(25px,3.4vw,38px);line-height:1.06;letter-spacing:-.02em;margin:0 0 18px;max-width:22ch}
+h3{font-family:var(--display);font-weight:700;font-size:clamp(18px,1.9vw,22px);line-height:1.18;letter-spacing:-.01em;margin:0 0 10px}
+p{margin:0 0 17px;max-width:62ch}
+p:last-child{margin-bottom:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);margin:0}
+
+/* hero */
+.hero{padding-top:clamp(38px,5.5vw,68px)}
+.tagline{font-family:var(--display);font-weight:700;font-size:clamp(23px,3.3vw,38px);line-height:1.04;letter-spacing:-.022em;margin:20px 0 0}
+.hero-lede{margin-top:15px;max-width:46ch;font-size:clamp(18px,1.5vw,21px);line-height:1.45}
+.promise{
+  display:flex;flex-wrap:wrap;gap:0 clamp(15px,2.6vw,32px);
+  margin:clamp(24px,3vw,32px) 0 0;padding-top:clamp(20px,2.4vw,26px);
+  border-top:1px solid var(--rule-strong);max-width:none;
+  font-family:var(--display);font-weight:800;font-size:clamp(25px,4.6vw,48px);
+  letter-spacing:-.022em;line-height:1.12;text-transform:uppercase;
+}
+.promises{display:grid;gap:30px;margin-top:32px}
+@media(min-width:820px){.promises{grid-template-columns:1fr 1fr;gap:38px 50px}}
+.promise-item{border-top:2px solid var(--ink);padding-top:15px}
+.promise-item h3{font-size:clamp(20px,2.2vw,26px);text-transform:uppercase;letter-spacing:.005em}
+.promise-item p{font-size:16.5px;max-width:44ch;margin-bottom:0}
+.engines{margin-top:clamp(38px,4.5vw,52px);padding-top:26px;border-top:1px solid var(--rule)}
+.engines-label{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 20px}
+.engine-grid{display:grid;gap:26px}
+@media(min-width:820px){.engine-grid{grid-template-columns:repeat(3,1fr);gap:34px}}
+.engine h4{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:-.005em;margin:0 0 8px}
+.engine p{font-size:15.5px;max-width:36ch;margin:0;color:var(--ink-soft)}
+.dialects{display:grid;gap:30px;margin-top:30px}
+@media(min-width:860px){.dialects{grid-template-columns:repeat(3,1fr);gap:38px}}
+.dialect{border-top:2px solid var(--ink);padding-top:15px}
+.dialect h3{font-family:var(--mono);font-weight:500;font-size:15px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.dialect p{font-size:16.5px;max-width:38ch;margin-bottom:0}
+.flow{
+  margin-top:clamp(32px,4vw,44px);border:1px solid var(--rule-strong);
+  background:var(--paper-2);padding:clamp(22px,3vw,34px);
+}
+.flow-node{font-family:var(--display);font-weight:800;font-size:clamp(17px,2.1vw,23px);text-transform:uppercase;letter-spacing:-.012em;line-height:1.2}
+.flow-node.is-optional{
+  display:inline-block;color:var(--ink-soft);
+  border:1px dashed var(--rule-strong);padding:8px 14px;font-size:clamp(15px,1.8vw,19px);
+}
+.flow-arrow{
+  display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-soft);padding:12px 0;
+}
+.flow-arrow::before{content:"\2193";padding-right:12px;color:var(--rule-strong)}
+.direction-note{
+  margin-top:clamp(30px,3.4vw,40px);border-left:2px solid var(--rule-strong);padding-left:15px;
+  font-family:var(--mono);font-size:12.5px;line-height:1.75;color:var(--ink-soft);max-width:62ch;
+}
+.hero-lede em{font-style:italic}
+
+/* state ledger */
+.state{margin-top:clamp(30px,4vw,44px);border:1px solid var(--rule-strong);background:var(--paper-2)}
+.state-top{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);padding:9px 16px;border-bottom:1px solid var(--rule)}
+.state dl{margin:0;padding:16px;font-family:var(--mono);font-size:13.5px;line-height:1.6;display:grid;gap:9px 24px}
+@media(min-width:660px){.state dl{grid-template-columns:max-content 1fr}}
+.state dt{color:var(--ink-soft);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding-top:4px}
+.state dd{margin:0}
+.state dd.open{color:var(--fabricated)}
+
+/* provenance grid */
+.demo-head{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1px solid var(--rule-strong);padding-bottom:8px;margin-top:30px}
+.demo-grid{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:560px;font-family:var(--mono)}
+thead th{font-weight:500;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);text-align:left;padding:12px 10px;border-bottom:1px solid var(--rule-strong);white-space:nowrap}
+thead th.num{text-align:right}
+tbody td{padding:0;border-bottom:1px solid var(--rule)}
+.cell{display:block;width:100%;font:inherit;font-size:14.5px;background:none;border:0;padding:13px 10px;text-align:left;color:var(--source);cursor:pointer;transition:background .12s ease}
+.cell.num{text-align:right;font-variant-numeric:tabular-nums}
+.cell:hover{background:var(--paper-2)}
+.cell:focus-visible{outline:2px solid var(--source);outline-offset:-2px}
+.cell[data-kind="derived"]{color:var(--derived)}
+.cell[data-kind="fabricated"],.cell[data-tainted="yes"]{background-image:repeating-linear-gradient(-45deg,transparent 0 5px,var(--hatch) 5px 6px)}
+.cell[data-kind="fabricated"]{color:var(--fabricated)}
+.cell[aria-pressed="true"]{background:var(--ink);color:var(--paper);background-image:none}
+.readout{border:1px solid var(--rule-strong);border-top:0;background:var(--paper-2);padding:17px 16px;font-family:var(--mono);font-size:13px;line-height:1.65;min-height:126px}
+.readout-empty{color:var(--ink-soft);margin:0}
+.readout-kind{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;display:inline-block;padding:3px 8px;margin-bottom:11px;border:1px solid currentColor}
+.k-source{color:var(--source)}.k-derived{color:var(--derived)}.k-fabricated{color:var(--fabricated)}
+.readout dl{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:5px 18px}
+.readout dt{color:var(--ink-soft);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;padding-top:3px}
+.readout dd{margin:0}
+.readout .warn{color:var(--fabricated)}
+.legend{margin-top:16px;display:flex;flex-wrap:wrap;gap:9px 24px;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft)}
+.legend b{font-weight:500}
+.swatch{display:inline-block;width:10px;height:10px;margin-right:7px}
+.sw-source{background:var(--source)}.sw-derived{background:var(--derived)}.sw-fab{background:var(--fabricated)}
+.sw-hatch{background-image:repeating-linear-gradient(-45deg,var(--paper) 0 3px,var(--fabricated) 3px 4px);border:1px solid var(--rule-strong)}
+
+/* the log */
+.log{list-style:none;margin:0;padding:0}
+.log>li{display:grid;gap:10px 32px;padding:22px 0;border-top:1px solid var(--rule)}
+.log>li:first-child{border-top:1px solid var(--ink)}
+@media(min-width:800px){.log>li{grid-template-columns:132px 1fr}}
+.log-day{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.03em;text-transform:uppercase;line-height:1.3}
+.log-date{display:block;font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.04em;text-transform:none;color:var(--ink-soft);margin-top:4px}
+.log-tag{display:inline-block;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.11em;color:var(--ink-soft);margin-top:7px;padding:2px 6px;border:1px solid var(--rule-strong);text-transform:uppercase}
+.log-tag.is-build{color:var(--paper);background:var(--ink);border-color:var(--ink)}
+.log-entry{max-width:62ch}
+.log-entry h3{font-size:clamp(17px,1.75vw,20px);margin-bottom:7px}
+.log-entry p{font-size:16.5px;margin-bottom:0}
+.log-note{margin-top:26px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);max-width:60ch;line-height:1.7}
+
+/* open questions */
+.opens{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:26px}
+@media(min-width:840px){.opens{grid-template-columns:1fr 1fr;gap:32px 44px}}
+.opens li{border-top:2px solid var(--fabricated);padding-top:15px}
+.opens p{font-size:17px;max-width:40ch;margin-bottom:0}
+
+/* three absences */
+.gaps{display:grid;gap:32px;margin-top:30px}
+@media(min-width:860px){.gaps{grid-template-columns:repeat(3,1fr);gap:38px}}
+.gap{border-top:2px solid var(--ink);padding-top:15px}
+.gap p{font-size:16.5px;max-width:38ch;margin-bottom:0}
+
+/* status facts */
+.facts{list-style:none;margin:26px 0 0;padding:0}
+.facts li{padding:19px 0;border-top:1px solid var(--rule);display:grid;gap:6px}
+@media(min-width:760px){.facts li{grid-template-columns:180px 1fr;gap:28px;align-items:start}}
+.facts .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);padding-top:5px}
+.facts .v{max-width:60ch}
+.facts .v strong{font-family:var(--display);font-weight:700}
+
+/* closed band */
+.closed{background:var(--ink);color:var(--paper);border-bottom:0}
+.closed h2{color:var(--paper)}
+.closed .band-label{color:var(--rule-strong)}
+.closed p{color:var(--invert-body)}
+.closed a{color:var(--paper)}
+.watch{
+  display:inline-block;
+  font-family:var(--mono);font-size:12px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink);border:1px solid var(--ink);padding:11px 17px;text-decoration:none;
+  transition:background .14s ease,color .14s ease;
+}
+.watch:hover{background:var(--ink);color:var(--paper)}
+.watch:focus-visible{outline:2px solid var(--source);outline-offset:3px}
+.watch span{color:inherit;opacity:.6;padding-left:9px}
+.closed .watch{margin-top:6px;color:var(--paper);border-color:var(--paper)}
+.closed .watch:hover{background:var(--paper);color:var(--ink)}
+.closed .watch:focus-visible{outline-color:var(--paper)}
+.hero-cta{margin-top:clamp(26px,3vw,34px)}
+.cta-label{
+  display:block;font-family:var(--mono);font-size:11px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-soft);margin-bottom:11px;
+}
+
+/* footer */
+.foot{padding-block:38px 54px;font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+.foot-links{display:flex;flex-wrap:wrap;gap:10px 30px;padding-bottom:18px}
+.foot-links span{color:var(--rule-strong)}
+.foot-links span::after{content:" — soon";color:var(--rule-strong)}
+.foot-row{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid var(--rule-strong);padding-top:17px}
+a{color:var(--source);text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="mark">Red<span>5</span>Sorcery</div>
+    <div class="mh-status"><b>Day 015</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+  </div>
+</header>
+
+<main>
+
+<section class="band hero">
+  <div class="wrap">
+    <p class="eyebrow">A tool being built in public</p>
+    <h1>Data<br>Sculptor</h1>
+    <p class="tagline">Data work you can explain.</p>
+    <p class="hero-lede">For the person who receives a CSV — small enough to open in Excel, or far too large for it — and has to turn it into an answer somebody else can trust.</p>
+    <p class="promise"><span>Free.</span><span>Fast.</span><span>Private.</span><span>Pretty.</span></p>
+
+    <div class="hero-cta">
+      <span class="cta-label">Podcast — running now</span>
+      <a class="watch" href="https://www.youtube.com/playlist?list=PLf_Lc_UV7evQ" rel="noopener">Listen to The Product Management Diary<span>&#8599;</span></a>
+    </div>
+
+    <div class="state">
+      <div class="state-top">Project state — Day 015, Sunday 23 August 2026</div>
+      <dl>
+        <dt>Phase</dt>
+        <dd>Prototype 001 — command-line, Rust, disk-first, deterministic</dd>
+        <dt>Contract</dt>
+        <dd>Frozen since Day 007. Twenty-seven drafts to get there.</dd>
+        <dt>Build state</dt>
+        <dd>52 tests passing, 0 failing, no warnings</dd>
+        <dt>Now building</dt>
+        <dd>Column naming and safe physical filenames</dd>
+        <dt>Unsettled</dt>
+        <dd class="open">How a sequence of decisions gets stored and replayed</dd>
+        <dt>Released</dt>
+        <dd>Nothing. There is no build to download.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="promises">
+  <div class="wrap">
+    <p class="band-label">The four promises</p>
+    <h2>What those four words have to mean</h2>
+    <p>They were written down before any code existed, and they are constraints rather than slogans. Each one has to be paid for by something the software actually does.</p>
+    <div class="promises">
+      <div class="promise-item">
+        <h3>Free</h3>
+        <p>No licence, no seat, no subscription. And nothing it produces is held hostage: the outputs, the saved steps, and the record of what happened are ordinary files on your own disk, readable without this program and readable after it.</p>
+      </div>
+      <div class="promise-item">
+        <h3>Fast</h3>
+        <p>Not a benchmark against database engines — that race is somebody else's. Fast here means the distance between receiving a file and starting work: no upload, no cluster, no provisioning request, no ticket raised with IT. Open it and go.</p>
+      </div>
+      <div class="promise-item">
+        <h3>Private</h3>
+        <p>Data Sculptor does not send your data off your machine. There is no account, no application server, no automatic upload and no sampling — including to a language model. Nothing here stops working when the network does. Local-first privacy is an architectural property rather than a policy promise.</p>
+      </div>
+      <div class="promise-item">
+        <h3>Pretty</h3>
+        <p>Analytical work ends in a file somebody else opens, and usually that means a spreadsheet. Output should arrive formatted and legible and ready to send, not as a raw dump that costs an hour of tidying before anyone can look at it.</p>
+      </div>
+    </div>
+
+    <div class="engines">
+      <p class="engines-label">Underneath, three responsibilities</p>
+      <div class="engine-grid">
+        <div class="engine">
+          <h4>The Storage Engine</h4>
+          <p>Protects the work. Identity, preservation, chronology, provenance, and being able to see what is actually sitting inside a project months later.</p>
+        </div>
+        <div class="engine">
+          <h4>The Help Engine</h4>
+          <p>Protects the analyst. Preventing avoidable failures, telling an invalid instruction apart from a real discovery about the data, keeping the evidence, and explaining what happened.</p>
+        </div>
+        <div class="engine">
+          <h4>The PRETTY Engine</h4>
+          <p>Protects the handoff. The last mile, where a correct result has to become a document somebody else can open, read, and trust.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="band-label">How the work gets written</p>
+    <h2>Same command. Different expression.</h2>
+    <p>One analytical language underneath, with three ways of writing it. Which one you reach for depends on what you already know; the meaning the software acts on is identical either way, and moving between them does not change the result.</p>
+
+    <div class="dialects">
+      <div class="dialect">
+        <h3>DS-Steps</h3>
+        <p>The native form. An analytical procedure written a step at a time, meant to be legible to somebody who has never opened the tool and is only trying to work out what was done.</p>
+      </div>
+      <div class="dialect">
+        <h3>DS-SQL</h3>
+        <p>For people who already think in SQL. An on-ramp rather than a translation layer — it arrives at exactly the same place by a familiar road.</p>
+      </div>
+      <div class="dialect">
+        <h3>DS-Pipe</h3>
+        <p>For people who already think in pipelines, in the shell and dplyr tradition. The same destination again, reached the way that tradition reaches things.</p>
+      </div>
+    </div>
+
+    <p class="direction-note">There is deliberately no dataframe dialect. Three expressions is a decision about who this is for rather than an attempt to accommodate everyone — and each has to mean exactly the same thing underneath, or the idea is worthless.<br><br>This is current design direction, not shipped behaviour, and no syntax is published here: the design notes are still a lineage of editions rather than one specification. Nothing on this page is a release plan. It changes as the work teaches us things, which is the reason for writing it down every day.</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="band-label">AI and the interface</p>
+    <h2>Documentation is the interface</h2>
+    <p><strong>Data Sculptor is not an AI-powered analytics engine.</strong> No LLM sits inside the execution core, interprets your data, or makes an analytical decision on your behalf. AI has one job here and it is a narrow one: helping a person reach a tool that works perfectly well without it.</p>
+    <p>Data Sculptor is being designed to be understandable by language models as well as by people — not because it needs one to work, but because nobody should have to learn a syntax before they are allowed to describe what they want.</p>
+    <p>The browser, the command line and a language model are three different ways of reaching the same thing. The documentation is the canonical account of what Data Sculptor can do and exactly what each operation means — so if a screen and the documentation ever disagree, the screen is the thing that is wrong. An operation that has not been documented is, in the sense that matters, not finished.</p>
+    <p>Human language is not a fourth dialect. A model that has read the documentation can translate an intention into DS-Steps, DS-SQL or DS-Pipe, and then you look at what it wrote before anything runs. What executes is an explicit expression in a governed language, through the same deterministic engine everyone else uses. The LLM is an interface. It is never the analytical authority.</p>
+
+    <div class="flow">
+      <div class="flow-node">You</div>
+      <span class="flow-arrow">What you are trying to work out, in ordinary language</span>
+      <div class="flow-node is-optional">A model, if you want one — skip it entirely and nothing changes</div>
+      <span class="flow-arrow">DS-Steps / DS-SQL / DS-Pipe — written down, and yours to read</span>
+      <div class="flow-node">Data Sculptor</div>
+      <span class="flow-arrow">Deterministic execution</span>
+      <div class="flow-node">A result you can inspect</div>
+    </div>
+
+    <p style="margin-top:clamp(30px,3.5vw,40px)">The middle step is the point. There is no stretch of the process where ordinary language turns into an answer by means nobody can see — the expression is written down, in a language that is documented, and you can read it before you run it or long afterwards.</p>
+
+    <h3 style="margin-top:34px">What an AI model actually sees</h3>
+    <p><strong>Data Sculptor does not send your source data, your rows, or your project files to a language model.</strong> A model works from the documentation and from whatever description of the problem you choose to give it.</p>
+    <p>If that model runs somewhere else, only what you deliberately hand to it leaves your machine. There is no automatic upload, no background sampling, no hidden context channel. The file you are analysing stays where it is.</p>
+    <p>No AI service is required and none is bundled. Use one if it helps, use a local model if that suits your situation, or use none at all — Data Sculptor works the same way either way.</p>
+    <p><strong>Private means no implicit data egress.</strong> A good deal of AI-enabled analytical software will end up working by quietly shipping some part of your dataset into a model's context. The position here is the opposite one: assistance with the interface must not become a back door around local-first computing.</p>
+
+    <p class="direction-note">For a person, documentation explains Data Sculptor. For a model, documentation is what makes it operable. That raises the standard considerably: an operation cannot be described with a loose paragraph about what it roughly does, but needs its inputs, its outputs, its effect on grain, its treatment of missing values, its ordering requirements, its failure cases, and what to do next when it refuses.<br><br>That documentation layer does not exist yet. Treating documentation as the interface rather than as an afterthought is a decision being made now, so that it is true of the first operation rather than retrofitted to the hundredth.</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="band-label">One property, close up</p>
+    <h2>Every cell carries its own history</h2>
+    <p>Provenance is not the whole product, but it is the easiest part of it to show. Each value knows whether it was read from the file, computed from other values, or invented by a person — and the third kind is marked permanently, with the mark travelling into anything derived from it.</p>
+
+    <div class="demo-head">
+      <span>Extract — csd_2021.csv</span>
+      <span>Select a cell to read its lineage</span>
+    </div>
+
+    <div class="demo-grid">
+      <table>
+        <caption style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Extract with per-cell provenance</caption>
+        <thead>
+          <tr>
+            <th scope="col">Geography</th>
+            <th scope="col">Year</th>
+            <th scope="col" class="num">Population</th>
+            <th scope="col" class="num">Private dwellings</th>
+            <th scope="col" class="num">Persons per dwelling</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><button class="cell" data-kind="source" data-origin="Read from csd_2021.csv, row 2, field 1." data-detail="Bytes 44–50. Passed through unmodified.">Halifax</button></td>
+            <td><button class="cell" data-kind="source" data-origin="Read from csd_2021.csv, row 2, field 2." data-detail="Bytes 52–55. Passed through unmodified.">2021</button></td>
+            <td><button class="cell num" data-kind="source" data-origin="Read from csd_2021.csv, row 2, field 3." data-detail="Bytes 57–63. Passed through unmodified.">439,819</button></td>
+            <td><button class="cell num" data-kind="source" data-origin="Read from csd_2021.csv, row 2, field 4." data-detail="Bytes 65–71. Passed through unmodified.">199,825</button></td>
+            <td><button class="cell num" data-kind="derived" data-origin="Computed: Population ÷ Private dwellings." data-detail="Inputs: row 2 field 3, row 2 field 4. Both sourced.">2.20</button></td>
+          </tr>
+          <tr>
+            <td><button class="cell" data-kind="source" data-origin="Read from csd_2021.csv, row 3, field 1." data-detail="Bytes 73–89. Passed through unmodified.">Cape Breton</button></td>
+            <td><button class="cell" data-kind="source" data-origin="Read from csd_2021.csv, row 3, field 2." data-detail="Bytes 91–94. Passed through unmodified.">2021</button></td>
+            <td><button class="cell num" data-kind="source" data-origin="Read from csd_2021.csv, row 3, field 3." data-detail="Bytes 96–101. Passed through unmodified.">93,694</button></td>
+            <td><button class="cell num" data-kind="source" data-origin="Read from csd_2021.csv, row 3, field 4." data-detail="Bytes 103–108. Passed through unmodified.">46,183</button></td>
+            <td><button class="cell num" data-kind="derived" data-origin="Computed: Population ÷ Private dwellings." data-detail="Inputs: row 3 field 3, row 3 field 4. Both sourced.">2.03</button></td>
+          </tr>
+          <tr>
+            <td><button class="cell" data-kind="derived" data-origin="Repaired from source bytes." data-detail="Read as windows-1252, re-decoded to UTF-8. Original bytes retained. Operator confirmed the reading.">Trois-Rivières</button></td>
+            <td><button class="cell" data-kind="source" data-origin="Read from csd_2021.csv, row 4, field 2." data-detail="Bytes 128–131. Passed through unmodified.">2021</button></td>
+            <td><button class="cell num" data-kind="source" data-origin="Read from csd_2021.csv, row 4, field 3." data-detail="Bytes 133–139. Passed through unmodified.">139,163</button></td>
+            <td><button class="cell num" data-kind="source" data-origin="Read from csd_2021.csv, row 4, field 4." data-detail="Bytes 141–146. Passed through unmodified.">68,940</button></td>
+            <td><button class="cell num" data-kind="derived" data-origin="Computed: Population ÷ Private dwellings." data-detail="Inputs: row 4 field 3, row 4 field 4. Both sourced.">2.02</button></td>
+          </tr>
+          <tr>
+            <td><button class="cell" data-kind="source" data-origin="Read from csd_2021.csv, row 5, field 1." data-detail="Bytes 148–156. Passed through unmodified.">Lunenburg</button></td>
+            <td><button class="cell" data-kind="source" data-origin="Read from csd_2021.csv, row 5, field 2." data-detail="Bytes 158–161. Passed through unmodified.">2021</button></td>
+            <td><button class="cell num" data-kind="source" data-origin="Read from csd_2021.csv, row 5, field 3." data-detail="Bytes 163–168. Passed through unmodified.">25,545</button></td>
+            <td><button class="cell num" data-kind="fabricated" data-origin="Not present in the source file." data-detail="Field was empty. A person entered an estimate. There is no measurement behind this value and the mark cannot be removed.">11,240</button></td>
+            <td><button class="cell num" data-kind="derived" data-tainted="yes" data-origin="Computed: Population ÷ Private dwellings." data-detail="Inputs: row 5 field 3 (sourced), row 5 field 4 (fabricated)." data-warn="Depends on a fabricated value. Do not report this figure without saying so.">2.27</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="readout" id="readout" aria-live="polite">
+      <p class="readout-empty">No cell selected. Pick one and it will tell you exactly how it got here.</p>
+    </div>
+
+    <div class="legend">
+      <span><i class="swatch sw-source"></i><b>Sourced</b> — read from the file, untouched</span>
+      <span><i class="swatch sw-derived"></i><b>Derived</b> — computed or repaired</span>
+      <span><i class="swatch sw-fab"></i><b>Fabricated</b> — not in the source</span>
+      <span><i class="swatch sw-hatch"></i><b>Hatched</b> — fabrication reached this cell</span>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="band-label">Why</p>
+    <h2>A cleaned file looks exactly like a clean file</h2>
+    <p>Analysts working with government statistical releases spend most of their time on repair. Broken encodings. Geography names that don't match between years. Headers that begin on row seven. Blanks that mean zero, blanks that mean suppressed, and blanks that mean nobody knows — all three in the same column.</p>
+    <p>The repair isn't the hard part. The hard part is that it becomes invisible the moment it's finished. Nothing in the saved spreadsheet separates a number that was measured from a number somebody guessed on a Thursday afternoon. The judgment was the valuable thing, and it's the one thing the file doesn't keep.</p>
+    <p>Repair is only the visible edge of it. Judgment is also deciding what population you actually mean, what a single row is supposed to represent, which records belong together, how a blank should be read, and what the finished table is meant to communicate. All of that is reasoning, and almost none of it survives into the file.</p>
+    <p>Human analytical judgment is the scarce resource in this work. Most tools treat it as exhaust — something that happens, produces a result, and evaporates. This one is built to treat it as the output.</p>
+    <p>Underneath that sits a gap. A spreadsheet will let you do anything and record none of it. A programming environment records everything and asks you to become a programmer first. Analysts who need work that is rigorous, repeatable and explainable have been made to choose between the two, and that gap is the reason to build this.</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="band-label">Technology</p>
+    <h2>What it is built on, and why</h2>
+    <p>Three technical choices, each made for a reason an analyst would eventually notice even without knowing the reason existed.</p>
+
+    <ul class="facts">
+      <li>
+        <span class="k">Rust</span>
+        <span class="v">Chosen for <strong>predictable memory</strong> rather than raw speed. Software that promises to open a file bigger than the machine it is running on has to control exactly what it is holding at every moment, and Rust allows that without a garbage collector making the decision on your behalf. It also compiles to one executable with no runtime to install, which matters more to somebody with a locked-down work laptop than any benchmark does. There is a second reason that is harder to measure: when the Rust compiler refuses to build something, it says where the problem is, what it understood, and often what to do instead. That behaviour became the model for how this tool should refuse an operation.</span>
+      </li>
+      <li>
+        <span class="k">A command line</span>
+        <span class="v"><strong>It exists first because a command line cannot hide an unfinished idea.</strong> Every operation has to be named, every argument has to mean something, and there is no interface to paper over a vocabulary that has not been thought through. Most of the people this is being built for will never open one, and that is fine — it is the instrument for getting the language right before anyone has to live with it, not the way the work is meant to be done.</span>
+      </li>
+      <li>
+        <span class="k">WebAssembly</span>
+        <span class="v">The same Rust source compiles to WebAssembly, so the browser version is <strong>the same engine rather than a second implementation</strong> that can drift away from the first. The practical reason matters more than the technical one: a great many analysts simply cannot install software on the machine they work on. A page that runs the real engine locally, with the file never leaving the laptop and no account to create, reaches people an installer never will. Speed inside the browser is so far unproven, and is being deferred rather than assumed.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="band-label">The log</p>
+    <h2>What has actually happened so far</h2>
+    <p>Numbered by working day. Each entry below is a summary; the full diary for each day runs to several thousand words and is kept separately. Entries are added, never rewritten.</p>
+
+    <ol class="log">
+      <li>
+        <div class="log-day">Day 001<span class="log-date">Sun 9 Aug</span><span class="log-tag">Origin</span></div>
+        <div class="log-entry">
+          <h3>The Project Comes Back to Life</h3>
+          <p>An unfinished Rust program from 2024 came back off the shelf. The problems that prompted it in the first place had come out of years of real analytical work, and none of them had gone away in the meantime.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 002<span class="log-date">Mon 10 Aug</span><span class="log-tag">Setup</span></div>
+        <div class="log-entry">
+          <h3>The Development Environment Is Real</h3>
+          <p>A modest laptop became a working Rust machine — deliberately modest, since the whole premise is that large files should not demand large hardware. The surviving source of the 2024 program was recovered and read.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 003<span class="log-date">Tue 11 Aug</span><span class="log-tag">Method</span></div>
+        <div class="log-entry">
+          <h3>The Council Becomes a Development Team</h3>
+          <p>Rather than handing out roles, everyone was asked the same question independently: where are you strongest, and where can you contribute most? The answers turned out to be complementary, and the first roles charter was written from them.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 004<span class="log-date">Wed 12 Aug</span><span class="log-tag">Design</span></div>
+        <div class="log-entry">
+          <h3>The Product Becomes More Specific</h3>
+          <p>A consolidation day with no code planned, spent examining ideas that had arrived faster than they could be checked. The most durable of them was a much safer rule for joining tables together.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 005<span class="log-date">Thu 13 Aug</span><span class="log-tag">Design</span></div>
+        <div class="log-entry">
+          <h3>The Prototype Gets a Contract</h3>
+          <p>The day was supposed to start with code and did not, which turned out to be right. It produced the name the product still carries and the principle behind everything since: a prototype is small because its scope is small, not because its standards are low.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 006<span class="log-date">Fri 14 Aug</span><span class="log-tag">Specification</span></div>
+        <div class="log-entry">
+          <h3>The Contract Survives the Edge Cases</h3>
+          <p>Encoding behaviour that everyone assumed was specified turned out never to have been written down. By the end of the day every open decision in the requirements had been disposed of, one at a time, across sixteen drafts.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 007<span class="log-date">Sat 15 Aug</span><span class="log-tag">Review</span></div>
+        <div class="log-entry">
+          <h3>The Specification Earns a Green Light</h3>
+          <p>Permission to start coding arrived, and the day ended anyway. Review had found that the obvious way to parse a CSV file would quietly break the bounded-memory promise — demonstrated with a deliberately broken file built to expose exactly that.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 008a<span class="log-date">Sun 16 Aug</span><span class="log-tag">Research</span></div>
+        <div class="log-entry">
+          <h3>The After Hours Session That Changed the Project</h3>
+          <p>A fresh language model was pointed at a deliberately messy office dataset to see what it would notice. Its errors were more instructive than its successes: it deleted duplicate records and filled in missing values without ever being told the rules for either.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 008<span class="log-date">Sun 16 Aug</span><span class="log-tag">Design</span></div>
+        <div class="log-entry">
+          <h3>The Work Learns to Remember</h3>
+          <p>An ordinary annoyance about filing project archives turned into product design. The question underneath it — how do you make the newest version convenient without destroying the older one that explains it — is the same question the tool has to answer for data.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 009<span class="log-date">Mon 17 Aug</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>The Contract Becomes Code</h3>
+          <p>The first session of new Rust, written one requirement at a time: explain the step, make the change, compile, run the test, look at the evidence together, record what happened. Closed at twenty-two of twenty-two tests passing.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 010<span class="log-date">Tue 18 Aug</span><span class="log-tag">Design</span></div>
+        <div class="log-entry">
+          <h3>The Product Becomes Small Enough to See</h3>
+          <p>After an all-night research session the product felt smaller than it ever had — not less ambitious, just finally easy to describe. Fifty job advertisements were read as product research to work out what the work actually consists of.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 011<span class="log-date">Wed 19 Aug</span><span class="log-tag">Method</span></div>
+        <div class="log-entry">
+          <h3>The Human Is the Critical Path</h3>
+          <p>A deliberate decision not to code, on the grounds that implementation deserves a long uninterrupted block rather than the leftovers of a busy day. Research continued, but strictly as groundwork for later prototypes and never as changes to the frozen one.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 012<span class="log-date">Thu 20 Aug</span><span class="log-tag">Design</span></div>
+        <div class="log-entry">
+          <h3>The Project Teaches Us How It Wants to Be Built</h3>
+          <p>Rust's compiler errors became the model for how this tool should refuse to do something: say what was found, why it matters, what the evidence is, and what to try next. Strict about the work, kind to the person doing it.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 013<span class="log-date">Fri 21 Aug</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>The Suitcase Learned to Travel</h3>
+          <p>Encoding and header handling were wired into the real executable — byte-order marks detected, unsupported formats refused rather than mangled, and damaged input reported at an exact byte offset. The two foundations of the next prototype got their names.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 014<span class="log-date">Sat 22 Aug</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>Naming and Physical Filenames</h3>
+          <p>Column identity built properly: Unicode normalisation, deterministic handling of duplicate headers, and a guarantee that any name the source file actually authored survives untouched. Closed clean at fifty-two tests, no warnings.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 015<span class="log-date">Sun 23 Aug</span><span class="log-tag">Record</span></div>
+        <div class="log-entry">
+          <h3>Opening Capture</h3>
+          <p>Began by bringing the project record current with the previous night's work before starting anything new. A review of SPSS was filed, adjudicated, and explicitly ruled out of scope for the prototype already under contract.</p>
+        </div>
+      </li>
+    </ol>
+
+    <p class="log-note">Original entries are never revised. Where something turns out to be wrong, the correction is filed beside it rather than written over it — what was believed at the time is part of the record too.</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="band-label">Still open</p>
+    <h2>Questions with no answer yet</h2>
+    <ul class="opens">
+      <li>
+        <h3>How decisions get stored</h3>
+        <p>A sequence of cleaning steps has to be saved in some form so it can be replayed on next month's file. That format is the one choice that can't be revised later without breaking every file already saved in it. No format is published here because none has been chosen.</p>
+      </li>
+      <li>
+        <h3>What a table is <em>about</em></h3>
+        <p>One row per person, per household, per subdivision per year — a table always has an answer, and no tool asks for it. Making people declare it is easy. Deciding what happens when an operation would violate it is not.</p>
+      </li>
+      <li>
+        <h3>Where the work should run</h3>
+        <p>The command line exists first because it's the fastest way to get the vocabulary right. The intended destination is a browser that never uploads your file anywhere. How much of the first survives contact with the second is not yet known.</p>
+      </li>
+      <li>
+        <h3>Whether operations need namespaces</h3>
+        <p>Tools that let users add their own operations eventually let a user's operation quietly shadow a built-in one with the same name. Avoiding that appears to require a naming scheme from the very first version, which is a heavy thing to commit to early.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="band-label">Evidence</p>
+    <h2>Three absences, in every tool examined</h2>
+    <p>Four incumbent tools have been reviewed in detail so far, each one independently and each looking for gaps rather than confirmation. Most of what turned up was table stakes. Three things were missing everywhere, and they are the sharpest evidence that the gap above is real rather than assumed.</p>
+    <div class="gaps">
+      <div class="gap">
+        <h3>Grain is never declared, so it can never be checked</h3>
+        <p>No tool asks what a table is about, so none can warn you when a join quietly changes it. Grain errors are the most expensive mistakes in analysis and the hardest to notice at the moment they happen.</p>
+      </div>
+      <div class="gap">
+        <h3>Provenance does not survive combination</h3>
+        <p>Append two files and you get one table; which rows came from where is gone unless you had the foresight to add a column first. Source identity shouldn't depend on remembering to preserve it.</p>
+      </div>
+      <div class="gap">
+        <h3>Nothing marks a value you made up</h3>
+        <p>A filled blank, an imputed mean, a hand-corrected typo — every tool returns these looking identical to measured data.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="band-label">Status</p>
+    <h2>What you can and cannot do with this today</h2>
+    <ul class="facts">
+      <li>
+        <span class="k">Availability</span>
+        <span class="v"><strong>Nothing to install.</strong> No release, no installer, no private beta. The table further up this page illustrates the idea; it is not a screenshot of working software.</span>
+      </li>
+      <li>
+        <span class="k">Built with</span>
+        <span class="v">A Rust core designed to work from disk rather than memory, so that a file larger than the machine can still be processed instead of politely refused.</span>
+      </li>
+      <li>
+        <span class="k">Surfaces</span>
+        <span class="v">A command line exists first, because it is the quickest way to get the vocabulary right. The destination is the same engine running inside a browser, doing the work on your own machine. How much of the first survives contact with the second is not yet known.</span>
+      </li>
+      <li>
+        <span class="k">Privacy</span>
+        <span class="v">Local-first by design. The intended browser version does its work on your machine and sends your file nowhere. This is an architectural commitment, not a policy one.</span>
+      </li>
+      <li>
+        <span class="k">Timeline</span>
+        <span class="v">None offered. A date given now would be invented, and inventing numbers is the specific thing this project exists to object to.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="band closed">
+  <div class="wrap">
+    <p class="band-label">Before you ask</p>
+    <h2>This is not an open project</h2>
+    <p>The work is public so that it can be read, not so that it can be joined. There is no contribution process, no roadmap to vote on, and no issues to file — that's a decision rather than an oversight.</p>
+    <p>Building in the open here means showing the reasoning, including the parts that turned out to be wrong. It doesn't mean building by committee. A small group is making these calls deliberately and slowly, and the record above is the product of that pace rather than a substitute for it.</p>
+    <p>If any of this is interesting, the useful thing to do is follow along. The development diary is narrated episode by episode as the work happens.</p>
+    <a class="watch" href="https://www.youtube.com/playlist?list=PLf_Lc_UV7evQ" rel="noopener">The Product Management Diary<span>&#8599;</span></a>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-links">
+      <span>The Decision to Build — book</span>
+      <a href="https://www.youtube.com/playlist?list=PLf_Lc_UV7evQ" rel="noopener">The Product Management Diary — podcast</a>
+      <span>Engine repository</span>
+    </div>
+    <div class="foot-row">
+      <span>Red5Sorcery — Data Sculptor</span>
+      <span>Nothing on this page is a commitment to ship.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var readout=document.getElementById('readout');
+  var cells=[].slice.call(document.querySelectorAll('.cell'));
+  var names={source:'Sourced',derived:'Derived',fabricated:'Fabricated'};
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  cells.forEach(function(cell){
+    cell.setAttribute('aria-pressed','false');
+    cell.addEventListener('click',function(){
+      cells.forEach(function(c){c.setAttribute('aria-pressed','false');});
+      cell.setAttribute('aria-pressed','true');
+      var k=cell.dataset.kind, w=cell.dataset.warn;
+      readout.innerHTML='<span class="readout-kind k-'+k+'">'+names[k]+'</span><dl>'+
+        '<dt>Value</dt><dd>'+esc(cell.textContent.trim())+'</dd>'+
+        '<dt>Origin</dt><dd>'+esc(cell.dataset.origin)+'</dd>'+
+        '<dt>Detail</dt><dd>'+esc(cell.dataset.detail)+'</dd>'+
+        (w?'<dt>Warning</dt><dd class="warn">'+esc(w)+'</dd>':'')+'</dl>';
+    });
+  });
+})();
+
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  var meta=document.querySelector('meta[name="theme-color"]');
+  var mq=window.matchMedia('(prefers-color-scheme: dark)');
+  function active(){
+    var set=root.getAttribute('data-theme');
+    return set==='dark'||set==='light' ? set : (mq.matches?'dark':'light');
+  }
+  function paint(){
+    var a=active();
+    btn.textContent = a==='dark' ? 'Light' : 'Dark';
+    btn.setAttribute('aria-label','Switch to '+(a==='dark'?'light':'dark')+' theme');
+    if(meta) meta.setAttribute('content', a==='dark' ? '#14181D' : '#E7EAEE');
+  }
+  btn.addEventListener('click',function(){
+    var next = active()==='dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('r5-theme',next);}catch(e){}
+    paint();
+  });
+  if(mq.addEventListener) mq.addEventListener('change',paint);
+  paint();
+})();
+</script>
+</body>
+</html>
