@@ -214,6 +214,8 @@ tbody td{padding:0;border-bottom:1px solid var(--rule)}
 .log-entry{max-width:62ch}
 .log-entry h3{font-size:clamp(17px,1.75vw,20px);margin-bottom:7px}
 .log-entry p{font-size:16.5px;margin-bottom:0}
+.log-entry p.log-after{margin-top:12px;padding-left:13px;border-left:2px solid var(--rule-strong);font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--ink-soft);max-width:58ch}
+.log-entry p.log-after b{display:block;font-weight:400;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--rule-strong);margin-bottom:4px}
 .log-note{margin-top:26px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);max-width:60ch;line-height:1.7}
 
 /* open questions */
@@ -523,7 +525,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
   <div class="wrap">
     <p class="band-label">The log</p>
     <h2>What has actually happened so far</h2>
-    <p>Numbered by working day. Each entry below is a summary; the full diary for each day runs to several thousand words and is kept separately. Entries are added, never rewritten.</p>
+    <p>Numbered by working day. Each entry below is a summary; the full diary for each day runs to several thousand words and is kept separately. Entries are added, never rewritten. Thinking rarely stops when a working day is declared closed, so where a session continued into the night it is noted beneath the entry and carried into the record the next morning.</p>
 
     <ol class="log">
       <li>
@@ -531,6 +533,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The Project Comes Back to Life</h3>
           <p>An unfinished Rust program from 2024 came back off the shelf. The problems that prompted it in the first place had come out of years of real analytical work, and none of them had gone away in the meantime.</p>
+          <p class="log-after"><b>After hours</b>An evening product-definition session extended the day, settling the boundary against existing analytical and BI tools and producing the four-word promise the product still carries.</p>
         </div>
       </li>
       <li>
@@ -538,6 +541,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The Development Environment Is Real</h3>
           <p>A modest laptop became a working Rust machine — deliberately modest, since the whole premise is that large files should not demand large hardware. The surviving source of the 2024 program was recovered and read.</p>
+          <p class="log-after"><b>After hours</b>An evening update recognised a second product growing alongside the software — the documentary record of building it — and gave the companion podcast its name.</p>
         </div>
       </li>
       <li>
@@ -545,6 +549,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The Council Becomes a Development Team</h3>
           <p>Rather than handing out roles, everyone was asked the same question independently: where are you strongest, and where can you contribute most? The answers turned out to be complementary, and the first roles charter was written from them.</p>
+          <p class="log-after"><b>After hours</b>Nothing filed.</p>
         </div>
       </li>
       <li>
@@ -552,6 +557,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The Product Becomes More Specific</h3>
           <p>A consolidation day with no code planned, spent examining ideas that had arrived faster than they could be checked. The most durable of them was a much safer rule for joining tables together.</p>
+          <p class="log-after"><b>After hours</b>Nothing filed.</p>
         </div>
       </li>
       <li>
@@ -559,6 +565,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The Prototype Gets a Contract</h3>
           <p>The day was supposed to start with code and did not, which turned out to be right. It produced the name the product still carries and the principle behind everything since: a prototype is small because its scope is small, not because its standards are low.</p>
+          <p class="log-after"><b>After hours</b>An overnight session produced notes on revisit cost and durable intermediate work, the clean-data handoff boundary, polished spreadsheet summary tables as a professional deliverable, and the project-culture principle “Judge the work. Not us.”</p>
         </div>
       </li>
       <li>
@@ -566,6 +573,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The Contract Survives the Edge Cases</h3>
           <p>Encoding behaviour that everyone assumed was specified turned out never to have been written down. By the end of the day every open decision in the requirements had been disposed of, one at a time, across sixteen drafts.</p>
+          <p class="log-after"><b>After hours</b>Three notes written into the early hours: staged command-line and browser orchestration with persistent join indexes, selecting everything as a deliberate act rather than a default starting point, and an open-architecture commercial model.</p>
         </div>
       </li>
       <li>
@@ -573,6 +581,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The Specification Earns a Green Light</h3>
           <p>Permission to start coding arrived, and the day ended anyway. Review had found that the obvious way to parse a CSV file would quietly break the bounded-memory promise — demonstrated with a deliberately broken file built to expose exactly that.</p>
+          <p class="log-after"><b>After hours</b>The session that ran into the following morning produced twenty-nine research and design notes — large enough that it is logged separately, as Day 008a below.</p>
         </div>
       </li>
       <li>
@@ -580,6 +589,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The After Hours Session That Changed the Project</h3>
           <p>A fresh language model was pointed at a deliberately messy office dataset to see what it would notice. Its errors were more instructive than its successes: it deleted duplicate records and filled in missing values without ever being told the rules for either.</p>
+          <p class="log-after"><b>After hours</b>This entry is itself an After Hours record; the session belongs to Day 007 above.</p>
         </div>
       </li>
       <li>
@@ -587,6 +597,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The Work Learns to Remember</h3>
           <p>An ordinary annoyance about filing project archives turned into product design. The question underneath it — how do you make the newest version convenient without destroying the older one that explains it — is the same question the tool has to answer for data.</p>
+          <p class="log-after"><b>After hours</b>Twenty-one notes running past midnight: care and quality of life treated as architecture rather than polish, then the argument that when execution becomes cheap, human judgement becomes the scarce resource.</p>
         </div>
       </li>
       <li>
@@ -594,6 +605,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The Contract Becomes Code</h3>
           <p>The first session of new Rust, written one requirement at a time: explain the step, make the change, compile, run the test, look at the evidence together, record what happened. Closed at twenty-two of twenty-two tests passing.</p>
+          <p class="log-after"><b>After hours</b>An all-night comparison against Power BI, Tableau, Python, R, KNIME, DuckDB, PostgreSQL and Databricks, alongside a first draft of the product constitution and a working estimate of how many people do this kind of work.</p>
         </div>
       </li>
       <li>
@@ -601,6 +613,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The Product Becomes Small Enough to See</h3>
           <p>After an all-night research session the product felt smaller than it ever had — not less ambitious, just finally easy to describe. Fifty job advertisements were read as product research to work out what the work actually consists of.</p>
+          <p class="log-after"><b>After hours</b>Two late notes: documentation as a first-class interface modelled on the Rust Book, and a distribution policy making the browser edition the public product and the command line a laboratory.</p>
         </div>
       </li>
       <li>
@@ -608,6 +621,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The Human Is the Critical Path</h3>
           <p>A deliberate decision not to code, on the grounds that implementation deserves a long uninterrupted block rather than the leftovers of a busy day. Research continued, but strictly as groundwork for later prototypes and never as changes to the frozen one.</p>
+          <p class="log-after"><b>After hours</b>The diary expected a continuation and none was filed; the next captured session appears after Day 012.</p>
         </div>
       </li>
       <li>
@@ -615,6 +629,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The Project Teaches Us How It Wants to Be Built</h3>
           <p>Rust's compiler errors became the model for how this tool should refuse to do something: say what was found, why it matters, what the evidence is, and what to try next. Strict about the work, kind to the person doing it.</p>
+          <p class="log-after"><b>After hours</b>Eight notes after closeout, including the two foundations the next prototype is built on — a storage engine that protects the work, and a help engine that protects the person doing it.</p>
         </div>
       </li>
       <li>
@@ -622,6 +637,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>The Suitcase Learned to Travel</h3>
           <p>Encoding and header handling were wired into the real executable — byte-order marks detected, unsupported formats refused rather than mangled, and damaged input reported at an exact byte offset. The two foundations of the next prototype got their names.</p>
+          <p class="log-after"><b>After hours</b>Nineteen notes that made presentation the third named engine — storage protects the work, help protects the analyst, pretty protects the handoff — and formalised the nightly capture ritual itself.</p>
         </div>
       </li>
       <li>
@@ -629,6 +645,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>Naming and Physical Filenames</h3>
           <p>Column identity built properly: Unicode normalisation, deterministic handling of duplicate headers, and a guarantee that any name the source file actually authored survives untouched. Closed clean at fifty-two tests, no warnings.</p>
+          <p class="log-after"><b>After hours</b>An independent review of SPSS, its adjudication, and the decision that a data dictionary stays optional and human-authored: the tool supplies measurable facts and never invents meaning.</p>
         </div>
       </li>
       <li>
@@ -636,6 +653,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <div class="log-entry">
           <h3>Opening Capture</h3>
           <p>Began by bringing the project record current with the previous night's work before starting anything new. A review of SPSS was filed, adjudicated, and explicitly ruled out of scope for the prototype already under contract.</p>
+          <p class="log-after"><b>After hours</b>Nineteen artifacts ending in a decision to stop researching — the containment boundary for AI, exported files rather than internal storage as the public contract, and a first receipt experiment to put in front of a real analyst.</p>
         </div>
       </li>
     </ol>
