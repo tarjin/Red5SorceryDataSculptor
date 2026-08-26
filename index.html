@@ -278,7 +278,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>Day 016</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>Day 017</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -298,16 +298,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 016, Monday 24 August 2026</div>
+      <div class="state-top">Project state — Day 017, Tuesday 25 August 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>Prototype 001 — command-line, Rust, disk-first, deterministic</dd>
         <dt>Contract</dt>
         <dd>Frozen since Day 007. Twenty-seven drafts to get there.</dd>
         <dt>Build state</dt>
-        <dd>63 tests passing, 0 failing, no warnings</dd>
+        <dd>82 tests passing, 0 failing, no warnings</dd>
         <dt>Now building</dt>
-        <dd>Writing selected columns back out to a file, safely</dd>
+        <dd>Refusing rows that don't match the header, rather than writing them out anyway</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -662,6 +662,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>The Blank Line That Mattered</h3>
           <p>Safe filenames were finished — case collisions, accented characters, names Windows reserves for itself, length ceilings — and wired into the real command. Then a test meant to confirm good behaviour failed: given blank lines ahead of a header, the parser skipped past them and took a later row as the schema. Ordinary for a general CSV parser, and wrong for a tool that promises not to reinterpret a file before the analyst has touched it. Closed at sixty-three tests, no warnings.</p>
           <p class="log-after"><b>After hours</b>Five notes on working method rather than product: an accepted specification treated as a development contract, and the interactive test-first rhythm written down as a practice. None of them change the frozen contract.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 017<span class="log-date">Tue 25 Aug</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>The Command That Finally Wrote a File</h3>
+          <p>Until today the command that pulls a column out of a file was a name with nothing behind it. It now produces real output, built one boundary at a time: the requested column is checked before anything is created, an existing file — or a half-finished one left behind by an earlier run — is refused rather than written over, values containing commas or quotes are escaped rather than mangled, and the result is only moved into place once it has been written in full. Text that isn't valid UTF-8 no longer gets quietly corrupted either; the file is re-read from its first byte under the older Windows encoding instead of being patched partway through. Closed at eighty-two tests, no warnings.</p>
+          <p class="log-after"><b>After hours</b>Seven notes filed after closeout: a correction to how encoding gets authorised, queued ahead of the next piece of code; a boundary drawn against DuckDB as a respected reference rather than a roadmap; and the argument that this tool belongs beside one analyst's work instead of growing into a governance platform.</p>
         </div>
       </li>
     </ol>
