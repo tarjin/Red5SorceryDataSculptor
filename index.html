@@ -278,7 +278,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>Day 018</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>Day 019</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -298,16 +298,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 018, Wednesday 26 August 2026</div>
+      <div class="state-top">Project state — Day 019, Thursday 27 August 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>Prototype 001 — command-line, Rust, disk-first, deterministic</dd>
         <dt>Contract</dt>
         <dd>Frozen since Day 007. Twenty-seven drafts to get there.</dd>
         <dt>Build state</dt>
-        <dd>91 tests passing, 0 failing, no warnings</dd>
+        <dd>100 tests passing, 0 failing, no warnings</dd>
         <dt>Now building</dt>
-        <dd>Refusing rows that don't match the header, rather than writing them out anyway</dd>
+        <dd>Telling the analyst what a finished extraction actually did — how many records, how long it took, and where the file went</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -678,6 +678,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>When Encoding Became a Decision, Not a Guess</h3>
           <p>Yesterday's convenience turned out to be a guess made on somebody else's behalf. Where text wasn't valid UTF-8, the program quietly re-read the file under the older Windows encoding and carried on — helpful, and an act of interpretation the contract says belongs to the analyst rather than the tool. So the planned work was set aside and the automatic fallback taken out instead. Run from a script, the command now stops and says how to name the encoding explicitly. Run from a terminal, it explains what it suspects, why the guess could be wrong, and that the source file will not be altered either way — then asks once, and if authorised restarts from the first byte and keeps that answer for every remaining column in the command rather than asking again. Proving it in a real terminal rather than only in tests is what caught the next defect: the retry was decoding correctly while still reporting the wrong encoding on screen. An editing step earlier in the day had also corrupted accented characters inside the project's own source; that was repaired and the day ended with an integrity check across every source file. Closed at ninety-one tests, no warnings.</p>
           <p class="log-after"><b>After hours</b>Fifteen notes running into the early hours, four of which change what version one has to include: the project's own record — the recipes, receipts and context that travel with the work — promoted from a convenience to a required capability; a way to earn trust in a downloadable program through published fingerprints and buildable source rather than a purchased certificate; a rule that the interface may author analytical logic but must never own it; and a red line against making anyone learn a private vocabulary for an ordinary idea like “for each customer, total sales”.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 019<span class="log-date">Thu 27 Aug</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>A Column Cannot Come From Two Different Moments</h3>
+          <p>Two ways a result could quietly go wrong were closed today. A row is now required to hold exactly as many fields as the header — no more accepting a broken row because the one column being asked for happened to sit early enough in it to be found. And because columns are pulled out one pass at a time, the source file is now checked between passes: same size, same modification time, same number of rows the first pass produced. Where that check sat turned out to matter more than the check itself. It was originally made after the finished file had already been moved into place, which is too late to prevent anything; it now runs before. Long extractions also began reporting what they are doing — which column, how many records so far, how long it has been running. Closed at one hundred tests, no warnings.</p>
+          <p class="log-after"><b>After hours</b>Three notes sharpening what version one is: charts exist to help the analyst think rather than to present — five static types, nothing interactive — with presentation-grade work left to whatever the data is handed off to; a deliberately bounded set of foundational statistics accepted as core product rather than a later addition, aimed at undergraduate experimental psychology and ordinary office analysis; and a detailed account of exactly which tests are in and which are deliberately left out. None of it changes the frozen contract.</p>
         </div>
       </li>
     </ol>
