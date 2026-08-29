@@ -278,7 +278,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>Day 019</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>Day 020</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -298,16 +298,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 019, Thursday 27 August 2026</div>
+      <div class="state-top">Project state — Day 020, Friday 28 August 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>Prototype 001 — command-line, Rust, disk-first, deterministic</dd>
         <dt>Contract</dt>
         <dd>Frozen since Day 007. Twenty-seven drafts to get there.</dd>
         <dt>Build state</dt>
-        <dd>100 tests passing, 0 failing, no warnings</dd>
+        <dd>108 tests passing, 0 failing, no warnings</dd>
         <dt>Now building</dt>
-        <dd>Telling the analyst what a finished extraction actually did — how many records, how long it took, and where the file went</dd>
+        <dd>Telling the analyst which outputs survived when a job fails partway through — after at least one column has already been written</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -688,9 +688,17 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <p class="log-after"><b>After hours</b>Three notes sharpening what version one is: charts exist to help the analyst think rather than to present — five static types, nothing interactive — with presentation-grade work left to whatever the data is handed off to; a deliberately bounded set of foundational statistics accepted as core product rather than a later addition, aimed at undergraduate experimental psychology and ordinary office analysis; and a detailed account of exactly which tests are in and which are deliberately left out. None of it changes the frozen contract.</p>
         </div>
       </li>
+      <li>
+        <div class="log-day">Day 020<span class="log-date">Fri 28 Aug</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>A Failed Job Should Say What Survived</h3>
+          <p>A finished extraction now says what it did — which column, how many records, how long it took, where the file went. The harder half was failure. A job of several columns can fail after some have already been written correctly, so one blunt “failed” would discard what the analyst most needs. Failure is now reported in two parts: the job did not finish, and here is which outputs survived and which never became files. Where none survived, it says so in a word rather than leaving a blank. Closed at one hundred and eight tests, no warnings.</p>
+          <p class="log-after"><b>After hours</b>Nineteen notes, two of which correct the night before: the statistics promised yesterday narrow to descriptive work in version one, with inferential methods deferred; and the project's own record is reframed as an ordinary folder anyone can open rather than a format of its own. Alongside them, an argument for publishing that layout as an open specification, and how a bounded first prototype hands over to a second.</p>
+        </div>
+      </li>
     </ol>
 
-    <p class="log-note">Original entries are never revised. Where something turns out to be wrong, the correction is filed beside it rather than written over it — what was believed at the time is part of the record too.</p>
+    <p class="log-note">Original entries are never revised. Where something turns out to be wrong, the correction is filed beside it rather than written over it — what was believed at the time is part of the record too. The After Hours notes are a different kind of record: thinking done once the day's work has closed, usually about what the product should eventually become. None of it binds anything until it has been reviewed and written into the contract, which is why one night's note can narrow the one before it.</p>
   </div>
 </section>
 
