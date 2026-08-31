@@ -278,7 +278,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>Day 021</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>Day 022</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -298,7 +298,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 021, Saturday 29 August 2026</div>
+      <div class="state-top">Project state — Day 022, Sunday 30 August 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>Prototype 001 — command-line, Rust, disk-first, deterministic</dd>
@@ -307,7 +307,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <dt>Build state</dt>
         <dd>111 tests passing, 0 failing, no warnings</dd>
         <dt>Now building</dt>
-        <dd>Reconciling the remaining acceptance evidence against the contract, then handing the candidate over to be tested independently against that same contract</dd>
+        <dd>Running a test suite written from the contract alone, by a reviewer who had not been shown the code, against the code</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -702,6 +702,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>Twenty-Nine Million Rows and No Surprises</h3>
           <p>The morning finished yesterday's failure reporting, then an acceptance run caught the inspect command refusing an encoding the contract requires &mdash; fixed narrowly, failing test first. The afternoon put a real file through: 29,014,718 rows, sixteen columns, 6.75 GiB. One column took four minutes forty unoptimised and forty-five seconds optimised; all sixteen took eighty-one minutes, then thirteen. Every optimised output was byte-for-byte identical to its slower counterpart, and memory never passed four megabytes. Closed at one hundred and eleven tests, no warnings.</p>
           <p class="log-after"><b>After hours</b>Seven notes circling one problem: a folder full of analytical artifacts is not the same thing as an analytical project someone else can understand. The largest is an early contract for a single local front door &mdash; a map of what the project holds, a health check when it opens, deep fingerprint verification, and a closeout that can be handed to another person. Alongside it: no arbitrary row caps, with sampling made repeatable by recording the seed it used; a guardrail stopping a transpose that would produce more than sixteen thousand columns; a commitment to keep the analytical foundation genuinely free rather than fencing off ordinary work; a study of a browser-based competitor that runs its computation on someone else's machines; and a rule that each command-line prototype must have its browser counterpart built and reviewed before the next one starts. None of it binds the frozen contract.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 022<span class="log-date">Sun 30 Aug</span><span class="log-tag">Testing</span></div>
+        <div class="log-entry">
+          <h3>The Test Suite Came Before the Code</h3>
+          <p>No code changed today, and that was the point. The contract's acceptance list forced a separation between three things: what the program does, what proof was kept that it does it, and what is genuinely broken. Six sections closed; five stayed open, meaning evidence was missing rather than that a fault is known. Then the handoff. A second language model was given the contract and nothing else — no source, no test names, no results — and froze its own test suite before seeing a line of the implementation. Its first attempt at the filename rules was wrong in a plausible way; three worked examples in the contract contradicted it. It found the step it had misread, corrected itself, and reproduced all twenty-eight from the specification alone — the specification catching an independent implementer before it had seen ours. Of ten observations sent back, the one worth returning to is that the contract requires the settled encoding to be recorded somewhere without saying where. Tomorrow the tests meet the code.</p>
+          <p class="log-after"><b>After hours</b>Three notes, all about where the vocabulary should stop. The steps a person writes stay plain and readable, with the work of making them fast pushed down into the engine rather than up into the syntax. The rule that the interface may assist with analysis but must never own it — written a few nights ago — is restated as a constitutional one. And an argument against drift: finish, test, document and optimise a deliberately finite set of operations over one engine, rather than gradually becoming a general-purpose programming language.</p>
         </div>
       </li>
     </ol>
