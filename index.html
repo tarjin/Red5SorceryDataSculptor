@@ -278,7 +278,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>Day 022</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>Day 023</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -298,7 +298,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 022, Sunday 30 August 2026</div>
+      <div class="state-top">Project state — Day 023, Monday 31 August 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>Prototype 001 — command-line, Rust, disk-first, deterministic</dd>
@@ -307,7 +307,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <dt>Build state</dt>
         <dd>111 tests passing, 0 failing, no warnings</dd>
         <dt>Now building</dt>
-        <dd>Running a test suite written from the contract alone, by a reviewer who had not been shown the code, against the code</dd>
+        <dd>Settling what a deliberately empty field means — in the contract first, then in the code — before anything the review found gets changed</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -710,6 +710,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>The Test Suite Came Before the Code</h3>
           <p>No code changed today, and that was the point. The contract's acceptance list forced a separation between three things: what the program does, what proof was kept that it does it, and what is genuinely broken. Six sections closed; five stayed open, meaning evidence was missing rather than that a fault is known. Then the handoff. A second language model was given the contract and nothing else — no source, no test names, no results — and froze its own test suite before seeing a line of the implementation. Its first attempt at the filename rules was wrong in a plausible way; three worked examples in the contract contradicted it. It found the step it had misread, corrected itself, and reproduced all twenty-eight from the specification alone — the specification catching an independent implementer before it had seen ours. Of ten observations sent back, the one worth returning to is that the contract requires the settled encoding to be recorded somewhere without saying where. Tomorrow the tests meet the code.</p>
           <p class="log-after"><b>After hours</b>Three notes, all about where the vocabulary should stop. The steps a person writes stay plain and readable, with the work of making them fast pushed down into the engine rather than up into the syntax. The rule that the interface may assist with analysis but must never own it — written a few nights ago — is restated as a constitutional one. And an argument against drift: finish, test, document and optimise a deliberately finite set of operations over one engine, rather than gradually becoming a general-purpose programming language.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 023<span class="log-date">Mon 31 Aug</span><span class="log-tag">Testing</span></div>
+        <div class="log-entry">
+          <h3>The Tests Met the Code</h3>
+          <p>The frozen suite met the code, and neither had been touched since. Fifty-four checks passed and none failed. Twenty could only be recorded rather than asserted, because what they wanted to look at is not something the contract requires the program to show, and one cannot be run on this operating system at all. The second language model rebuilt the project on its own machine, under the oldest toolchain the project claims to support, and reproduced all one hundred and eleven tests. Then the real file went through it: 7.25 GB, sixteen columns read in about a hundredth of a second, one column of 29,014,718 rows extracted in twenty-five seconds inside two and a half megabytes of memory, four separate counts agreeing. Its output and the Windows output of the same column were byte-for-byte identical — 62,266,366 bytes, one hash. Then it found the thing worth finding. A field that was deliberately left empty can be written out as a blank line, and reading that file back silently discards the row: three records become two, and the program exits reporting success. The contract never settled that case for data rows, so this is a decision before it is a fix. One incident is worth keeping: partway through, the frozen suite appeared to have been lost to a session reset, and the copy filed in the project's own record the day before matched its recorded fingerprint exactly. Nothing was accepted tonight.</p>
+          <p class="log-after"><b>After hours</b>Nine notes and one supplementary measurement, none of it binding the frozen result. The measurement first: all sixteen columns extracted in a single uninterrupted run of six minutes thirty-seven seconds, still inside two and a half megabytes, every output matching its Windows counterpart exactly. The notes cover publishing each prototype from this site as a versioned build with the old ones kept; renaming the human-facing surface to a console and giving it a health check with a durable history; the Council method as the real subject of the book, with this product as its case study; and three on speed, which between them settle that one pass writing many columns at once is the optimisation worth having, that more cores are not, and that a one-time decomposition is the wrong thing to tune when the working loop is what the analyst actually waits on.</p>
         </div>
       </li>
     </ol>
