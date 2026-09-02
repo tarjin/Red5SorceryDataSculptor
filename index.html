@@ -278,7 +278,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>Day 023</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>Day 024</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -298,16 +298,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 023, Monday 31 August 2026</div>
+      <div class="state-top">Project state — Day 024, Tuesday 1 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>Prototype 001 — command-line, Rust, disk-first, deterministic</dd>
         <dt>Contract</dt>
-        <dd>Frozen since Day 007. Twenty-seven drafts to get there.</dd>
+        <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found.</dd>
         <dt>Build state</dt>
-        <dd>111 tests passing, 0 failing, no warnings</dd>
+        <dd>111 tests passing, 0 failing, no warnings — unchanged, because no code was written</dd>
         <dt>Now building</dt>
-        <dd>Settling what a deliberately empty field means — in the contract first, then in the code — before anything the review found gets changed</dd>
+        <dd>The corrections themselves. What a deliberately empty field means is now settled in writing; the code has yet to be changed to match it</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -718,6 +718,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>The Tests Met the Code</h3>
           <p>The frozen suite met the code, and neither had been touched since. Fifty-four checks passed and none failed. Twenty could only be recorded rather than asserted, because what they wanted to look at is not something the contract requires the program to show, and one cannot be run on this operating system at all. The second language model rebuilt the project on its own machine, under the oldest toolchain the project claims to support, and reproduced all one hundred and eleven tests. Then the real file went through it: 7.25 GB, sixteen columns read in about a hundredth of a second, one column of 29,014,718 rows extracted in twenty-five seconds inside two and a half megabytes of memory, four separate counts agreeing. Its output and the Windows output of the same column were byte-for-byte identical — 62,266,366 bytes, one hash. Then it found the thing worth finding. A field that was deliberately left empty can be written out as a blank line, and reading that file back silently discards the row: three records become two, and the program exits reporting success. The contract never settled that case for data rows, so this is a decision before it is a fix. One incident is worth keeping: partway through, the frozen suite appeared to have been lost to a session reset, and the copy filed in the project's own record the day before matched its recorded fingerprint exactly. Nothing was accepted tonight.</p>
           <p class="log-after"><b>After hours</b>Nine notes and one supplementary measurement, none of it binding the frozen result. The measurement first: all sixteen columns extracted in a single uninterrupted run of six minutes thirty-seven seconds, still inside two and a half megabytes, every output matching its Windows counterpart exactly. The notes cover publishing each prototype from this site as a versioned build with the old ones kept; renaming the human-facing surface to a console and giving it a health check with a durable history; the Council method as the real subject of the book, with this product as its case study; and three on speed, which between them settle that one pass writing many columns at once is the optimisation worth having, that more cores are not, and that a one-time decomposition is the wrong thing to tune when the working loop is what the analyst actually waits on.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 024<span class="log-date">Tue 1 Sep</span><span class="log-tag">Specification</span></div>
+        <div class="log-entry">
+          <h3>Forty Pages Before One Line of Code</h3>
+          <p>No product code was written, and that was the decision rather than the outcome. Yesterday's blank-row finding was specified before being fixed: an empty single-column value is written as a pair of quotation marks, a blank record is refused rather than guessed at, and a file must survive a round trip still holding the number of rows it started with. Making that precise took ten pages and six rounds of adversarial review &mdash; one of which caught the specification's own examples corrupted in the writing, no longer showing the condition they claimed to. An assumption carried for weeks was tested and found wrong: on Windows the operating system does not refuse to rename a file over one that already exists. The program's own check was already doing that work, so nothing was lost. Build state unchanged at one hundred and eleven tests.</p>
+          <p class="log-after"><b>After hours</b>Fourteen notes, mostly about what a project should be able to tell you about itself long afterwards: a flight recorder that explains what happened and makes missing documentation visible as a debt rather than an absence; the deeper explanation an analyst should be able to ask for after a message about encodings; and how a published program names, delivers and proves itself. None of it binds the frozen contract.</p>
         </div>
       </li>
     </ol>
