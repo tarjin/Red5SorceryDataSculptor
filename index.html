@@ -278,7 +278,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>Day 024</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>Day 025</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -298,16 +298,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 024, Tuesday 1 September 2026</div>
+      <div class="state-top">Project state — Day 025, Wednesday 2 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>Prototype 001 — command-line, Rust, disk-first, deterministic</dd>
         <dt>Contract</dt>
-        <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found.</dd>
+        <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented.</dd>
         <dt>Build state</dt>
-        <dd>111 tests passing, 0 failing, no warnings — unchanged, because no code was written</dd>
+        <dd>150 tests passing, 0 failing, no warnings — the same source built and run again on a second operating system</dd>
         <dt>Now building</dt>
-        <dd>The corrections themselves. What a deliberately empty field means is now settled in writing; the code has yet to be changed to match it</dd>
+        <dd>Nothing new. The corrected command-line build is frozen as the reference its browser counterpart will have to match, and specifying that counterpart is the next work</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -728,85 +728,17 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <p class="log-after"><b>After hours</b>Fourteen notes, mostly about what a project should be able to tell you about itself long afterwards: a flight recorder that explains what happened and makes missing documentation visible as a debt rather than an absence; the deeper explanation an analyst should be able to ask for after a message about encodings; and how a published program names, delivers and proves itself. None of it binds the frozen contract.</p>
         </div>
       </li>
+      <li>
+        <div class="log-day">Day 025<span class="log-date">Wed 2 Sep</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>The Same Bytes on Two Machines</h3>
+          <p>Yesterday's forty pages became code, and the code was measured on two machines that share nothing. The blank-record defect is closed: an empty single-column value is written as a pair of quotation marks, a blank record is refused, and a file survives a round trip with the rows it started with. Two encoding messages were made plainer, and one acceptance test was corrected rather than the product enlarged to satisfy it. Then the overwrite race was staged on both platforms: a file created underneath the program while it was still writing, refused at the last step, the existing bytes untouched and the half-finished output removed. Neither operating system would have stopped that on its own. A twenty-one byte file with Windows line endings produced the same bytes, and the same fingerprint, on Linux. One hundred and fifty tests on both, and no code changed during the second run.</p>
+          <p class="log-after"><b>After hours</b>Twelve notes, written in final form rather than sketched, nearly all aimed at the browser version: where a stored value stops being a value and becomes an interpretation; a scope line keeping the first version about data and leaving dashboards to other tools; reading a file that arrives over a network; filtering before anything is written out; and letting other people's extensions in without rebuilding the core. None of it binds the frozen contract.</p>
+        </div>
+      </li>
     </ol>
 
     <p class="log-note">Original entries are never revised. Where something turns out to be wrong, the correction is filed beside it rather than written over it — what was believed at the time is part of the record too. The After Hours notes are a different kind of record: thinking done once the day's work has closed, usually about what the product should eventually become. None of it binds anything until it has been reviewed and written into the contract, which is why one night's note can narrow the one before it.</p>
-  </div>
-</section>
-
-<section class="band">
-  <div class="wrap">
-    <p class="band-label">Still open</p>
-    <h2>Questions with no answer yet</h2>
-    <ul class="opens">
-      <li>
-        <h3>How decisions get stored</h3>
-        <p>A sequence of cleaning steps has to be saved in some form so it can be replayed on next month's file. That format is the one choice that can't be revised later without breaking every file already saved in it. No format is published here because none has been chosen.</p>
-      </li>
-      <li>
-        <h3>What a table is <em>about</em></h3>
-        <p>One row per person, per household, per subdivision per year — a table always has an answer, and no tool asks for it. Making people declare it is easy. Deciding what happens when an operation would violate it is not.</p>
-      </li>
-      <li>
-        <h3>Where the work should run</h3>
-        <p>The command line exists first because it's the fastest way to get the vocabulary right. The intended destination is a browser that never uploads your file anywhere. How much of the first survives contact with the second is not yet known.</p>
-      </li>
-      <li>
-        <h3>Whether operations need namespaces</h3>
-        <p>Tools that let users add their own operations eventually let a user's operation quietly shadow a built-in one with the same name. Avoiding that appears to require a naming scheme from the very first version, which is a heavy thing to commit to early.</p>
-      </li>
-    </ul>
-  </div>
-</section>
-
-<section class="band">
-  <div class="wrap">
-    <p class="band-label">Evidence</p>
-    <h2>Three absences, in every tool examined</h2>
-    <p>Four incumbent tools have been reviewed in detail so far, each one independently and each looking for gaps rather than confirmation. Most of what turned up was table stakes. Three things were missing everywhere, and they are the sharpest evidence that the gap above is real rather than assumed.</p>
-    <div class="gaps">
-      <div class="gap">
-        <h3>Grain is never declared, so it can never be checked</h3>
-        <p>No tool asks what a table is about, so none can warn you when a join quietly changes it. Grain errors are the most expensive mistakes in analysis and the hardest to notice at the moment they happen.</p>
-      </div>
-      <div class="gap">
-        <h3>Provenance does not survive combination</h3>
-        <p>Append two files and you get one table; which rows came from where is gone unless you had the foresight to add a column first. Source identity shouldn't depend on remembering to preserve it.</p>
-      </div>
-      <div class="gap">
-        <h3>Nothing marks a value you made up</h3>
-        <p>A filled blank, an imputed mean, a hand-corrected typo — every tool returns these looking identical to measured data.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="band">
-  <div class="wrap">
-    <p class="band-label">Status</p>
-    <h2>What you can and cannot do with this today</h2>
-    <ul class="facts">
-      <li>
-        <span class="k">Availability</span>
-        <span class="v"><strong>Nothing to install.</strong> No release, no installer, no private beta. The table further up this page illustrates the idea; it is not a screenshot of working software.</span>
-      </li>
-      <li>
-        <span class="k">Built with</span>
-        <span class="v">A Rust core designed to work from disk rather than memory, so that a file larger than the machine can still be processed instead of politely refused.</span>
-      </li>
-      <li>
-        <span class="k">Surfaces</span>
-        <span class="v">A command line exists first, because it is the quickest way to get the vocabulary right. The destination is the same engine running inside a browser, doing the work on your own machine. How much of the first survives contact with the second is not yet known.</span>
-      </li>
-      <li>
-        <span class="k">Privacy</span>
-        <span class="v">Local-first by design. The intended browser version does its work on your machine and sends your file nowhere. This is an architectural commitment, not a policy one.</span>
-      </li>
-      <li>
-        <span class="k">Timeline</span>
-        <span class="v">None offered. A date given now would be invented, and inventing numbers is the specific thing this project exists to object to.</span>
-      </li>
-    </ul>
   </div>
 </section>
 
