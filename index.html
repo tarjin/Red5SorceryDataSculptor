@@ -278,7 +278,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>Day 025</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>Day 026</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -298,16 +298,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 025, Wednesday 2 September 2026</div>
+      <div class="state-top">Project state — Day 026, Thursday 3 September 2026</div>
       <dl>
         <dt>Phase</dt>
-        <dd>Prototype 001 — command-line, Rust, disk-first, deterministic</dd>
+        <dd>The browser counterpart of Prototype 001 — the same engine, specified before it is built</dd>
         <dt>Contract</dt>
-        <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented.</dd>
+        <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to.</dd>
         <dt>Build state</dt>
-        <dd>150 tests passing, 0 failing, no warnings — the same source built and run again on a second operating system</dd>
+        <dd>150 tests passing, 0 failing, no warnings — unchanged, because no product code was written on Day 026</dd>
         <dt>Now building</dt>
-        <dd>Nothing new. The corrected command-line build is frozen as the reference its browser counterpart will have to match, and specifying that counterpart is the next work</dd>
+        <dd>Still nothing. The boundary between the browser and the engine is frozen; no implementation is authorised until the tests for it have been derived from that frozen text and timestamped</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -734,6 +734,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>The Same Bytes on Two Machines</h3>
           <p>Yesterday's forty pages became code, and the code was measured on two machines that share nothing. The blank-record defect is closed: an empty single-column value is written as a pair of quotation marks, a blank record is refused, and a file survives a round trip with the rows it started with. Two encoding messages were made plainer, and one acceptance test was corrected rather than the product enlarged to satisfy it. Then the overwrite race was staged on both platforms: a file created underneath the program while it was still writing, refused at the last step, the existing bytes untouched and the half-finished output removed. Neither operating system would have stopped that on its own. A twenty-one byte file with Windows line endings produced the same bytes, and the same fingerprint, on Linux. One hundred and fifty tests on both, and no code changed during the second run.</p>
           <p class="log-after"><b>After hours</b>Twelve notes, written in final form rather than sketched, nearly all aimed at the browser version: where a stored value stops being a value and becomes an interpretation; a scope line keeping the first version about data and leaving dashboards to other tools; reading a file that arrives over a network; filtering before anything is written out; and letting other people's extensions in without rebuilding the core. None of it binds the frozen contract.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 026<span class="log-date">Thu 3 Sep</span><span class="log-tag">Specification</span></div>
+        <div class="log-entry">
+          <h3>Zero Lines of Code, One Frozen Boundary</h3>
+          <p>The plan was a thin browser wrapper around the finished engine. The day produced no code at all, and a frozen contract instead. What is being tested is deliberately narrow: run the same engine in a browser and compare speed, memory, file limits and output bytes against the frozen command-line version — same engine, same meaning, same fixtures, same expected bytes, different runtime. Making that one sentence precise took the whole day. The browser keeps browser concerns, choosing the file, storing it, timing and naming; the engine only accepts bytes and returns bytes, and never calls back into the page, so the interface can be rebuilt later without dragging the computational core along with it. A browser cannot hold the 7.25 GB test file in memory, so the file has to arrive in pieces, and that raised the questions that are cheap now and expensive to retrofit: a piece that splits a line ending, or splits a character, or lands inside a quoted field. The rule now written down is that the size of those pieces is a speed decision and never an answer-changing one — the same file must produce the same bytes whether it arrives whole, in ordinary chunks, or one byte at a time. The engine can also refuse more input until what it has already produced has been taken away. The review came back not frozen several times, each verdict closing the previous findings and then finding the next sentence that was still missing: first the invariance, then the brake, then a complete account of the states the thing can be in, then the discovery that the pipe had been specified without ever describing what travels through it. The browser version will do exactly one job, extracting a single column, so that the comparison stays honest rather than becoming a place to smuggle in new behaviour. The single known-good output kept from the day before was widened to four before any test was written, covering the encodings most likely to diverge, and forty-four byte-level checks against them passed. The last obstacle was mundane: one fingerprint in the table had sixty-three characters where it needed sixty-four. Rather than guess the missing one, the project's own archive was opened, the previous day's frozen record was hashed again, and the lost character was recovered rather than invented. Fifty-one checks across the corrected version, none failing. Build state unchanged at one hundred and fifty tests.</p>
+          <p class="log-after"><b>After hours</b>Eleven notes, written in final form. Most look past the browser prototype to the command-line one after it: an architecture for the part of the program that explains itself, the surface it presents and what it can export, and a revised account of how a message about encodings should be worded when it has to teach as well as report. Alongside those, where analytical data should be allowed to live and who is entitled to see it; a comparison of the environments this project tests in; a note on the public engineering record as its own kind of evidence; and an argument about what fast informal coding does and does not settle. Two more bring a third language model onto the project and give it responsibility for the wording of help messages and public documentation. None of it binds the frozen contract.</p>
         </div>
       </li>
     </ol>
