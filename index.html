@@ -278,7 +278,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>Day 027</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>Day 028</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -298,16 +298,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 027, Friday 4 September 2026</div>
+      <div class="state-top">Project state — Day 028, Saturday 5 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>The browser counterpart of Prototype 001 — the same engine, specified before it is built</dd>
         <dt>Contract</dt>
-        <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged; the rest of the document around it is still being written.</dd>
+        <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged. The document around it was finished on Day 028, cut back, reviewed against itself twice, and cleared to govern the build.</dd>
         <dt>Build state</dt>
-        <dd>150 tests passing, 0 failing, no warnings — unchanged, because no product code was written on Day 027</dd>
+        <dd>150 tests passing, 0 failing, no warnings — unchanged, because no product code was written on Day 028</dd>
         <dt>Now building</dt>
-        <dd>Still nothing. The boundary is frozen and the prototype around it has been made smaller: a measuring harness rather than an application. No implementation is authorised until the tests for it have been derived from that frozen text and timestamped</dd>
+        <dd>Still nothing, though the gate is now open. The boundary is frozen, the specification around it has been reviewed and cleared, and the tests were derived from that text before any code existed. The formal timing runs remain blocked until one piece of evidence about the source file is on the record</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -750,6 +750,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>The Prototype Got Smaller</h3>
           <p>A second day with no code, and again that was the decision rather than the shortfall. The morning went to evidence: the four known-good outputs the browser version will be judged against were checked back against the command-line runs they were copied from — thirty-two checks, all passing, and counted apart from yesterday's fifty-one because the two answer different questions. One archived document had been regenerated before filing; the words were faithful but the bytes no longer matched the fingerprint published when it was made, so the rule is now written down: whatever was hashed is what gets kept. The afternoon then changed the shape of the thing. The plan had been a small browser interface — choose a file, type the same arguments as the command-line version, press run. But the test harness has to drive the engine directly or the tests cannot be automated, and if the proof does not need the interface, the prototype does not either. Out went the command box, the help system and everything else that made it look like a product. What remains is an instrument: it feeds in the agreed workloads, streams the file through the frozen boundary, records time and memory and checks the bytes. One visible thing was kept, because the 7.25 GB file still takes sixteen separate passes and somebody has to watch it — a status line refreshed every ten seconds. Build state unchanged at one hundred and fifty tests.</p>
           <p class="log-after"><b>After hours</b>Seven artifacts, six written notes and one working prototype page, all pointed at the surface rather than the engine. The argument running through them is that serious analytical work should require stating what you mean rather than clicking until something happens, and that a typed, explicit command surface becomes more valuable as assistants get better at writing commands, not less. Alongside that: a dark terminal console as the shape of the human-facing surface; a browser shell built from plain markup with no interface framework underneath it; the order in which the next command-line prototype and its browser counterpart should be built; and a reading of what other projects moving in this direction suggest. Design evidence and future input only — none of it reopens the frozen boundary or authorises anything to be built.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 028<span class="log-date">Sat 5 Sep</span><span class="log-tag">Specification</span></div>
+        <div class="log-entry">
+          <h3>Twenty Findings Before the Gate Opened</h3>
+          <p>A third day without code, and the last one that had to be. The specification for the browser version was finished, cut back, and then taken apart. The cutting came first: the document had grown careful and then noisy, so out went future vocabulary, duplicated acceptance language and terminology this prototype had no use for. The frozen boundary was left untouched and pointed at by name, revision and fingerprint rather than retyped into the larger document, where it could drift. Then the whole thing went out for review with nothing beside it — no code, no candidate, no notes — and came back with twenty findings: five blocking, eight material, seven about clarity. The pattern in them was that each section held up alone and the seams between them did not. None of it required reopening the frozen boundary; it required the unfrozen parts to be made exact — which run, which encoding, which exact bytes of configuration, where the timing starts and stops, and which output the browser is measured against. One revision pass, then a second review of the fix: nineteen closed, one left with a wording residue, none open, no new blockers, and a verdict that the document can govern the build. One condition outlived it: the encoding of the large source file must be evidenced before any formal timing run, which holds the measurements rather than the code. Build state unchanged at one hundred and fifty tests.</p>
+          <p class="log-after"><b>After hours</b>Thirteen notes, all in final form, with superseded drafts left out. They range wider than the prototype: what a minimal repair to a broken query should and should not do; the handful of operations analysts actually reach for in a spreadsheet; the argument that techniques for large data belong inside the engine rather than being asked of the analyst; free, local, in-the-browser positioning; the architecture and memory of the project's own archive, including what it means to seal a copy and what a diary note is for; a formal work order as the way requests enter the project; and, after the first release, a paid convenience business built on the same free core. Design evidence and future input only — none of it amends the cleared document or reopens the frozen boundary.</p>
         </div>
       </li>
     </ol>
