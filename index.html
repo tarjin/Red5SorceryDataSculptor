@@ -278,7 +278,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>Day 028</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>Day 029</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -298,16 +298,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 028, Saturday 5 September 2026</div>
+      <div class="state-top">Project state — Day 029, Sunday 6 September 2026</div>
       <dl>
         <dt>Phase</dt>
-        <dd>The browser counterpart of Prototype 001 — the same engine, specified before it is built</dd>
+        <dd>The browser counterpart of Prototype 001 — the same engine, now being built against the specification</dd>
         <dt>Contract</dt>
         <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged. The document around it was finished on Day 028, cut back, reviewed against itself twice, and cleared to govern the build.</dd>
         <dt>Build state</dt>
-        <dd>150 tests passing, 0 failing, no warnings — unchanged, because no product code was written on Day 028</dd>
+        <dd>177 tests passing, 0 failing, no warnings — twenty-seven of them added on Day 029 for the first piece of the browser boundary</dd>
         <dt>Now building</dt>
-        <dd>Still nothing, though the gate is now open. The boundary is frozen, the specification around it has been reviewed and cleared, and the tests were derived from that text before any code existed. The formal timing runs remain blocked until one piece of evidence about the source file is on the record</dd>
+        <dd>The browser version, started on Day 029. The engine is now shared rather than copied, and the first piece of the frozen boundary is written and tested. Streaming a file through it is deliberately still unwritten. The formal timing runs remain blocked until one piece of evidence about the source file is on the record</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -758,6 +758,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>Twenty Findings Before the Gate Opened</h3>
           <p>A third day without code, and the last one that had to be. The specification for the browser version was finished, cut back, and then taken apart. The cutting came first: the document had grown careful and then noisy, so out went future vocabulary, duplicated acceptance language and terminology this prototype had no use for. The frozen boundary was left untouched and pointed at by name, revision and fingerprint rather than retyped into the larger document, where it could drift. Then the whole thing went out for review with nothing beside it — no code, no candidate, no notes — and came back with twenty findings: five blocking, eight material, seven about clarity. The pattern in them was that each section held up alone and the seams between them did not. None of it required reopening the frozen boundary; it required the unfrozen parts to be made exact — which run, which encoding, which exact bytes of configuration, where the timing starts and stops, and which output the browser is measured against. One revision pass, then a second review of the fix: nineteen closed, one left with a wording residue, none open, no new blockers, and a verdict that the document can govern the build. One condition outlived it: the encoding of the large source file must be evidenced before any formal timing run, which holds the measurements rather than the code. Build state unchanged at one hundred and fifty tests.</p>
           <p class="log-after"><b>After hours</b>Thirteen notes, all in final form, with superseded drafts left out. They range wider than the prototype: what a minimal repair to a broken query should and should not do; the handful of operations analysts actually reach for in a spreadsheet; the argument that techniques for large data belong inside the engine rather than being asked of the analyst; free, local, in-the-browser positioning; the architecture and memory of the project's own archive, including what it means to seal a copy and what a diary note is for; a formal work order as the way requests enter the project; and, after the first release, a paid convenience business built on the same free core. Design evidence and future input only — none of it amends the cleared document or reopens the frozen boundary.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 029<span class="log-date">Sun 6 Sep</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>Twenty-Eight Days, Then the First Code</h3>
+          <p>Twenty-eight days of specification, then the first lines of code — and a slower start than that sounds. The frozen boundary names the exact version of the Rust compiler the browser version must be built with, because that is the one the reviewing language model can reproduce on its own machine. This machine had a newer one, deliberately not used. With the older compiler pinned, the existing engine became a shared library the browser version borrows rather than a second copy of the same code, and the hundred and fifty existing tests still passed. Then the afternoon broke: the working session was interrupted partway through. Nothing was restarted and nothing taken on trust — the project was inventoried, the source hashed, and every file of the last delivered package compared against what was on disk. Twelve files, twelve matching byte for byte, none missing. Work resumed from evidence, not memory. What followed was the first real piece of the frozen boundary: checking the settings, the states a session can be in, the memory budget, and refusing work before allocating rather than after. Twenty-seven new tests, one hundred and seventy-seven passing in total, none failing, no warnings. The next step, streaming a file through that boundary, was reviewed instead of written, and the review found the quickest route would have quietly created a second reader of the same file format. It was not written. This is a checkpoint, not the acceptance run.</p>
+          <p class="log-after"><b>After hours</b>Five pieces in final form, all about the method rather than the product: where each of the language models is actually strong and how a council around them should be arranged; what one person working this way might mean for how software gets made; typed work orders as the way an assistant is asked to do something at a command line; a research-grounded case for the book about the method; and an article arguing that the optimisation everyone reaches for first is the wrong one. Design evidence and future input only — none of it amends the cleared document or reopens the frozen boundary.</p>
         </div>
       </li>
     </ol>
