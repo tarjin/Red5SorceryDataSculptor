@@ -278,7 +278,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>Day 029</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>Day 030</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -298,16 +298,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 029, Sunday 6 September 2026</div>
+      <div class="state-top">Project state — Day 030, Monday 7 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>The browser counterpart of Prototype 001 — the same engine, now being built against the specification</dd>
         <dt>Contract</dt>
         <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged. The document around it was finished on Day 028, cut back, reviewed against itself twice, and cleared to govern the build.</dd>
         <dt>Build state</dt>
-        <dd>177 tests passing, 0 failing, no warnings — twenty-seven of them added on Day 029 for the first piece of the browser boundary</dd>
+        <dd>191 tests passing, 0 failing, no warnings — fourteen of them added on Day 030, around the shared reading core and the marks that open a file</dd>
         <dt>Now building</dt>
-        <dd>The browser version, started on Day 029. The engine is now shared rather than copied, and the first piece of the frozen boundary is written and tested. Streaming a file through it is deliberately still unwritten. The formal timing runs remain blocked until one piece of evidence about the source file is on the record</dd>
+        <dd>The browser version, started on Day 029. The reading engine is now shared rather than copied, proved to give the same answer however the file arrives in pieces, and able to recognise how a file is encoded without guessing early. Reading raw bytes is deliberately still unwritten. The formal timing runs remain blocked until one piece of evidence about the source file is on the record</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -766,6 +766,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>Twenty-Eight Days, Then the First Code</h3>
           <p>Twenty-eight days of specification, then the first lines of code — and a slower start than that sounds. The frozen boundary names the exact version of the Rust compiler the browser version must be built with, because that is the one the reviewing language model can reproduce on its own machine. This machine had a newer one, deliberately not used. With the older compiler pinned, the existing engine became a shared library the browser version borrows rather than a second copy of the same code, and the hundred and fifty existing tests still passed. Then the afternoon broke: the working session was interrupted partway through. Nothing was restarted and nothing taken on trust — the project was inventoried, the source hashed, and every file of the last delivered package compared against what was on disk. Twelve files, twelve matching byte for byte, none missing. Work resumed from evidence, not memory. What followed was the first real piece of the frozen boundary: checking the settings, the states a session can be in, the memory budget, and refusing work before allocating rather than after. Twenty-seven new tests, one hundred and seventy-seven passing in total, none failing, no warnings. The next step, streaming a file through that boundary, was reviewed instead of written, and the review found the quickest route would have quietly created a second reader of the same file format. It was not written. This is a checkpoint, not the acceptance run.</p>
           <p class="log-after"><b>After hours</b>Five pieces in final form, all about the method rather than the product: where each of the language models is actually strong and how a council around them should be arranged; what one person working this way might mean for how software gets made; typed work orders as the way an assistant is asked to do something at a command line; a research-grounded case for the book about the method; and an article arguing that the optimisation everyone reaches for first is the wrong one. Design evidence and future input only — none of it amends the cleared document or reopens the frozen boundary.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 030<span class="log-date">Mon 7 Sep</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>Three Checkpoints, Nothing Drifted</h3>
+          <p>The day began by proving yesterday still existed: fingerprints rechecked, the pinned compiler confirmed, the suite run again — one hundred and seventy-seven passing before a line was written. Then three small steps, each banked before the next. The first was a refactor rather than a rewrite: the behaviour that reads a large file piece by piece moved out of the command-line program into a shared core the browser version borrows, so there is one set of rules rather than two that quietly drift apart. Getting there was noisy: a dash an installer script's shell misread, a candidate reaching across the wrong boundary, a packaging pass carrying the wrong fingerprint. Nothing drifted, because each candidate checks the existing state, backs it up, runs the full suite and restores the last good copy if it fails. The second step changed no behaviour and only attacked the seams: the same file fed whole and one byte at a time, split at every possible position, across line endings, embedded newlines and multi-byte characters. One hundred and eighty-four passing. The third was four bytes wide: the marks that say which encoding a file uses overlap, so the reader now waits rather than guessing early. The first attempt did not compile; the installer restored the previous checkpoint and verified every file. The corrected one passed — one hundred and ninety-one tests, none failing, the browser build green. It stopped one step short of reading raw bytes.</p>
+          <p class="log-after"><b>After hours</b>Eleven pieces in final form, most about what the project would be to somebody else. Several work through delivering the tool under another organisation's name — what stays private, who owns the help text, where the branding stops and the engine begins. Others tidy the working arrangement between the collaborators, including two messages sent between them. Two are metaphors for how a small group of specialists gets hired. One records where the book's material may come from. Design evidence and future input only — none of it amends the cleared document or reopens the frozen boundary.</p>
         </div>
       </li>
     </ol>
