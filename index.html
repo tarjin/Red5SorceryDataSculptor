@@ -278,7 +278,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>Day 030</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>Day 031</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -298,16 +298,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 030, Monday 7 September 2026</div>
+      <div class="state-top">Project state — Day 031, Tuesday 8 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>The browser counterpart of Prototype 001 — the same engine, now being built against the specification</dd>
         <dt>Contract</dt>
         <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged. The document around it was finished on Day 028, cut back, reviewed against itself twice, and cleared to govern the build.</dd>
         <dt>Build state</dt>
-        <dd>191 tests passing, 0 failing, no warnings — fourteen of them added on Day 030, around the shared reading core and the marks that open a file</dd>
+        <dd>237 tests passing, 0 failing, no warnings — forty-six of them added on Day 031, across ten separately accepted steps</dd>
         <dt>Now building</dt>
-        <dd>The browser version, started on Day 029. The reading engine is now shared rather than copied, proved to give the same answer however the file arrives in pieces, and able to recognise how a file is encoded without guessing early. Reading raw bytes is deliberately still unwritten. The formal timing runs remain blocked until one piece of evidence about the source file is on the record</dd>
+        <dd>The browser version, started on Day 029 — a second place for the same engine to run rather than a rewrite of it. Reading raw bytes, refusing work before it allocates, and previewing the top line of a file are each written and tested, deliberately not yet joined to one another. The formal timing runs remain blocked until one piece of evidence about the source file is on the record</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -774,6 +774,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>Three Checkpoints, Nothing Drifted</h3>
           <p>The day began by proving yesterday still existed: fingerprints rechecked, the pinned compiler confirmed, the suite run again — one hundred and seventy-seven passing before a line was written. Then three small steps, each banked before the next. The first was a refactor rather than a rewrite: the behaviour that reads a large file piece by piece moved out of the command-line program into a shared core the browser version borrows, so there is one set of rules rather than two that quietly drift apart. Getting there was noisy: a dash an installer script's shell misread, a candidate reaching across the wrong boundary, a packaging pass carrying the wrong fingerprint. Nothing drifted, because each candidate checks the existing state, backs it up, runs the full suite and restores the last good copy if it fails. The second step changed no behaviour and only attacked the seams: the same file fed whole and one byte at a time, split at every possible position, across line endings, embedded newlines and multi-byte characters. One hundred and eighty-four passing. The third was four bytes wide: the marks that say which encoding a file uses overlap, so the reader now waits rather than guessing early. The first attempt did not compile; the installer restored the previous checkpoint and verified every file. The corrected one passed — one hundred and ninety-one tests, none failing, the browser build green. It stopped one step short of reading raw bytes.</p>
           <p class="log-after"><b>After hours</b>Eleven pieces in final form, most about what the project would be to somebody else. Several work through delivering the tool under another organisation's name — what stays private, who owns the help text, where the branding stops and the engine begins. Others tidy the working arrangement between the collaborators, including two messages sent between them. Two are metaphors for how a small group of specialists gets hired. One records where the book's material may come from. Design evidence and future input only — none of it amends the cleared document or reopens the frozen boundary.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 031<span class="log-date">Tue 8 Sep</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>A Port, Not a Rewrite</h3>
+          <p>Yesterday's three checkpoints became ten. The day opened at one hundred and ninety-one tests and closed at two hundred and thirty-seven, each step accepted on its own before the next began. What went in: a decoder that can look at the next raw byte without committing to it; an exact line for where a malformed file stops being read; a hidden temporary copy removed from the shared output path; the existing naming rules kept as the authority rather than restated; and storage for a file's header whose growth is checked against the memory budget before anything is allocated. That last one carries the browser's stricter promise — a refusal has to happen before the allocation and before the byte is counted as consumed, which was proved at exactly one byte over the limit. The order is now fixed: look, plan, check the budget, reserve, commit, then count the byte. One attempt failed all six of its tests. Rather than patch it, the work rolled back to the last good checkpoint and went to read the parsing library, which showed that its fast reading mode cannot be copied mid-stream while a slower one keeps identical meaning and can. The corrected version passed seven, then the whole suite. The clearest result was an answer to a question asked out loud: this is not the command-line program being rewritten for the browser. It is one engine given a second place to run. The pieces are validated separately and deliberately not yet wired together.</p>
+          <p class="log-after"><b>After hours</b>Eleven pieces in final form. Several concern the archive: backing up a working session as it streams, and why a record able to prove its own integrity earns its keep. The rest look outward — what a spreadsheet assistant's change history implies for the person holding the file; documentation written as the authority a language model reads from; how a free tool's official version and its community copies relate; and the office worker as the audience that matters. Design evidence and future input only — none of it amends the cleared document or reopens the frozen boundary.</p>
         </div>
       </li>
     </ol>
