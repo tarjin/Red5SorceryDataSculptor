@@ -144,6 +144,13 @@ p:last-child{margin-bottom:0}
 .dialect{border-top:2px solid var(--ink);padding-top:15px}
 .dialect h3{font-family:var(--mono);font-weight:500;font-size:15px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
 .dialect p{font-size:16.5px;max-width:38ch;margin-bottom:0}
+.verify-surface{
+  margin-top:30px;border-top:2px solid var(--ink);padding-top:15px;display:grid;gap:10px 34px;
+}
+@media(min-width:860px){.verify-surface{grid-template-columns:180px 1fr;align-items:start}}
+.verify-surface h3{font-family:var(--mono);font-weight:500;font-size:15px;letter-spacing:.06em;text-transform:uppercase;margin:0}
+.verify-surface p{font-size:16.5px;max-width:62ch;margin:0}
+.verify-surface .verify-note{font-family:var(--mono);font-size:11.5px;line-height:1.65;color:var(--ink-soft);margin-top:8px}
 .flow{
   margin-top:clamp(32px,4vw,44px);border:1px solid var(--rule-strong);
   background:var(--paper-2);padding:clamp(22px,3vw,34px);
@@ -278,7 +285,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 032</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 033</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -298,16 +305,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 031, Tuesday 8 September 2026</div>
+      <div class="state-top">Project state — Day 033, Thursday 10 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>The browser counterpart of Prototype 001 — the same engine, now being built against the specification</dd>
         <dt>Contract</dt>
         <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged. The document around it was finished on Day 028, cut back, reviewed against itself twice, and cleared to govern the build.</dd>
         <dt>Build state</dt>
-        <dd>237 tests passing, 0 failing, no warnings — forty-six of them added on Day 031, across ten separately accepted steps</dd>
+        <dd>278 native non-doctest tests passing, 0 failing; the wasm32-unknown-unknown library build also passes under Rust 1.75.0. D3B2C1 is the banked validated checkpoint</dd>
         <dt>Now building</dt>
-        <dd>The browser version, started on Day 029 — a second place for the same engine to run rather than a rewrite of it. Reading raw bytes, refusing work before it allocates, and previewing the top line of a file are each written and tested, deliberately not yet joined to one another. The formal timing runs remain blocked until one piece of evidence about the source file is on the record</dd>
+        <dd>The browser version, started on Day 029 — a second place for the same engine to run rather than a rewrite of it. Live governed store-name validation now happens at the source-header byte frontier, and the selected source column can be resolved before final header commit without hidden allocation. Canonical analytical output remains deliberately unwired; the next step is to make its first header bytes participate in the same pre-commit resource transaction rather than adding an exception at the output boundary</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -379,6 +386,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
       <div class="dialect">
         <h3>DS-Pipe</h3>
         <p>For people who already think in pipelines, in the shell and dplyr tradition. The same destination again, reached the way that tradition reaches things.</p>
+      </div>
+    </div>
+
+    <div class="verify-surface">
+      <h3>DS-VERIFY</h3>
+      <div>
+        <p><strong>Verification, not transformation.</strong> DS-VERIFY is a first-class V1 language surface for stating propositions about data and evaluating them deterministically: uniqueness, required values, ranges and domains, set relationships, cardinality, implication, and structural invariants. It observes and reports; it does not filter, transform, repair, or mutate the source.</p>
+        <p class="verify-note">DS-Steps, DS-SQL and DS-Pipe produce datasets. DS-VERIFY produces truths and evidence — a human-readable table of evaluated propositions, with witnesses or counterexamples when a claim fails and provenance for the run. The semantic direction is decided; the exact grammar is still design work, not published syntax.</p>
       </div>
     </div>
 
@@ -790,6 +805,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>The Browser Learns the Same Names</h3>
           <p>The day opened at two hundred and thirty-seven tests and closed at two hundred and sixty-five, with the browser-target library still building under the pinned compiler. The first job was to finish the live source-byte boundary: look at the next byte without taking it, work out what it will cost, check the budget, reserve the memory, commit the change, and only then count that byte as consumed. Thirteen tests were added around that sequence before the checkpoint was boxed. From there the work moved toward output, but still stopped short of producing any. A small staging area was proved first, then a serializer that writes the canonical CSV fragments without creating a hidden temporary buffer. The next obstacle was only visible by reading the Unicode dependency itself. Its convenient normalisation iterator can quietly grow an internal vector on the heap, which would step outside the browser boundary's rule that capacity is accounted for before allocation. Rather than exempt it, a governed scratch workspace was built from the library's lower-level decomposition and composition primitives and tested against the ordinary implementation as an oracle. That made the next piece possible: the same store-name rules the command-line engine already uses — blanks, duplicates, suffixes, collisions and canonically equivalent Unicode names — reproduced without a second semantics path. The full regression stayed green. Output was deliberately left disconnected, because the selected store name still has to be validated on the live path before a header is allowed to exist. The day closed at that boundary, not past it.</p>
           <p class="log-after"><b>After hours</b>Six pieces in final form after closeout. Two sharpen the rule that interfaces should expose strong artifacts rather than hide them, including what an AI-assisted media workflow is allowed to do. One compares a new agent-context project with the Suitcase and records why an ordinary, portable project record remains the stronger continuity model. Another sets down the architecture of DS-VERIFY. The final two turn a recurring implementation instinct into an explicit resource-stewardship mandate: optimise the workflow, account for what the kernel uses, and avoid waste without making resource obsession the product. Research, method and future design evidence only — none of it changes the frozen browser contract.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 033<span class="log-date">Thu 10 Sep</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>Before the First Output Byte</h3>
+          <p>The day opened from D3B2A at two hundred and sixty-five passing native tests and closed at two hundred and seventy-eight, with the browser-target library still building under Rust 1.75.0. First, the governed store-name resolver was connected to the live input transaction so the requested Data Sculptor store name is validated at the exact byte where the source header becomes complete. Header growth and the two Unicode-normalisation workspaces are planned together, checked against the logical resource budget, physically reserved only after that check, and committed before the name is resolved. That brought the regression to two hundred and seventy-six. The tempting next move was to emit the first analytical header, but inspecting that boundary exposed a stricter requirement: the capacity for pending output is governed state too, so it has to participate in the same pre-commit budget decision before the header-completing byte is consumed. Rather than weaken the rule, the engine gained governed normalisation across two borrowed UTF-8 fragments and an allocation-free candidate-header resolver that can identify the selected source column before final header commit. Two red runs turned out to be test-fixture mistakes rather than production defects. The corrected suite closed green at two hundred and seventy-eight. D3B2C1 was boxed and independently verified. No analytical output was emitted; the day stopped at the clean seam immediately before it.</p>
+          <p class="log-after"><b>After hours</b>Seven final-form pieces broadened the record without changing the frozen browser contract: a comparison with current spec-driven development practice; a direct comparison of project-memory tooling with the Suitcase continuity model; a whitepaper on contemporaneous human-and-AI Council diaries; lessons from Anthropic's small-business AI research; a semantic-formatting note for PRETTY tables; and two papers developing the one-human-plus-AI-Council microbusiness model and the operating disciplines needed to make it credible. Research, method and future design evidence only — none of it silently amends Revision E.1.</p>
         </div>
       </li>
     </ol>
