@@ -285,7 +285,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 033</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 034</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -305,16 +305,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 033, Thursday 10 September 2026</div>
+      <div class="state-top">Project state — Day 034, Friday 11 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>The browser counterpart of Prototype 001 — the same engine, now being built against the specification</dd>
         <dt>Contract</dt>
         <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged. The document around it was finished on Day 028, cut back, reviewed against itself twice, and cleared to govern the build.</dd>
         <dt>Build state</dt>
-        <dd>278 native non-doctest tests passing, 0 failing; the wasm32-unknown-unknown library build also passes under Rust 1.75.0. D3B2C1 is the banked validated checkpoint</dd>
+        <dd>292 native non-doctest tests passing, 0 failing; the wasm32-unknown-unknown library build also passes under Rust 1.75.0. D3B2C2F3 is the banked validated checkpoint</dd>
         <dt>Now building</dt>
-        <dd>The browser version, started on Day 029 — a second place for the same engine to run rather than a rewrite of it. Live governed store-name validation now happens at the source-header byte frontier, and the selected source column can be resolved before final header commit without hidden allocation. Canonical analytical output remains deliberately unwired; the next step is to make its first header bytes participate in the same pre-commit resource transaction rather than adding an exception at the output boundary</dd>
+        <dd>The browser version, started on Day 029 — a second place for the same engine to run rather than a rewrite of it. The first live canonical analytical output header is now wired: UTF-8 BOM, the selected original source header, and LF. Output capacity is governed before allocation and immediate backpressure is active. Live selected-column data-record output remains unwired and is the next major implementation frontier</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -813,6 +813,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>Before the First Output Byte</h3>
           <p>The day opened from D3B2A at two hundred and sixty-five passing native tests and closed at two hundred and seventy-eight, with the browser-target library still building under Rust 1.75.0. First, the governed store-name resolver was connected to the live input transaction so the requested Data Sculptor store name is validated at the exact byte where the source header becomes complete. Header growth and the two Unicode-normalisation workspaces are planned together, checked against the logical resource budget, physically reserved only after that check, and committed before the name is resolved. That brought the regression to two hundred and seventy-six. The tempting next move was to emit the first analytical header, but inspecting that boundary exposed a stricter requirement: the capacity for pending output is governed state too, so it has to participate in the same pre-commit budget decision before the header-completing byte is consumed. Rather than weaken the rule, the engine gained governed normalisation across two borrowed UTF-8 fragments and an allocation-free candidate-header resolver that can identify the selected source column before final header commit. Two red runs turned out to be test-fixture mistakes rather than production defects. The corrected suite closed green at two hundred and seventy-eight. D3B2C1 was boxed and independently verified. No analytical output was emitted; the day stopped at the clean seam immediately before it.</p>
           <p class="log-after"><b>After hours</b>Seven final-form pieces broadened the record without changing the frozen browser contract: a comparison with current spec-driven development practice; a direct comparison of project-memory tooling with the Suitcase continuity model; a whitepaper on contemporaneous human-and-AI Council diaries; lessons from Anthropic's small-business AI research; a semantic-formatting note for PRETTY tables; and two papers developing the one-human-plus-AI-Council microbusiness model and the operating disciplines needed to make it credible. Research, method and future design evidence only — none of it silently amends Revision E.1.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 034<span class="log-date">Fri 11 Sep</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>The First Analytical Output Header</h3>
+          <p>The browser build crossed its first live output boundary. Starting from D3B2C1, output capacity was brought under the same governed resource discipline as input, immediate backpressure was proved, and the canonical analytical header was wired into <code>push_input</code>: UTF-8 BOM, the selected original source header, then LF. The day closed at D3B2C2F3 with two hundred and ninety-two native tests passing, none failing, and the wasm32-unknown-unknown library still building under Rust 1.75.0. Selected-column data-record output remains deliberately unwired; that is the next major frontier.</p>
+          <p class="log-after"><b>After hours</b>The Suitcase model was sharpened around portable project context, then the PowerShell-and-TXT evidence workflow was researched and written up as <em>Evidence-First Paired Long Division</em>. Claude's adversarial review narrowed the claims and caught several technical and citation defects before the final Revision E.2 was accepted. Method and continuity work only — the frozen browser contract was unchanged.</p>
         </div>
       </li>
     </ol>
