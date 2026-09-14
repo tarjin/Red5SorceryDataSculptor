@@ -285,7 +285,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 035</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 036</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -305,16 +305,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 035, Saturday 12 September 2026</div>
+      <div class="state-top">Project state — Day 036, Sunday 13 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>The browser counterpart of Prototype 001 — the same engine, now being built against the specification</dd>
         <dt>Contract</dt>
         <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged. The document around it was finished on Day 028, cut back, reviewed against itself twice, and cleared to govern the build.</dd>
         <dt>Build state</dt>
-        <dd>358 native non-doctest tests passing, 0 failing; canonical Microsoft Edge acceptance also passes. D3D2 is the banked validated checkpoint, with a zero-import WASM module and the first raw Annex A query surface exposed</dd>
+        <dd>359 native non-doctest tests passing, 0 failing; canonical Microsoft Edge characterization passes. D3D6 is the banked validated checkpoint, with zero imports, exactly twelve <code>ds_*</code> exports, and four operational raw Annex A calls proved through the browser</dd>
         <dt>Now building</dt>
-        <dd>The browser version, started on Day 029 — a second place for the same engine to run rather than a rewrite of it. The raw Annex A shell now has module-instance ownership and three non-mutating query exports for ABI version, state and status, all proved status-neutral in the browser. Operational raw ABI calls remain deliberately unwired; designing the first one is the next bounded frontier</dd>
+        <dd>The browser version, started on Day 029 — a second place for the same engine to run rather than a rewrite of it. The raw Annex A shell can now set its resource budget, reserve transfer memory, begin a governed session and push input through the shared engine. The frozen whole-input error frontier and pending-output backpressure behaviour are proved in Edge; the next raw ABI operation remains a bounded brick rather than a shortcut</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -829,6 +829,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>The Raw ABI Shell Gets a Pulse</h3>
           <p>The browser build moved from its internal engine path to the raw Annex A boundary a host will eventually call. The work began by proving the previous checkpoint still held, then added module-instance ownership and the smallest possible non-mutating surface before any operational call was allowed through. Three exports now answer only three questions — ABI version, current state and current status — with zero imports, one bounded exported memory and no change to status when they are queried. The canonical Edge run passed with initial values 1, 0 and 0, and the full native regression closed at three hundred and fifty-eight tests passing, none failing. D3D2 was boxed as the validated recovery checkpoint. No operational raw ABI call is wired yet; that is deliberately the next brick.</p>
           <p class="log-after"><b>After hours</b>One research note compared IBM's newly published account of “vibing fatigue” with the Paired Long-Division coding rhythm and the Suitcase continuity method. The useful result was external evidence for problems the workflow was already built to resist — output outrunning understanding, expensive verification, context switching and fragile continuity — without claiming IBM endorsement or changing the frozen browser contract.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 036<span class="log-date">Sun 13 Sep</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>Green Wasn't Enough</h3>
+          <p>The raw browser boundary went from three questions to four real operations, one bounded brick at a time. <code>ds_set_budget</code> came first, then transfer reservation and its status-neutral pointer and capacity queries, then <code>ds_begin</code>, each built under the pinned Rust toolchain and exercised against the real WebAssembly module in Edge. <code>ds_push_input</code> exposed the harder problem: the shared core stopped at generated output before the frozen whole-input fixture could reach its required invalid byte. The semantic rule was corrected in the core rather than patched in the wrapper. Then the full library suite reported 279 passing and zero failing — green, but two historical tests short of the population the evidence required. A read-only continuity audit found them, a hash-verified backup restored them by insertion only, and the authoritative regression closed at 281 library tests and 359 native non-doctest tests, none failing. Only then was <code>ds_push_input</code> wired. The module now exposes exactly twelve <code>ds_*</code> functions with zero imports, and Edge proved the frozen error frontier and pending-output idempotency. D3D6 is the validated checkpoint; the complete frozen candidate acceptance suite is still deliberately unclaimed.</p>
+          <p class="log-after"><b>After hours</b>Eight final-form pieces extended the method and engineering record: a reading of current spec-driven development through Paired Long-Division, two whitepapers separating specification, TDD, Suitcase continuity and independent adversarial QA, several notes on serious engineering and disciplined memory use on a modest machine, and a canonical colour note for the product's visual direction. Research, method and design evidence only — none of it changes frozen Revision E.1.</p>
         </div>
       </li>
     </ol>
