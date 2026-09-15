@@ -285,7 +285,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 036</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 038</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -305,16 +305,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 036, Sunday 13 September 2026</div>
+      <div class="state-top">Project state — Day 038, Tuesday 15 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>The browser counterpart of Prototype 001 — the same engine, now being built against the specification</dd>
         <dt>Contract</dt>
         <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged. The document around it was finished on Day 028, cut back, reviewed against itself twice, and cleared to govern the build.</dd>
         <dt>Build state</dt>
-        <dd>359 native non-doctest tests passing, 0 failing; canonical Microsoft Edge characterization passes. D3D6 is the banked validated checkpoint, with zero imports, exactly twelve <code>ds_*</code> exports, and four operational raw Annex A calls proved through the browser</dd>
+        <dd>304 library tests passing, 0 failing. The canonical WebAssembly module has zero imports, twenty-five total exports and exactly twenty-two <code>ds_*</code> exports. D3D10K23 is the banked validated stop line: the raw Annex A surface is complete, the acceptance-runner map reconciles the frozen oracle to 718 future execution events plus four record-only obligations, and the complete frozen candidate acceptance suite has still not been run</dd>
         <dt>Now building</dt>
-        <dd>The browser version, started on Day 029 — a second place for the same engine to run rather than a rewrite of it. The raw Annex A shell can now set its resource budget, reserve transfer memory, begin a governed session and push input through the shared engine. The frozen whole-input error frontier and pending-output backpressure behaviour are proved in Edge; the next raw ABI operation remains a bounded brick rather than a shortcut</dd>
+        <dd>The browser version, started on Day 029 — a second place for the same engine to run rather than a rewrite of it. The raw Annex A boundary can now take input through EOF, expose bounded analytical output, drain it through continuation windows, report diagnostics, and reset. Day 038 begins one layer above that finished surface: inspect the frozen fixtures and chunk sequences before assigning operational meaning to the preserved split arrays or executing the full acceptance suite</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -837,6 +837,22 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>Green Wasn't Enough</h3>
           <p>The raw browser boundary went from three questions to four real operations, one bounded brick at a time. <code>ds_set_budget</code> came first, then transfer reservation and its status-neutral pointer and capacity queries, then <code>ds_begin</code>, each built under the pinned Rust toolchain and exercised against the real WebAssembly module in Edge. <code>ds_push_input</code> exposed the harder problem: the shared core stopped at generated output before the frozen whole-input fixture could reach its required invalid byte. The semantic rule was corrected in the core rather than patched in the wrapper. Then the full library suite reported 279 passing and zero failing — green, but two historical tests short of the population the evidence required. A read-only continuity audit found them, a hash-verified backup restored them by insertion only, and the authoritative regression closed at 281 library tests and 359 native non-doctest tests, none failing. Only then was <code>ds_push_input</code> wired. The module now exposes exactly twelve <code>ds_*</code> functions with zero imports, and Edge proved the frozen error frontier and pending-output idempotency. D3D6 is the validated checkpoint; the complete frozen candidate acceptance suite is still deliberately unclaimed.</p>
           <p class="log-after"><b>After hours</b>Eight final-form pieces extended the method and engineering record: a reading of current spec-driven development through Paired Long-Division, two whitepapers separating specification, TDD, Suitcase continuity and independent adversarial QA, several notes on serious engineering and disciplined memory use on a modest machine, and a canonical colour note for the product's visual direction. Research, method and design evidence only — none of it changes frozen Revision E.1.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 037<span class="log-date">Mon 14 Sep</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>Four Megabytes at a Time</h3>
+          <p>The browser boundary learned how to finish input and return analytical bytes without abandoning the bounded-memory rule. EOF handling was corrected first on the data side and then on the header side so conclusive errors win at the moment they become knowable while valid final output can wait behind backpressure. A continuation path now stages no more than the frozen four-megabyte output window at once. Only after those shared semantics were stable were <code>ds_finish_input</code>, the output queries and <code>ds_pull_output</code> wired into the raw ABI. Edge drained the canonical nine-byte result as four bytes and then five, reaching COMPLETE only on the final pull; it then drained a 4,194,316-byte result as exactly four MiB followed by twelve bytes, with no false zero-pending gap between windows. The library regression closed at 304 passing, none failing; the compiled module had zero imports and exactly eighteen <code>ds_*</code> exports. D3D9I was banked as the validated output-drain checkpoint. The frozen candidate acceptance suite remained deliberately unrun.</p>
+          <p class="log-after"><b>After hours</b>Two comparative notes looked at other attempts to preserve continuity around AI work. One compared the Suitcase with Claudexor, a local-first coding-agent control plane; the other compared it with LLM Wiki Newsroom, a governed living-knowledge system. Both reinforced the same boundary: orchestration and current synthesis are useful, but the Suitcase exists to preserve durable project history, evidence and human accountability across changing models and tools.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 037b<span class="log-date">Mon 14 Sep</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>The Test Runner Had to Learn What Not to Run</h3>
+          <p>The second coding session finished the raw Annex A WebAssembly surface at exactly twenty-two <code>ds_*</code> exports, twenty-five total exports and zero imports, with the Rust 1.75 library regression still at 304 passing and none failing. The next job looked like running the frozen acceptance suite, but a read-only inventory caught a bad summary claim first: the 190 frozen execution units do not mean 760 identical runtime executions. Independent QA traced every exceptional case back to the frozen oracle and corrected the accounting without altering the frozen package: 175 executions on each native leg, 182 on Node, 182 on Wasmtime, plus two cross-leg comparisons and two gates — 718 execution events — with four additional record-only obligations. The runner architecture was then built around that evidence: 114 frozen cases, all 190 execution units, an exact 718-event plan, and eighty-one ordered strategy identities were mechanically reconciled. D3D10K23 was banked as the validated stop line before any split arrays were given operational chunking semantics. No complete frozen candidate acceptance run was claimed.</p>
+          <p class="log-after"><b>After hours</b>This is the second entry for the same working day. The two late comparative notes are recorded with Day 037 above rather than duplicated here.</p>
         </div>
       </li>
     </ol>
