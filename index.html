@@ -285,7 +285,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 038</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 039</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -305,16 +305,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 038, Tuesday 15 September 2026</div>
+      <div class="state-top">Project state — Day 039, Wednesday 16 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>The browser counterpart of Prototype 001 — the same engine, now being built against the specification</dd>
         <dt>Contract</dt>
-        <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged. The document around it was finished on Day 028, cut back, reviewed against itself twice, and cleared to govern the build.</dd>
+        <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged. The document around it was finished on Day 028, cut back, reviewed against itself twice, and cleared to govern the build. Day 038 changed no PRD requirement.</dd>
         <dt>Build state</dt>
-        <dd>304 library tests passing, 0 failing. The canonical WebAssembly module has zero imports, twenty-five total exports and exactly twenty-two <code>ds_*</code> exports. D3D10K23 is the banked validated stop line: the raw Annex A surface is complete, the acceptance-runner map reconciles the frozen oracle to 718 future execution events plus four record-only obligations, and the complete frozen candidate acceptance suite has still not been run</dd>
+        <dd>D3D10K147A is the Day 038 landing checkpoint. The Rust 1.75 library regression is at 313 passing, 0 failing. In real Microsoft Edge, an experimental bounded path streamed and certified the complete 7,250,808,204-byte source in 13.2479 seconds — 521.963 MiB/s — with exact Rust-reported byte accounting, EOF observed and no staging bytes left. Real 64 MiB and 1 GiB seam runs also passed at 564.872 and 562.483 MiB/s. This is encoding-certification evidence only: analytical CSV parsing, value extraction and output generation were not measured, the full &gt;4 GiB candidate execution was not run, and the temporary benchmark WASM is not the accepted production module.</dd>
         <dt>Now building</dt>
-        <dd>The browser version, started on Day 029 — a second place for the same engine to run rather than a rewrite of it. The raw Annex A boundary can now take input through EOF, expose bounded analytical output, drain it through continuation windows, report diagnostics, and reset. Day 038 begins one layer above that finished surface: inspect the frozen fixtures and chunk sequences before assigning operational meaning to the preserved split arrays or executing the full acceptance suite</dd>
+        <dd>WASM-001b continues from D3D10K147A. The first Day 039 brick is read-only: inspect <code>StreamingDataParser::preview_decoded(&amp;[u8])</code> and the live <code>BoundaryKernel</code> commit path to establish exactly where previewed decoded bytes become committed analytical parsing state before any source edit. Then continue by Paired Long-Division — one bounded change, captured evidence, inspection and validation at a time.</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -530,7 +530,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
       </li>
       <li>
         <span class="k">WebAssembly</span>
-        <span class="v">The same Rust source compiles to WebAssembly, so the browser version is <strong>the same engine rather than a second implementation</strong> that can drift away from the first. The practical reason matters more than the technical one: a great many analysts simply cannot install software on the machine they work on. A page that runs the real engine locally, with the file never leaving the laptop and no account to create, reaches people an installer never will. Speed inside the browser is so far unproven, and is being deferred rather than assumed.</span>
+        <span class="v">The same Rust source compiles to WebAssembly, so the browser version is <strong>the same engine rather than a second implementation</strong> that can drift away from the first. The practical reason matters more than the technical one: a great many analysts simply cannot install software on the machine they work on. A page that runs the real engine locally, with the file never leaving the laptop and no account to create, reaches people an installer never will. Day 038 proved that the bounded browser-to-WASM path can stream and certify the complete 7.25 GB source at hundreds of MiB/s on the baseline laptop. Analytical CSV parsing, value extraction and output generation remain unmeasured, so end-to-end browser performance is still an open question rather than an assumption.</span>
       </li>
     </ul>
   </div>
@@ -853,6 +853,22 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>The Test Runner Had to Learn What Not to Run</h3>
           <p>The second coding session finished the raw Annex A WebAssembly surface at exactly twenty-two <code>ds_*</code> exports, twenty-five total exports and zero imports, with the Rust 1.75 library regression still at 304 passing and none failing. The next job looked like running the frozen acceptance suite, but a read-only inventory caught a bad summary claim first: the 190 frozen execution units do not mean 760 identical runtime executions. Independent QA traced every exceptional case back to the frozen oracle and corrected the accounting without altering the frozen package: 175 executions on each native leg, 182 on Node, 182 on Wasmtime, plus two cross-leg comparisons and two gates — 718 execution events — with four additional record-only obligations. The runner architecture was then built around that evidence: 114 frozen cases, all 190 execution units, an exact 718-event plan, and eighty-one ordered strategy identities were mechanically reconciled. D3D10K23 was banked as the validated stop line before any split arrays were given operational chunking semantics. No complete frozen candidate acceptance run was claimed.</p>
           <p class="log-after"><b>After hours</b>This is the second entry for the same working day. The two late comparative notes are recorded with Day 037 above rather than duplicated here.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 038<span class="log-date">Tue 15 Sep</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>The Whole File Crossed the Browser Boundary</h3>
+          <p>The day ended by answering one deliberately narrow performance question with the real large source. An experimental bounded path streamed all 7,250,808,204 bytes through Microsoft Edge and the four-megabyte browser-to-WASM transfer boundary while Rust performed whole-file encoding certification. The run finished in 13.2479 seconds at 521.963 MiB/s, with the Rust byte count exactly matching the source, EOF observed and zero staging bytes left. Real seam runs at 64 MiB and 1 GiB also passed at 564.872 and 562.483 MiB/s. The full Rust 1.75 library regression closed at 313 passing and none failing. The result is intentionally smaller than an end-to-end benchmark: CSV parsing, selected-value extraction and output generation were not part of the measurement, the full &gt;4 GiB frozen candidate execution was not run, and the temporary benchmark module remains evidence rather than accepted production WASM. D3D10K147A was landed with the PRD unchanged.</p>
+          <p class="log-after"><b>After hours</b>Architecture notes explored two-pass ingest, binary staging and a compact structural sidecar. The durable scope decision was to leave WASM-001b unchanged and treat the structural-sidecar comparison as a later CLI-001c / WASM-001c experiment, with measurement deciding whether it earns a place in the architecture.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 039<span class="log-date">Wed 16 Sep</span><span class="log-tag is-build">Flight plan</span></div>
+        <div class="log-entry">
+          <h3>Continue WASM-001b From the Proven Stream</h3>
+          <p>Today resumes from D3D10K147A and stays inside the existing WASM-001b contract. The first bounded brick is a read-only design gate around <code>StreamingDataParser::preview_decoded(&amp;[u8])</code> and the live <code>BoundaryKernel</code> commit path: establish exactly where decoded bytes stop being preview and become committed analytical parser state before changing source. From there, continue coding one Paired Long-Division step at a time — run it locally, capture durable PowerShell TXT evidence, inspect what happened, explain it, then advance. The thirteen-second whole-file certification is a performance ceiling to learn from, not a substitute for proving the analytical path or running the frozen candidate acceptance suite.</p>
+          <p class="log-after"><b>Planned flight</b>Continue coding the WASM-001b prototype. No PRD expansion; no structural-sidecar implementation in this prototype.</p>
         </div>
       </li>
     </ol>
