@@ -285,7 +285,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 039</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 040</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -305,16 +305,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 039, Wednesday 16 September 2026</div>
+      <div class="state-top">Project state — Day 040, Thursday 17 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>The browser counterpart of Prototype 001 — the same engine, now being built against the specification</dd>
         <dt>Contract</dt>
-        <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged. The document around it was finished on Day 028, cut back, reviewed against itself twice, and cleared to govern the build. Day 038 changed no PRD requirement.</dd>
+        <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged. The document around it was finished on Day 028, cut back, reviewed against itself twice, and cleared to govern the build. Days 038 and 039 changed no PRD requirement, and the Day 040 experiment is being run beside the frozen contract rather than silently amending it.</dd>
         <dt>Build state</dt>
-        <dd>D3D10K147A is the Day 038 landing checkpoint. The Rust 1.75 library regression is at 313 passing, 0 failing. In real Microsoft Edge, an experimental bounded path streamed and certified the complete 7,250,808,204-byte source in 13.2479 seconds — 521.963 MiB/s — with exact Rust-reported byte accounting, EOF observed and no staging bytes left. Real 64 MiB and 1 GiB seam runs also passed at 564.872 and 562.483 MiB/s. This is encoding-certification evidence only: analytical CSV parsing, value extraction and output generation were not measured, the full &gt;4 GiB candidate execution was not run, and the temporary benchmark WASM is not the accepted production module.</dd>
+        <dd>D3D10K151F is the official Day 039 landing checkpoint. In real Microsoft Edge, the experimental Rust/WASM materializer streamed the full 7,250,808,204-byte StatsCan source in 1,729 bounded pushes and produced 29,014,718 data rows and 62,266,366 output bytes in 45.9486 seconds — 150.492 MiB/s. The source had already been certified as UTF-8, so that experimental materializer made zero UTF-8 validation calls. Crucially, this was a standalone experimental VALUE extractor written in Rust and compiled to WebAssembly; it was not the shared CLI engine. Its output SHA-256 comparison against the canonical oracle was still unrun at landing, so byte-identical output remained deliberately unclaimed.</dd>
         <dt>Now building</dt>
-        <dd>WASM-001b continues from D3D10K147A. The first Day 039 brick is read-only: inspect <code>StreamingDataParser::preview_decoded(&amp;[u8])</code> and the live <code>BoundaryKernel</code> commit path to establish exactly where previewed decoded bytes become committed analytical parsing state before any source edit. Then continue by Paired Long-Division — one bounded change, captured evidence, inspection and validation at a time.</dd>
+        <dd>Day 040 is a bounded performance experiment before returning to the frozen WASM-001b work. Step 1 keeps yesterday's whole-file UTF-8 certification pass. Step 2 then feeds the same source through the actual shared Rust engine used by the CLI, through the browser/WASM boundary, unchanged — including its existing UTF-8 validation even though that makes the second validation redundant. Timings stay separate. We will compare elapsed time, bounded memory, row count, byte count and output SHA-256 against the native CLI oracle. The experiment changes no PRD requirement and does not authorise a validation bypass.</dd>
         <dt>Unsettled</dt>
         <dd class="open">How a sequence of decisions gets stored and replayed</dd>
         <dt>Released</dt>
@@ -530,7 +530,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
       </li>
       <li>
         <span class="k">WebAssembly</span>
-        <span class="v">The same Rust source compiles to WebAssembly, so the browser version is <strong>the same engine rather than a second implementation</strong> that can drift away from the first. The practical reason matters more than the technical one: a great many analysts simply cannot install software on the machine they work on. A page that runs the real engine locally, with the file never leaving the laptop and no account to create, reaches people an installer never will. Day 038 proved that the bounded browser-to-WASM path can stream and certify the complete 7.25 GB source at hundreds of MiB/s on the baseline laptop. Analytical CSV parsing, value extraction and output generation remain unmeasured, so end-to-end browser performance is still an open question rather than an assumption.</span>
+        <span class="v">The browser counterpart is being built to run <strong>the same shared Rust engine rather than a second implementation</strong> that can drift away from the first. The practical reason matters more than the technical one: a great many analysts simply cannot install software on the machine they work on. A page that runs the real engine locally, with the file never leaving the laptop and no account to create, reaches people an installer never will. Day 038 proved that the bounded browser-to-WASM path can stream and certify the complete 7.25 GB source at hundreds of MiB/s on the baseline laptop. Day 039 then proved that a small standalone Rust/WASM extractor can materialize all 29,014,718 rows in under a minute — but that extractor was deliberately experimental and was not the shared CLI engine. Day 040 is measuring the real shared engine through the proven browser shell, unchanged.</span>
       </li>
     </ul>
   </div>
@@ -864,11 +864,19 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         </div>
       </li>
       <li>
-        <div class="log-day">Day 039<span class="log-date">Wed 16 Sep</span><span class="log-tag is-build">Flight plan</span></div>
+        <div class="log-day">Day 039<span class="log-date">Wed 16 Sep</span><span class="log-tag is-build">Build</span></div>
         <div class="log-entry">
-          <h3>Continue WASM-001b From the Proven Stream</h3>
-          <p>Today resumes from D3D10K147A and stays inside the existing WASM-001b contract. The first bounded brick is a read-only design gate around <code>StreamingDataParser::preview_decoded(&amp;[u8])</code> and the live <code>BoundaryKernel</code> commit path: establish exactly where decoded bytes stop being preview and become committed analytical parser state before changing source. From there, continue coding one Paired Long-Division step at a time — run it locally, capture durable PowerShell TXT evidence, inspect what happened, explain it, then advance. The thirteen-second whole-file certification is a performance ceiling to learn from, not a substitute for proving the analytical path or running the frozen candidate acceptance suite.</p>
-          <p class="log-after"><b>Planned flight</b>Continue coding the WASM-001b prototype. No PRD expansion; no structural-sidecar implementation in this prototype.</p>
+          <h3>Twenty-Nine Million Rows Through a Browser</h3>
+          <p>The day moved from whole-file encoding certification to a deliberately narrow materialization experiment. Microsoft Edge streamed the full 7,250,808,204-byte StatsCan source through 1,729 bounded pushes into a small Rust program compiled to WebAssembly. It materialized the VALUE column as 29,014,718 data rows and 62,266,366 output bytes in 45.9486 seconds, or 150.492 MiB/s. Two correctness defects appeared on the way: the experimental parser initially let the UTF-8 BOM reach the first header field, and it initially emitted structural CSV quotes around every selected value. Both were corrected in the experiment before the full-file run. The important architectural correction came later: this fast materializer was not the shared CLI engine. It was a standalone experimental Rust/WASM extractor built to test the browser path. The production source and frozen PRD were unchanged, and the landing record deliberately withheld any byte-identical output claim because the final SHA-256 comparison had not yet been run.</p>
+          <p class="log-after"><b>After hours</b>Encoding notes separated BOM handling from whole-file UTF-8 certification, set out a Windows-1252-to-UTF-8 materialization model and a future synthetic financial fixture, and defined a receipt as PRETTY for a person while remaining structurally obvious to a language model. These are design and research records; they do not silently amend WASM-001b.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 040<span class="log-date">Thu 17 Sep</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-entry">
+          <h3>Put the Real Engine Behind the Browser Shell</h3>
+          <p>Today's experiment keeps the whole-file UTF-8 certification pass from yesterday, then deliberately does the redundant thing: the same source goes through the actual shared Rust engine used by the CLI, through the browser/WASM boundary, with that engine's existing streaming UTF-8 validation left intact. Nothing is being optimised away and no contract is being rewritten. The measurements stay separate — pre-validation time, shared-engine time, total time, bounded memory, rows, bytes and output SHA-256 — so the result can answer two different questions: how the real PRD-compliant engine behaves in the browser, and how much future optimisation opportunity may exist in validation that has already been established once.</p>
+          <p class="log-after"><b>Planned flight</b>Run the experiment beside WASM-001b, preserve the frozen PRD, compare the browser shared-engine output against the native CLI oracle, bank the evidence, then return to the contracted build.</p>
         </div>
       </li>
     </ol>
