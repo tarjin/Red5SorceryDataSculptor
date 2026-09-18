@@ -285,7 +285,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 040</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 041</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -305,18 +305,18 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 040, Thursday 17 September 2026</div>
+      <div class="state-top">Project state — Day 041, Friday 18 September 2026</div>
       <dl>
         <dt>Phase</dt>
-        <dd>The browser counterpart of Prototype 001 — the same engine, now being built against the specification</dd>
+        <dd>WASM-002 specification — a browser-first successor being defined from what WASM-001b actually taught us</dd>
         <dt>Contract</dt>
-        <dd>Frozen since Day 007. Twenty-seven drafts to get there. Two corrective contracts frozen beside it on Day 024, covering what the review found. Both are now implemented. A third was frozen on Day 026: the boundary the browser version has to hold to. That boundary is unchanged. The document around it was finished on Day 028, cut back, reviewed against itself twice, and cleared to govern the build. Days 038 and 039 changed no PRD requirement, and the Day 040 experiment is being run beside the frozen contract rather than silently amending it.</dd>
+        <dd>WASM-001b remains frozen and preserved as the experimental lineage that established the browser boundary, bounded transfer, lifecycle discipline and the large-file evidence gathered through Day 039. On Day 040 we chose to stop implementation without running the complete final acceptance suite and without running the planned shared-engine performance experiment. That is a closeout decision, not a failed acceptance result. WASM-002 now has its own PRD; Revision Q is a working draft and is explicitly not frozen.</dd>
         <dt>Build state</dt>
-        <dd>D3D10K151F is the official Day 039 landing checkpoint. In real Microsoft Edge, the experimental Rust/WASM materializer streamed the full 7,250,808,204-byte StatsCan source in 1,729 bounded pushes and produced 29,014,718 data rows and 62,266,366 output bytes in 45.9486 seconds — 150.492 MiB/s. The source had already been certified as UTF-8, so that experimental materializer made zero UTF-8 validation calls. Crucially, this was a standalone experimental VALUE extractor written in Rust and compiled to WebAssembly; it was not the shared CLI engine. Its output SHA-256 comparison against the canonical oracle was still unrun at landing, so byte-identical output remained deliberately unclaimed.</dd>
+        <dd>No production source changed on Day 040. The fast Day 039 materializer remains what the record says it was: a standalone experimental Rust/WASM extractor, not the shared CLI engine, and its unrun byte-for-byte oracle comparison remains unclaimed. The narrower question of how the unchanged shared CLI engine performs in WebAssembly was deliberately left unanswered because that measurement would no longer change the product direction.</dd>
         <dt>Now building</dt>
-        <dd>Day 040 is a bounded performance experiment before returning to the frozen WASM-001b work. Step 1 keeps yesterday's whole-file UTF-8 certification pass. Step 2 then feeds the same source through the actual shared Rust engine used by the CLI, through the browser/WASM boundary, unchanged — including its existing UTF-8 validation even though that makes the second validation redundant. Timings stay separate. We will compare elapsed time, bounded memory, row count, byte count and output SHA-256 against the native CLI oracle. The experiment changes no PRD requirement and does not authorise a validation bypass.</dd>
+        <dd>Day 041 is specification work on the WASM-002 PRD. The draft is turning the new direction into explicit requirements before new implementation begins: prove the shared Rust core under browser constraints first; separate source certification from structural CSV materialization; keep memory bounded with reusable buffers and minimal copying; preserve deterministic evidence and the current storage model; then let a later native CLI host reuse the same proven core.</dd>
         <dt>Unsettled</dt>
-        <dd class="open">How a sequence of decisions gets stored and replayed</dd>
+        <dd class="open">Which WASM-002 design directions become frozen requirements, and exactly what evidence will be required to accept each one</dd>
         <dt>Released</dt>
         <dd>Nothing. There is no build to download.</dd>
       </dl>
@@ -526,11 +526,11 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
       </li>
       <li>
         <span class="k">A command line</span>
-        <span class="v"><strong>It exists first because a command line cannot hide an unfinished idea.</strong> Every operation has to be named, every argument has to mean something, and there is no interface to paper over a vocabulary that has not been thought through. Most of the people this is being built for will never open one, and that is fine — it is the instrument for getting the language right before anyone has to live with it, not the way the work is meant to be done.</span>
+        <span class="v"><strong>It came first because a command line cannot hide an unfinished idea.</strong> Every operation had to be named, every argument had to mean something, and there was no interface to paper over vocabulary that had not been thought through. That made the CLI an effective laboratory for getting the first semantics right. Day 040 changed the implementation order for the next architecture: WASM-002 will prove the new shared core under browser constraints first, and a standalone native CLI host can then reuse those same frozen semantics.</span>
       </li>
       <li>
         <span class="k">WebAssembly</span>
-        <span class="v">The browser counterpart is being built to run <strong>the same shared Rust engine rather than a second implementation</strong> that can drift away from the first. The practical reason matters more than the technical one: a great many analysts simply cannot install software on the machine they work on. A page that runs the real engine locally, with the file never leaving the laptop and no account to create, reaches people an installer never will. Day 038 proved that the bounded browser-to-WASM path can stream and certify the complete 7.25 GB source at hundreds of MiB/s on the baseline laptop. Day 039 then proved that a small standalone Rust/WASM extractor can materialize all 29,014,718 rows in under a minute — but that extractor was deliberately experimental and was not the shared CLI engine. Day 040 is measuring the real shared engine through the proven browser shell, unchanged.</span>
+        <span class="v">WebAssembly is now the first proof environment for the next shared Rust core. The practical reason matters more than the technical one: a great many analysts simply cannot install software on the machine they work on. A page that runs locally, with the file never leaving the laptop and no account to create, reaches people an installer never will. Day 038 proved that a bounded browser-to-WASM path can stream and certify the complete 7.25 GB source at hundreds of MiB/s on the baseline laptop. Day 039 then proved that a small standalone Rust/WASM extractor can materialize all 29,014,718 rows in under a minute. On Day 040 we stopped WASM-001b before the planned shared-engine timing experiment because the evidence had already changed the product decision: WASM-002 starts browser-first rather than forcing the old native-first architecture to remain the design centre.</span>
       </li>
     </ul>
   </div>
@@ -872,11 +872,19 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         </div>
       </li>
       <li>
-        <div class="log-day">Day 040<span class="log-date">Thu 17 Sep</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-day">Day 040<span class="log-date">Thu 17 Sep</span><span class="log-tag">Decision</span></div>
         <div class="log-entry">
-          <h3>Put the Real Engine Behind the Browser Shell</h3>
-          <p>Today's experiment keeps the whole-file UTF-8 certification pass from yesterday, then deliberately does the redundant thing: the same source goes through the actual shared Rust engine used by the CLI, through the browser/WASM boundary, with that engine's existing streaming UTF-8 validation left intact. Nothing is being optimised away and no contract is being rewritten. The measurements stay separate — pre-validation time, shared-engine time, total time, bounded memory, rows, bytes and output SHA-256 — so the result can answer two different questions: how the real PRD-compliant engine behaves in the browser, and how much future optimisation opportunity may exist in validation that has already been established once.</p>
-          <p class="log-after"><b>Planned flight</b>Run the experiment beside WASM-001b, preserve the frozen PRD, compare the browser shared-engine output against the native CLI oracle, bank the evidence, then return to the contracted build.</p>
+          <h3>The Prototype Did Its Job</h3>
+          <p>The day began with a plan to measure the real shared CLI engine through the browser shell and ended with a decision not to run that experiment. The isolation work from Days 038 and 039 had already answered the strategically important question: Microsoft Edge could move the complete 7.25 GB source through a bounded browser-to-WASM path, and a small Rust/WASM materializer could parse and materialize all 29,014,718 rows in practical time. What those experiments did not prove was equally important: the fast materializer was not the shared CLI engine, the complete WASM-001b acceptance suite was never run, and the existing shared engine was never proved too slow for WebAssembly. Rather than spend another day diagnosing an architecture we no longer intended to carry forward, WASM-001b was closed as an experimental lineage and preserved without rewriting its frozen contract or its history.</p>
+          <p class="log-after"><b>After hours</b>Work moved into the new WASM-002 PRD. The direction is browser-first: whole-source certification before structural materialization, multiple requested columns in one structural pass, bounded memory, reusable buffers, minimal copying, deterministic evidence, the current storage model, simple TXT Work Orders, and a new shared Rust core proved in the browser before a native CLI host is built around it. Revision Q is still a draft, not a frozen contract.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 041<span class="log-date">Fri 18 Sep</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-entry">
+          <h3>Write the WASM-002 Contract Before More Code</h3>
+          <p>Today is PRD work. Revision Q already records the product direction and the vocabulary around it; the job now is to keep turning that direction into explicit, testable WASM-002 requirements without pretending the draft is frozen. The focus is the browser-first shared core and the contracts around source certification, structural CSV materialization, storage, Work Orders, receipts, evidence, memory discipline and deterministic behaviour.</p>
+          <p class="log-after"><b>Planned flight</b>Work through the WASM-002 PRD deliberately, one bounded decision at a time, preserve open questions instead of guessing them closed, and bank the revised draft before implementation resumes.</p>
         </div>
       </li>
     </ol>
