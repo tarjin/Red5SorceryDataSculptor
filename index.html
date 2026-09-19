@@ -285,7 +285,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 041</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 042</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -305,23 +305,23 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="hero-cta">
-      <span class="cta-label">Product development — live</span>
-      <a class="watch" href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD_RevU_2026-09-18.html">View Current Product Backlog<span>&#8594;</span></a>
+      <span class="cta-label">Official working master — HTML</span>
+      <a class="watch" href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD_RevU_2026-09-18.html">Open Official Product Backlog PRD<span>&#8594;</span></a>
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 041, Friday 18 September 2026</div>
+      <div class="state-top">Project state — Day 042, Saturday 19 September 2026</div>
       <dl>
         <dt>Phase</dt>
-        <dd>WASM-002 specification — a browser-first successor being defined from what WASM-001b actually taught us</dd>
+        <dd>WASM-002 specification — the browser-first shared-core direction is being turned into an explicit, governed development contract before new product code begins.</dd>
         <dt>Contract</dt>
-        <dd>WASM-001b remains frozen and preserved as the experimental lineage that established the browser boundary, bounded transfer, lifecycle discipline and the large-file evidence gathered through Day 039. On Day 040 we chose to stop implementation without running the complete final acceptance suite and without running the planned shared-engine performance experiment. That is a closeout decision, not a failed acceptance result. The Product Backlog PRD is now maintained as a living HTML master; Revision U is the current working edition, and the WASM-002 slice remains draft / not frozen.</dd>
+        <dd>WASM-001b is preserved as an experimental lineage rather than retroactively treated as a completed acceptance. The official Product Backlog PRD is now the standalone HTML working master: <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD_RevU_2026-09-18.html">Revision U</a>. Its per-requirement SCOPE field is the allocation authority, STATUS records the independent lifecycle, and PDF renderings are snapshots rather than the live backlog. The WASM-002 slice remains draft / not frozen.</dd>
         <dt>Build state</dt>
-        <dd>No production source changed on Day 040. The fast Day 039 materializer remains what the record says it was: a standalone experimental Rust/WASM extractor, not the shared CLI engine, and its unrun byte-for-byte oracle comparison remains unclaimed. The narrower question of how the unchanged shared CLI engine performs in WebAssembly was deliberately left unanswered because that measurement would no longer change the product direction.</dd>
+        <dd>No WASM-002 production implementation has started. Day 041 remained specification, architecture and method work: the backlog governance was consolidated into the HTML master, visible Suitcase persistence and disk-first long-division operations were developed further, and related-work, PLDD retrospective and book-concept notes were added to the project record.</dd>
         <dt>Now building</dt>
-        <dd>Day 041 is specification work on the WASM-002 PRD. The draft is turning the new direction into explicit requirements before new implementation begins: prove the shared Rust core under browser constraints first; separate source certification from structural CSV materialization; keep memory bounded with reusable buffers and minimal copying; preserve deterministic evidence and the current storage model; then let a later native CLI host reuse the same proven core.</dd>
+        <dd>Day 042 continues the WASM-002 PRD. The job is to keep converting design direction into explicit, testable requirements, keep unresolved decisions visible, and move requirements through review deliberately before anything is frozen for build.</dd>
         <dt>Unsettled</dt>
-        <dd class="open">Which WASM-002 design directions become frozen requirements, and exactly what evidence will be required to accept each one</dd>
+        <dd class="open">Which current WASM-002 candidates are ready for adversarial review, which remain under specification, and what evidence each frozen requirement will require for acceptance</dd>
         <dt>Released</dt>
         <dd>Nothing. There is no build to download.</dd>
       </dl>
@@ -885,11 +885,19 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         </div>
       </li>
       <li>
-        <div class="log-day">Day 041<span class="log-date">Fri 18 Sep</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-day">Day 041<span class="log-date">Fri 18 Sep</span><span class="log-tag">Specification</span></div>
         <div class="log-entry">
-          <h3>Write the WASM-002 Contract Before More Code</h3>
-          <p>Today is PRD work. Revision Q already records the product direction and the vocabulary around it; the job now is to keep turning that direction into explicit, testable WASM-002 requirements without pretending the draft is frozen. The focus is the browser-first shared core and the contracts around source certification, structural CSV materialization, storage, Work Orders, receipts, evidence, memory discipline and deterministic behaviour.</p>
-          <p class="log-after"><b>Planned flight</b>Work through the WASM-002 PRD deliberately, one bounded decision at a time, preserve open questions instead of guessing them closed, and bank the revised draft before implementation resumes.</p>
+          <h3>The Backlog Became the Working Master</h3>
+          <p>The day stayed where it was supposed to stay: in the contract, not the code. The Product Backlog PRD was reorganised into a governed standalone HTML working master, ending the ambiguity between a live backlog and PDF snapshots. In <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD_RevU_2026-09-18.html">Revision U</a>, every normative requirement carries its own SCOPE, STATUS and BUILD metadata; SCOPE is the sole authority for build allocation, lifecycle status is tracked independently, and dashboards are explicitly derived views. The current WASM-002 candidates remain under review rather than being treated as frozen merely because they have been written down.</p>
+          <p class="log-after"><b>After hours</b>The work widened without starting implementation. Final-form notes examined related work around AI-agent continuity, tested the attraction of browser-private OPFS against the project's visible-persistence principles, consolidated the flat Suitcase storage architecture, reviewed the Rust/PLDD development record retrospectively, captured the book concept for <em>The Decision to Build</em>, and formalised disk-first long-division operations: durable aligned intermediate artifacts, explicit selection masks later in the backlog, bounded-memory processing, and visible analytical working rather than hidden state.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 042<span class="log-date">Sat 19 Sep</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-entry">
+          <h3>Continue the WASM-002 PRD</h3>
+          <p>Today continues from the <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD_RevU_2026-09-18.html">official Revision U HTML Product Backlog PRD</a>. The task is still specification: sharpen the current WASM-002 requirements, keep SCOPE and lifecycle state explicit, preserve unresolved decisions instead of guessing them closed, and make the eventual implementation contract testable before new product code begins.</p>
+          <p class="log-after"><b>Planned flight</b>Work through the PRD one bounded decision at a time, keep the HTML backlog as the working master, and bank the next coherent revision before implementation resumes.</p>
         </div>
       </li>
     </ol>
