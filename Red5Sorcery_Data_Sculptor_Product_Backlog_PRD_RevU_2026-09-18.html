@@ -21,14 +21,27 @@ input,select,button{font:inherit;border:1px solid #b8c3d0;border-radius:7px;back
 .dot{width:9px;height:9px;border-radius:50%;background:currentColor;filter:brightness(2.4)}
 .status-under-review{--state:var(--orange)} .status-qa-approved{--state:var(--green)} .status-frozen{--state:var(--purple)} .status-deferred{--state:var(--blue)} .status-rejected{--state:var(--red)} .status-built{--state:var(--black)} .status-na{--state:var(--gray)}
 .status-badge{background:var(--state)}
-.legend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0} .legend-item{background:#f8fafc;border:1px solid var(--line);border-left:6px solid var(--state);padding:10px;border-radius:7px} .legend-item b{display:block;margin-bottom:3px}
+.legend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.legend-item{background:#f8fafc;border:1px solid var(--line);border-left:6px solid var(--state);padding:10px;border-radius:7px;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease,background .12s ease}
+.legend-item b{display:block;margin-bottom:3px}
+.legend-item:hover{background:#fff;box-shadow:0 5px 16px rgba(15,23,42,.10);transform:translateY(-1px)}
+.legend-item:focus-visible{outline:3px solid var(--state);outline-offset:3px}
+.legend-item[aria-pressed="true"]{background:#fff;box-shadow:0 0 0 3px rgba(32,61,94,.16),0 6px 18px rgba(15,23,42,.12)}
+.legend-item::after{content:"Tap to filter";display:block;margin-top:7px;font-size:.72rem;font-weight:700;letter-spacing:.02em;color:#667085}
+.legend-item[aria-pressed="true"]::after{content:"Showing this status · tap again to clear";color:#344054}
 .section-heading{margin:40px 0 12px;padding-top:16px;border-top:2px solid #cad6e3;font-size:1.65rem;color:#13253a} h2{font-size:1.25rem;margin:28px 0 10px;color:#203d5e}
 p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);border-left:7px solid var(--state);border-radius:10px;margin:12px 0;padding:14px 16px;box-shadow:0 2px 10px rgba(15,23,42,.035)}
 .req-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px} .req-id{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-weight:800;font-size:.86rem;color:#324a66} .req-head h3{font-size:1.04rem;margin:2px 0 4px;color:#152338}
 .metadata{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 8px} .meta{display:inline-flex;border:1px solid #d4dce5;border-radius:6px;overflow:hidden;font-size:.76rem;background:#fbfcfe} .meta b{padding:4px 6px;background:#edf2f7;color:#475467} .meta span{padding:4px 7px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-weight:700}
 .req-body p{margin:6px 0} .table-wrap{overflow:auto;margin:14px 0 22px} table{border-collapse:collapse;width:100%;background:white;font-size:.91rem} th,td{border:1px solid #d7e0ea;padding:8px 9px;vertical-align:top;text-align:left} th{background:#eaf0f6;color:#203d5e}
 .derived-note{font-size:.86rem;color:#475467;background:#f2f5f8;border-left:4px solid #7992ad;padding:9px 11px;border-radius:4px}
-.hidden{display:none!important} .no-results{display:none;padding:20px;background:#fff0f0;border:1px solid #efcaca;border-radius:8px;margin:20px 0}
+.hidden{display:none!important}
+#content{scroll-margin-top:110px}
+#content.filter-active > :not(.requirement){display:none!important}
+.filter-banner{display:none;margin:18px 0 12px;padding:11px 14px;background:#eef4fa;border:1px solid #c9d7e6;border-radius:8px;font-weight:750;color:#203d5e}
+.filter-banner.active{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.filter-banner button{padding:6px 10px;background:white}
+.no-results{display:none;padding:20px;background:#fff0f0;border:1px solid #efcaca;border-radius:8px;margin:20px 0}
 .backtop{position:fixed;right:18px;bottom:18px;border-radius:999px;width:44px;height:44px}
 @media(max-width:820px){.tools{grid-template-columns:1fr 1fr} .tools input{grid-column:1/-1} .legend-grid{grid-template-columns:1fr} .req-head{display:block} .status-badge{margin-top:7px}}
 @media print{.sticky-tools,.backtop,.quick{display:none!important} body{background:white} .shell{max-width:none;padding:0 10mm} .requirement{break-inside:avoid;box-shadow:none} .hero{background:white;color:black;border-bottom:2px solid black;padding:10mm 0} .hero *{color:black!important}}
@@ -42,17 +55,21 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
 <p><strong>HTML is the working master.</strong> The <strong>SCOPE</strong> field on each requirement is the sole authority for build allocation. Dashboard counts, summaries, and indexes are derived convenience views. A PDF should be treated as a frozen snapshot, not the live backlog.</p>
 <p><strong>STATUS</strong> is independent lifecycle metadata. <strong>BUILD</strong> remains blank until accepted implementation. When a requirement reaches <strong>QA APPROVED</strong>, <strong>REVIEWED BY</strong> records the independent reviewer (Claude today).</p>
 <div class="legend-grid">
-<div class="legend-item status-under-review"><b>UNDER REVIEW</b>Candidate is still being specified or challenged.</div>
-<div class="legend-item status-qa-approved"><b>QA APPROVED</b>Independent adversarial requirement review has passed; not yet frozen.</div>
-<div class="legend-item status-frozen"><b>FROZEN FOR BUILD</b>T has accepted the requirement into the active development contract.</div>
-<div class="legend-item status-deferred"><b>DEFERRED</b>Valid backlog item deliberately postponed.</div>
-<div class="legend-item status-rejected"><b>REJECTED</b>Deliberately declined; retained with rationale so the decision is not lost.</div>
-<div class="legend-item status-built"><b>BUILT & ACCEPTED</b>Implementation, evidence, independent QA, and human acceptance are complete.</div>
+<div class="legend-item status-under-review" data-filter-status="UNDER REVIEW" role="button" tabindex="0" aria-pressed="false" aria-label="Filter requirements to UNDER REVIEW" title="Filter requirements to UNDER REVIEW"><b>UNDER REVIEW</b>Candidate is still being specified or challenged.</div>
+<div class="legend-item status-qa-approved" data-filter-status="QA APPROVED" role="button" tabindex="0" aria-pressed="false" aria-label="Filter requirements to QA APPROVED" title="Filter requirements to QA APPROVED"><b>QA APPROVED</b>Independent adversarial requirement review has passed; not yet frozen.</div>
+<div class="legend-item status-frozen" data-filter-status="FROZEN FOR BUILD" role="button" tabindex="0" aria-pressed="false" aria-label="Filter requirements to FROZEN FOR BUILD" title="Filter requirements to FROZEN FOR BUILD"><b>FROZEN FOR BUILD</b>T has accepted the requirement into the active development contract.</div>
+<div class="legend-item status-deferred" data-filter-status="DEFERRED" role="button" tabindex="0" aria-pressed="false" aria-label="Filter requirements to DEFERRED" title="Filter requirements to DEFERRED"><b>DEFERRED</b>Valid backlog item deliberately postponed.</div>
+<div class="legend-item status-rejected" data-filter-status="REJECTED" role="button" tabindex="0" aria-pressed="false" aria-label="Filter requirements to REJECTED" title="Filter requirements to REJECTED"><b>REJECTED</b>Deliberately declined; retained with rationale so the decision is not lost.</div>
+<div class="legend-item status-built" data-filter-status="BUILT & ACCEPTED" role="button" tabindex="0" aria-pressed="false" aria-label="Filter requirements to BUILT & ACCEPTED" title="Filter requirements to BUILT & ACCEPTED"><b>BUILT & ACCEPTED</b>Implementation, evidence, independent QA, and human acceptance are complete.</div>
 </div>
 <p class="derived-note">Color is a scanning aid only. The written STATUS label is authoritative. Current WASM-002 candidates remain UNDER REVIEW in this revision unless and until review evidence changes them.</p>
 <div class="quick"><button data-quick-scope="WASM-002">Show WASM-002</button><button data-quick-status="UNDER REVIEW">Under review</button><button data-quick-status="DEFERRED">Deferred backlog</button><button data-quick-status="REJECTED">Rejected ideas</button><button id="reset">Show all</button></div>
 <div id="summary"></div>
 </section>
+<div class="filter-banner" id="filterBanner" aria-live="polite">
+  <span id="filterBannerText"></span>
+  <button type="button" id="filterBannerClear">Show all</button>
+</div>
 <div id="content"><div class="eyebrow">RED5SORCERY DATA SCULPTOR</div><h1 class="doc-title">PRODUCT BACKLOG PRD</h1><div class="revision-line">Revision U - Canonical HTML backlog and governed requirement lifecycle</div><p class="front-small">Day 041 - 18 September 2026</p><p class="front-small">Free. Fast. Private. PRETTY.  Data work you can explain.</p><p>Documentation is a primary interface. Human analytical authority remains final.</p><p>REVISION U makes the standalone HTML Product Backlog PRD the working master. It preserves single-source scope governance and the governed lifecycle: orange UNDER REVIEW, green QA APPROVED, purple FROZEN FOR BUILD, blue DEFERRED, red REJECTED, and black BUILT &amp; ACCEPTED. SCOPE attached to each requirement remains the sole authority for build allocation; dashboards and indexes are derived. REVIEWED BY records the independent reviewer when a requirement reaches QA APPROVED. No intended WASM-002 requirement allocation is added or removed by this revision.</p><h1 id="section-1" class="section-heading">How to Read This PRD / Current Build Dashboard</h1><p>This page is the front door to the master backlog. It shows what the fields mean, how requirement status moves, and what the current WASM-002 candidate build contains. The SCOPE field attached to each individual requirement is authoritative. This dashboard is a derived convenience view; if it ever disagrees with a requirement&#x27;s SCOPE field, the requirement wins and the dashboard must be regenerated.</p><h2>Read any requirement in three fields</h2><div class="table-wrap"><table><tr><th>Field</th><th>Question it answers</th><th>How to read it</th></tr><tr><td>SCOPE</td><td>Where is this intended to be built?</td><td>WASM-002 means it belongs to the current candidate build slice.</td></tr><tr><td>BUILD</td><td>Which accepted build actually delivered it?</td><td>A dash means not yet accepted. WASM-002 is written here only after verified acceptance.</td></tr><tr><td>STATUS</td><td>Where is it in the decision/build lifecycle?</td><td>Orange review; green Claude-approved; purple frozen; blue deferred; red rejected; black built.</td></tr></table></div><div class="table-wrap"><table><tr><th>Lifecycle status colors - text label is authoritative; color is a visual cue</th><th>Lifecycle status colors - text label is authoritative; color is a visual cue</th><th>Lifecycle status colors - text label is authoritative; color is a visual cue</th><th>Lifecycle status colors - text label is authoritative; color is a visual cue</th></tr><tr><td>UNDER REVIEW</td><td>Candidate is still being specified/challenged.</td><td>QA APPROVED</td><td>Claude has reviewed and approved the requirement; not yet frozen.</td></tr><tr><td>FROZEN FOR BUILD</td><td>T has accepted it into the frozen development contract.</td><td>DEFERRED</td><td>Valid backlog item deliberately postponed.</td></tr><tr><td>REJECTED</td><td>Considered and rejected; retained with the decision record.</td><td>BUILT &amp; ACCEPTED</td><td>Implemented, verified, independently QA&#x27;d, and accepted; BUILD is populated.</td></tr></table></div><p>Example now:  SCOPE: WASM-002    STATUS: UNDER REVIEW    BUILD: -</p><p>Typical path: orange UNDER REVIEW -&gt; green QA APPROVED -&gt; purple FROZEN FOR BUILD by T -&gt; black BUILT &amp; ACCEPTED after implementation, verification, independent QA, retained evidence, and human acceptance. A candidate may instead move to blue DEFERRED or red REJECTED. Red items stay in the PRD so the decision is not forgotten.</p><p>Fast navigation: search for &quot;SCOPE: WASM-002&quot; to scan the current candidate build. Search for a STATUS label to scan lifecycle state. The historical W002- prefix in an ID does not determine current scope.</p><h2>Current build candidate: WASM-002</h2><p>Status: DRAFT / NOT FROZEN. All current SCOPE: WASM-002 requirements remain orange UNDER REVIEW in Revision U; this revision does not presume Claude approval or T freeze. Purpose: establish the trusted path from certified source bytes to visible, deterministically aligned materialized columns, plus the diagnostic/Help/Brand foundations needed for the browser/WASM product.</p><div class="table-wrap"><table><tr><th>Area</th><th>WASM-002 candidate scope at a glance</th></tr><tr><td>Source certification</td><td>Strict whole-file UTF-8 certification; ASCII-first fast path; strict non-ASCII validation; certification bound to exact source identity.</td></tr><tr><td>Materialization &amp; visible storage</td><td>One bounded structural pass for multiple columns; permanent 1..N row identity; deterministic row alignment; Data Sculptor-controlled persistence stays visible in the flat Suitcase.</td></tr><tr><td>Legacy conversion</td><td>Windows-1252 compatibility/conversion is an explicit separate governed operation, never a silent analytical fallback.</td></tr><tr><td>Diagnostics, Help &amp; Brand</td><td>Canonical diagnostic event; three-voice Help parity; at least one real Help path; durable branded HTML Help; Brand Manifest, local assets, provenance, and presentation-only substitution proof.</td></tr><tr><td>Shared architecture</td><td>One shared semantic core suitable for WASM and later native CLI reuse; presentation/branding remains separated from analytical semantics; future white-label generation is enabled without semantic forks.</td></tr></table></div><h2>Explicitly not in WASM-002 right now</h2><p>0/1 filter masks, filter combination/reuse, and filter-driven build/export are V1-BACKLOG. PRETTY Tables, Rich Footnotes, and Supporting Context are V1-BACKLOG. Hosted white-label configuration, payments, customer administration, and post-launch outreach are later or explicitly out of this build.</p><p>Completion rule: candidate requirements move through review and freeze before implementation. The WASM-002 slice is complete only when its frozen requirements and acceptance gates are black BUILT &amp; ACCEPTED with retained evidence, independent QA, populated BUILD metadata, and human acceptance. Deferred and rejected items do not become obligations merely because they remain visible in this master PRD.</p><h1 id="section-2" class="section-heading">1. Product Backlog Governance</h1><p>This document is the master product backlog and product contract record for Data Sculptor. It may contain current build requirements, later V1 work, post-V1 intentions, product principles, and documentary/method requirements. An active implementation unit such as WASM-002 freezes only the requirements explicitly allocated to that build when its development contract is accepted.</p><article class="requirement status-na" data-scope="PRODUCT" data-status="N/A" data-build="N/A" data-id="PB-GOV-001" data-search="pb-gov-001 - master backlog is broader than one build the product backlog prd may continue to capture product truth and future requirements while an accepted build slice is frozen. adding backlog material does not silently change an active development contract.">
 <div class="req-head"><div><div class="req-id">PB-GOV-001</div><h3>Master backlog is broader than one build</h3></div><span class="status-badge status-na"><span class="dot"></span>N/A</span></div>
 <div class="metadata"><span class="meta"><b>SCOPE</b><span>PRODUCT</span></span><span class="meta"><b>BUILD</b><span>N/A</span></span></div>
@@ -2138,11 +2155,70 @@ const search=document.getElementById('search'), scope=document.getElementById('s
 const scopes=[...new Set(reqs.map(r=>r.dataset.scope))].sort(); const statuses=[...new Set(reqs.map(r=>r.dataset.status))];
 for(const s of scopes){const o=document.createElement('option');o.value=s;o.textContent=s;scope.appendChild(o)}
 for(const s of statuses){const o=document.createElement('option');o.value=s;o.textContent=s;status.appendChild(o)}
-function apply(){const q=search.value.trim().toLowerCase();let n=0;for(const r of reqs){const ok=(!scope.value||r.dataset.scope===scope.value)&&(!status.value||r.dataset.status===status.value)&&(!q||r.dataset.search.includes(q)||r.dataset.id.toLowerCase().includes(q));r.classList.toggle('hidden',!ok);if(ok)n++} count.textContent=`${n} / ${reqs.length} requirements`;document.getElementById('noresults').style.display=n?'none':'block';}
+function apply(){
+  const q=search.value.trim().toLowerCase();
+  let n=0;
+  for(const r of reqs){
+    const ok=(!scope.value||r.dataset.scope===scope.value)&&(!status.value||r.dataset.status===status.value)&&(!q||r.dataset.search.includes(q)||r.dataset.id.toLowerCase().includes(q));
+    r.classList.toggle('hidden',!ok);
+    if(ok)n++;
+  }
+
+  const active=Boolean(scope.value||status.value||q);
+  const content=document.getElementById('content');
+  const banner=document.getElementById('filterBanner');
+  const bannerText=document.getElementById('filterBannerText');
+
+  content.classList.toggle('filter-active',active);
+  banner.classList.toggle('active',active);
+
+  const labels=[];
+  if(status.value) labels.push(status.value);
+  if(scope.value) labels.push(`SCOPE: ${scope.value}`);
+  if(q) labels.push(`SEARCH: "${search.value.trim()}"`);
+  bannerText.textContent=active ? `Showing ${n} matching requirement${n===1?'':'s'} · ${labels.join(' · ')}` : '';
+
+  count.textContent=`${n} / ${reqs.length} requirements`;
+  document.getElementById('noresults').style.display=n?'none':'block';
+
+  document.querySelectorAll('[data-filter-status]').forEach(card=>{
+    card.setAttribute('aria-pressed',card.dataset.filterStatus===status.value?'true':'false');
+  });
+}
 [search,scope,status].forEach(x=>x.addEventListener('input',apply));
-document.querySelectorAll('[data-quick-scope]').forEach(b=>b.onclick=()=>{scope.value=b.dataset.quickScope;status.value='';search.value='';apply();});
-document.querySelectorAll('[data-quick-status]').forEach(b=>b.onclick=()=>{status.value=b.dataset.quickStatus;scope.value='';search.value='';apply();});
-document.getElementById('reset').onclick=()=>{scope.value='';status.value='';search.value='';apply();}; document.getElementById('print').onclick=()=>window.print();
+function setStatusFilter(value){
+  const same=status.value===value;
+  status.value=same?'':value;
+  scope.value='';
+  search.value='';
+  apply();
+  if(!same){
+    requestAnimationFrame(()=>document.getElementById('content').scrollIntoView({behavior:'smooth',block:'start'}));
+  }
+}
+document.querySelectorAll('[data-filter-status]').forEach(card=>{
+  card.addEventListener('click',()=>setStatusFilter(card.dataset.filterStatus));
+  card.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){
+      e.preventDefault();
+      setStatusFilter(card.dataset.filterStatus);
+    }
+  });
+});
+function jumpToResults(){
+  requestAnimationFrame(()=>document.getElementById('content').scrollIntoView({behavior:'smooth',block:'start'}));
+}
+document.querySelectorAll('[data-quick-scope]').forEach(b=>b.onclick=()=>{scope.value=b.dataset.quickScope;status.value='';search.value='';apply();jumpToResults();});
+document.querySelectorAll('[data-quick-status]').forEach(b=>b.onclick=()=>{status.value=b.dataset.quickStatus;scope.value='';search.value='';apply();jumpToResults();});
+function clearFilters(){
+  scope.value='';
+  status.value='';
+  search.value='';
+  apply();
+}
+document.getElementById('reset').onclick=clearFilters;
+document.getElementById('filterBannerClear').onclick=()=>{clearFilters();document.getElementById('dashboard').scrollIntoView({behavior:'smooth',block:'start'});};
+document.getElementById('print').onclick=()=>window.print();
 const summary=document.getElementById('summary');
 function makeSummary(){const wasm=reqs.filter(r=>r.dataset.scope==='WASM-002');const by={};for(const r of wasm)by[r.dataset.status]=(by[r.dataset.status]||0)+1;summary.innerHTML=`<p><strong>Derived WASM-002 inventory:</strong> ${wasm.length} requirement entries. `+Object.entries(by).map(([k,v])=>`${k}: ${v}`).join(' · ')+`</p>`;} makeSummary();apply();
 </script>
