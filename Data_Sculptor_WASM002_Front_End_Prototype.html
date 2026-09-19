@@ -146,7 +146,7 @@
     </div>
   </header>
 
-  <div class="notice"><strong>DESIGN PROTOTYPE ONLY.</strong> This page simulates the narrow WASM-002 browser surface. It performs no real file I/O and does not execute the Rust/WASM engine. Work Order grammar, diagnostic codes, Brand Manifest details, artifact classes, and several storage fields remain freeze items.</div>
+  <div class="notice"><strong>DESIGN PROTOTYPE ONLY.</strong> This page simulates the narrow WASM-002 browser surface. It does not open real source files or execute the Rust/WASM engine. The Work Order and Help controls can generate local prototype TXT/HTML downloads so the durable-artifact interaction can be exercised. Work Order grammar, diagnostic codes, identity-token details, Brand Manifest details, artifact classes, and several storage fields remain freeze items.</div>
 
   <section class="context" aria-label="Current project context">
     <div class="ctx"><div class="k">Suitcase</div><div class="v ok" id="ctxSuitcase">AUTHORIZED · visible flat folder</div></div>
@@ -160,7 +160,7 @@
     <article class="panel" aria-labelledby="wo-title">
       <div class="panel-head">
         <div id="wo-title" class="panel-title">Work Order editor</div>
-        <div class="panel-note">human-readable UTF-8 · illustrative grammar</div>
+        <div class="panel-note">human-readable UTF-8 · saved TXT is the Run target · illustrative grammar</div>
       </div>
       <div class="panel-body">
         <div class="editor-wrap">
@@ -177,13 +177,15 @@ OUTPUT: SUITCASE</textarea>
         <div class="actions" aria-label="Work Order actions">
           <button class="term-btn" id="suitcaseBtn" type="button">[O] Authorize Suitcase</button>
           <button class="term-btn" id="sourceBtn" type="button">[F] Choose Source</button>
+          <button class="term-btn" id="saveWorkOrderBtn" type="button">[W] Save Work Order TXT</button>
           <button class="term-btn" id="validateBtn" type="button">[V] Validate</button>
           <button class="term-btn" id="runBtn" type="button">[R] Run</button>
           <button class="term-btn" id="helpBtn" type="button">[H] Help</button>
           <span class="action-spacer"></span>
           <button class="term-btn muted" id="failDemoBtn" type="button">[F9] Encoding refusal demo</button>
         </div>
-        <div id="status" class="statusline">Ready. Validate the Work Order or run the simulated governed path.</div>
+        <div id="workOrderState" class="statusline">Work Order TXT: not saved · Run requires saved bytes.</div>
+        <div id="status" class="statusline">Ready. Save the Work Order TXT, then validate or run the simulated governed path.</div>
       </div>
     </article>
 
@@ -254,14 +256,14 @@ OUTPUT: SUITCASE</textarea>
   </section>
 
   <section class="scope-strip" aria-label="Prototype scope boundary">
-    <div class="scope-text"><strong>This prototype intentionally stops at the WASM-002 boundary.</strong> It visualizes source authorization, Work Order validation, strict UTF-8 certification, source binding, one-pass multi-column materialization, visible Suitcase artifacts, canonical diagnostics, three-voice Help, and a durable branded Help report. It does not preview future filtering, grouping, sorting, Quick Viz, PRETTY Tables, DS-VERIFY, or later build/export workflows.</div>
+    <div class="scope-text"><strong>This prototype intentionally stops at the WASM-002 boundary.</strong> It visualizes source authorization, durable UTF-8 TXT Work Orders, Work Order validation, strict UTF-8 certification, source binding, one-pass multi-column materialization, visible Suitcase artifacts, canonical diagnostics, three-voice Help, and a durable branded Help report. The WASM Run targets saved Work Order bytes rather than transient editor state. It does not preview future filtering, grouping, sorting, Quick Viz, PRETTY Tables, DS-VERIFY, or later build/export workflows.</div>
     <div class="scope-tags">
       <span class="tag in">WASM-002</span><span class="tag in">Browser-first</span><span class="tag in">Visible storage</span><span class="tag out">No future V1 features</span>
     </div>
   </section>
 
   <footer class="footer">
-    <span>Ctrl+Enter Run · F1 Help · F9 refusal demo · Esc clear diagnostic</span>
+    <span>Ctrl+Shift+S Save Work Order · Ctrl+Enter Run · F1 Help · F9 refusal demo · Esc clear diagnostic</span>
     <span>Presentation is illustrative. Shared Rust semantics remain authoritative.</span>
   </footer>
 </main>
@@ -271,6 +273,7 @@ OUTPUT: SUITCASE</textarea>
   const workOrder = document.getElementById('workOrder');
   const highlight = document.getElementById('highlight');
   const status = document.getElementById('status');
+  const workOrderState = document.getElementById('workOrderState');
   const artifactArea = document.getElementById('artifactArea');
   const diagArea = document.getElementById('diagArea');
   const diagActions = document.getElementById('diagActions');
@@ -281,6 +284,8 @@ OUTPUT: SUITCASE</textarea>
   const stages = [1,2,3,4].map(n => document.getElementById('stage'+n));
   let currentDiagnostic = null;
   let runToken = 0;
+  let savedWorkOrderText = null;
+  let savedWorkOrderName = null;
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
@@ -308,8 +313,7 @@ OUTPUT: SUITCASE</textarea>
     ctxIdentity.textContent='BOUND · awaiting certification'; ctxIdentity.className='v wait';
   }
 
-  function parseWorkOrder(){
-    const text=workOrder.value;
+  function parseWorkOrder(text=workOrder.value){
     const op=(text.match(/^OPERATION:\s*(.+)$/mi)||[])[1]?.trim().toUpperCase();
     const source=(text.match(/^SOURCE:\s*(.+)$/mi)||[])[1]?.trim();
     const lines=text.split(/\r?\n/);
@@ -324,8 +328,8 @@ OUTPUT: SUITCASE</textarea>
     return {op,source,cols,text};
   }
 
-  function validate(){
-    const w=parseWorkOrder();
+  function validate(text=workOrder.value,targetLabel='editor'){
+    const w=parseWorkOrder(text);
     const problems=[];
     if(!w.op) problems.push('OPERATION is missing.');
     if(!w.source) problems.push('SOURCE is missing.');
@@ -335,12 +339,56 @@ OUTPUT: SUITCASE</textarea>
       showDiagnostic({
         code:'PROTOTYPE-WO-INVALID',severity:'ERROR',phase:'WORK ORDER VALIDATION',refuse:true,
         observed:problems.join(' '),next:'Correct the illustrative Work Order and validate again.',
-        facts:{operation:w.op||null,source:w.source||null,requested_columns:w.cols}
+        facts:{validation_target:targetLabel,operation:w.op||null,source:w.source||null,requested_columns:w.cols}
       },false);
       return false;
     }
-    status.innerHTML='<strong>Work Order structure accepted by the prototype.</strong> Final grammar is still a PRD freeze item.';
+    status.innerHTML=`<strong>${targetLabel==='saved Work Order'?'Saved Work Order':'Work Order editor'} structure accepted by the prototype.</strong> Final grammar is still a PRD freeze item.`;
     return true;
+  }
+
+  function compactUtc(){
+    return new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');
+  }
+
+  function prototypeUuid(){
+    if(globalThis.crypto && typeof globalThis.crypto.randomUUID==='function') return globalThis.crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0,v=c==='x'?r:(r&0x3|0x8);return v.toString(16)});
+  }
+
+  function updateWorkOrderState(){
+    if(savedWorkOrderText===null){
+      workOrderState.innerHTML='<strong>Work Order TXT:</strong> not saved · Run requires saved bytes.';
+      return;
+    }
+    if(workOrder.value!==savedWorkOrderText){
+      workOrderState.innerHTML=`<strong>Work Order TXT:</strong> ${esc(savedWorkOrderName)} · <span style="color:var(--warn)">editor has unsaved changes · Run blocked until saved again</span>`;
+      return;
+    }
+    workOrderState.innerHTML=`<strong>Work Order TXT:</strong> ${esc(savedWorkOrderName)} · saved UTF-8 bytes are the Run target.`;
+  }
+
+  function saveWorkOrder(){
+    const text=workOrder.value;
+    if(!text.trim()){
+      status.innerHTML='<span style="color:var(--red2)">Save stopped:</span> the Work Order editor is empty.';
+      return;
+    }
+    const name=`__DS__WKO__PROTOTYPE_${compactUtc()}_${prototypeUuid()}.txt`;
+    const blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),800);
+    savedWorkOrderText=text;
+    savedWorkOrderName=name;
+    updateWorkOrderState();
+    artifactArea.className='';
+    artifactArea.innerHTML=`<ul class="artifact-list">
+      <li class="artifact"><span class="type">Work Order · WKO</span><span class="detail">${esc(name)} · UTF-8 TXT · saved bytes are the authoritative prototype Run input</span></li>
+      <li class="artifact"><span class="type">Filename note</span><span class="detail">__DS__ namespace and WKO semantic class are intentional; the remaining prototype identity-token shape is illustrative and not frozen</span></li>
+    </ul>`;
+    status.innerHTML='<strong>Work Order TXT saved.</strong> WASM and native CLI share the same durable instruction artifact model; this prototype Run will target the exact saved text.';
   }
 
   function artifactsSuccess(w){
@@ -348,7 +396,7 @@ OUTPUT: SUITCASE</textarea>
     artifactArea.className='';
     artifactArea.innerHTML=`<ul class="artifact-list">
       <li class="artifact"><span class="type">Source</span><span class="detail">${esc(w.source)} · analyst-owned filename preserved</span></li>
-      <li class="artifact"><span class="type">Work Order</span><span class="detail">Preserved as evidence of requested intent</span></li>
+      <li class="artifact"><span class="type">Work Order · WKO</span><span class="detail">${esc(savedWorkOrderName||'saved Work Order')} · exact saved UTF-8 TXT bytes executed and preserved as evidence of requested intent</span></li>
       <li class="artifact"><span class="type">Certification</span><span class="detail">Strict UTF-8 PASS · exact source-byte accounting retained</span></li>
       <li class="artifact"><span class="type">Row identity</span><span class="detail">Visible deterministic 1..N row identity for the materialized row universe</span></li>
       ${cols}
@@ -391,14 +439,36 @@ OUTPUT: SUITCASE</textarea>
   }
 
   function run(){
-    if(!validate()) return;
-    const token=++runToken; const w=parseWorkOrder(); clearDiagnostic(); resetStages(); artifactArea.className='empty'; artifactArea.textContent='Simulated execution in progress…';
-    status.innerHTML='<strong>Running simulated governed path…</strong>';
+    if(savedWorkOrderText===null){
+      ++runToken; resetStages();
+      status.innerHTML='<span style="color:var(--red2)">Run refused:</span> no Work Order TXT has been saved.';
+      showDiagnostic({
+        code:'PROTOTYPE-WO-NOT-SAVED',severity:'ERROR',phase:'WORK ORDER COMMIT',refuse:true,
+        observed:'The editor contains transient text, but no durable UTF-8 Work Order TXT has been committed for this Run.',
+        next:'Save the Work Order TXT, then Run the saved Work Order.',
+        facts:{saved_work_order:false,transient_editor_is_run_target:false}
+      },false);
+      return;
+    }
+    if(workOrder.value!==savedWorkOrderText){
+      ++runToken; resetStages();
+      status.innerHTML='<span style="color:var(--red2)">Run refused:</span> the editor has unsaved changes.';
+      showDiagnostic({
+        code:'PROTOTYPE-WO-UNSAVED-CHANGES',severity:'ERROR',phase:'WORK ORDER COMMIT',refuse:true,
+        observed:'The editor no longer matches the saved Work Order TXT. WASM will not execute transient editor state as a second command path.',
+        next:'Save the current Work Order TXT, then Run the newly saved bytes.',
+        facts:{saved_work_order:true,saved_filename:savedWorkOrderName,editor_matches_saved:false,transient_editor_is_run_target:false}
+      },false);
+      return;
+    }
+    if(!validate(savedWorkOrderText,'saved Work Order')) return;
+    const token=++runToken; const w=parseWorkOrder(savedWorkOrderText); clearDiagnostic(); resetStages(); artifactArea.className='empty'; artifactArea.textContent='Simulated execution in progress…';
+    status.innerHTML=`<strong>Running saved Work Order TXT…</strong> ${esc(savedWorkOrderName)} · transient editor state is not an execution path.`;
     setStage(1,'active','CERTIFYING');
     setTimeout(()=>{if(token!==runToken)return;setStage(1,'pass','PASS');ctxEncoding.textContent='UTF-8 CERTIFIED';ctxEncoding.className='v ok';setStage(2,'active','CHECKING');},320);
     setTimeout(()=>{if(token!==runToken)return;setStage(2,'pass','MATCH');ctxIdentity.textContent='CERTIFIED SOURCE MATCH';ctxIdentity.className='v ok';setStage(3,'active','MATERIALIZING');},620);
     setTimeout(()=>{if(token!==runToken)return;setStage(3,'pass','PASS');setStage(4,'active','COMMITTING');},950);
-    setTimeout(()=>{if(token!==runToken)return;setStage(4,'pass','VISIBLE');artifactsSuccess(w);status.innerHTML='<strong>Simulation complete.</strong> No hidden project state was created; all shown durable output belongs in the visible Suitcase.';},1240);
+    setTimeout(()=>{if(token!==runToken)return;setStage(4,'pass','VISIBLE');artifactsSuccess(w);status.innerHTML='<strong>Simulation complete.</strong> The simulated WASM path executed the saved Work Order TXT; no hidden project state was created and all shown durable output belongs in the visible Suitcase.';},1240);
   }
 
   function refusalDemo(){
@@ -450,13 +520,15 @@ OUTPUT: SUITCASE</textarea>
   function draftConversion(){
     workOrder.value=`# Illustrative separate conversion Work Order — grammar not frozen\nOPERATION: CONVERT_WINDOWS_1252_TO_UTF8\nSOURCE: Statistics_Canada_Crime.csv\nOUTPUT_ENCODING: UTF-8\nOUTPUT: SUITCASE\n\n# Separate task only. No analytical column materialization here.`;
     renderHighlight();
-    status.innerHTML='<strong>Separate conversion Work Order drafted.</strong> It is not an automatic fallback and does not materialize analytical columns.';
+    updateWorkOrderState();
+    status.innerHTML='<strong>Separate conversion Work Order drafted.</strong> It is not an automatic fallback and does not materialize analytical columns. Save it as a new Work Order TXT before Run.';
     clearDiagnostic(); resetStages();
   }
 
-  workOrder.addEventListener('input',renderHighlight); workOrder.addEventListener('scroll',renderHighlight);
+  workOrder.addEventListener('input',()=>{renderHighlight();updateWorkOrderState()}); workOrder.addEventListener('scroll',renderHighlight);
   voice.addEventListener('change',()=>{if(currentDiagnostic) showDiagnostic(currentDiagnostic,currentDiagnostic.allowConversion)});
-  document.getElementById('validateBtn').addEventListener('click',validate);
+  document.getElementById('saveWorkOrderBtn').addEventListener('click',saveWorkOrder);
+  document.getElementById('validateBtn').addEventListener('click',()=>validate(workOrder.value,'editor'));
   document.getElementById('runBtn').addEventListener('click',run);
   document.getElementById('helpBtn').addEventListener('click',genericHelp);
   document.getElementById('failDemoBtn').addEventListener('click',refusalDemo);
@@ -469,11 +541,14 @@ OUTPUT: SUITCASE</textarea>
     if(e.key==='F1'){e.preventDefault();genericHelp()}
     if(e.key==='F9'){e.preventDefault();refusalDemo()}
     if(e.key==='Escape'){clearDiagnostic();status.textContent='Diagnostic cleared.'}
+    if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==='s'){e.preventDefault();saveWorkOrder();return}
     if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();run()}
-    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'&&currentDiagnostic){e.preventDefault();saveHelp()}
+    if((e.ctrlKey||e.metaKey)&&!e.shiftKey&&e.key.toLowerCase()==='s'&&currentDiagnostic){e.preventDefault();saveHelp()}
   });
   renderHighlight();
+  updateWorkOrderState();
 })();
 </script>
 </body>
 </html>
+
