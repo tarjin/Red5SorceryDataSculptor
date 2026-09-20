@@ -4,132 +4,109 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Data Sculptor — WASM-002 Front-End Prototype</title>
-<meta name="description" content="Narrow WASM-002 browser front-end design prototype for Red5Sorcery Data Sculptor." />
+<meta name="description" content="Day 043 WASM-002 browser front-end design prototype for Red5Sorcery Data Sculptor." />
 <style>
   :root{
-    color-scheme: dark;
-    --bg:#0a0f16;
-    --bg2:#0d1420;
-    --panel:#111a28;
-    --panel2:#0f1723;
-    --ink:#edf2f7;
-    --muted:#9aa9ba;
-    --soft:#c8d5e4;
-    --line:#2a394b;
-    --line2:#3a4d63;
-    --accent:#9fbddd;
-    --accent2:#6e8faf;
-    --accent3:#c7d8ea;
-    --red:#b94a50;
-    --red2:#e07a80;
-    --amber:#c8aa68;
-    --shadow:0 16px 46px rgba(0,0,0,.22);
+    color-scheme:dark;
+    --bg:#0a0f16;--bg2:#0d1420;--panel:#111a28;--panel2:#0f1723;
+    --ink:#edf2f7;--muted:#9aa9ba;--soft:#c8d5e4;--line:#2a394b;--line2:#3a4d63;
+    --accent:#9fbddd;--accent2:#6e8faf;--accent3:#c7d8ea;--red:#b94a50;--red2:#e07a80;
+    --amber:#c8aa68;--green:#88b8a3;--shadow:0 16px 46px rgba(0,0,0,.22);
     --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
     --sans:Inter,Segoe UI,Arial,sans-serif;
   }
   *{box-sizing:border-box}
   html{background:var(--bg);scroll-behavior:smooth}
-  body{margin:0;background:linear-gradient(180deg,#0a0f16 0%,#0d1420 100%);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.52;min-height:100vh}
-  button,textarea,select,input{font:inherit}
-  button{color:inherit}
+  body{margin:0;background:linear-gradient(180deg,#0a0f16 0%,#0d1420 100%);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;min-height:100vh}
+  button,textarea,select,input{font:inherit} button{color:inherit}
   a{color:var(--accent3);text-underline-offset:3px}
-  a:focus-visible,button:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-  .shell{max-width:1480px;margin:0 auto;padding:18px 22px 34px}
+  a:focus-visible,button:focus-visible,textarea:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .shell{max-width:1580px;margin:0 auto;padding:18px 22px 34px}
   .topline{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap;padding:8px 0 14px;border-bottom:1px solid var(--line2)}
-  .brand{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
-  .brand strong{color:var(--ink);font-weight:700}
-  .brand .brand-five{color:var(--red2)}
-  .head-right{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .brand{font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+  .brand strong{color:var(--ink);font-weight:700}.brand .brand-five{color:var(--red2)}
+  .head-right{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
   .pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line2);border-radius:999px;padding:5px 10px;white-space:nowrap}
-  .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
-  .pill.warn .dot{background:var(--amber)}
-  .pill.err .dot{background:var(--red2)}
-  .prd-link{border:1px solid var(--line2);padding:5px 10px;text-decoration:none}
-  .prd-link:hover{border-color:var(--accent);background:rgba(159,189,221,.06)}
-
-  .notice{margin:14px 0 0;padding:10px 12px;border-left:3px solid var(--amber);background:rgba(200,170,104,.07);font-family:var(--mono);font-size:11.5px;color:var(--soft)}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}.pill.warn .dot{background:var(--amber)}.pill.err .dot{background:var(--red2)}
+  .prd-link{border:1px solid var(--line2);padding:5px 10px;text-decoration:none}.prd-link:hover{border-color:var(--accent);background:rgba(159,189,221,.06)}
+  .notice{margin:14px 0 0;padding:10px 12px;border-left:3px solid var(--amber);background:rgba(200,170,104,.07);font-family:var(--mono);font-size:13px;color:var(--soft)}
   .notice strong{color:var(--amber)}
+  .creed{margin-top:10px;font-family:var(--mono);font-size:12.5px;color:var(--muted);text-align:right}.creed strong{color:var(--accent3)}
 
-  .context{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:14px;box-shadow:var(--shadow)}
-  .ctx{background:var(--panel2);padding:12px 14px;min-width:0}
-  .k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
-  .v{font-family:var(--mono);font-size:12.5px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .v.ok{color:var(--accent3)}
-  .v.wait{color:var(--amber)}
+  .context{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:14px;box-shadow:var(--shadow)}
+  .ctx{background:var(--panel2);padding:13px 15px;min-width:0}.k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+  .v{font-family:var(--mono);font-size:14px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.v.ok{color:var(--accent3)}.v.wait{color:var(--amber)}.v.err{color:var(--red2)}
 
-  .workspace{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(340px,.88fr);gap:16px;margin-top:16px}
-  .panel{background:linear-gradient(180deg,var(--panel) 0%,#0e1621 100%);border:1px solid var(--line2);box-shadow:var(--shadow)}
-  .panel-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:11px 13px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.012)}
-  .panel-title{font-family:var(--mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--soft)}
-  .panel-note{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
-  .panel-body{padding:13px}
+  .grid-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px}
+  .span-2{grid-column:1/-1}
+  .stack{display:grid;gap:16px;align-content:start}
+  .panel{background:linear-gradient(180deg,var(--panel) 0%,#0e1621 100%);border:1px solid var(--line2);box-shadow:var(--shadow);min-width:0}
+  .panel-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:13px 15px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.012)}
+  .panel-title{font-family:var(--mono);font-size:13px;letter-spacing:.11em;text-transform:uppercase;color:var(--soft)}
+  .panel-note{font-family:var(--mono);font-size:12px;color:var(--muted)}.panel-body{padding:15px}
+  .term-btn{appearance:none;border:0;background:transparent;color:var(--accent3);padding:7px 0;cursor:pointer;font-family:var(--mono);font-size:14px}
+  .term-btn:hover{text-decoration:underline}.term-btn.red{color:var(--red2)}.term-btn.muted{color:var(--muted)}.term-btn:disabled{color:#566372;cursor:not-allowed;text-decoration:none}
+  .primary-btn{appearance:none;border:1px solid #6388ad;background:rgba(110,143,175,.15);color:var(--accent3);padding:11px 14px;cursor:pointer;font-family:var(--mono);font-size:14px}
+  .primary-btn:hover{background:rgba(110,143,175,.24)}.primary-btn:disabled{border-color:var(--line);background:transparent;color:#566372;cursor:not-allowed}
+  .actions{display:flex;gap:8px 14px;flex-wrap:wrap;padding-top:11px;align-items:center}.action-spacer{flex:1}
+  .statusline{margin-top:12px;border-top:1px solid var(--line);padding-top:11px;font-family:var(--mono);font-size:13px;color:var(--muted);min-height:2.2em}.statusline strong{color:var(--accent3)}
+  .field-label{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+  .text-input{width:100%;background:#091019;border:1px solid var(--line2);color:var(--ink);padding:10px 11px;font-family:var(--sans);font-size:15px}
+  .readonly-input{width:100%;background:#0b121c;border:1px solid var(--line);color:var(--soft);padding:8px 10px;font-family:var(--mono);font-size:13px}
 
-  .editor-wrap{position:relative;min-height:290px}
-  .editor-highlight,#workOrder{position:absolute;inset:0;margin:0;padding:16px 17px;border:1px solid var(--line);background:#091019;white-space:pre-wrap;overflow:auto;tab-size:2;line-height:1.62;min-height:290px;font-family:var(--mono);font-size:13px}
-  .editor-highlight{pointer-events:none;color:var(--ink)}
-  #workOrder{resize:vertical;color:transparent;caret-color:var(--ink);outline:none;z-index:2}
-  #workOrder::selection{background:rgba(159,189,221,.25)}
-  #workOrder:focus{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
-  .tok-key{color:var(--accent3);font-weight:700}
-  .tok-value{color:#d7e3ee}
-  .tok-comment{color:#71849a}
-  .tok-op{color:var(--amber);font-weight:700}
+  .suitcase-gate{border:1px solid var(--amber);background:linear-gradient(180deg,rgba(200,170,104,.08),rgba(200,170,104,.025));box-shadow:var(--shadow)}
+  .suitcase-gate.ready{border-color:#5b806f;background:linear-gradient(180deg,rgba(136,184,163,.09),rgba(136,184,163,.025))}
+  .gate-body{padding:14px}
+  .gate-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center}
+  .gate-kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--amber);margin-bottom:5px}.suitcase-gate.ready .gate-kicker{color:var(--green)}
+  .gate-title{font-family:var(--mono);font-size:17px;font-weight:700;color:var(--ink);margin-bottom:5px}
+  .gate-copy{font-size:15px;color:var(--muted);max-width:72ch}
+  .gate-status{margin-top:12px;padding:10px 12px;border:1px solid rgba(200,170,104,.36);background:#0b121c;font-family:var(--mono);font-size:13px;color:var(--amber)}.suitcase-gate.ready .gate-status{border-color:rgba(136,184,163,.38);color:var(--green)}
+  .gate-lock-note{margin-top:9px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .gate-location{margin-top:10px;border:1px solid var(--line2);background:#0b121c;padding:10px 11px;display:grid;gap:7px}
+  .gate-location-row{display:grid;grid-template-columns:190px minmax(0,1fr);gap:10px;align-items:start}
+  .gate-location-label{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .gate-location-value{font-family:var(--mono);font-size:13px;color:var(--ink);overflow-wrap:anywhere}
+  .gate-location-note{padding-top:8px;border-top:1px solid var(--line);font-size:13px;line-height:1.55;color:var(--muted)}
+  .locked-copy{opacity:.58}
 
-  .actions{display:flex;gap:8px 14px;flex-wrap:wrap;padding-top:11px;align-items:center}
-  .term-btn{appearance:none;border:0;background:transparent;color:var(--accent3);padding:4px 0;cursor:pointer;font-family:var(--mono);font-size:12px}
-  .term-btn:hover{text-decoration:underline}
-  .term-btn.red{color:var(--red2)}
-  .term-btn.muted{color:var(--muted)}
-  .term-btn:disabled{color:#566372;cursor:not-allowed;text-decoration:none}
-  .action-spacer{flex:1}
+  .table-wrap{overflow:auto;border:1px solid var(--line)}
+  table{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+  th{font-family:var(--mono);font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;background:#0b121c;padding:9px 10px;border-bottom:1px solid var(--line2)}
+  td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}tbody tr:last-child td{border-bottom:0}
+  tbody tr.selectable{cursor:pointer}tbody tr.selectable:hover{background:rgba(159,189,221,.05)}tbody tr.selected{background:rgba(110,143,175,.14)}
+  .radio-cell{width:38px}.alias-name{font-family:var(--mono);color:var(--soft);font-weight:700}.filename{font-family:var(--mono);font-size:13px;color:var(--accent3);word-break:break-all}
+  .tiny-badge{display:inline-flex;border:1px solid var(--line2);padding:3px 7px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);white-space:nowrap}.tiny-badge.lock{color:var(--accent3);border-color:#48667e}.tiny-badge.sim{color:var(--amber);border-color:#6c5d38}
+  .table-note{margin-top:9px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .files-wrap{max-height:330px;overflow:auto;border:1px solid var(--line)}
+  .file-kind{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .file-size{font-family:var(--mono);font-size:12px;color:var(--soft);white-space:nowrap}
+  .source-mark{color:var(--green);font-family:var(--mono);font-size:12px;white-space:nowrap}
+  .alias-input{width:100%;min-width:180px;background:#091019;border:1px solid var(--line2);color:var(--accent3);padding:7px 9px;font-family:var(--mono);font-size:13px}
+  .alias-input::placeholder{color:#62758a}.alias-input:disabled{color:var(--muted);background:#0b121c;border-color:var(--line);cursor:not-allowed}
+  .terminal-output{margin:0;min-height:260px;max-height:440px;overflow:auto;background:#070c12;border:1px solid var(--line);padding:14px 15px;color:var(--soft);font-family:var(--mono);font-size:14px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+  .terminal-output .term-ok{color:var(--green)}
+  .terminal-output .term-warn{color:var(--amber)}
+  .terminal-output .term-err{color:var(--red2)}
 
-  .path{display:grid;gap:10px}
-  .stage{border:1px solid var(--line);background:#0b121c;padding:11px 12px;display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:start}
-  .stage-num{font-family:var(--mono);font-size:10px;color:var(--muted);padding-top:2px}
-  .stage-title{font-weight:700;font-size:14px;margin-bottom:3px}
-  .stage-desc{font-size:12.5px;color:var(--muted)}
-  .stage-state{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line2);padding:3px 6px;white-space:nowrap}
-  .stage.active{border-color:var(--accent2);background:rgba(110,143,175,.09)}
-  .stage.active .stage-state{color:var(--accent3);border-color:var(--accent2)}
-  .stage.pass{border-color:#48667e;background:rgba(110,143,175,.08)}
-  .stage.pass .stage-state{color:var(--accent3)}
-  .stage.fail{border-color:var(--red);background:rgba(185,74,80,.08)}
-  .stage.fail .stage-state{color:var(--red2);border-color:var(--red)}
+  .editor-wrap{position:relative;min-height:230px}.editor-highlight,#workOrder{position:absolute;inset:0;margin:0;padding:14px 15px;border:1px solid var(--line);background:#091019;white-space:pre-wrap;overflow:auto;tab-size:2;line-height:1.62;min-height:230px;font-family:var(--mono);font-size:14px}
+  .editor-highlight{display:none}#workOrder{resize:vertical;color:var(--accent3);caret-color:#ffffff;outline:none;z-index:2;background:#091019}#workOrder::placeholder{color:#71849a}#workOrder::selection{background:rgba(159,189,221,.30);color:#ffffff}#workOrder:focus{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+  .tok-key{color:var(--accent3);font-weight:700}.tok-value{color:#d7e3ee}.tok-comment{color:#71849a}.tok-op{color:var(--amber);font-weight:700}
 
-  .statusline{margin-top:10px;border-top:1px solid var(--line);padding-top:10px;font-family:var(--mono);font-size:11.5px;color:var(--muted);min-height:2.2em}
-  .statusline strong{color:var(--accent3)}
+  .saved-list{display:grid;gap:9px}.saved-empty{font-family:var(--mono);font-size:13px;color:var(--muted);padding:8px 0}.saved-row{border:1px solid var(--line);background:#0b121c;padding:10px;display:grid;grid-template-columns:30px 1fr auto;gap:9px;align-items:start}.saved-row.selected{border-color:var(--accent2);background:rgba(110,143,175,.08)}
+  .saved-select{margin-top:7px}.saved-main{min-width:0}.saved-description{width:100%;background:#091019;border:1px solid var(--line2);color:var(--ink);padding:9px 10px;font-size:14px}.saved-file{margin-top:6px;font-family:var(--mono);font-size:12px;color:var(--accent3);word-break:break-all}.saved-meta{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap;padding-top:6px}.saved-note{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:4px}
 
-  .lower{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px}
-  .artifact-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-  .artifact{display:grid;grid-template-columns:145px 1fr;gap:10px;padding:9px 0;border-bottom:1px dotted var(--line);font-size:12.5px}
-  .artifact:last-child{border-bottom:0}
-  .artifact .type{font-family:var(--mono);color:var(--accent3)}
-  .artifact .detail{color:var(--muted)}
-  .artifact code{font-family:var(--mono);font-size:11.5px;color:var(--soft)}
-  .empty{font-family:var(--mono);font-size:12px;color:var(--muted);padding:8px 0}
+  .path{display:grid;gap:10px}.stage{border:1px solid var(--line);background:#0b121c;padding:11px 12px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}.stage-title{font-weight:700;font-size:15px;margin-bottom:3px}.stage-desc{font-size:13px;color:var(--muted)}.stage-state{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line2);padding:3px 6px;white-space:nowrap}.stage.active{border-color:var(--accent2);background:rgba(110,143,175,.09)}.stage.active .stage-state{color:var(--accent3);border-color:var(--accent2)}.stage.pass{border-color:#48667e;background:rgba(110,143,175,.08)}.stage.pass .stage-state{color:var(--accent3)}.stage.fail{border-color:var(--red);background:rgba(185,74,80,.08)}.stage.fail .stage-state{color:var(--red2);border-color:var(--red)}
 
-  .diag{min-height:170px}
-  .diag-summary{font-family:var(--mono);font-size:12.5px;white-space:pre-wrap;color:var(--soft)}
-  .diag-summary .sev{color:var(--red2);font-weight:700}
-  .diag-summary .help{color:var(--accent3);font-weight:700}
-  .diag-grid{margin-top:12px;display:grid;grid-template-columns:150px 1fr;gap:6px 12px;font-family:var(--mono);font-size:11.5px}
-  .diag-grid dt{color:var(--muted)}
-  .diag-grid dd{margin:0;color:var(--soft);word-break:break-word}
-  .diag-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:13px;padding-top:10px;border-top:1px solid var(--line)}
-  .voice-select{background:#0a111b;color:var(--ink);border:1px solid var(--line2);padding:5px 8px;font-family:var(--mono);font-size:11px}
+  .lower{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:16px;margin-top:16px}.artifact-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}.artifact{display:grid;grid-template-columns:145px 1fr;gap:10px;padding:9px 0;border-bottom:1px dotted var(--line);font-size:12.5px}.artifact:last-child{border-bottom:0}.artifact .type{font-family:var(--mono);color:var(--accent3)}.artifact .detail{color:var(--muted)}.empty{font-family:var(--mono);font-size:13px;color:var(--muted);padding:8px 0}
+  .diag{min-height:180px}.diag-summary{font-family:var(--mono);font-size:14px;white-space:pre-wrap;color:var(--soft)}.diag-summary .sev{color:var(--red2);font-weight:700}.diag-summary .help{color:var(--accent3);font-weight:700}.diag-summary .info{color:var(--green);font-weight:700}.diag-grid{margin-top:12px;display:grid;grid-template-columns:150px 1fr;gap:6px 12px;font-family:var(--mono);font-size:13px}.diag-grid dt{color:var(--muted)}.diag-grid dd{margin:0;color:var(--soft);word-break:break-word}.diag-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:13px;padding-top:10px;border-top:1px solid var(--line)}.voice-select{background:#0a111b;color:var(--ink);border:1px solid var(--line2);padding:7px 9px;font-family:var(--mono);font-size:13px}
 
-  .scope-strip{margin-top:16px;border:1px solid var(--line2);background:#0b121c;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start}
-  .scope-text{font-size:12.5px;color:var(--muted);max-width:100ch}
-  .scope-text strong{color:var(--soft)}
-  .scope-tags{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
-  .tag{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line2);padding:4px 7px;color:var(--muted)}
-  .tag.in{color:var(--accent3);border-color:#48667e}
-  .tag.out{color:#a58f91;border-color:#5c3d42}
+  .scope-strip{margin-top:16px;border:1px solid var(--line2);background:#0b121c;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start}.scope-text{font-size:12.5px;color:var(--muted);max-width:110ch}.scope-text strong{color:var(--soft)}.scope-tags{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.tag{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line2);padding:4px 7px;color:var(--muted)}.tag.in{color:var(--accent3);border-color:#48667e}.tag.out{color:#a58f91;border-color:#5c3d42}
+  .footer{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:13px;padding-top:12px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .hidden-file{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 
-  .footer{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:13px;padding-top:12px;border-top:1px solid var(--line);font-family:var(--mono);font-size:10.5px;color:var(--muted)}
-
-  @media(max-width:1050px){.context{grid-template-columns:1fr 1fr}.workspace,.lower{grid-template-columns:1fr}.scope-strip{grid-template-columns:1fr}.scope-tags{justify-content:flex-start}}
-  @media(max-width:650px){.shell{padding:12px}.context{grid-template-columns:1fr}.editor-wrap,.editor-highlight,#workOrder{min-height:340px}.artifact{grid-template-columns:1fr}.diag-grid{grid-template-columns:1fr}.stage{grid-template-columns:28px 1fr}.stage-state{grid-column:2;justify-self:start}}
+  @media(max-width:1180px){.context{grid-template-columns:repeat(3,1fr)}.grid-top,.lower{grid-template-columns:1fr}}
+  @media(max-width:720px){.shell{padding:12px}.gate-grid{grid-template-columns:1fr}.context{grid-template-columns:1fr}.editor-wrap,.editor-highlight,#workOrder{min-height:300px}.artifact{grid-template-columns:1fr}.diag-grid{grid-template-columns:1fr}.stage{grid-template-columns:1fr}.stage-state{grid-column:1;justify-self:start}.saved-row{grid-template-columns:26px 1fr}.saved-meta{grid-column:2}.scope-strip{grid-template-columns:1fr}.scope-tags{justify-content:flex-start}}
 </style>
 </head>
 <body>
@@ -137,418 +114,594 @@
   <header class="topline">
     <div>
       <div class="brand"><strong>Red<span class="brand-five">5</span>Sorcery</strong> / Data Sculptor / WASM-002</div>
-      <div class="brand" style="margin-top:5px;color:var(--muted)">Browser front-end design prototype · Day 042</div>
+      <div class="brand" style="margin-top:5px;color:var(--muted)">Browser front-end design prototype · Day 043</div>
     </div>
     <div class="head-right">
       <span class="pill warn"><span class="dot"></span>DRAFT / NOT FROZEN</span>
-      <span class="pill"><span class="dot"></span>LOCAL-ONLY SIMULATION</span>
+      <span class="pill"><span class="dot"></span>LOCAL-FIRST INTERACTION PROTOTYPE</span>
       <a class="prd-link" href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">[P] Product Backlog PRD</a>
     </div>
   </header>
 
-  <div class="notice"><strong>DESIGN PROTOTYPE ONLY.</strong> This page simulates the narrow WASM-002 browser surface. It does not open real source files or execute the Rust/WASM engine. The Work Order and Help controls can generate local prototype TXT/HTML downloads so the durable-artifact interaction can be exercised. Work Order grammar, diagnostic codes, identity-token details, Brand Manifest details, artifact classes, and several storage fields remain freeze items.</div>
+  <div class="notice"><strong>DESIGN PROTOTYPE.</strong> Rust/WASM execution is not connected. Column materialization is simulated.</div>
+  <div class="creed"><strong>The human names the meaning. Data Sculptor names the file.</strong></div>
 
   <section class="context" aria-label="Current project context">
-    <div class="ctx"><div class="k">Suitcase</div><div class="v ok" id="ctxSuitcase">AUTHORIZED · visible flat folder</div></div>
-    <div class="ctx"><div class="k">Source</div><div class="v" id="ctxSource">Statistics_Canada_Crime.csv</div></div>
-    <div class="ctx"><div class="k">Source identity</div><div class="v wait" id="ctxIdentity">BOUND · awaiting certification</div></div>
-    <div class="ctx"><div class="k">Encoding gate</div><div class="v wait" id="ctxEncoding">NOT YET CERTIFIED</div></div>
-    <div class="ctx"><div class="k">Persistence</div><div class="v ok">SUITCASE ONLY · no hidden project state</div></div>
+    <div class="ctx"><div class="k">Suitcase</div><div class="v wait" id="ctxSuitcase">NOT AUTHORIZED</div></div>
+    <div class="ctx"><div class="k">Source</div><div class="v wait" id="ctxSource">LOCKED UNTIL SUITCASE VALIDATES</div></div>
+    <div class="ctx"><div class="k">Detected headers</div><div class="v wait" id="ctxHeaders">LOCKED</div></div>
+    <div class="ctx"><div class="k">Selected column</div><div class="v wait" id="ctxColumn">NONE</div></div>
+    <div class="ctx"><div class="k">Run target</div><div class="v wait" id="ctxRunTarget">NO SAVED WORK ORDER SELECTED</div></div>
+    <div class="ctx"><div class="k">Persistence rule</div><div class="v ok">VISIBLE FLAT SUITCASE · GENERATED FILENAMES</div></div>
   </section>
 
-  <section class="workspace">
-    <article class="panel" aria-labelledby="wo-title">
-      <div class="panel-head">
-        <div id="wo-title" class="panel-title">Work Order editor</div>
-        <div class="panel-note">human-readable UTF-8 · saved TXT is the Run target · illustrative grammar</div>
-      </div>
-      <div class="panel-body">
-        <div class="editor-wrap">
-          <pre id="highlight" class="editor-highlight" aria-hidden="true"></pre>
-          <textarea id="workOrder" aria-label="Illustrative WASM-002 Work Order editor" spellcheck="false"># Illustrative WASM-002 Work Order — grammar not frozen
-OPERATION: MATERIALIZE
-SOURCE: Statistics_Canada_Crime.csv
-COLUMNS:
-  REF_DATE
-  GEO
-  VALUE
-OUTPUT: SUITCASE</textarea>
+  <section class="grid-top">
+    <article class="suitcase-gate span-2" id="suitcaseGate" aria-labelledby="suitcase-gate-title">
+      <div class="gate-body">
+        <div class="gate-grid">
+          <div>
+            <div class="gate-kicker">Required first · Suitcase gate</div>
+            <div class="gate-title" id="suitcase-gate-title">Validate where Data Sculptor work belongs</div>
+            <div class="gate-copy">Choose one writable Suitcase folder to begin.</div>
+          </div>
+          <button class="primary-btn" id="suitcaseBtn" type="button">Choose &amp; validate Suitcase</button>
         </div>
-        <div class="actions" aria-label="Work Order actions">
-          <button class="term-btn" id="suitcaseBtn" type="button">[O] Authorize Suitcase</button>
-          <button class="term-btn" id="sourceBtn" type="button">[F] Choose Source</button>
-          <button class="term-btn" id="saveWorkOrderBtn" type="button">[W] Save Work Order TXT</button>
-          <button class="term-btn" id="validateBtn" type="button">[V] Validate</button>
-          <button class="term-btn" id="runBtn" type="button">[R] Run</button>
-          <button class="term-btn" id="helpBtn" type="button">[H] Help</button>
-          <span class="action-spacer"></span>
-          <button class="term-btn muted" id="failDemoBtn" type="button">[F9] Encoding refusal demo</button>
-        </div>
-        <div id="workOrderState" class="statusline">Work Order TXT: not saved · Run requires saved bytes.</div>
-        <div id="status" class="statusline">Ready. Save the Work Order TXT, then validate or run the simulated governed path.</div>
+        <div class="gate-status" id="suitcaseGateStatus">NOT VALIDATED · workspace controls are locked</div>
       </div>
     </article>
 
-    <article class="panel" aria-labelledby="path-title">
+    <article class="panel span-2" aria-labelledby="files-title">
       <div class="panel-head">
-        <div id="path-title" class="panel-title">Governed execution path</div>
-        <div class="panel-note">front end presents · shared core decides</div>
+        <div id="files-title" class="panel-title">Suitcase directory</div>
+        <button class="term-btn" id="refreshFilesBtn" type="button" disabled>[R] Refresh</button>
       </div>
       <div class="panel-body">
-        <div class="path">
-          <div class="stage" id="stage1">
-            <div class="stage-num">01</div>
-            <div><div class="stage-title">Strict whole-file UTF-8 certification</div><div class="stage-desc">Bounded source windows. No CSV interpretation. PASS is required before analytical materialization.</div></div>
-            <div class="stage-state">WAITING</div>
-          </div>
-          <div class="stage" id="stage2">
-            <div class="stage-num">02</div>
-            <div><div class="stage-title">Source identity gate</div><div class="stage-desc">The source presented to materialization must match the source that was certified.</div></div>
-            <div class="stage-state">WAITING</div>
-          </div>
-          <div class="stage" id="stage3">
-            <div class="stage-num">03</div>
-            <div><div class="stage-title">One bounded structural CSV pass</div><div class="stage-desc">Requested columns are validated first, then materialized together with deterministic row alignment.</div></div>
-            <div class="stage-state">WAITING</div>
-          </div>
-          <div class="stage" id="stage4">
-            <div class="stage-num">04</div>
-            <div><div class="stage-title">Visible durable artifacts</div><div class="stage-desc">Work Order, evidence, materialized columns, row identity, receipt/metadata, and Help artifacts stay in the user-controlled Suitcase as governed by the final contract.</div></div>
-            <div class="stage-state">WAITING</div>
-          </div>
+        <div class="files-wrap">
+          <table aria-label="Directory listing for the selected Suitcase">
+            <thead><tr><th>File</th><th>Alias</th><th>Type</th><th>Size</th></tr></thead>
+            <tbody id="suitcaseFilesBody"><tr><td colspan="4" class="saved-empty">Validate a Suitcase to see its directory.</td></tr></tbody>
+          </table>
         </div>
       </div>
     </article>
+
+    <div class="stack">
+      <article class="panel" aria-labelledby="wo-title">
+        <div class="panel-head"><div id="wo-title" class="panel-title">Work Order draft</div><div class="panel-note">Saved = immutable</div></div>
+        <div class="panel-body">
+          <label class="field-label" for="draftDescription">Description</label>
+          <input class="text-input" id="draftDescription" type="text" value="" placeholder="Optional description for this Work Order" maxlength="180" disabled />
+          <div style="height:10px"></div>
+          <div class="editor-wrap">
+            <pre id="highlight" class="editor-highlight" aria-hidden="true"></pre>
+            <textarea id="workOrder" aria-label="Illustrative WASM-002 Work Order draft" spellcheck="false" disabled># Illustrative WASM-002 Work Order — grammar not frozen
+OPERATION: MATERIALIZE
+SOURCE: 35100178.csv
+COLUMN: VALUE
+OUTPUT: SUITCASE</textarea>
+          </div>
+          <div class="actions" aria-label="Work Order actions">
+            <button class="primary-btn" id="saveWorkOrderBtn" type="button" disabled>Save NEW Work Order TXT</button>
+            <button class="term-btn" id="validateBtn" type="button" disabled>[V] Validate draft</button>
+            <button class="term-btn" id="runBtn" type="button" disabled>[R] Run selected saved Work Order</button>
+            <button class="term-btn" id="helpBtn" type="button">[H] Help</button>
+          </div>
+          <div class="statusline" id="draftState">Draft locked · validate a Suitcase first.</div>
+        </div>
+      </article>
+
+      <article class="panel" aria-labelledby="saved-title">
+        <div class="panel-head"><div id="saved-title" class="panel-title">Saved Work Orders only</div><div class="panel-note"><span class="tiny-badge lock">IMMUTABLE TXT</span></div></div>
+        <div class="panel-body">
+          <div class="saved-list" id="savedWorkOrders"><div class="saved-empty">No saved Work Orders yet.</div></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="stack">
+      <article class="panel" aria-labelledby="path-title">
+        <div class="panel-head"><div id="path-title" class="panel-title">Execution output</div><div class="panel-note">Read-only · no command prompt</div></div>
+        <div class="panel-body">
+          <pre class="terminal-output" id="executionOutput" aria-live="polite">EXECUTION OUTPUT · READY
+Waiting for a saved Work Order.</pre>
+        </div>
+      </article>
+    </div>
   </section>
 
   <section class="lower">
     <article class="panel" aria-labelledby="artifact-title">
-      <div class="panel-head">
-        <div id="artifact-title" class="panel-title">Suitcase artifacts / result state</div>
-        <div class="panel-note">no row preview · no filters · no hidden cache</div>
-      </div>
-      <div class="panel-body">
-        <div id="artifactArea" class="empty">Nothing has been created in this simulated run.</div>
-      </div>
+      <div class="panel-head"><div id="artifact-title" class="panel-title">Suitcase artifacts</div><div class="panel-note">Visible files</div></div>
+      <div class="panel-body"><div id="artifactArea" class="empty">No artifacts yet.</div></div>
     </article>
 
     <article class="panel" aria-labelledby="diag-title">
       <div class="panel-head">
-        <div id="diag-title" class="panel-title">Help / diagnostic surface</div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <label for="voice" class="panel-note">voice</label>
-          <select id="voice" class="voice-select" aria-label="Help voice">
-            <option value="casual">Casual</option>
-            <option value="office" selected>Office Speak</option>
-            <option value="technical">Technical</option>
-          </select>
-        </div>
+        <div id="diag-title" class="panel-title">Help Engine</div>
+        <div style="display:flex;gap:8px;align-items:center"><label for="voice" class="panel-note">voice</label><select id="voice" class="voice-select" aria-label="Help voice"><option value="casual">Casual</option><option value="office" selected>Office Speak</option><option value="technical">Technical</option></select></div>
       </div>
       <div class="panel-body diag">
-        <div id="diagArea" class="diag-summary">No active diagnostic. Help will preserve the same canonical facts while changing only the wording and technical depth.</div>
+        <div id="diagArea" class="diag-summary"><span class="help">HELP ENGINE · READY</span></div>
         <div id="diagActions" class="diag-actions" hidden>
           <button class="term-btn" id="fullHelpBtn" type="button">[H] Full Help</button>
-          <button class="term-btn" id="saveHelpBtn" type="button">[S] Save HTML Help Report</button>
-          <button class="term-btn" id="convertBtn" type="button" hidden>[C] Draft separate conversion Work Order</button>
+          <button class="term-btn" id="saveHelpBtn" type="button">[S] Save HTML Help Report to Suitcase</button>
         </div>
       </div>
     </article>
   </section>
 
   <section class="scope-strip" aria-label="Prototype scope boundary">
-    <div class="scope-text"><strong>This prototype intentionally stops at the WASM-002 boundary.</strong> It visualizes source authorization, durable UTF-8 TXT Work Orders, Work Order validation, strict UTF-8 certification, source binding, one-pass multi-column materialization, visible Suitcase artifacts, canonical diagnostics, three-voice Help, and a durable branded Help report. The WASM Run targets saved Work Order bytes rather than transient editor state. It does not preview future filtering, grouping, sorting, Quick Viz, PRETTY Tables, DS-VERIFY, or later build/export workflows.</div>
-    <div class="scope-tags">
-      <span class="tag in">WASM-002</span><span class="tag in">Browser-first</span><span class="tag in">Visible storage</span><span class="tag out">No future V1 features</span>
-    </div>
+    <div class="scope-text"><strong>WASM-002 prototype:</strong> Suitcase → Work Order → Run → Evidence.</div>
+    <div class="scope-tags"><span class="tag in">Storage Engine</span><span class="tag in">Help Engine</span><span class="tag out">Prototype only</span></div>
   </section>
 
-  <footer class="footer">
-    <span>Ctrl+Shift+S Save Work Order · Ctrl+Enter Run · F1 Help · F9 refusal demo · Esc clear diagnostic</span>
-    <span>Presentation is illustrative. Shared Rust semantics remain authoritative.</span>
-  </footer>
+  <footer class="footer"><span>Ctrl+Shift+S Save · Ctrl+Enter Run · F1 Help · Esc Clear Help</span><span>Prototype only · PRD remains authoritative</span></footer>
 </main>
 
 <script>
 (() => {
-  const workOrder = document.getElementById('workOrder');
-  const highlight = document.getElementById('highlight');
-  const status = document.getElementById('status');
-  const workOrderState = document.getElementById('workOrderState');
-  const artifactArea = document.getElementById('artifactArea');
-  const diagArea = document.getElementById('diagArea');
-  const diagActions = document.getElementById('diagActions');
-  const convertBtn = document.getElementById('convertBtn');
-  const voice = document.getElementById('voice');
-  const ctxEncoding = document.getElementById('ctxEncoding');
-  const ctxIdentity = document.getElementById('ctxIdentity');
-  const stages = [1,2,3,4].map(n => document.getElementById('stage'+n));
-  let currentDiagnostic = null;
-  let runToken = 0;
-  let savedWorkOrderText = null;
-  let savedWorkOrderName = null;
+  const workOrder=document.getElementById('workOrder');
+  const highlight=document.getElementById('highlight');
+  const draftDescription=document.getElementById('draftDescription');
+  const savedWorkOrdersEl=document.getElementById('savedWorkOrders');
+  const artifactArea=document.getElementById('artifactArea');
+  const suitcaseFilesBody=document.getElementById('suitcaseFilesBody');
+  const refreshFilesBtn=document.getElementById('refreshFilesBtn');
+  const diagArea=document.getElementById('diagArea');
+  const diagActions=document.getElementById('diagActions');
+  const voice=document.getElementById('voice');
+  const ctxSuitcase=document.getElementById('ctxSuitcase');
+  const ctxSource=document.getElementById('ctxSource');
+  const ctxHeaders=document.getElementById('ctxHeaders');
+  const ctxColumn=document.getElementById('ctxColumn');
+  const ctxRunTarget=document.getElementById('ctxRunTarget');
+  const suitcaseGate=document.getElementById('suitcaseGate');
+  const suitcaseGateStatus=document.getElementById('suitcaseGateStatus');
+  const saveWorkOrderBtn=document.getElementById('saveWorkOrderBtn');
+  const validateBtn=document.getElementById('validateBtn');
+  const runBtn=document.getElementById('runBtn');
+  const executionOutput=document.getElementById('executionOutput');
 
-  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  let suitcaseHandle=null;
+  let suitcaseValidated=false;
+  let sourceFile=null;
+  let suitcaseFiles=[];
+  let headers=[];
+  let selectedHeader=null;
+  let materialized=[];
+  let savedWorkOrders=[];
+  let selectedWorkOrderName=null;
+  let descriptions=new Map();
+  let aliases=new Map(); // physical filename -> human-facing alias
+  const ALIAS_MAP_FILENAME='__DS__MAP__ALIASES.csv';
+  let currentDiagnostic=null;
+
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const nowLabel=()=>new Date().toLocaleString([], {hour12:false});
+
+  // Governed artifact identity helpers. Keep these browser-side helpers small, deterministic
+  // in shape, and dependency-free so the same contract can later be owned by the Rust
+  // Storage Engine without changing the visible filename semantics.
+  function utcStamp(at=new Date()){
+    return at.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');
+  }
+
+  function uuidV4(){
+    const c=globalThis.crypto;
+    if(!c) throw new Error('Secure Web Crypto API is unavailable; cannot generate a governed artifact identity.');
+    if(typeof c.randomUUID==='function') return c.randomUUID();
+    if(typeof c.getRandomValues!=='function') throw new Error('Secure random UUID generation is unavailable in this browser context.');
+
+    const bytes=new Uint8Array(16);
+    c.getRandomValues(bytes);
+    bytes[6]=(bytes[6]&0x0f)|0x40; // RFC 4122 / UUID v4 version bits
+    bytes[8]=(bytes[8]&0x3f)|0x80; // RFC 4122 variant bits
+    const hex=[...bytes].map(b=>b.toString(16).padStart(2,'0'));
+    return `${hex.slice(0,4).join('')}-${hex.slice(4,6).join('')}-${hex.slice(6,8).join('')}-${hex.slice(8,10).join('')}-${hex.slice(10,16).join('')}`;
+  }
+
+  function makeFilename(cls,ext,{at=new Date(),uuid=uuidV4()}={}){
+    const artifactClass=String(cls||'').trim().toUpperCase();
+    const extension=String(ext||'').trim().toLowerCase();
+    if(!/^[A-Z0-9]+$/.test(artifactClass)) throw new Error(`Invalid governed artifact class: ${cls}`);
+    if(!/^[a-z0-9]+$/.test(extension)) throw new Error(`Invalid governed artifact extension: ${ext}`);
+    return `__DS__${artifactClass}__${utcStamp(at)}__${uuid}.${extension}`;
+  }
 
   function highlightLine(line){
     if(line.trim().startsWith('#')) return `<span class="tok-comment">${esc(line)}</span>`;
     const m=line.match(/^(\s*)([A-Z_]+)(\s*:\s*)(.*)$/);
-    if(m){
-      const op = m[2] === 'OPERATION' ? ' tok-op' : '';
-      return `${esc(m[1])}<span class="tok-key${op}">${esc(m[2])}</span>${esc(m[3])}<span class="tok-value">${esc(m[4])}</span>`;
-    }
+    if(m){const op=m[2]==='OPERATION'?' tok-op':'';return `${esc(m[1])}<span class="tok-key${op}">${esc(m[2])}</span>${esc(m[3])}<span class="tok-value">${esc(m[4])}</span>`}
     return `<span class="tok-value">${esc(line)}</span>`;
   }
-  function renderHighlight(){
-    highlight.innerHTML = workOrder.value.split('\n').map(highlightLine).join('\n')+'\n';
-    highlight.scrollTop=workOrder.scrollTop; highlight.scrollLeft=workOrder.scrollLeft;
+  function renderHighlight(){highlight.innerHTML=workOrder.value.split('\n').map(highlightLine).join('\n')+'\n';highlight.scrollTop=workOrder.scrollTop;highlight.scrollLeft=workOrder.scrollLeft}
+
+  function setExecution(lines){executionOutput.textContent=Array.isArray(lines)?lines.join('\n'):String(lines||'');executionOutput.scrollTop=executionOutput.scrollHeight}
+  function appendExecution(line=''){executionOutput.textContent+=(executionOutput.textContent?'\n':'')+line;executionOutput.scrollTop=executionOutput.scrollHeight}
+  function resetExecution(){setExecution(['EXECUTION OUTPUT · READY','Waiting for a saved Work Order.'])}
+
+  function wording(d,v){
+    if(v==='casual') return `${d.observed} ${d.next}`;
+    if(v==='technical') return `${d.phase}: ${d.observed} Safe next action: ${d.next}`;
+    return `${d.observed} ${d.next}`;
+  }
+  function emitHelp(d){
+    currentDiagnostic=d;
+    const cls=d.severity==='ERROR'?'sev':(d.severity==='INFO'?'info':'help');
+    diagArea.innerHTML=`<span class="${cls}">${esc(d.severity)} · ${esc(d.code)}</span>\n${esc(wording(d,voice.value))}<dl class="diag-grid"><dt>Source</dt><dd>Help Engine</dd><dt>Phase</dt><dd>${esc(d.phase)}</dd><dt>Canonical facts</dt><dd>${esc(JSON.stringify(d.facts||{},null,2))}</dd><dt>Safe next action</dt><dd>${esc(d.next)}</dd></dl>`;
+    diagActions.hidden=false;
+  }
+  function clearHelp(){currentDiagnostic=null;diagArea.innerHTML='<span class="help">HELP ENGINE · READY</span>';diagActions.hidden=true}
+
+  function requireSuitcase(phase){
+    if(suitcaseValidated&&suitcaseHandle)return true;
+    emitHelp({code:'PROTOTYPE-SUITCASE-GATE',severity:'ERROR',phase,observed:'The Suitcase gate has not been satisfied. Data Sculptor will not begin analytical work until a writable Suitcase is validated.',next:'Choose and validate the Suitcase folder first. Data Sculptor will test write access without asking you to name an artifact.',facts:{suitcase_validated:false,gate_required_first:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
+    return false;
+  }
+  function updateWorkspaceGate(){
+    const locked=!suitcaseValidated;
+    refreshFilesBtn.disabled=locked;
+    workOrder.disabled=locked;
+    draftDescription.disabled=locked;
+    saveWorkOrderBtn.disabled=locked;
+    validateBtn.disabled=locked;
+    runBtn.disabled=locked;
+    if(locked){
+      suitcaseGate.classList.remove('ready');
+      suitcaseGateStatus.textContent='NOT VALIDATED · workspace controls are locked';
+      suitcaseBtn.textContent='Choose & validate Suitcase';
+      ctxSource.textContent='LOCKED UNTIL SUITCASE VALIDATES';ctxSource.className='v wait';
+      ctxHeaders.textContent='LOCKED';ctxHeaders.className='v wait';
+      suitcaseFiles=[];renderSuitcaseFiles();
+      document.getElementById('draftState').textContent='Draft locked · validate a Suitcase first.';
+    }else{
+      suitcaseGate.classList.add('ready');
+      suitcaseGateStatus.textContent=`VALIDATED · selected folder: ${suitcaseHandle.name} · workspace unlocked`;
+      suitcaseBtn.textContent='Change & revalidate Suitcase';
+      if(!sourceFile){
+        ctxSource.textContent='AWAITING WORK ORDER';ctxSource.className='v wait';
+        ctxHeaders.textContent='AWAITING RUN';ctxHeaders.className='v wait';
+      }else{
+        ctxSource.textContent=sourceFile.name;ctxSource.className='v ok';
+        ctxHeaders.textContent=`${headers.length} DETECTED`;ctxHeaders.className='v ok';
+      }
+      document.getElementById('draftState').textContent='Draft state: editable · saving creates a new immutable TXT artifact; it never overwrites a saved Work Order.';
+    }
+    renderHeaders();
   }
 
-  function setStage(n,state,label){
-    const el=stages[n-1]; el.className='stage'+(state?' '+state:'');
-    el.querySelector('.stage-state').textContent=label;
-  }
-  function resetStages(){
-    stages.forEach((_,i)=>setStage(i+1,'','WAITING'));
-    ctxEncoding.textContent='NOT YET CERTIFIED'; ctxEncoding.className='v wait';
-    ctxIdentity.textContent='BOUND · awaiting certification'; ctxIdentity.className='v wait';
+  function renderHeaders(){
+    if(!sourceFile){
+      if(suitcaseValidated){ctxHeaders.textContent='AWAITING RUN';ctxHeaders.className='v wait'}
+      return;
+    }
+    ctxHeaders.textContent=`${headers.length} DETECTED`;ctxHeaders.className='v ok';
   }
 
-  function parseWorkOrder(text=workOrder.value){
-    const op=(text.match(/^OPERATION:\s*(.+)$/mi)||[])[1]?.trim().toUpperCase();
-    const source=(text.match(/^SOURCE:\s*(.+)$/mi)||[])[1]?.trim();
-    const lines=text.split(/\r?\n/);
-    const cols=[]; let inCols=false;
-    for(const line of lines){
-      if(/^COLUMNS:\s*$/i.test(line)){inCols=true;continue;}
-      if(inCols){
-        if(/^\S/.test(line) && line.includes(':')){inCols=false;continue;}
-        const t=line.trim(); if(t && !t.startsWith('#')) cols.push(t);
+  function renderMappings(){
+    // Physical artifacts are shown in the Suitcase directory; no separate mapping panel.
+  }
+
+  function csvCell(value){
+    const text=String(value??'');
+    return /[",\r\n]/.test(text) ? `"${text.replace(/"/g,'""')}"` : text;
+  }
+
+  function parseCsvLine(line){
+    const out=[];let field='',quoted=false;
+    for(let i=0;i<line.length;i++){
+      const ch=line[i];
+      if(quoted){
+        if(ch==='"'){if(line[i+1]==='"'){field+='"';i++}else quoted=false}
+        else field+=ch;
+      }else{
+        if(ch==='"')quoted=true;
+        else if(ch===','){out.push(field);field=''}
+        else field+=ch;
       }
     }
-    return {op,source,cols,text};
+    out.push(field);return out;
   }
 
-  function validate(text=workOrder.value,targetLabel='editor'){
-    const w=parseWorkOrder(text);
-    const problems=[];
-    if(!w.op) problems.push('OPERATION is missing.');
-    if(!w.source) problems.push('SOURCE is missing.');
-    if(w.op==='MATERIALIZE' && !w.cols.length) problems.push('At least one requested column is required for this illustrative MATERIALIZE request.');
-    if(problems.length){
-      status.innerHTML=`<span style="color:var(--red2)">Validation stopped:</span> ${esc(problems.join(' '))}`;
-      showDiagnostic({
-        code:'PROTOTYPE-WO-INVALID',severity:'ERROR',phase:'WORK ORDER VALIDATION',refuse:true,
-        observed:problems.join(' '),next:'Correct the illustrative Work Order and validate again.',
-        facts:{validation_target:targetLabel,operation:w.op||null,source:w.source||null,requested_columns:w.cols}
-      },false);
-      return false;
+  async function loadAliasMapFromSuitcase(){
+    aliases=new Map();
+    if(!suitcaseHandle)return;
+    try{
+      const handle=await suitcaseHandle.getFileHandle(ALIAS_MAP_FILENAME);
+      const file=await handle.getFile();
+      const text=await file.text();
+      const lines=text.replace(/^\uFEFF/,'').split(/\r?\n/).filter(Boolean);
+      for(let i=1;i<lines.length;i++){
+        const [alias,filename]=parseCsvLine(lines[i]);
+        if(alias&&filename)aliases.set(filename,alias);
+      }
+    }catch(err){
+      if(!(err&&err.name==='NotFoundError')){
+        emitHelp({code:'PROTOTYPE-ALIAS-MAP-READ-FAILED',severity:'ERROR',phase:'ALIAS MAP',observed:'The Suitcase alias mapping file could not be read.',next:'Check the mapping file and refresh the Suitcase directory.',facts:{mapping_file:ALIAS_MAP_FILENAME,error:String(err)}});
+      }
     }
-    status.innerHTML=`<strong>${targetLabel==='saved Work Order'?'Saved Work Order':'Work Order editor'} structure accepted by the prototype.</strong> Final grammar is still a PRD freeze item.`;
-    return true;
   }
 
-  function compactUtc(){
-    return new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');
+  async function saveAliasMapToSuitcase(){
+    if(!suitcaseHandle)throw new Error('Suitcase not authorized');
+    const rows=[['alias','filename'],...Array.from(aliases.entries()).map(([filename,alias])=>[alias,filename]).sort((a,b)=>a[0].localeCompare(b[0],undefined,{sensitivity:'base'}))];
+    const csv=rows.map(r=>r.map(csvCell).join(',')).join('\n')+'\n';
+    await writeTextToSuitcase(ALIAS_MAP_FILENAME,csv,'text/csv');
   }
 
-  function prototypeUuid(){
-    if(globalThis.crypto && typeof globalThis.crypto.randomUUID==='function') return globalThis.crypto.randomUUID();
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0,v=c==='x'?r:(r&0x3|0x8);return v.toString(16)});
-  }
+  function aliasKey(value){return String(value??'').trim().toLocaleLowerCase()}
 
-  function updateWorkOrderState(){
-    if(savedWorkOrderText===null){
-      workOrderState.innerHTML='<strong>Work Order TXT:</strong> not saved · Run requires saved bytes.';
-      return;
+  async function updateAlias(filename,newValue,input){
+    const next=String(newValue??'').trim();
+    const prior=aliases.get(filename)||'';
+    if(filename===ALIAS_MAP_FILENAME){if(input)input.value='';return}
+    if(next){
+      const key=aliasKey(next);
+      const physicalCollision=suitcaseFiles.find(item=>item.name!==filename&&aliasKey(item.name)===key);
+      if(physicalCollision){
+        if(input)input.value=prior;
+        emitHelp({code:'PROTOTYPE-ALIAS-SHADOWS-FILENAME',severity:'ERROR',phase:'ALIAS MAP',observed:`Alias “${next}” conflicts with the physical filename ${physicalCollision.name}.`,next:'Choose an alias that does not match another visible Suitcase filename.',facts:{alias:next,requested_filename:filename,conflicting_filename:physicalCollision.name,mapping_file:ALIAS_MAP_FILENAME}});
+        return;
+      }
+      const collision=Array.from(aliases.entries()).find(([otherFile,otherAlias])=>otherFile!==filename&&aliasKey(otherAlias)===key);
+      if(collision){
+        if(input)input.value=prior;
+        emitHelp({code:'PROTOTYPE-ALIAS-DUPLICATE',severity:'ERROR',phase:'ALIAS MAP',observed:`Alias “${next}” is already assigned to ${collision[0]}.`,next:'Choose a unique alias. Existing alias assignments are not silently reassigned.',facts:{alias:next,requested_filename:filename,existing_filename:collision[0],mapping_file:ALIAS_MAP_FILENAME}});
+        return;
+      }
+      aliases.set(filename,next);
+    }else aliases.delete(filename);
+    try{
+      await saveAliasMapToSuitcase();
+      await refreshSuitcaseFilesFromSuitcase();
+      emitHelp({code:'PROTOTYPE-ALIAS-MAP-UPDATED',severity:'INFO',phase:'ALIAS MAP',observed:next?`Alias “${next}” now maps to ${filename}.`:`The alias for ${filename} was cleared.`,next:'Work Orders may refer to a physical filename or to a unique alias from the Suitcase directory.',facts:{filename,alias:next||null,mapping_file:ALIAS_MAP_FILENAME,mapping_file_updated:true,physical_file_renamed:false,physical_file_rewritten:false}});
+    }catch(err){
+      if(prior)aliases.set(filename,prior);else aliases.delete(filename);
+      if(input)input.value=prior;
+      emitHelp({code:'PROTOTYPE-ALIAS-MAP-WRITE-FAILED',severity:'ERROR',phase:'ALIAS MAP',observed:'The alias mapping file could not be updated.',next:'Check Suitcase write permission and try again.',facts:{filename,alias:next,error:String(err),mapping_file:ALIAS_MAP_FILENAME}});
     }
-    if(workOrder.value!==savedWorkOrderText){
-      workOrderState.innerHTML=`<strong>Work Order TXT:</strong> ${esc(savedWorkOrderName)} · <span style="color:var(--warn)">editor has unsaved changes · Run blocked until saved again</span>`;
-      return;
+  }
+
+  function resolveSuitcaseFile(reference){
+    const token=String(reference??'').trim();
+    const physical=suitcaseFiles.find(x=>x.name===token);
+    if(physical)return {item:physical,via:'filename',reference:token};
+    const match=suitcaseFiles.find(x=>aliasKey(aliases.get(x.name)||'')===aliasKey(token)&&token);
+    return match?{item:match,via:'alias',reference:token}:null;
+  }
+
+  function formatBytes(n){
+    if(!Number.isFinite(n))return '—';
+    const units=['B','KiB','MiB','GiB','TiB'];let v=n,i=0;
+    while(v>=1024&&i<units.length-1){v/=1024;i++}
+    const d=i===0?0:(v>=100?0:(v>=10?1:2));
+    return `${v.toFixed(d)} ${units[i]}`;
+  }
+  function renderSuitcaseFiles(){
+    if(!suitcaseValidated||!suitcaseHandle){
+      suitcaseFilesBody.innerHTML='<tr><td colspan="4" class="saved-empty">Validate a Suitcase to see its files.</td></tr>';return;
     }
-    workOrderState.innerHTML=`<strong>Work Order TXT:</strong> ${esc(savedWorkOrderName)} · saved UTF-8 bytes are the Run target.`;
-  }
-
-  function saveWorkOrder(){
-    const text=workOrder.value;
-    if(!text.trim()){
-      status.innerHTML='<span style="color:var(--red2)">Save stopped:</span> the Work Order editor is empty.';
-      return;
+    if(!suitcaseFiles.length){
+      suitcaseFilesBody.innerHTML='<tr><td colspan="4" class="saved-empty">This Suitcase is empty.</td></tr>';return;
     }
-    const name=`__DS__WKO__PROTOTYPE_${compactUtc()}_${prototypeUuid()}.txt`;
-    const blob=new Blob([text],{type:'text/plain;charset=utf-8'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),800);
-    savedWorkOrderText=text;
-    savedWorkOrderName=name;
-    updateWorkOrderState();
-    artifactArea.className='';
-    artifactArea.innerHTML=`<ul class="artifact-list">
-      <li class="artifact"><span class="type">Work Order · WKO</span><span class="detail">${esc(name)} · UTF-8 TXT · saved bytes are the authoritative prototype Run input</span></li>
-      <li class="artifact"><span class="type">Filename note</span><span class="detail">__DS__ namespace and WKO semantic class are intentional; the remaining prototype identity-token shape is illustrative and not frozen</span></li>
-    </ul>`;
-    status.innerHTML='<strong>Work Order TXT saved.</strong> WASM and native CLI share the same durable instruction artifact model; this prototype Run will target the exact saved text.';
+    suitcaseFilesBody.innerHTML=suitcaseFiles.map(item=>{
+      const lower=item.name.toLowerCase();
+      const csv=lower.endsWith('.csv');
+      const type=csv?'CSV':(lower.endsWith('.txt')?'TXT':(lower.endsWith('.html')||lower.endsWith('.htm')?'HTML':(lower.includes('.')?lower.split('.').pop().toUpperCase():'FILE')));
+      const systemMap=item.name===ALIAS_MAP_FILENAME;
+      const alias=aliases.get(item.name)||'';
+      const aliasCell=systemMap
+        ? '<span class="tiny-badge lock">SYSTEM MAP</span>'
+        : `<input class="alias-input" data-alias-file="${esc(item.name)}" value="${esc(alias)}" placeholder="Add alias" maxlength="120" aria-label="Alias for ${esc(item.name)}">`;
+      return `<tr><td class="filename">${esc(item.name)}</td><td>${aliasCell}</td><td class="file-kind">${esc(type)}</td><td class="file-size">${esc(formatBytes(item.size))}</td></tr>`;
+    }).join('');
+    suitcaseFilesBody.querySelectorAll('.alias-input').forEach(inp=>{
+      inp.addEventListener('change',e=>updateAlias(e.target.dataset.aliasFile,e.target.value,e.target));
+      inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}});
+    });
   }
 
-  function artifactsSuccess(w){
-    const cols=w.cols.map(c=>`<li class="artifact"><span class="type">Materialized column</span><span class="detail">${esc(c)} · governed row alignment · physical filename assigned by final storage contract</span></li>`).join('');
-    artifactArea.className='';
-    artifactArea.innerHTML=`<ul class="artifact-list">
-      <li class="artifact"><span class="type">Source</span><span class="detail">${esc(w.source)} · analyst-owned filename preserved</span></li>
-      <li class="artifact"><span class="type">Work Order · WKO</span><span class="detail">${esc(savedWorkOrderName||'saved Work Order')} · exact saved UTF-8 TXT bytes executed and preserved as evidence of requested intent</span></li>
-      <li class="artifact"><span class="type">Certification</span><span class="detail">Strict UTF-8 PASS · exact source-byte accounting retained</span></li>
-      <li class="artifact"><span class="type">Row identity</span><span class="detail">Visible deterministic 1..N row identity for the materialized row universe</span></li>
-      ${cols}
-      <li class="artifact"><span class="type">Project metadata</span><span class="detail">Store Map / Store Index / receipt fields shown conceptually; exact schemas and artifact classes remain freeze items</span></li>
-    </ul>`;
-  }
 
-  function clearDiagnostic(){
-    currentDiagnostic=null; diagActions.hidden=true; convertBtn.hidden=true;
-    diagArea.className='diag-summary';
-    diagArea.textContent='No active diagnostic. Help will preserve the same canonical facts while changing only the wording and technical depth.';
-  }
-
-  function wording(d,voiceName){
-    if(voiceName==='casual'){
-      return d.refuse
-        ? `Data Sculptor stopped before it could safely continue. ${d.observed} Nothing was silently changed. ${d.next}`
-        : `Here is what Data Sculptor knows right now. ${d.observed} ${d.next}`;
+  async function refreshSuitcaseFilesFromSuitcase(){
+    if(!suitcaseHandle){suitcaseFiles=[];renderSuitcaseFiles();return}
+    const found=[];
+    try{
+      for await(const [name,handle] of suitcaseHandle.entries()){
+        if(handle.kind!=='file')continue;
+        try{
+          const f=await handle.getFile();
+          found.push({name,handle,file:f,size:f.size,lastModified:f.lastModified});
+        }catch{
+          found.push({name,handle,file:null,size:NaN,lastModified:0});
+        }
+      }
+    }catch(err){
+      emitHelp({code:'PROTOTYPE-SUITCASE-LIST-FAILED',severity:'ERROR',phase:'SUITCASE DIRECTORY',observed:'Data Sculptor could not enumerate the selected Suitcase directory.',next:'Revalidate the Suitcase and try Refresh.',facts:{error:String(err)}});
     }
-    if(voiceName==='technical'){
-      return `${d.code} · ${d.severity} · phase=${d.phase} · refuse=${String(d.refuse).toUpperCase()}. Observed: ${d.observed} Next: ${d.next}`;
+    found.sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true,sensitivity:'base'}));
+    suitcaseFiles=found;
+    await loadAliasMapFromSuitcase();
+    renderSuitcaseFiles();
+  }
+
+  async function authorizeSuitcase(){
+    if(!window.showDirectoryPicker){
+      suitcaseValidated=false;updateWorkspaceGate();
+      ctxSuitcase.textContent='DIRECTORY API UNAVAILABLE';ctxSuitcase.className='v err';
+      emitHelp({code:'PROTOTYPE-SUITCASE-API-UNAVAILABLE',severity:'ERROR',phase:'SUITCASE VALIDATION',observed:'This browser context does not expose the directory picker needed to validate a Suitcase without a Save As filename dialog.',next:'Open the prototype in a current Chromium-based browser context that supports the File System Access API.',facts:{directory_picker:false,no_filename_prompt_required:true,gate_required_first:true}});return;
     }
-    return d.refuse
-      ? `The requested operation did not proceed because Data Sculptor could not satisfy the governed ${d.phase.toLowerCase()} condition. ${d.observed} The source remains unchanged. ${d.next}`
-      : `Data Sculptor has recorded the current ${d.phase.toLowerCase()} state. ${d.observed} ${d.next}`;
-  }
+    try{
+      const candidate=await window.showDirectoryPicker({mode:'readwrite'});
+      let permission='granted';
+      if(candidate.queryPermission)permission=await candidate.queryPermission({mode:'readwrite'});
+      if(permission!=='granted'&&candidate.requestPermission)permission=await candidate.requestPermission({mode:'readwrite'});
+      if(permission!=='granted')throw new Error('Read/write permission was not granted for the selected folder.');
 
-  function showDiagnostic(d,allowConversion){
-    currentDiagnostic={...d,allowConversion};
-    const copy=wording(d,voice.value);
-    diagArea.className='diag-summary';
-    diagArea.innerHTML=`<span class="${d.severity==='ERROR'?'sev':'help'}">${esc(d.severity)} · ${esc(d.code)}</span>\n${esc(copy)}
-      <dl class="diag-grid">
-        <dt>Phase</dt><dd>${esc(d.phase)}</dd>
-        <dt>Continue / refuse</dt><dd>${d.refuse?'REFUSE':'CONTINUE'}</dd>
-        <dt>Structured facts</dt><dd>${esc(JSON.stringify(d.facts))}</dd>
-        <dt>Safe next action</dt><dd>${esc(d.next)}</dd>
-      </dl>`;
-    diagActions.hidden=false; convertBtn.hidden=!allowConversion;
-  }
+      const probe=`__DS_SCR_SUITCASE_VALIDATION__${utcStamp()}__${uuidV4()}.tmp`;
+      let probeCreated=false;
+      try{
+        const h=await candidate.getFileHandle(probe,{create:true});probeCreated=true;
+        const w=await h.createWritable();await w.write('Red5Sorcery Data Sculptor Suitcase validation probe.\n');await w.close();
+        await candidate.removeEntry(probe);probeCreated=false;
+      }catch(err){
+        if(probeCreated){try{await candidate.removeEntry(probe)}catch{}}
+        throw new Error(`Suitcase write/delete validation failed: ${err&&err.message?err.message:String(err)}`);
+      }
 
-  function run(){
-    if(savedWorkOrderText===null){
-      ++runToken; resetStages();
-      status.innerHTML='<span style="color:var(--red2)">Run refused:</span> no Work Order TXT has been saved.';
-      showDiagnostic({
-        code:'PROTOTYPE-WO-NOT-SAVED',severity:'ERROR',phase:'WORK ORDER COMMIT',refuse:true,
-        observed:'The editor contains transient text, but no durable UTF-8 Work Order TXT has been committed for this Run.',
-        next:'Save the Work Order TXT, then Run the saved Work Order.',
-        facts:{saved_work_order:false,transient_editor_is_run_target:false}
-      },false);
-      return;
+      suitcaseHandle=candidate;suitcaseValidated=true;
+      sourceFile=null;headers=[];selectedHeader=null;materialized=[];
+      savedWorkOrders=[];selectedWorkOrderName=null;descriptions=new Map();aliases=new Map();
+      ctxSource.textContent='AWAITING WORK ORDER';ctxSource.className='v wait';
+      ctxHeaders.textContent='AWAITING RUN';ctxHeaders.className='v wait';
+      ctxColumn.textContent='NONE';ctxColumn.className='v wait';
+      updateRunTarget();renderHeaders();renderMappings();renderSavedWorkOrders();resetExecution();
+      ctxSuitcase.textContent=`${suitcaseHandle.name} · VALIDATED`;ctxSuitcase.className='v ok';
+      ctxSuitcase.title='Selected Suitcase folder name. The browser does not expose the full Windows absolute path to this page.';
+      updateWorkspaceGate();
+      await refreshSuitcaseFilesFromSuitcase();
+      await refreshSavedWorkOrdersFromSuitcase();
+      emitHelp({code:'PROTOTYPE-SUITCASE-VALIDATED',severity:'INFO',phase:'SUITCASE VALIDATION',observed:`Suitcase folder “${suitcaseHandle.name}” passed the writable-folder validation gate. Its visible files are now listed in the Suitcase directory.`,next:'Author and save a Work Order. The Work Order names the source and requested column.',facts:{suitcase_folder_name:suitcaseHandle.name,absolute_path_exposed:false,suitcase_validated:true,suitcase_file_count:suitcaseFiles.length,source_selected:false,headers_scanned:false,write_probe_pass:true,probe_removed:true,flat_artifacts:true,no_subfolder_created:true,user_chooses_filename:false}})
+    }catch(err){
+      if(err&&err.name==='AbortError')return;
+      suitcaseHandle=null;suitcaseValidated=false;updateWorkspaceGate();ctxSuitcase.textContent='VALIDATION FAILED';ctxSuitcase.className='v err';
+      emitHelp({code:'PROTOTYPE-SUITCASE-VALIDATION-FAILED',severity:'ERROR',phase:'SUITCASE VALIDATION',observed:'The selected folder did not pass the Suitcase validation gate.',next:'Choose a writable folder and validate again. No analytical work is enabled until the gate passes.',facts:{suitcase_validated:false,error:String(err),gate_required_first:true}})
     }
-    if(workOrder.value!==savedWorkOrderText){
-      ++runToken; resetStages();
-      status.innerHTML='<span style="color:var(--red2)">Run refused:</span> the editor has unsaved changes.';
-      showDiagnostic({
-        code:'PROTOTYPE-WO-UNSAVED-CHANGES',severity:'ERROR',phase:'WORK ORDER COMMIT',refuse:true,
-        observed:'The editor no longer matches the saved Work Order TXT. WASM will not execute transient editor state as a second command path.',
-        next:'Save the current Work Order TXT, then Run the newly saved bytes.',
-        facts:{saved_work_order:true,saved_filename:savedWorkOrderName,editor_matches_saved:false,transient_editor_is_run_target:false}
-      },false);
-      return;
+  }
+
+  async function parseFirstCsvRecord(file){
+    const text=await file.slice(0,1024*1024).text();
+    let fields=[],field='',quoted=false;
+    for(let i=0;i<text.length;i++){
+      const ch=text[i];
+      if(quoted){if(ch==='"'){if(text[i+1]==='"'){field+='"';i++}else quoted=false}else field+=ch}
+      else{if(ch==='"')quoted=true;else if(ch===','){fields.push(field);field=''}else if(ch==='\n'||ch==='\r'){fields.push(field);break}else field+=ch}
     }
-    if(!validate(savedWorkOrderText,'saved Work Order')) return;
-    const token=++runToken; const w=parseWorkOrder(savedWorkOrderText); clearDiagnostic(); resetStages(); artifactArea.className='empty'; artifactArea.textContent='Simulated execution in progress…';
-    status.innerHTML=`<strong>Running saved Work Order TXT…</strong> ${esc(savedWorkOrderName)} · transient editor state is not an execution path.`;
-    setStage(1,'active','CERTIFYING');
-    setTimeout(()=>{if(token!==runToken)return;setStage(1,'pass','PASS');ctxEncoding.textContent='UTF-8 CERTIFIED';ctxEncoding.className='v ok';setStage(2,'active','CHECKING');},320);
-    setTimeout(()=>{if(token!==runToken)return;setStage(2,'pass','MATCH');ctxIdentity.textContent='CERTIFIED SOURCE MATCH';ctxIdentity.className='v ok';setStage(3,'active','MATERIALIZING');},620);
-    setTimeout(()=>{if(token!==runToken)return;setStage(3,'pass','PASS');setStage(4,'active','COMMITTING');},950);
-    setTimeout(()=>{if(token!==runToken)return;setStage(4,'pass','VISIBLE');artifactsSuccess(w);status.innerHTML='<strong>Simulation complete.</strong> The simulated WASM path executed the saved Work Order TXT; no hidden project state was created and all shown durable output belongs in the visible Suitcase.';},1240);
+    return fields.map((x,i)=>x.replace(/^\uFEFF/,'').trim()||`Column_${i+1}`)
   }
 
-  function refusalDemo(){
-    ++runToken; resetStages();
-    setStage(1,'fail','FAIL'); setStage(2,'','BLOCKED'); setStage(3,'','BLOCKED'); setStage(4,'','NO OUTPUT');
-    ctxEncoding.textContent='UTF-8 REFUSED';ctxEncoding.className='v';ctxEncoding.style.color='var(--red2)';
-    status.textContent='Analytical Work Order stopped at Stage 1. Materialization did not begin.';
-    artifactArea.className='';
-    artifactArea.innerHTML=`<ul class="artifact-list">
-      <li class="artifact"><span class="type">Source</span><span class="detail">Unchanged</span></li>
-      <li class="artifact"><span class="type">Analytical output</span><span class="detail">None committed</span></li>
-      <li class="artifact"><span class="type">Help path</span><span class="detail">A separate conversion Work Order may be suggested only when compatibility evidence supports it</span></li>
-    </ul>`;
-    showDiagnostic({
-      code:'PROTOTYPE-UTF8-REFUSAL',severity:'ERROR',phase:'UTF-8 CERTIFICATION',refuse:true,
-      observed:'An invalid UTF-8 sequence was encountered at an illustrative absolute byte offset. The analytical materialization path did not start.',
-      next:'Review full Help. If the source is confirmed compatible with the supported Windows-1252 converter, explicitly authorize a separate conversion Work Order.',
-      facts:{first_invalid_absolute_offset:'illustrative',source_changed:false,materialization_started:false,windows_1252_compatibility:'illustrative: compatible'}
-    },true);
+
+  async function writeTextToSuitcase(filename,text,mime='text/plain'){
+    if(!suitcaseHandle) throw new Error('Suitcase not authorized');
+    const handle=await suitcaseHandle.getFileHandle(filename,{create:true});
+    const writable=await handle.createWritable();await writable.write(new Blob([text],{type:mime+';charset=utf-8'}));await writable.close();return handle
   }
 
-  function genericHelp(){
-    showDiagnostic({
-      code:'PROTOTYPE-HELP',severity:'HELP',phase:'WORKSPACE',refuse:false,
-      observed:'WASM-002 exposes an explicit Work Order, a governed source/encoding path, visible Suitcase state, and Help derived from canonical diagnostic facts.',
-      next:'Validate the Work Order, run the simulated path, or use the encoding refusal demo to inspect the separate conversion flow.',
-      facts:{prototype:true,real_wasm_execution:false,visible_persistence_only:true}
-    },false);
+  function validateWorkOrder(text){
+    if(!requireSuitcase('WORK ORDER VALIDATION'))return false;
+    const problems=[];if(!text.trim())problems.push('Draft is empty.');if(!/^OPERATION:\s*\S+/mi.test(text))problems.push('OPERATION is missing.');if(!/^SOURCE:\s*\S+/mi.test(text))problems.push('SOURCE is missing.');if(!/^COLUMN:\s*\S+/mi.test(text))problems.push('COLUMN is missing.');if(!/^OUTPUT:\s*SUITCASE\s*$/mi.test(text))problems.push('OUTPUT: SUITCASE is missing.');
+    if(problems.length){emitHelp({code:'PROTOTYPE-WO-VALIDATION-FAILED',severity:'ERROR',phase:'WORK ORDER VALIDATION',observed:problems.join(' '),next:'Correct the draft and validate again.',facts:{problems}});return false}
+    emitHelp({code:'PROTOTYPE-WO-VALIDATION-PASS',severity:'INFO',phase:'WORK ORDER VALIDATION',observed:'The draft satisfies this prototype’s minimal structural checks.',next:'Save it as a new immutable Work Order TXT when you are ready. Final grammar is still a PRD freeze item.',facts:{prototype_validation_only:true,final_grammar_frozen:false}});return true
   }
 
-  function fullHelp(){
-    if(!currentDiagnostic) return;
-    const d=currentDiagnostic;
-    const voices=['casual','office','technical'];
-    const labels={casual:'Casual',office:'Office Speak',technical:'Technical'};
-    diagArea.innerHTML=`<span class="${d.severity==='ERROR'?'sev':'help'}">${esc(d.severity)} · ${esc(d.code)} · FULL HELP</span>`+
-      voices.map(v=>`<div style="margin-top:12px"><strong style="color:var(--accent3)">${labels[v]}</strong><br>${esc(wording(d,v))}</div>`).join('')+
-      `<dl class="diag-grid"><dt>Canonical facts</dt><dd>${esc(JSON.stringify(d.facts,null,2))}</dd><dt>Phase</dt><dd>${esc(d.phase)}</dd><dt>Refusal</dt><dd>${String(d.refuse).toUpperCase()}</dd></dl>`;
+  function parseWorkOrder(text){
+    const get=(key)=>{const m=text.match(new RegExp('^'+key+'\\s*:\\s*(.+)$','mi'));return m?m[1].trim():''};
+    return {operation:get('OPERATION').toUpperCase(),source:get('SOURCE'),column:get('COLUMN'),output:get('OUTPUT').toUpperCase()};
   }
 
-  function saveHelp(){
-    if(!currentDiagnostic) return;
-    const d=currentDiagnostic;
-    const html=`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(d.code)} — Data Sculptor Help</title><style>body{font-family:system-ui,sans-serif;max-width:900px;margin:40px auto;padding:0 24px;color:#172033;background:#f7f9fc}h1{margin-bottom:4px}.meta{color:#667085}.box{background:white;border:1px solid #d9e1ea;border-left:6px solid #9fb7d5;padding:18px;margin:18px 0}pre{white-space:pre-wrap;overflow:auto;background:#eef2f6;padding:12px}code{font-family:ui-monospace,monospace}</style><h1>Red5Sorcery Data Sculptor</h1><p class="meta">WASM-002 Help report · design prototype · self-contained HTML</p><div class="box"><h2>${esc(d.severity)} · ${esc(d.code)}</h2><p><strong>Phase:</strong> ${esc(d.phase)}</p><p><strong>Plain-language summary:</strong> ${esc(wording(d,'office'))}</p></div><div class="box"><h2>Three Help voices</h2><p><strong>Casual:</strong> ${esc(wording(d,'casual'))}</p><p><strong>Office Speak:</strong> ${esc(wording(d,'office'))}</p><p><strong>Technical:</strong> ${esc(wording(d,'technical'))}</p></div><div class="box"><h2>Structured facts</h2><pre>${esc(JSON.stringify(d.facts,null,2))}</pre></div><div class="box"><h2>Safe next action</h2><p>${esc(d.next)}</p></div><div class="box"><h2>Work Order context</h2><pre>${esc(workOrder.value)}</pre></div><p class="meta">Brand provenance: prototype presentation tokens only; canonical Brand Manifest and fingerprint are not frozen in this design artifact.</p>`;
-    const blob=new Blob([html],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Data_Sculptor_WASM002_Help_Prototype.html';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),800);
-    status.innerHTML='<strong>Prototype Help report generated.</strong> Self-contained HTML; no network dependency.';
+  async function saveNewWorkOrder(){
+    if(!requireSuitcase('WORK ORDER SAVE'))return;
+    const text=workOrder.value;if(!validateWorkOrder(text))return;
+    const filename=makeFilename('WKO','txt');
+    try{
+      const handle=await writeTextToSuitcase(filename,text,'text/plain');
+      const description=draftDescription.value.trim()||'Saved Work Order';descriptions.set(filename,description);
+      savedWorkOrders.push({filename,handle,created:nowLabel()});selectedWorkOrderName=filename;renderSavedWorkOrders();updateRunTarget();
+      artifactArea.className='';artifactArea.innerHTML=`<ul class="artifact-list"><li class="artifact"><span class="type">Work Order · WKO</span><span class="detail"><span class="filename">${esc(filename)}</span> · UTF-8 TXT · saved directly into the authorized Suitcase</span></li><li class="artifact"><span class="type">Mutability</span><span class="detail">Saved Work Order bytes are immutable through this UI. Editing the draft and saving again creates a different filename.</span></li><li class="artifact"><span class="type">Description</span><span class="detail">${esc(description)} · mutable UI metadata mapped to the immutable filename; changing it does not rewrite or rename the TXT artifact</span></li></ul>`;
+      await refreshSuitcaseFilesFromSuitcase();
+      emitHelp({code:'PROTOTYPE-WO-SAVED',severity:'INFO',phase:'WORK ORDER SAVE',observed:`A new immutable Work Order was saved as ${filename}.`,next:'Select it in Saved Work Orders to make it the Run target, or continue editing the draft and save another Work Order.',facts:{filename,suitcase:suitcaseHandle.name,user_chose_filename:false,work_order_editable_after_save:false,description_editable:true}})
+    }catch(err){emitHelp({code:'PROTOTYPE-WO-SAVE-FAILED',severity:'ERROR',phase:'WORK ORDER SAVE',observed:'The Work Order TXT could not be written to the authorized Suitcase.',next:'Check folder permission and try saving again.',facts:{error:String(err)}})}
   }
 
-  function draftConversion(){
-    workOrder.value=`# Illustrative separate conversion Work Order — grammar not frozen\nOPERATION: CONVERT_WINDOWS_1252_TO_UTF8\nSOURCE: Statistics_Canada_Crime.csv\nOUTPUT_ENCODING: UTF-8\nOUTPUT: SUITCASE\n\n# Separate task only. No analytical column materialization here.`;
-    renderHighlight();
-    updateWorkOrderState();
-    status.innerHTML='<strong>Separate conversion Work Order drafted.</strong> It is not an automatic fallback and does not materialize analytical columns. Save it as a new Work Order TXT before Run.';
-    clearDiagnostic(); resetStages();
+  async function refreshSavedWorkOrdersFromSuitcase(){
+    if(!suitcaseHandle)return;
+    const found=[];
+    try{for await(const [name,handle] of suitcaseHandle.entries()){if(handle.kind==='file'&&name.startsWith('__DS__WKO')&&name.toLowerCase().endsWith('.txt')){found.push({filename:name,handle,created:'existing file'})}}}catch{}
+    const known=new Set(savedWorkOrders.map(x=>x.filename));for(const x of found){if(!known.has(x.filename))savedWorkOrders.push(x)}
+    savedWorkOrders.sort((a,b)=>b.filename.localeCompare(a.filename));renderSavedWorkOrders()
+  }
+  function renderSavedWorkOrders(){
+    if(!savedWorkOrders.length){savedWorkOrdersEl.innerHTML='<div class="saved-empty">No saved Work Orders are visible yet. Authorize a Suitcase and save a draft.</div>';return}
+    savedWorkOrdersEl.innerHTML=savedWorkOrders.map((w,i)=>{const desc=descriptions.get(w.filename)||'Saved Work Order';return `<div class="saved-row ${selectedWorkOrderName===w.filename?'selected':''}" data-file="${esc(w.filename)}"><input class="saved-select" type="radio" name="savedWorkOrderPick" ${selectedWorkOrderName===w.filename?'checked':''} aria-label="Select saved Work Order ${esc(w.filename)}"><div class="saved-main"><input class="saved-description" data-desc-for="${esc(w.filename)}" value="${esc(desc)}" aria-label="Editable description for ${esc(w.filename)}"><div class="saved-file">${esc(w.filename)}</div><div class="saved-note">Description is editable metadata. TXT instructions and physical filename are immutable through Data Sculptor.</div></div><div class="saved-meta">${esc(w.created)}<br><span class="tiny-badge lock">SAVED TXT</span></div></div>`}).join('');
+    savedWorkOrdersEl.querySelectorAll('.saved-row').forEach(row=>{row.addEventListener('click',e=>{if(e.target.classList.contains('saved-description'))return;selectedWorkOrderName=row.dataset.file;renderSavedWorkOrders();updateRunTarget();emitHelp({code:'PROTOTYPE-RUN-TARGET-SELECTED',severity:'INFO',phase:'WORK ORDER SELECTION',observed:`${selectedWorkOrderName} is now the saved Run target.`,next:'Run will read this saved TXT artifact; the editable draft is not an execution path.',facts:{run_target:selectedWorkOrderName,transient_editor_is_run_target:false}})})});
+    savedWorkOrdersEl.querySelectorAll('.saved-description').forEach(inp=>{inp.addEventListener('change',e=>{const f=e.target.dataset.descFor;descriptions.set(f,e.target.value.trim()||'Saved Work Order');emitHelp({code:'PROTOTYPE-WO-DESCRIPTION-UPDATED',severity:'INFO',phase:'WORK ORDER DESCRIPTION',observed:'The human-facing description was updated.',next:'No other action is required. The saved Work Order TXT and its physical filename were not changed.',facts:{filename:f,file_rewritten:false,file_renamed:false,description:descriptions.get(f)}})})})
+  }
+  function updateRunTarget(){if(selectedWorkOrderName){ctxRunTarget.textContent=selectedWorkOrderName;ctxRunTarget.className='v ok'}else{ctxRunTarget.textContent='NO SAVED WORK ORDER SELECTED';ctxRunTarget.className='v wait'}}
+
+  async function runSelected(){
+    if(!requireSuitcase('RUN'))return;
+    if(!selectedWorkOrderName){emitHelp({code:'PROTOTYPE-RUN-NO-SAVED-WO',severity:'ERROR',phase:'RUN',observed:'No saved Work Order is selected as the Run target.',next:'Save a new Work Order or select one from Saved Work Orders.',facts:{saved_run_target:false,transient_editor_is_run_target:false}});return}
+    const item=savedWorkOrders.find(x=>x.filename===selectedWorkOrderName);if(!item)return;
+    let text='';try{text=await (await item.handle.getFile()).text()}catch(err){emitHelp({code:'PROTOTYPE-RUN-WO-READ-FAILED',severity:'ERROR',phase:'RUN',observed:'The selected saved Work Order could not be read from the Suitcase.',next:'Re-authorize the Suitcase or select another saved Work Order.',facts:{filename:selectedWorkOrderName,error:String(err)}});return}
+    if(!validateWorkOrder(text))return;
+    const spec=parseWorkOrder(text);
+    setExecution([`> RUN ${selectedWorkOrderName}`,'WORK ORDER VALIDATED',`Operation: ${spec.operation}`,`Source requested: ${spec.source}`,`Column requested: ${spec.column}`]);
+
+    const sourceResolution=resolveSuitcaseFile(spec.source);
+    if(!sourceResolution){
+      appendExecution('REFUSED · source alias or filename not found in Suitcase');
+      sourceFile=null;headers=[];selectedHeader=null;ctxSource.textContent='SOURCE NOT FOUND';ctxSource.className='v err';ctxHeaders.textContent='NOT SCANNED';ctxHeaders.className='v wait';ctxColumn.textContent='NONE';ctxColumn.className='v wait';renderHeaders();
+      emitHelp({code:'PROTOTYPE-SOURCE-NOT-FOUND',severity:'ERROR',phase:'RUN',observed:`Source “${spec.source}” did not resolve to a Suitcase filename or alias.`,next:'Correct the SOURCE line in a new Work Order, or create the intended alias in the Suitcase directory.',facts:{source_requested:spec.source,suitcase:suitcaseHandle.name,mapping_file:ALIAS_MAP_FILENAME}});return;
+    }
+    const sourceItem=sourceResolution.item;
+    if(!sourceItem.name.toLowerCase().endsWith('.csv')){
+      appendExecution('REFUSED · resolved SOURCE is not a CSV file');
+      emitHelp({code:'PROTOTYPE-SOURCE-NOT-CSV',severity:'ERROR',phase:'RUN',observed:`Source “${spec.source}” resolves to ${sourceItem.name}, which is not a CSV file.`,next:'Create and save a new Work Order naming a CSV filename or CSV alias.',facts:{source_requested:spec.source,resolved_filename:sourceItem.name,resolved_via:sourceResolution.via}});return;
+    }
+
+    try{
+      const f=sourceItem.file || await sourceItem.handle.getFile();
+      sourceFile=f;ctxSource.textContent=(aliases.get(f.name)||f.name);ctxSource.className='v ok';
+      appendExecution(sourceResolution.via==='alias'?`Source alias resolved: ${spec.source} → ${f.name}`:`Source filename resolved: ${f.name}`);
+      appendExecution(`Source found: ${f.name} (${formatBytes(f.size)})`);
+      appendExecution('Reading header…');
+      headers=await parseFirstCsvRecord(f);
+      appendExecution(`${headers.length} columns detected`);
+      const resolved=headers.find(h=>h===spec.column);
+      if(!resolved){
+        selectedHeader=null;ctxColumn.textContent='COLUMN NOT FOUND';ctxColumn.className='v err';renderHeaders();
+        appendExecution(`REFUSED · column alias not found: ${spec.column}`);
+        emitHelp({code:'PROTOTYPE-COLUMN-NOT-FOUND',severity:'ERROR',phase:'RUN',observed:`Column alias “${spec.column}” was not found in ${f.name}.`,next:'Inspect the detected aliases and create a new Work Order with an exact COLUMN value.',facts:{source:f.name,column_requested:spec.column,detected_headers:headers}});return;
+      }
+      selectedHeader=resolved;ctxColumn.textContent=resolved;ctxColumn.className='v ok';renderHeaders();
+      appendExecution(`Column resolved: ${resolved}`);
+      appendExecution('Whole-source certification: SIMULATED');
+      const filename=makeFilename('COL','csv');
+      materialized.push({alias:resolved,filename});renderMappings();
+      appendExecution(`Storage Engine filename: ${filename}`);
+      appendExecution('Materialization: SIMULATED · Rust/WASM engine not connected');
+      appendExecution('COMPLETE · interaction prototype');
+      artifactArea.className='';artifactArea.innerHTML=`<ul class="artifact-list"><li class="artifact"><span class="type">Run target</span><span class="detail"><span class="filename">${esc(selectedWorkOrderName)}</span></span></li><li class="artifact"><span class="type">Source</span><span class="detail">${esc(f.name)}</span></li><li class="artifact"><span class="type">Column alias</span><span class="detail">${esc(resolved)}</span></li><li class="artifact"><span class="type">Governed filename</span><span class="detail"><span class="filename">${esc(filename)}</span> · assigned by the Storage Engine model</span></li><li class="artifact"><span class="type">Prototype boundary</span><span class="detail">No analytical CSV bytes were written by this HTML prototype.</span></li></ul>`;
+      emitHelp({code:'PROTOTYPE-RUN-SIMULATION',severity:'INFO',phase:'RUN',observed:`The saved Work Order resolved source ${spec.source} to ${f.name} and column ${resolved}. The Storage Engine model assigned ${filename}.`,next:'Treat the execution output as interaction evidence only; no Rust/WASM analytical execution occurs in this HTML prototype.',facts:{run_target:selectedWorkOrderName,source_reference:spec.source,resolved_source_filename:f.name,resolved_via:sourceResolution.via,column:resolved,filename,alias_mapping_file:ALIAS_MAP_FILENAME,transient_editor_is_run_target:false,real_wasm_execution:false,user_clicked_source:false,user_clicked_column:false}});
+    }catch(err){
+      appendExecution(`FAILED · ${String(err)}`);
+      emitHelp({code:'PROTOTYPE-RUN-FAILED',severity:'ERROR',phase:'RUN',observed:'The prototype could not resolve the Work Order against the selected Suitcase.',next:'Review the Help facts and create a corrected Work Order if needed.',facts:{error:String(err),run_target:selectedWorkOrderName}});
+    }
   }
 
-  workOrder.addEventListener('input',()=>{renderHighlight();updateWorkOrderState()}); workOrder.addEventListener('scroll',renderHighlight);
-  voice.addEventListener('change',()=>{if(currentDiagnostic) showDiagnostic(currentDiagnostic,currentDiagnostic.allowConversion)});
-  document.getElementById('saveWorkOrderBtn').addEventListener('click',saveWorkOrder);
-  document.getElementById('validateBtn').addEventListener('click',()=>validate(workOrder.value,'editor'));
-  document.getElementById('runBtn').addEventListener('click',run);
+  async function saveHelpReport(){
+    if(!currentDiagnostic)return;if(!requireSuitcase('HELP REPORT SAVE'))return
+    const d=currentDiagnostic;const filename=makeFilename('HLP','html');
+    const html=`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(d.code)} — Data Sculptor Help</title><style>body{font-family:system-ui,sans-serif;max-width:900px;margin:40px auto;padding:0 24px;color:#172033;background:#f7f9fc}h1{margin-bottom:4px}.meta{color:#667085}.box{background:white;border:1px solid #d9e1ea;border-left:6px solid #9fb7d5;padding:18px;margin:18px 0}pre{white-space:pre-wrap;overflow:auto;background:#eef2f6;padding:12px}</style><h1>Red5Sorcery Data Sculptor</h1><p class="meta">WASM-002 Help Engine report · design prototype</p><div class="box"><h2>${esc(d.severity)} · ${esc(d.code)}</h2><p><strong>Phase:</strong> ${esc(d.phase)}</p><p>${esc(wording(d,'office'))}</p></div><div class="box"><h2>Canonical facts</h2><pre>${esc(JSON.stringify(d.facts||{},null,2))}</pre></div><div class="box"><h2>Safe next action</h2><p>${esc(d.next)}</p></div>`;
+    try{await writeTextToSuitcase(filename,html,'text/html');await refreshSuitcaseFilesFromSuitcase();emitHelp({code:'PROTOTYPE-HELP-REPORT-SAVED',severity:'INFO',phase:'HELP REPORT SAVE',observed:`The Help Engine report was saved as ${filename} in the authorized Suitcase.`,next:'The report is a visible portable artifact. Its final governed class/token shape remains a PRD freeze item.',facts:{filename,user_chose_filename:false,suitcase:suitcaseHandle.name}})}catch(err){emitHelp({code:'PROTOTYPE-HELP-REPORT-SAVE-FAILED',severity:'ERROR',phase:'HELP REPORT SAVE',observed:'The Help Report could not be written.',next:'Check Suitcase permission and try again.',facts:{error:String(err)}})}
+  }
+
+  function fullHelp(){if(!currentDiagnostic)return;const d=currentDiagnostic;diagArea.innerHTML=`<span class="${d.severity==='ERROR'?'sev':(d.severity==='INFO'?'info':'help')}">${esc(d.severity)} · ${esc(d.code)} · FULL HELP</span><div style="margin-top:12px"><strong style="color:var(--accent3)">Casual</strong><br>${esc(wording(d,'casual'))}</div><div style="margin-top:12px"><strong style="color:var(--accent3)">Office Speak</strong><br>${esc(wording(d,'office'))}</div><div style="margin-top:12px"><strong style="color:var(--accent3)">Technical</strong><br>${esc(wording(d,'technical'))}</div><dl class="diag-grid"><dt>Canonical facts</dt><dd>${esc(JSON.stringify(d.facts||{},null,2))}</dd><dt>Phase</dt><dd>${esc(d.phase)}</dd></dl>`}
+  function genericHelp(){emitHelp({code:'PROTOTYPE-HELP',severity:'HELP',phase:'WORKSPACE',observed:'Data Sculptor follows a governed sequence: validate the Suitcase, author and save a Work Order, then run that saved artifact.',next:suitcaseValidated?'Author or select a saved Work Order. The directory exposes inventory and editable aliases, but analytical intent still comes only from a saved Work Order.':'Choose and validate the Suitcase.',facts:{prototype:true,storage_engine_surface:true,help_engine_surface:true,saved_work_orders_immutable:true,alias_editable:true,alias_mapping_file:ALIAS_MAP_FILENAME}})}
+
+  workOrder.addEventListener('input',renderHighlight);workOrder.addEventListener('scroll',renderHighlight);
+  voice.addEventListener('change',()=>{if(currentDiagnostic)emitHelp(currentDiagnostic)});
+  document.getElementById('suitcaseBtn').addEventListener('click',authorizeSuitcase);
+  refreshFilesBtn.addEventListener('click',refreshSuitcaseFilesFromSuitcase);
+  document.getElementById('saveWorkOrderBtn').addEventListener('click',saveNewWorkOrder);
+  document.getElementById('validateBtn').addEventListener('click',()=>validateWorkOrder(workOrder.value));
+  document.getElementById('runBtn').addEventListener('click',runSelected);
   document.getElementById('helpBtn').addEventListener('click',genericHelp);
-  document.getElementById('failDemoBtn').addEventListener('click',refusalDemo);
   document.getElementById('fullHelpBtn').addEventListener('click',fullHelp);
-  document.getElementById('saveHelpBtn').addEventListener('click',saveHelp);
-  convertBtn.addEventListener('click',draftConversion);
-  document.getElementById('suitcaseBtn').addEventListener('click',()=>{status.innerHTML='<strong>Prototype:</strong> Suitcase authorization is represented as granted. A real browser host would require explicit user authorization.';});
-  document.getElementById('sourceBtn').addEventListener('click',()=>{status.innerHTML='<strong>Prototype:</strong> Source selection is represented by the current analyst-owned filename. No source bytes are actually opened.';});
-  document.addEventListener('keydown',e=>{
-    if(e.key==='F1'){e.preventDefault();genericHelp()}
-    if(e.key==='F9'){e.preventDefault();refusalDemo()}
-    if(e.key==='Escape'){clearDiagnostic();status.textContent='Diagnostic cleared.'}
-    if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==='s'){e.preventDefault();saveWorkOrder();return}
-    if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();run()}
-    if((e.ctrlKey||e.metaKey)&&!e.shiftKey&&e.key.toLowerCase()==='s'&&currentDiagnostic){e.preventDefault();saveHelp()}
-  });
-  renderHighlight();
-  updateWorkOrderState();
+  document.getElementById('saveHelpBtn').addEventListener('click',saveHelpReport);
+  document.addEventListener('keydown',e=>{if(e.key==='F1'){e.preventDefault();genericHelp()}if(e.key==='Escape'){clearHelp()}if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==='s'){e.preventDefault();saveNewWorkOrder()}if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();runSelected()}});
+
+  renderMappings();renderSavedWorkOrders();renderHighlight();updateRunTarget();resetExecution();updateWorkspaceGate();emitHelp({code:'PROTOTYPE-SUITCASE-FIRST',severity:'HELP',phase:'SESSION START',observed:'A Suitcase is required before work begins.',next:'Choose and validate a Suitcase.',facts:{gate_required_first:true,suitcase_validated:false,workspace_locked:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
 })();
 </script>
 </body>
 </html>
-
