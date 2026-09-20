@@ -98,7 +98,7 @@
 
   .path{display:grid;gap:10px}.stage{border:1px solid var(--line);background:#0b121c;padding:11px 12px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}.stage-title{font-weight:700;font-size:15px;margin-bottom:3px}.stage-desc{font-size:13px;color:var(--muted)}.stage-state{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line2);padding:3px 6px;white-space:nowrap}.stage.active{border-color:var(--accent2);background:rgba(110,143,175,.09)}.stage.active .stage-state{color:var(--accent3);border-color:var(--accent2)}.stage.pass{border-color:#48667e;background:rgba(110,143,175,.08)}.stage.pass .stage-state{color:var(--accent3)}.stage.fail{border-color:var(--red);background:rgba(185,74,80,.08)}.stage.fail .stage-state{color:var(--red2);border-color:var(--red)}
 
-  .lower{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:16px;margin-top:16px}.artifact-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}.artifact{display:grid;grid-template-columns:145px 1fr;gap:10px;padding:9px 0;border-bottom:1px dotted var(--line);font-size:12.5px}.artifact:last-child{border-bottom:0}.artifact .type{font-family:var(--mono);color:var(--accent3)}.artifact .detail{color:var(--muted)}.empty{font-family:var(--mono);font-size:13px;color:var(--muted);padding:8px 0}
+  .lower{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}.empty{font-family:var(--mono);font-size:13px;color:var(--muted);padding:8px 0}
   .diag{min-height:180px}.diag-summary{font-family:var(--mono);font-size:14px;white-space:pre-wrap;color:var(--soft)}.diag-summary .sev{color:var(--red2);font-weight:700}.diag-summary .help{color:var(--accent3);font-weight:700}.diag-summary .info{color:var(--green);font-weight:700}.diag-grid{margin-top:12px;display:grid;grid-template-columns:150px 1fr;gap:6px 12px;font-family:var(--mono);font-size:13px}.diag-grid dt{color:var(--muted)}.diag-grid dd{margin:0;color:var(--soft);word-break:break-word}.diag-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:13px;padding-top:10px;border-top:1px solid var(--line)}.voice-select{background:#0a111b;color:var(--ink);border:1px solid var(--line2);padding:7px 9px;font-family:var(--mono);font-size:13px}
 
   .scope-strip{margin-top:16px;border:1px solid var(--line2);background:#0b121c;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start}.scope-text{font-size:12.5px;color:var(--muted);max-width:110ch}.scope-text strong{color:var(--soft)}.scope-tags{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.tag{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line2);padding:4px 7px;color:var(--muted)}.tag.in{color:var(--accent3);border-color:#48667e}.tag.out{color:#a58f91;border-color:#5c3d42}
@@ -106,7 +106,7 @@
   .hidden-file{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 
   @media(max-width:1180px){.context{grid-template-columns:repeat(3,1fr)}.grid-top,.lower{grid-template-columns:1fr}}
-  @media(max-width:720px){.shell{padding:12px}.gate-grid{grid-template-columns:1fr}.context{grid-template-columns:1fr}.editor-wrap,.editor-highlight,#workOrder{min-height:300px}.artifact{grid-template-columns:1fr}.diag-grid{grid-template-columns:1fr}.stage{grid-template-columns:1fr}.stage-state{grid-column:1;justify-self:start}.saved-row{grid-template-columns:26px 1fr}.saved-meta{grid-column:2}.scope-strip{grid-template-columns:1fr}.scope-tags{justify-content:flex-start}}
+  @media(max-width:720px){.shell{padding:12px}.gate-grid{grid-template-columns:1fr}.context{grid-template-columns:1fr}.editor-wrap,.editor-highlight,#workOrder{min-height:300px}.diag-grid{grid-template-columns:1fr}.stage{grid-template-columns:1fr}.stage-state{grid-column:1;justify-self:start}.saved-row{grid-template-columns:26px 1fr}.saved-meta{grid-column:2}.scope-strip{grid-template-columns:1fr}.scope-tags{justify-content:flex-start}}
 </style>
 </head>
 <body>
@@ -210,11 +210,6 @@ Waiting for a saved Work Order.</pre>
   </section>
 
   <section class="lower">
-    <article class="panel" aria-labelledby="artifact-title">
-      <div class="panel-head"><div id="artifact-title" class="panel-title">Suitcase artifacts</div><div class="panel-note">Visible files</div></div>
-      <div class="panel-body"><div id="artifactArea" class="empty">No artifacts yet.</div></div>
-    </article>
-
     <article class="panel" aria-labelledby="diag-title">
       <div class="panel-head">
         <div id="diag-title" class="panel-title">Help Engine</div>
@@ -244,7 +239,6 @@ Waiting for a saved Work Order.</pre>
   const highlight=document.getElementById('highlight');
   const draftDescription=document.getElementById('draftDescription');
   const savedWorkOrdersEl=document.getElementById('savedWorkOrders');
-  const artifactArea=document.getElementById('artifactArea');
   const suitcaseFilesBody=document.getElementById('suitcaseFilesBody');
   const refreshFilesBtn=document.getElementById('refreshFilesBtn');
   const diagArea=document.getElementById('diagArea');
@@ -606,7 +600,6 @@ Waiting for a saved Work Order.</pre>
       const handle=await writeTextToSuitcase(filename,text,'text/plain');
       const description=draftDescription.value.trim()||'Saved Work Order';descriptions.set(filename,description);
       savedWorkOrders.push({filename,handle,created:nowLabel()});selectedWorkOrderName=filename;renderSavedWorkOrders();updateRunTarget();
-      artifactArea.className='';artifactArea.innerHTML=`<ul class="artifact-list"><li class="artifact"><span class="type">Work Order · WKO</span><span class="detail"><span class="filename">${esc(filename)}</span> · UTF-8 TXT · saved directly into the authorized Suitcase</span></li><li class="artifact"><span class="type">Mutability</span><span class="detail">Saved Work Order bytes are immutable through this UI. Editing the draft and saving again creates a different filename.</span></li><li class="artifact"><span class="type">Description</span><span class="detail">${esc(description)} · mutable UI metadata mapped to the immutable filename; changing it does not rewrite or rename the TXT artifact</span></li></ul>`;
       await refreshSuitcaseFilesFromSuitcase();
       emitHelp({code:'PROTOTYPE-WO-SAVED',severity:'INFO',phase:'WORK ORDER SAVE',observed:`A new immutable Work Order was saved as ${filename}.`,next:'Select it in Saved Work Orders to make it the Run target, or continue editing the draft and save another Work Order.',facts:{filename,suitcase:suitcaseHandle.name,user_chose_filename:false,work_order_editable_after_save:false,description_editable:true}})
     }catch(err){emitHelp({code:'PROTOTYPE-WO-SAVE-FAILED',severity:'ERROR',phase:'WORK ORDER SAVE',observed:'The Work Order TXT could not be written to the authorized Suitcase.',next:'Check folder permission and try saving again.',facts:{error:String(err)}})}
@@ -670,7 +663,6 @@ Waiting for a saved Work Order.</pre>
       appendExecution(`Storage Engine filename: ${filename}`);
       appendExecution('Materialization: SIMULATED · Rust/WASM engine not connected');
       appendExecution('COMPLETE · interaction prototype');
-      artifactArea.className='';artifactArea.innerHTML=`<ul class="artifact-list"><li class="artifact"><span class="type">Run target</span><span class="detail"><span class="filename">${esc(selectedWorkOrderName)}</span></span></li><li class="artifact"><span class="type">Source</span><span class="detail">${esc(f.name)}</span></li><li class="artifact"><span class="type">Column alias</span><span class="detail">${esc(resolved)}</span></li><li class="artifact"><span class="type">Governed filename</span><span class="detail"><span class="filename">${esc(filename)}</span> · assigned by the Storage Engine model</span></li><li class="artifact"><span class="type">Prototype boundary</span><span class="detail">No analytical CSV bytes were written by this HTML prototype.</span></li></ul>`;
       emitHelp({code:'PROTOTYPE-RUN-SIMULATION',severity:'INFO',phase:'RUN',observed:`The saved Work Order resolved source ${spec.source} to ${f.name} and column ${resolved}. The Storage Engine model assigned ${filename}.`,next:'Treat the execution output as interaction evidence only; no Rust/WASM analytical execution occurs in this HTML prototype.',facts:{run_target:selectedWorkOrderName,source_reference:spec.source,resolved_source_filename:f.name,resolved_via:sourceResolution.via,column:resolved,filename,alias_mapping_file:ALIAS_MAP_FILENAME,transient_editor_is_run_target:false,real_wasm_execution:false,user_clicked_source:false,user_clicked_column:false}});
     }catch(err){
       appendExecution(`FAILED · ${String(err)}`);
