@@ -285,7 +285,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 042</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 043</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -315,18 +315,18 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 042, Saturday 19 September 2026</div>
+      <div class="state-top">Project state — Day 043, Sunday 20 September 2026</div>
       <dl>
         <dt>Phase</dt>
-        <dd>WASM-002 specification — the browser-first shared-core direction is being turned into an explicit, governed development contract before new product code begins.</dd>
+        <dd>WASM-002 specification — continuing the browser-first shared-core contract before any new product implementation begins.</dd>
         <dt>Contract</dt>
-        <dd>WASM-001b is preserved as an experimental lineage rather than retroactively treated as a completed acceptance. The official Product Backlog PRD is the standalone HTML working master: <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">open the current Product Backlog PRD</a>. Its per-requirement SCOPE field is the allocation authority, STATUS records the independent lifecycle, and PDF renderings are snapshots rather than the live backlog. The WASM-002 slice remains draft / not frozen.</dd>
+        <dd>WASM-001b remains preserved as an experimental lineage rather than retroactively treated as completed acceptance. The official Product Backlog PRD is the standalone HTML working master: <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">open the current Product Backlog PRD</a>. The current working master is Revision Z with 569 recorded requirements. Per-requirement SCOPE remains the allocation authority, STATUS records lifecycle independently, and PDF renderings remain snapshots rather than the live backlog. WASM-002 is still DRAFT / UNDER REVIEW / NOT FROZEN.</dd>
         <dt>Build state</dt>
-        <dd>No WASM-002 production implementation has started. Day 041 remained specification, architecture and method work: the backlog governance was consolidated into the HTML master, visible Suitcase persistence and disk-first long-division operations were developed further, and related-work, PLDD retrospective and book-concept notes were added to the project record.</dd>
+        <dd>No WASM-002 production implementation has started. Day 042 moved the Product Backlog PRD from Revision U to Revision Z, used the front-end prototype as non-normative design evidence, made Help a first-class WASM-002 concern, separated generalized PRETTY into WASM-003, tightened the governed artifact namespace, and added an explicit Save Work Order TXT path. The prototype is now newer than the snapshot embedded in Revision Z, so that difference remains an open reconciliation item.</dd>
         <dt>Now building</dt>
-        <dd>Day 042 continues the WASM-002 PRD. The job is to keep converting design direction into explicit, testable requirements, keep unresolved decisions visible, and move requirements through review deliberately before anything is frozen for build.</dd>
+        <dd>Day 043 continues the WASM-002 PRD. The immediate job is to reconcile the newer prototype and explicit TXT Work Order save path with the working master, then keep converting the remaining design direction into explicit, reviewable, testable requirements.</dd>
         <dt>Unsettled</dt>
-        <dd class="open">Which current WASM-002 candidates are ready for adversarial review, which remain under specification, and what evidence each frozen requirement will require for acceptance</dd>
+        <dd class="open">Reconcile the Revision Z prototype snapshot and requirements with the current Save Work Order TXT behavior, then determine which WASM-002 candidates are ready for adversarial review and what evidence each frozen requirement will require for acceptance.</dd>
         <dt>Released</dt>
         <dd>Nothing. There is no build to download.</dd>
       </dl>
@@ -898,11 +898,19 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         </div>
       </li>
       <li>
-        <div class="log-day">Day 042<span class="log-date">Sat 19 Sep</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-day">Day 042<span class="log-date">Sat 19 Sep</span><span class="log-tag">Specification</span></div>
+        <div class="log-entry">
+          <h3>The Interface Found Its Contract</h3>
+          <p>The WASM-002 Product Backlog PRD moved from Revision U to Revision Z without starting product code. The front-end prototype became useful design evidence rather than a second authority: the Work Order is the command surface, Help became a persistent governed diagnostic surface, and a run now depends on a durable saved UTF-8 TXT Work Order instead of transient editor contents. The day also tightened the boundary between Help and presentation — Help-specific reporting stays in WASM-002 while the generalized PRETTY Engine moves to WASM-003 — and defined <code>__DS__</code> as the governed Data Sculptor namespace rather than a loose filename convention. Revision Z landed at 569 recorded requirements, still draft and not frozen. One reconciliation remains open because the prototype was updated after the PRD snapshot was embedded.</p>
+          <p class="log-after"><b>After hours</b>Four final-form internal notes captured the design direction around transparent software, a BASIC-like human-facing shape for DS-STEPS, the WASM-002 Help / WASM-003 PRETTY scope split, and the possibility that resource discipline may make modern phones unexpectedly viable without making mobile a product target.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 043<span class="log-date">Sun 20 Sep</span><span class="log-tag">Flight plan</span></div>
         <div class="log-entry">
           <h3>Continue the WASM-002 PRD</h3>
-          <p>Today continues from the <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">official HTML Product Backlog PRD</a>. The task is still specification: sharpen the current WASM-002 requirements, keep SCOPE and lifecycle state explicit, preserve unresolved decisions instead of guessing them closed, and make the eventual implementation contract testable before new product code begins. A narrow <a href="Data_Sculptor_WASM002_Front_End_Prototype.html">WASM-002 front-end prototype</a> now accompanies the PRD as concrete, non-normative design evidence for the browser surface.</p>
-          <p class="log-after"><b>Planned flight</b>Work through the PRD one bounded decision at a time, keep the HTML backlog as the working master, and bank the next coherent revision before implementation resumes.</p>
+          <p>Today continues from Revision Z of the <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">official HTML Product Backlog PRD</a>. The work remains specification, not implementation: reconcile the newer prototype and explicit Save Work Order TXT path with the working master, continue sharpening WASM-002 requirements, keep SCOPE and lifecycle state explicit, and preserve unresolved decisions until they have evidence behind them.</p>
+          <p class="log-after"><b>Planned flight</b>Work through the PRD one bounded decision at a time, keep the HTML backlog authoritative, reconcile the open prototype delta, and bank the next coherent revision before implementation resumes.</p>
         </div>
       </li>
     </ol>
