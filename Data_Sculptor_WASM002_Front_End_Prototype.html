@@ -37,9 +37,10 @@
   .ctx{background:var(--panel2);padding:13px 15px;min-width:0}.k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
   .v{font-family:var(--mono);font-size:14px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.v.ok{color:var(--accent3)}.v.wait{color:var(--amber)}.v.err{color:var(--red2)}
 
-  .grid-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px}
+  .grid-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px;align-items:stretch}
   .span-2{grid-column:1/-1}
   .stack{display:grid;gap:16px;align-content:start}
+  .grid-top > .stack{height:100%}.grid-top > .stack > .panel{height:100%;display:flex;flex-direction:column}.grid-top > .stack > .panel > .panel-body{flex:1;display:flex;flex-direction:column}
   .panel{background:linear-gradient(180deg,var(--panel) 0%,#0e1621 100%);border:1px solid var(--line2);box-shadow:var(--shadow);min-width:0}
   .panel-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:13px 15px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.012)}
   .panel-title{font-family:var(--mono);font-size:13px;letter-spacing:.11em;text-transform:uppercase;color:var(--soft)}
@@ -85,10 +86,13 @@
   .alias-input{width:100%;min-width:180px;background:#091019;border:1px solid var(--line2);color:var(--accent3);padding:7px 9px;font-family:var(--mono);font-size:13px}
   .alias-input::placeholder{color:#62758a}.alias-input:disabled{color:var(--muted);background:#0b121c;border-color:var(--line);cursor:not-allowed}
   .terminal-output{margin:0;min-height:260px;max-height:440px;overflow:auto;background:#070c12;border:1px solid var(--line);padding:14px 15px;color:var(--soft);font-family:var(--mono);font-size:14px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+  .grid-top > .stack:last-of-type .terminal-output{flex:1;min-height:100%;max-height:none}
   .terminal-output .term-ok{color:var(--green)}
   .terminal-output .term-warn{color:var(--amber)}
   .terminal-output .term-err{color:var(--red2)}
 
+  .workorder-load{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end;margin-bottom:13px}
+  .workorder-load .field-label{margin-bottom:5px}.workorder-select{width:100%;background:#091019;border:1px solid var(--line2);color:var(--ink);padding:9px 10px;font-family:var(--mono);font-size:13px}.workorder-select:disabled{color:var(--muted);background:#0b121c;cursor:not-allowed}
   .editor-wrap{position:relative;min-height:230px}.editor-highlight,#workOrder{position:absolute;inset:0;margin:0;padding:14px 15px;border:1px solid var(--line);background:#091019;white-space:pre-wrap;overflow:auto;tab-size:2;line-height:1.62;min-height:230px;font-family:var(--mono);font-size:14px}
   .editor-highlight{display:none}#workOrder{resize:vertical;color:var(--accent3);caret-color:#ffffff;outline:none;z-index:2;background:#091019}#workOrder::placeholder{color:#71849a}#workOrder::selection{background:rgba(159,189,221,.30);color:#ffffff}#workOrder:focus{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
   .tok-key{color:var(--accent3);font-weight:700}.tok-value{color:#d7e3ee}.tok-comment{color:#71849a}.tok-op{color:var(--amber);font-weight:700}
@@ -99,6 +103,9 @@
   .path{display:grid;gap:10px}.stage{border:1px solid var(--line);background:#0b121c;padding:11px 12px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}.stage-title{font-weight:700;font-size:15px;margin-bottom:3px}.stage-desc{font-size:13px;color:var(--muted)}.stage-state{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line2);padding:3px 6px;white-space:nowrap}.stage.active{border-color:var(--accent2);background:rgba(110,143,175,.09)}.stage.active .stage-state{color:var(--accent3);border-color:var(--accent2)}.stage.pass{border-color:#48667e;background:rgba(110,143,175,.08)}.stage.pass .stage-state{color:var(--accent3)}.stage.fail{border-color:var(--red);background:rgba(185,74,80,.08)}.stage.fail .stage-state{color:var(--red2);border-color:var(--red)}
 
   .lower{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}.empty{font-family:var(--mono);font-size:13px;color:var(--muted);padding:8px 0}
+  .pretty-branding,.data-dictionary{margin-top:16px}
+  .pretty-toml-editor{width:100%;min-height:240px;resize:vertical;background:#091019;border:1px solid var(--line);color:var(--accent3);caret-color:#fff;padding:14px 15px;font-family:var(--mono);font-size:14px;line-height:1.62;tab-size:2}
+  .pretty-toml-editor::placeholder{color:#71849a}.pretty-toml-editor::selection{background:rgba(159,189,221,.30);color:#fff}.pretty-toml-editor:focus{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);outline:none}
   .diag{min-height:180px}.diag-summary{font-family:var(--mono);font-size:14px;white-space:pre-wrap;color:var(--soft)}.diag-summary .sev{color:var(--red2);font-weight:700}.diag-summary .help{color:var(--accent3);font-weight:700}.diag-summary .info{color:var(--green);font-weight:700}.diag-grid{margin-top:12px;display:grid;grid-template-columns:150px 1fr;gap:6px 12px;font-family:var(--mono);font-size:13px}.diag-grid dt{color:var(--muted)}.diag-grid dd{margin:0;color:var(--soft);word-break:break-word}.diag-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:13px;padding-top:10px;border-top:1px solid var(--line)}.voice-select{background:#0a111b;color:var(--ink);border:1px solid var(--line2);padding:7px 9px;font-family:var(--mono);font-size:13px}
 
   .scope-strip{margin-top:16px;border:1px solid var(--line2);background:#0b121c;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start}.scope-text{font-size:12.5px;color:var(--muted);max-width:110ch}.scope-text strong{color:var(--soft)}.scope-tags{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.tag{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line2);padding:4px 7px;color:var(--muted)}.tag.in{color:var(--accent3);border-color:#48667e}.tag.out{color:#a58f91;border-color:#5c3d42}
@@ -167,14 +174,23 @@
 
     <div class="stack">
       <article class="panel" aria-labelledby="wo-title">
-        <div class="panel-head"><div id="wo-title" class="panel-title">Work Order draft</div><div class="panel-note">Saved = immutable</div></div>
+        <div class="panel-head"><div id="wo-title" class="panel-title">Work Order — new draft</div><div class="panel-note" id="woModeNote">Saved TXT = immutable</div></div>
         <div class="panel-body">
+          <div class="workorder-load" aria-label="Load a saved Work Order into the editor">
+            <div>
+              <label class="field-label" for="savedWorkOrderSelect">Saved Work Order</label>
+              <select id="savedWorkOrderSelect" class="workorder-select" disabled>
+                <option value="">No saved Work Orders available</option>
+              </select>
+            </div>
+            <button class="term-btn" id="loadWorkOrderBtn" type="button" disabled>[L] Load</button>
+          </div>
           <label class="field-label" for="draftDescription">Description</label>
           <input class="text-input" id="draftDescription" type="text" value="" placeholder="Optional description for this Work Order" maxlength="180" disabled />
           <div style="height:10px"></div>
           <div class="editor-wrap">
             <pre id="highlight" class="editor-highlight" aria-hidden="true"></pre>
-            <textarea id="workOrder" aria-label="Illustrative WASM-002 Work Order draft" spellcheck="false" disabled># Illustrative WASM-002 Work Order — grammar not frozen
+            <textarea id="workOrder" aria-label="WASM-002 Work Order editor" spellcheck="false" disabled># Illustrative WASM-002 Work Order — grammar not frozen
 OPERATION: MATERIALIZE
 SOURCE: 35100178.csv
 COLUMN: VALUE
@@ -183,17 +199,10 @@ OUTPUT: SUITCASE</textarea>
           <div class="actions" aria-label="Work Order actions">
             <button class="primary-btn" id="saveWorkOrderBtn" type="button" disabled>Save NEW Work Order TXT</button>
             <button class="term-btn" id="validateBtn" type="button" disabled>[V] Validate draft</button>
-            <button class="term-btn" id="runBtn" type="button" disabled>[R] Run selected saved Work Order</button>
+            <button class="term-btn" id="runBtn" type="button" disabled>[R] Run loaded saved Work Order</button>
             <button class="term-btn" id="helpBtn" type="button">[H] Help</button>
           </div>
           <div class="statusline" id="draftState">Draft locked · validate a Suitcase first.</div>
-        </div>
-      </article>
-
-      <article class="panel" aria-labelledby="saved-title">
-        <div class="panel-head"><div id="saved-title" class="panel-title">Saved Work Orders only</div><div class="panel-note"><span class="tiny-badge lock">IMMUTABLE TXT</span></div></div>
-        <div class="panel-body">
-          <div class="saved-list" id="savedWorkOrders"><div class="saved-empty">No saved Work Orders yet.</div></div>
         </div>
       </article>
     </div>
@@ -225,6 +234,40 @@ Waiting for a saved Work Order.</pre>
     </article>
   </section>
 
+  <section class="pretty-branding" aria-label="PRETTY Branding TOML editor">
+    <article class="panel" aria-labelledby="pretty-brand-title">
+      <div class="panel-head">
+        <div id="pretty-brand-title" class="panel-title">PRETTY Branding TOML</div>
+        <div class="panel-note">Saved only · not applied yet</div>
+      </div>
+      <div class="panel-body">
+        <textarea id="prettyBrandToml" class="pretty-toml-editor" aria-label="PRETTY Branding TOML draft" spellcheck="false" disabled placeholder="# PRETTY Branding TOML
+# Saved to the Suitcase only; no branding is applied yet."></textarea>
+        <div class="actions">
+          <button class="primary-btn" id="savePrettyBrandBtn" type="button" disabled>Save NEW Branding TOML</button>
+        </div>
+        <div class="statusline" id="prettyBrandState">Editor locked · validate a Suitcase first.</div>
+      </div>
+    </article>
+  </section>
+
+  <section class="data-dictionary" aria-label="User Data Dictionary TOML editor">
+    <article class="panel" aria-labelledby="data-dictionary-title">
+      <div class="panel-head">
+        <div id="data-dictionary-title" class="panel-title">User Data Dictionary TOML</div>
+        <div class="panel-note">Saved only · not applied yet</div>
+      </div>
+      <div class="panel-body">
+        <textarea id="dataDictionaryToml" class="pretty-toml-editor" aria-label="User Data Dictionary TOML draft" spellcheck="false" disabled placeholder="# User Data Dictionary TOML
+# Saved to the Suitcase only; no dictionary behavior is applied yet."></textarea>
+        <div class="actions">
+          <button class="primary-btn" id="saveDataDictionaryBtn" type="button" disabled>Save NEW Data Dictionary TOML</button>
+        </div>
+        <div class="statusline" id="dataDictionaryState">Editor locked · validate a Suitcase first.</div>
+      </div>
+    </article>
+  </section>
+
   <section class="scope-strip" aria-label="Prototype scope boundary">
     <div class="scope-text"><strong>WASM-002 prototype:</strong> Suitcase → Work Order → Run → Evidence.</div>
     <div class="scope-tags"><span class="tag in">Storage Engine</span><span class="tag in">Help Engine</span><span class="tag out">Prototype only</span></div>
@@ -238,7 +281,9 @@ Waiting for a saved Work Order.</pre>
   const workOrder=document.getElementById('workOrder');
   const highlight=document.getElementById('highlight');
   const draftDescription=document.getElementById('draftDescription');
-  const savedWorkOrdersEl=document.getElementById('savedWorkOrders');
+  const woTitle=document.getElementById('wo-title');
+  const woModeNote=document.getElementById('woModeNote');
+  const draftState=document.getElementById('draftState');
   const suitcaseFilesBody=document.getElementById('suitcaseFilesBody');
   const refreshFilesBtn=document.getElementById('refreshFilesBtn');
   const diagArea=document.getElementById('diagArea');
@@ -254,7 +299,15 @@ Waiting for a saved Work Order.</pre>
   const saveWorkOrderBtn=document.getElementById('saveWorkOrderBtn');
   const validateBtn=document.getElementById('validateBtn');
   const runBtn=document.getElementById('runBtn');
+  const savedWorkOrderSelect=document.getElementById('savedWorkOrderSelect');
+  const loadWorkOrderBtn=document.getElementById('loadWorkOrderBtn');
   const executionOutput=document.getElementById('executionOutput');
+  const prettyBrandToml=document.getElementById('prettyBrandToml');
+  const savePrettyBrandBtn=document.getElementById('savePrettyBrandBtn');
+  const prettyBrandState=document.getElementById('prettyBrandState');
+  const dataDictionaryToml=document.getElementById('dataDictionaryToml');
+  const saveDataDictionaryBtn=document.getElementById('saveDataDictionaryBtn');
+  const dataDictionaryState=document.getElementById('dataDictionaryState');
 
   let suitcaseHandle=null;
   let suitcaseValidated=false;
@@ -263,8 +316,9 @@ Waiting for a saved Work Order.</pre>
   let headers=[];
   let selectedHeader=null;
   let materialized=[];
-  let savedWorkOrders=[];
   let selectedWorkOrderName=null;
+  let workOrderMode='new'; // new | saved | derived
+  let loadedSavedWorkOrderName=null;
   let descriptions=new Map();
   let aliases=new Map(); // physical filename -> human-facing alias
   const ALIAS_MAP_FILENAME='__DS__MAP__ALIASES.csv';
@@ -332,6 +386,100 @@ Waiting for a saved Work Order.</pre>
     emitHelp({code:'PROTOTYPE-SUITCASE-GATE',severity:'ERROR',phase,observed:'The Suitcase gate has not been satisfied. Data Sculptor will not begin analytical work until a writable Suitcase is validated.',next:'Choose and validate the Suitcase folder first. Data Sculptor will test write access without asking you to name an artifact.',facts:{suitcase_validated:false,gate_required_first:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
     return false;
   }
+  function isSavedWorkOrderName(name){
+    return /^__DS__WKO__/i.test(String(name||'')) && /\.txt$/i.test(String(name||''));
+  }
+
+  function updateSavedWorkOrderPicker(){
+    if(!savedWorkOrderSelect||!loadWorkOrderBtn)return;
+    const saved=suitcaseFiles.filter(item=>isSavedWorkOrderName(item.name));
+    const previous=savedWorkOrderSelect.value;
+    if(!suitcaseValidated){
+      savedWorkOrderSelect.innerHTML='<option value="">Validate a Suitcase first</option>';
+      savedWorkOrderSelect.disabled=true;loadWorkOrderBtn.disabled=true;return;
+    }
+    if(!saved.length){
+      savedWorkOrderSelect.innerHTML='<option value="">No saved Work Orders in this Suitcase</option>';
+      savedWorkOrderSelect.disabled=true;loadWorkOrderBtn.disabled=true;return;
+    }
+    savedWorkOrderSelect.innerHTML='<option value="">Choose a saved Work Order…</option>'+saved.map(item=>`<option value="${esc(item.name)}">${esc(item.name)}</option>`).join('');
+    savedWorkOrderSelect.disabled=false;
+    const preferred=(workOrderMode==='saved'&&selectedWorkOrderName)?selectedWorkOrderName:(loadedSavedWorkOrderName||previous);
+    if(preferred&&saved.some(item=>item.name===preferred))savedWorkOrderSelect.value=preferred;
+    loadWorkOrderBtn.disabled=!savedWorkOrderSelect.value;
+  }
+
+  async function loadWorkOrderFromPicker(){
+    if(!requireSuitcase('WORK ORDER LOAD'))return;
+    const name=savedWorkOrderSelect.value;
+    if(!name){emitHelp({code:'PROTOTYPE-WO-LOAD-NONE',severity:'HELP',phase:'WORK ORDER LOAD',observed:'No saved Work Order is selected in the Work Order editor.',next:'Choose a saved WKO TXT from the list, then load it.',facts:{saved_work_order_selected:false}});return}
+    const item=suitcaseFiles.find(x=>x.name===name&&isSavedWorkOrderName(x.name));
+    if(!item){emitHelp({code:'PROTOTYPE-WO-LOAD-MISSING',severity:'ERROR',phase:'WORK ORDER LOAD',observed:'The selected saved Work Order is no longer visible in the Suitcase.',next:'Refresh the Suitcase directory and choose it again.',facts:{filename:name}});return}
+    await loadSavedWorkOrder(item);
+  }
+
+  function updateWorkOrderUi(){
+    const locked=!suitcaseValidated;
+    if(locked){
+      woTitle.textContent='Work Order — new draft';
+      woModeNote.textContent='Only saved TXT can run';
+      draftState.textContent='Draft locked · validate a Suitcase first.';
+      runBtn.disabled=true;
+      return;
+    }
+    if(workOrderMode==='saved' && selectedWorkOrderName){
+      woTitle.textContent='Work Order — saved / immutable';
+      woModeNote.textContent='Saved TXT · runnable';
+      draftState.textContent=`Loaded saved Work Order: ${selectedWorkOrderName} · original TXT is immutable. Edit instructions to create a new draft.`;
+      runBtn.disabled=false;
+      runBtn.textContent='[R] Run loaded saved Work Order';
+      return;
+    }
+    if(workOrderMode==='derived'){
+      woTitle.textContent='Work Order — new draft from saved Work Order';
+      woModeNote.textContent='Draft · save before run';
+      draftState.textContent=`Derived draft: editable · ${loadedSavedWorkOrderName||'the original saved Work Order'} remains unchanged. Saving creates a new WKO TXT.`;
+      runBtn.disabled=true;
+      runBtn.textContent='[R] Run loaded saved Work Order';
+      return;
+    }
+    woTitle.textContent='Work Order — new draft';
+    woModeNote.textContent='Only saved TXT can run';
+    draftState.textContent='Draft state: editable · saving creates a new immutable TXT artifact; it never overwrites a saved Work Order.';
+    runBtn.disabled=true;
+    runBtn.textContent='[R] Run loaded saved Work Order';
+  }
+
+  function updateRunTarget(){
+    if(workOrderMode==='saved' && selectedWorkOrderName){
+      ctxRunTarget.textContent=selectedWorkOrderName;ctxRunTarget.className='v ok';
+    }else{
+      ctxRunTarget.textContent='NO SAVED WORK ORDER LOADED';ctxRunTarget.className='v wait';
+    }
+    updateWorkOrderUi();
+  }
+
+  async function loadSavedWorkOrder(item){
+    if(!requireSuitcase('WORK ORDER LOAD'))return;
+    if(!item||!item.handle||!isSavedWorkOrderName(item.name))return;
+    try{
+      const file=item.file||await item.handle.getFile();
+      const text=await file.text();
+      workOrder.value=text;
+      draftDescription.value=descriptions.get(item.name)||'';
+      selectedWorkOrderName=item.name;
+      loadedSavedWorkOrderName=item.name;
+      workOrderMode='saved';
+      renderHighlight();
+      updateRunTarget();
+      updateSavedWorkOrderPicker();
+      workOrder.focus();
+      emitHelp({code:'PROTOTYPE-WO-LOADED',severity:'INFO',phase:'WORK ORDER LOAD',observed:`Saved Work Order ${item.name} was loaded into the Work Order editor.`,next:'Run it as saved, or edit the instructions to create a new derived draft. The original TXT will not be overwritten.',facts:{filename:item.name,loaded_from_suitcase:true,original_immutable:true,double_click_load:true,execution_requires_saved_work_order:true}});
+    }catch(err){
+      emitHelp({code:'PROTOTYPE-WO-LOAD-FAILED',severity:'ERROR',phase:'WORK ORDER LOAD',observed:`The saved Work Order ${item.name} could not be loaded.`,next:'Refresh the Suitcase directory and try again.',facts:{filename:item.name,error:String(err)}});
+    }
+  }
+
   function updateWorkspaceGate(){
     const locked=!suitcaseValidated;
     refreshFilesBtn.disabled=locked;
@@ -339,7 +487,13 @@ Waiting for a saved Work Order.</pre>
     draftDescription.disabled=locked;
     saveWorkOrderBtn.disabled=locked;
     validateBtn.disabled=locked;
-    runBtn.disabled=locked;
+    runBtn.disabled=true;
+    prettyBrandToml.disabled=locked;
+    savePrettyBrandBtn.disabled=locked;
+    prettyBrandState.textContent=locked?'Editor locked · validate a Suitcase first.':'Editable · saved TOML is retained in the Suitcase but is not parsed or applied yet.';
+    dataDictionaryToml.disabled=locked;
+    saveDataDictionaryBtn.disabled=locked;
+    dataDictionaryState.textContent=locked?'Editor locked · validate a Suitcase first.':'Editable · saved TOML is retained in the Suitcase but is not parsed or applied yet.';
     if(locked){
       suitcaseGate.classList.remove('ready');
       suitcaseGateStatus.textContent='NOT VALIDATED · workspace controls are locked';
@@ -347,7 +501,7 @@ Waiting for a saved Work Order.</pre>
       ctxSource.textContent='LOCKED UNTIL SUITCASE VALIDATES';ctxSource.className='v wait';
       ctxHeaders.textContent='LOCKED';ctxHeaders.className='v wait';
       suitcaseFiles=[];renderSuitcaseFiles();
-      document.getElementById('draftState').textContent='Draft locked · validate a Suitcase first.';
+      updateWorkOrderUi();
     }else{
       suitcaseGate.classList.add('ready');
       suitcaseGateStatus.textContent=`VALIDATED · selected folder: ${suitcaseHandle.name} · workspace unlocked`;
@@ -359,9 +513,10 @@ Waiting for a saved Work Order.</pre>
         ctxSource.textContent=sourceFile.name;ctxSource.className='v ok';
         ctxHeaders.textContent=`${headers.length} DETECTED`;ctxHeaders.className='v ok';
       }
-      document.getElementById('draftState').textContent='Draft state: editable · saving creates a new immutable TXT artifact; it never overwrites a saved Work Order.';
+      updateWorkOrderUi();
     }
     renderHeaders();
+    updateSavedWorkOrderPicker();
   }
 
   function renderHeaders(){
@@ -471,12 +626,62 @@ Waiting for a saved Work Order.</pre>
     const d=i===0?0:(v>=100?0:(v>=10?1:2));
     return `${v.toFixed(d)} ${units[i]}`;
   }
+
+  function mimeForSuitcaseFile(name,reportedType=''){
+    if(reportedType)return reportedType;
+    const ext=(String(name).toLowerCase().split('.').pop()||'');
+    const mime={
+      txt:'text/plain',toml:'text/plain',csv:'text/csv',json:'application/json',xml:'application/xml',
+      html:'text/html',htm:'text/html',css:'text/css',js:'text/javascript',md:'text/markdown',
+      png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',gif:'image/gif',webp:'image/webp',svg:'image/svg+xml',bmp:'image/bmp',
+      pdf:'application/pdf',
+      mp3:'audio/mpeg',m4a:'audio/mp4',wav:'audio/wav',ogg:'audio/ogg',
+      mp4:'video/mp4',webm:'video/webm',mov:'video/quicktime',
+      zip:'application/zip',
+      docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      pptx:'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+    };
+    return mime[ext]||'application/octet-stream';
+  }
+
+  async function openSuitcaseFile(item){
+    if(!item||!item.handle)return;
+    // Open the tab synchronously from the double-click so Chromium treats this as
+    // a direct user action rather than a scripted pop-up after asynchronous I/O.
+    const viewer=window.open('about:blank','_blank');
+    if(!viewer){
+      emitHelp({code:'PROTOTYPE-FILE-OPEN-BLOCKED',severity:'ERROR',phase:'SUITCASE DIRECTORY',observed:`The browser blocked the new tab for ${item.name}.`,next:'Allow pop-ups for this local prototype and double-click the file again.',facts:{filename:item.name,double_click_open:true,file_executed:false}});
+      return;
+    }
+    try{
+      // The opened artifact must not be able to navigate back into the prototype
+      // through window.opener. Double-click is inspection/opening only, never execution.
+      try{viewer.opener=null}catch{}
+      try{
+        viewer.document.title=`Opening ${item.name}`;
+        viewer.document.body.style.cssText='margin:24px;background:#0b1018;color:#dce9f7;font:14px ui-monospace,Consolas,monospace';
+        viewer.document.body.textContent=`Opening ${item.name}…`;
+      }catch{}
+      const file=item.file||await item.handle.getFile();
+      const mime=mimeForSuitcaseFile(item.name,file.type);
+      const blob=(file.type===mime||!mime)?file:file.slice(0,file.size,mime);
+      const url=URL.createObjectURL(blob);
+      viewer.location.replace(url);
+      // Give the new tab ample time to load/read the Blob URL, including large files.
+      setTimeout(()=>URL.revokeObjectURL(url),60*60*1000);
+    }catch(err){
+      try{viewer.close()}catch{}
+      emitHelp({code:'PROTOTYPE-FILE-OPEN-FAILED',severity:'ERROR',phase:'SUITCASE DIRECTORY',observed:`Data Sculptor could not open ${item.name}.`,next:'Refresh the Suitcase directory and try again. Browser-supported formats open in a new tab; unsupported formats follow the browser’s normal file handling.',facts:{filename:item.name,error:String(err),double_click_open:true,file_executed:false}});
+    }
+  }
+
   function renderSuitcaseFiles(){
     if(!suitcaseValidated||!suitcaseHandle){
-      suitcaseFilesBody.innerHTML='<tr><td colspan="4" class="saved-empty">Validate a Suitcase to see its files.</td></tr>';return;
+      suitcaseFilesBody.innerHTML='<tr><td colspan="4" class="saved-empty">Validate a Suitcase to see its files.</td></tr>';updateSavedWorkOrderPicker();return;
     }
     if(!suitcaseFiles.length){
-      suitcaseFilesBody.innerHTML='<tr><td colspan="4" class="saved-empty">This Suitcase is empty.</td></tr>';return;
+      suitcaseFilesBody.innerHTML='<tr><td colspan="4" class="saved-empty">This Suitcase is empty.</td></tr>';updateSavedWorkOrderPicker();return;
     }
     suitcaseFilesBody.innerHTML=suitcaseFiles.map(item=>{
       const lower=item.name.toLowerCase();
@@ -487,12 +692,25 @@ Waiting for a saved Work Order.</pre>
       const aliasCell=systemMap
         ? '<span class="tiny-badge lock">SYSTEM MAP</span>'
         : `<input class="alias-input" data-alias-file="${esc(item.name)}" value="${esc(alias)}" placeholder="Add alias" maxlength="120" aria-label="Alias for ${esc(item.name)}">`;
-      return `<tr><td class="filename">${esc(item.name)}</td><td>${aliasCell}</td><td class="file-kind">${esc(type)}</td><td class="file-size">${esc(formatBytes(item.size))}</td></tr>`;
+      const openTitle=isSavedWorkOrderName(item.name)?`Double-click to load ${item.name} into the Work Order editor`:`Double-click to open ${item.name}`;
+      return `<tr class="file-entry" data-open-file="${esc(item.name)}" title="${esc(openTitle)}"><td class="filename">${esc(item.name)}</td><td>${aliasCell}</td><td class="file-kind">${esc(type)}</td><td class="file-size">${esc(formatBytes(item.size))}</td></tr>`;
     }).join('');
     suitcaseFilesBody.querySelectorAll('.alias-input').forEach(inp=>{
       inp.addEventListener('change',e=>updateAlias(e.target.dataset.aliasFile,e.target.value,e.target));
       inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}});
+      // Editing an alias is metadata work; it must not accidentally open the file.
+      inp.addEventListener('dblclick',e=>e.stopPropagation());
     });
+    suitcaseFilesBody.querySelectorAll('tr[data-open-file]').forEach(row=>{
+      row.addEventListener('dblclick',e=>{
+        if(e.target.closest('input,button,select,textarea,a'))return;
+        const item=suitcaseFiles.find(x=>x.name===row.dataset.openFile);
+        if(!item)return;
+        if(isSavedWorkOrderName(item.name))loadSavedWorkOrder(item);
+        else openSuitcaseFile(item);
+      });
+    });
+    updateSavedWorkOrderPicker();
   }
 
 
@@ -515,6 +733,12 @@ Waiting for a saved Work Order.</pre>
     found.sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true,sensitivity:'base'}));
     suitcaseFiles=found;
     await loadAliasMapFromSuitcase();
+    if(workOrderMode==='saved' && selectedWorkOrderName && !suitcaseFiles.some(x=>x.name===selectedWorkOrderName)){
+      loadedSavedWorkOrderName=selectedWorkOrderName;
+      selectedWorkOrderName=null;
+      workOrderMode='derived';
+      updateRunTarget();
+    }
     renderSuitcaseFiles();
   }
 
@@ -544,16 +768,15 @@ Waiting for a saved Work Order.</pre>
 
       suitcaseHandle=candidate;suitcaseValidated=true;
       sourceFile=null;headers=[];selectedHeader=null;materialized=[];
-      savedWorkOrders=[];selectedWorkOrderName=null;descriptions=new Map();aliases=new Map();
+      selectedWorkOrderName=null;loadedSavedWorkOrderName=null;workOrderMode='new';descriptions=new Map();aliases=new Map();
       ctxSource.textContent='AWAITING WORK ORDER';ctxSource.className='v wait';
       ctxHeaders.textContent='AWAITING RUN';ctxHeaders.className='v wait';
       ctxColumn.textContent='NONE';ctxColumn.className='v wait';
-      updateRunTarget();renderHeaders();renderMappings();renderSavedWorkOrders();resetExecution();
+      updateRunTarget();renderHeaders();renderMappings();resetExecution();
       ctxSuitcase.textContent=`${suitcaseHandle.name} · VALIDATED`;ctxSuitcase.className='v ok';
       ctxSuitcase.title='Selected Suitcase folder name. The browser does not expose the full Windows absolute path to this page.';
       updateWorkspaceGate();
       await refreshSuitcaseFilesFromSuitcase();
-      await refreshSavedWorkOrdersFromSuitcase();
       emitHelp({code:'PROTOTYPE-SUITCASE-VALIDATED',severity:'INFO',phase:'SUITCASE VALIDATION',observed:`Suitcase folder “${suitcaseHandle.name}” passed the writable-folder validation gate. Its visible files are now listed in the Suitcase directory.`,next:'Author and save a Work Order. The Work Order names the source and requested column.',facts:{suitcase_folder_name:suitcaseHandle.name,absolute_path_exposed:false,suitcase_validated:true,suitcase_file_count:suitcaseFiles.length,source_selected:false,headers_scanned:false,write_probe_pass:true,probe_removed:true,flat_artifacts:true,no_subfolder_created:true,user_chooses_filename:false}})
     }catch(err){
       if(err&&err.name==='AbortError')return;
@@ -597,34 +820,21 @@ Waiting for a saved Work Order.</pre>
     const text=workOrder.value;if(!validateWorkOrder(text))return;
     const filename=makeFilename('WKO','txt');
     try{
-      const handle=await writeTextToSuitcase(filename,text,'text/plain');
+      await writeTextToSuitcase(filename,text,'text/plain');
       const description=draftDescription.value.trim()||'Saved Work Order';descriptions.set(filename,description);
-      savedWorkOrders.push({filename,handle,created:nowLabel()});selectedWorkOrderName=filename;renderSavedWorkOrders();updateRunTarget();
+      selectedWorkOrderName=filename;loadedSavedWorkOrderName=filename;workOrderMode='saved';
       await refreshSuitcaseFilesFromSuitcase();
-      emitHelp({code:'PROTOTYPE-WO-SAVED',severity:'INFO',phase:'WORK ORDER SAVE',observed:`A new immutable Work Order was saved as ${filename}.`,next:'Select it in Saved Work Orders to make it the Run target, or continue editing the draft and save another Work Order.',facts:{filename,suitcase:suitcaseHandle.name,user_chose_filename:false,work_order_editable_after_save:false,description_editable:true}})
+      updateRunTarget();
+      emitHelp({code:'PROTOTYPE-WO-SAVED',severity:'INFO',phase:'WORK ORDER SAVE',observed:`A new immutable Work Order was saved as ${filename} and is now loaded in the Work Order editor.`,next:'Run the saved Work Order, or edit its instructions to create a new derived draft. The saved TXT will not be overwritten.',facts:{filename,suitcase:suitcaseHandle.name,user_chose_filename:false,work_order_editable_after_save:false,description_editable:true,loaded_as_run_target:true}})
     }catch(err){emitHelp({code:'PROTOTYPE-WO-SAVE-FAILED',severity:'ERROR',phase:'WORK ORDER SAVE',observed:'The Work Order TXT could not be written to the authorized Suitcase.',next:'Check folder permission and try saving again.',facts:{error:String(err)}})}
   }
 
-  async function refreshSavedWorkOrdersFromSuitcase(){
-    if(!suitcaseHandle)return;
-    const found=[];
-    try{for await(const [name,handle] of suitcaseHandle.entries()){if(handle.kind==='file'&&name.startsWith('__DS__WKO')&&name.toLowerCase().endsWith('.txt')){found.push({filename:name,handle,created:'existing file'})}}}catch{}
-    const known=new Set(savedWorkOrders.map(x=>x.filename));for(const x of found){if(!known.has(x.filename))savedWorkOrders.push(x)}
-    savedWorkOrders.sort((a,b)=>b.filename.localeCompare(a.filename));renderSavedWorkOrders()
-  }
-  function renderSavedWorkOrders(){
-    if(!savedWorkOrders.length){savedWorkOrdersEl.innerHTML='<div class="saved-empty">No saved Work Orders are visible yet. Authorize a Suitcase and save a draft.</div>';return}
-    savedWorkOrdersEl.innerHTML=savedWorkOrders.map((w,i)=>{const desc=descriptions.get(w.filename)||'Saved Work Order';return `<div class="saved-row ${selectedWorkOrderName===w.filename?'selected':''}" data-file="${esc(w.filename)}"><input class="saved-select" type="radio" name="savedWorkOrderPick" ${selectedWorkOrderName===w.filename?'checked':''} aria-label="Select saved Work Order ${esc(w.filename)}"><div class="saved-main"><input class="saved-description" data-desc-for="${esc(w.filename)}" value="${esc(desc)}" aria-label="Editable description for ${esc(w.filename)}"><div class="saved-file">${esc(w.filename)}</div><div class="saved-note">Description is editable metadata. TXT instructions and physical filename are immutable through Data Sculptor.</div></div><div class="saved-meta">${esc(w.created)}<br><span class="tiny-badge lock">SAVED TXT</span></div></div>`}).join('');
-    savedWorkOrdersEl.querySelectorAll('.saved-row').forEach(row=>{row.addEventListener('click',e=>{if(e.target.classList.contains('saved-description'))return;selectedWorkOrderName=row.dataset.file;renderSavedWorkOrders();updateRunTarget();emitHelp({code:'PROTOTYPE-RUN-TARGET-SELECTED',severity:'INFO',phase:'WORK ORDER SELECTION',observed:`${selectedWorkOrderName} is now the saved Run target.`,next:'Run will read this saved TXT artifact; the editable draft is not an execution path.',facts:{run_target:selectedWorkOrderName,transient_editor_is_run_target:false}})})});
-    savedWorkOrdersEl.querySelectorAll('.saved-description').forEach(inp=>{inp.addEventListener('change',e=>{const f=e.target.dataset.descFor;descriptions.set(f,e.target.value.trim()||'Saved Work Order');emitHelp({code:'PROTOTYPE-WO-DESCRIPTION-UPDATED',severity:'INFO',phase:'WORK ORDER DESCRIPTION',observed:'The human-facing description was updated.',next:'No other action is required. The saved Work Order TXT and its physical filename were not changed.',facts:{filename:f,file_rewritten:false,file_renamed:false,description:descriptions.get(f)}})})})
-  }
-  function updateRunTarget(){if(selectedWorkOrderName){ctxRunTarget.textContent=selectedWorkOrderName;ctxRunTarget.className='v ok'}else{ctxRunTarget.textContent='NO SAVED WORK ORDER SELECTED';ctxRunTarget.className='v wait'}}
 
   async function runSelected(){
     if(!requireSuitcase('RUN'))return;
-    if(!selectedWorkOrderName){emitHelp({code:'PROTOTYPE-RUN-NO-SAVED-WO',severity:'ERROR',phase:'RUN',observed:'No saved Work Order is selected as the Run target.',next:'Save a new Work Order or select one from Saved Work Orders.',facts:{saved_run_target:false,transient_editor_is_run_target:false}});return}
-    const item=savedWorkOrders.find(x=>x.filename===selectedWorkOrderName);if(!item)return;
-    let text='';try{text=await (await item.handle.getFile()).text()}catch(err){emitHelp({code:'PROTOTYPE-RUN-WO-READ-FAILED',severity:'ERROR',phase:'RUN',observed:'The selected saved Work Order could not be read from the Suitcase.',next:'Re-authorize the Suitcase or select another saved Work Order.',facts:{filename:selectedWorkOrderName,error:String(err)}});return}
+    if(workOrderMode!=='saved'||!selectedWorkOrderName){emitHelp({code:'PROTOTYPE-RUN-NO-SAVED-WO',severity:'ERROR',phase:'RUN',observed:'No saved Work Order is loaded as the Run target.',next:'Save the current draft, or double-click a saved WKO TXT in the Suitcase directory to load it.',facts:{saved_run_target:false,transient_editor_is_run_target:false}});return}
+    const item=suitcaseFiles.find(x=>x.name===selectedWorkOrderName);if(!item){emitHelp({code:'PROTOTYPE-RUN-WO-MISSING',severity:'ERROR',phase:'RUN',observed:'The loaded saved Work Order is no longer visible in the Suitcase.',next:'Refresh the Suitcase directory and load a saved Work Order again.',facts:{filename:selectedWorkOrderName}});return}
+    let text='';try{text=await (await item.handle.getFile()).text()}catch(err){emitHelp({code:'PROTOTYPE-RUN-WO-READ-FAILED',severity:'ERROR',phase:'RUN',observed:'The loaded saved Work Order could not be read from the Suitcase.',next:'Re-authorize the Suitcase or double-click another saved Work Order in the directory.',facts:{filename:selectedWorkOrderName,error:String(err)}});return}
     if(!validateWorkOrder(text))return;
     const spec=parseWorkOrder(text);
     setExecution([`> RUN ${selectedWorkOrderName}`,'WORK ORDER VALIDATED',`Operation: ${spec.operation}`,`Source requested: ${spec.source}`,`Column requested: ${spec.column}`]);
@@ -670,6 +880,44 @@ Waiting for a saved Work Order.</pre>
     }
   }
 
+  async function savePrettyBrandToml(){
+    if(!requireSuitcase('PRETTY BRANDING SAVE'))return;
+    const text=prettyBrandToml.value;
+    if(!text.trim()){
+      emitHelp({code:'PROTOTYPE-PRETTY-BRAND-EMPTY',severity:'ERROR',phase:'PRETTY BRANDING SAVE',observed:'No PRETTY Branding TOML content has been entered.',next:'Enter TOML text before saving.',facts:{artifact_class:'BRD',format:'TOML',parsed:false,applied:false}});
+      return;
+    }
+    const filename=makeFilename('BRD','toml');
+    const payload=text.endsWith('\n')?text:text+'\n';
+    try{
+      await writeTextToSuitcase(filename,payload,'application/toml');
+      await refreshSuitcaseFilesFromSuitcase();
+      prettyBrandState.innerHTML=`Saved as <strong>${esc(filename)}</strong> · not applied`;
+      emitHelp({code:'PROTOTYPE-PRETTY-BRAND-SAVED',severity:'INFO',phase:'PRETTY BRANDING SAVE',observed:`PRETTY Branding TOML was saved as ${filename}.`,next:'No branding behavior changes in this prototype. The TOML remains a visible Suitcase artifact for later PRETTY work.',facts:{filename,artifact_class:'BRD',format:'TOML',parsed:false,applied:false,user_chose_filename:false,suitcase:suitcaseHandle.name}});
+    }catch(err){
+      emitHelp({code:'PROTOTYPE-PRETTY-BRAND-SAVE-FAILED',severity:'ERROR',phase:'PRETTY BRANDING SAVE',observed:'The PRETTY Branding TOML file could not be written to the authorized Suitcase.',next:'Check Suitcase write permission and try again.',facts:{error:String(err),artifact_class:'BRD',format:'TOML',applied:false}});
+    }
+  }
+
+  async function saveDataDictionaryToml(){
+    if(!requireSuitcase('DATA DICTIONARY SAVE'))return;
+    const text=dataDictionaryToml.value;
+    if(!text.trim()){
+      emitHelp({code:'PROTOTYPE-DATA-DICTIONARY-EMPTY',severity:'ERROR',phase:'DATA DICTIONARY SAVE',observed:'No User Data Dictionary TOML content has been entered.',next:'Enter TOML text before saving.',facts:{artifact_class:'DDC',format:'TOML',parsed:false,applied:false}});
+      return;
+    }
+    const filename=makeFilename('DDC','toml');
+    const payload=text.endsWith('\n')?text:text+'\n';
+    try{
+      await writeTextToSuitcase(filename,payload,'application/toml');
+      await refreshSuitcaseFilesFromSuitcase();
+      dataDictionaryState.innerHTML=`Saved as <strong>${esc(filename)}</strong> · not applied`;
+      emitHelp({code:'PROTOTYPE-DATA-DICTIONARY-SAVED',severity:'INFO',phase:'DATA DICTIONARY SAVE',observed:`User Data Dictionary TOML was saved as ${filename}.`,next:'No dictionary behavior changes in this prototype. The TOML remains a visible Suitcase artifact for later data-dictionary work.',facts:{filename,artifact_class:'DDC',format:'TOML',parsed:false,applied:false,user_chose_filename:false,suitcase:suitcaseHandle.name}});
+    }catch(err){
+      emitHelp({code:'PROTOTYPE-DATA-DICTIONARY-SAVE-FAILED',severity:'ERROR',phase:'DATA DICTIONARY SAVE',observed:'The User Data Dictionary TOML file could not be written to the authorized Suitcase.',next:'Check Suitcase write permission and try again.',facts:{error:String(err),artifact_class:'DDC',format:'TOML',applied:false}});
+    }
+  }
+
   async function saveHelpReport(){
     if(!currentDiagnostic)return;if(!requireSuitcase('HELP REPORT SAVE'))return
     const d=currentDiagnostic;const filename=makeFilename('HLP','html');
@@ -678,21 +926,42 @@ Waiting for a saved Work Order.</pre>
   }
 
   function fullHelp(){if(!currentDiagnostic)return;const d=currentDiagnostic;diagArea.innerHTML=`<span class="${d.severity==='ERROR'?'sev':(d.severity==='INFO'?'info':'help')}">${esc(d.severity)} · ${esc(d.code)} · FULL HELP</span><div style="margin-top:12px"><strong style="color:var(--accent3)">Casual</strong><br>${esc(wording(d,'casual'))}</div><div style="margin-top:12px"><strong style="color:var(--accent3)">Office Speak</strong><br>${esc(wording(d,'office'))}</div><div style="margin-top:12px"><strong style="color:var(--accent3)">Technical</strong><br>${esc(wording(d,'technical'))}</div><dl class="diag-grid"><dt>Canonical facts</dt><dd>${esc(JSON.stringify(d.facts||{},null,2))}</dd><dt>Phase</dt><dd>${esc(d.phase)}</dd></dl>`}
-  function genericHelp(){emitHelp({code:'PROTOTYPE-HELP',severity:'HELP',phase:'WORKSPACE',observed:'Data Sculptor follows a governed sequence: validate the Suitcase, author and save a Work Order, then run that saved artifact.',next:suitcaseValidated?'Author or select a saved Work Order. The directory exposes inventory and editable aliases, but analytical intent still comes only from a saved Work Order.':'Choose and validate the Suitcase.',facts:{prototype:true,storage_engine_surface:true,help_engine_surface:true,saved_work_orders_immutable:true,alias_editable:true,alias_mapping_file:ALIAS_MAP_FILENAME}})}
+  function genericHelp(){emitHelp({code:'PROTOTYPE-HELP',severity:'HELP',phase:'WORKSPACE',observed:'Data Sculptor follows a governed sequence: validate the Suitcase, author and save a Work Order, then run that saved artifact.',next:suitcaseValidated?'Author and save a new Work Order, or choose a saved WKO TXT in the Work Order editor and load it. Double-clicking the same WKO in the Suitcase directory also loads it.':'Choose and validate the Suitcase.',facts:{prototype:true,storage_engine_surface:true,help_engine_surface:true,saved_work_orders_immutable:true,work_order_editor_loads_saved_files:true,alias_editable:true,alias_mapping_file:ALIAS_MAP_FILENAME}})}
 
-  workOrder.addEventListener('input',renderHighlight);workOrder.addEventListener('scroll',renderHighlight);
+  workOrder.addEventListener('input',()=>{
+    if(workOrderMode==='saved'){
+      loadedSavedWorkOrderName=selectedWorkOrderName;
+      selectedWorkOrderName=null;
+      workOrderMode='derived';
+      updateRunTarget();
+      updateSavedWorkOrderPicker();
+      emitHelp({code:'PROTOTYPE-WO-DERIVED-DRAFT',severity:'INFO',phase:'WORK ORDER EDIT',observed:`The loaded saved Work Order remains immutable. The editor now contains a new draft derived from ${loadedSavedWorkOrderName}.`,next:'Validate and save this draft to create a new immutable Work Order TXT before running it.',facts:{source_work_order:loadedSavedWorkOrderName,source_rewritten:false,new_draft:true,run_requires_save:true}});
+    }
+    renderHighlight();
+  });
+  workOrder.addEventListener('scroll',renderHighlight);
+  draftDescription.addEventListener('change',()=>{
+    if(workOrderMode==='saved'&&selectedWorkOrderName){
+      descriptions.set(selectedWorkOrderName,draftDescription.value.trim()||'Saved Work Order');
+      emitHelp({code:'PROTOTYPE-WO-DESCRIPTION-UPDATED',severity:'INFO',phase:'WORK ORDER DESCRIPTION',observed:'The human-facing description was updated in prototype metadata.',next:'The saved Work Order TXT and its physical filename were not changed.',facts:{filename:selectedWorkOrderName,file_rewritten:false,file_renamed:false,description:descriptions.get(selectedWorkOrderName)}});
+    }
+  });
   voice.addEventListener('change',()=>{if(currentDiagnostic)emitHelp(currentDiagnostic)});
   document.getElementById('suitcaseBtn').addEventListener('click',authorizeSuitcase);
   refreshFilesBtn.addEventListener('click',refreshSuitcaseFilesFromSuitcase);
+  savedWorkOrderSelect.addEventListener('change',()=>{loadWorkOrderBtn.disabled=!savedWorkOrderSelect.value});
+  loadWorkOrderBtn.addEventListener('click',loadWorkOrderFromPicker);
   document.getElementById('saveWorkOrderBtn').addEventListener('click',saveNewWorkOrder);
   document.getElementById('validateBtn').addEventListener('click',()=>validateWorkOrder(workOrder.value));
   document.getElementById('runBtn').addEventListener('click',runSelected);
   document.getElementById('helpBtn').addEventListener('click',genericHelp);
   document.getElementById('fullHelpBtn').addEventListener('click',fullHelp);
   document.getElementById('saveHelpBtn').addEventListener('click',saveHelpReport);
+  savePrettyBrandBtn.addEventListener('click',savePrettyBrandToml);
+  saveDataDictionaryBtn.addEventListener('click',saveDataDictionaryToml);
   document.addEventListener('keydown',e=>{if(e.key==='F1'){e.preventDefault();genericHelp()}if(e.key==='Escape'){clearHelp()}if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==='s'){e.preventDefault();saveNewWorkOrder()}if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();runSelected()}});
 
-  renderMappings();renderSavedWorkOrders();renderHighlight();updateRunTarget();resetExecution();updateWorkspaceGate();emitHelp({code:'PROTOTYPE-SUITCASE-FIRST',severity:'HELP',phase:'SESSION START',observed:'A Suitcase is required before work begins.',next:'Choose and validate a Suitcase.',facts:{gate_required_first:true,suitcase_validated:false,workspace_locked:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
+  renderMappings();renderHighlight();updateRunTarget();updateSavedWorkOrderPicker();resetExecution();updateWorkspaceGate();emitHelp({code:'PROTOTYPE-SUITCASE-FIRST',severity:'HELP',phase:'SESSION START',observed:'A Suitcase is required before work begins.',next:'Choose and validate a Suitcase.',facts:{gate_required_first:true,suitcase_validated:false,workspace_locked:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
 })();
 </script>
 </body>
