@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Red5Sorcery Data Sculptor — Product Backlog PRD — Revision AA</title>
+<title>Red5Sorcery Data Sculptor — Product Backlog PRD — Revision AB</title>
 <style>
 :root{--bg:#0b1018;--panel:#111927;--ink:#172033;--muted:#667085;--paper:#f7f9fc;--line:#d9e1ea;--accent:#9fb7d5;--red5:#a83232;
 --orange:#c65f00;--green:#2f7d32;--purple:#6c3aa5;--blue:#2368b5;--red:#b42318;--black:#111111;--gray:#697586;}
@@ -55,7 +55,7 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
 </style>
 </head>
 <body>
-<header class="hero"><div class="shell"><div class="eyebrow">RED5SORCERY DATA SCULPTOR</div><h1 class="doc-title">PRODUCT BACKLOG PRD</h1><div class="revision-line">Revision AA — Work Order Workbench &amp; Alias Map Contract</div><p class="front-small">Day 043 — 20 September 2026</p><p class="front-small">Free. Fast. Private. PRETTY. Data work you can explain.</p></div></header>
+<header class="hero"><div class="shell"><div class="eyebrow">RED5SORCERY DATA SCULPTOR</div><h1 class="doc-title">PRODUCT BACKLOG PRD</h1><div class="revision-line">Revision AB — Composable Work Order Contract</div><p class="front-small">Day 043 — 20 September 2026</p><p class="front-small">Free. Fast. Private. PRETTY. Data work you can explain.</p></div></header>
 <div class="shell front-door-shell">
 <section class="front-door" id="what-and-why" aria-labelledby="what-and-why-title">
 <h2 id="what-and-why-title">What We Are Building — and Why</h2>
@@ -88,7 +88,7 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
   <span id="filterBannerText"></span>
   <button type="button" id="filterBannerClear">Show all</button>
 </div>
-<div id="content"><div class="eyebrow">RED5SORCERY DATA SCULPTOR</div><h1 class="doc-title">PRODUCT BACKLOG PRD</h1><div class="revision-line">Revision AA - Work Order Workbench &amp; Alias Map Contract</div><p class="front-small">Day 043 - 20 September 2026</p><p class="front-small">Free. Fast. Private. PRETTY.  Data work you can explain.</p><p>Documentation is a primary interface. Human analytical authority remains final.</p><p><strong>REVISION AA</strong> keeps this standalone HTML Product Backlog PRD as the working master and reconciles the Day 043 WASM-002 browser prototype with the numbered contract. The browser now begins with a required writable-Suitcase validation gate; the validated Suitcase Directory is the visible flat-file inventory; analytical intent comes only from saved immutable Work Orders; the editable draft is never a second execution path; the Execution Output is read-only; and source/column selection is expressed in the Work Order rather than through point-and-click analytical controls. Revision AA also makes human-facing file aliases editable metadata, persists their mapping in the visible Suitcase, permits Work Orders to refer to unique aliases, and requires exact physical source identity to remain auditable beneath those aliases. For Work Orders, the candidate generated filename shape is <code>__DS__WKO__&lt;UTC&gt;__&lt;UUID&gt;.txt</code>; the analyst chooses the Suitcase, not the artifact filename. All user-facing Help, refusal, warning, and safe-next-action wording is routed through the Help Engine. The Day 043 prototype remains non-normative design evidence; numbered requirements remain authoritative. Existing lifecycle metadata remains UNDER REVIEW unless explicitly stated otherwise; this revision does not claim implementation or freeze.</p><h1 id="section-1" class="section-heading">How to Read This PRD / Current Build Dashboard</h1><p>This page is the front door to the master backlog. It shows what the fields mean, how requirement status moves, and what the current WASM-002 candidate build contains. The SCOPE field attached to each individual requirement is authoritative. This dashboard is a derived convenience view; if it ever disagrees with a requirement&#x27;s SCOPE field, the requirement wins and the dashboard must be regenerated.</p><h2>Read any requirement in three fields</h2><div class="table-wrap"><table><tr><th>Field</th><th>Question it answers</th><th>How to read it</th></tr><tr><td>SCOPE</td><td>Where is this intended to be built?</td><td>WASM-002 means it belongs to the current candidate build slice.</td></tr><tr><td>BUILD</td><td>Which accepted build actually delivered it?</td><td>A dash means not yet accepted. WASM-002 is written here only after verified acceptance.</td></tr><tr><td>STATUS</td><td>Where is it in the decision/build lifecycle?</td><td>Orange review; green Claude-approved; purple frozen; blue deferred; red rejected; black built.</td></tr></table></div><div class="table-wrap"><table><tr><th>Lifecycle status colors - text label is authoritative; color is a visual cue</th><th>Lifecycle status colors - text label is authoritative; color is a visual cue</th><th>Lifecycle status colors - text label is authoritative; color is a visual cue</th><th>Lifecycle status colors - text label is authoritative; color is a visual cue</th></tr><tr><td>UNDER REVIEW</td><td>Candidate is still being specified/challenged.</td><td>QA APPROVED</td><td>Claude has reviewed and approved the requirement; not yet frozen.</td></tr><tr><td>FROZEN FOR BUILD</td><td>T has accepted it into the frozen development contract.</td><td>DEFERRED</td><td>Valid backlog item deliberately postponed.</td></tr><tr><td>REJECTED</td><td>Considered and rejected; retained with the decision record.</td><td>BUILT &amp; ACCEPTED</td><td>Implemented, verified, independently QA&#x27;d, and accepted; BUILD is populated.</td></tr></table></div><p>Example now:  SCOPE: WASM-002    STATUS: UNDER REVIEW    BUILD: -</p><p>Typical path: orange UNDER REVIEW -&gt; green QA APPROVED -&gt; purple FROZEN FOR BUILD by T -&gt; black BUILT &amp; ACCEPTED after implementation, verification, independent QA, retained evidence, and human acceptance. A candidate may instead move to blue DEFERRED or red REJECTED. Red items stay in the PRD so the decision is not forgotten.</p><p>Fast navigation: search for &quot;SCOPE: WASM-002&quot; to scan the current candidate build. Search for a STATUS label to scan lifecycle state. The historical W002- prefix in an ID does not determine current scope.</p><h2>Current build candidate: WASM-002</h2><p>Status: DRAFT / NOT FROZEN. All current SCOPE: WASM-002 requirements remain orange UNDER REVIEW in Revision AA; this revision does not presume Claude approval or T freeze. Purpose: establish the trusted path from a validated visible Suitcase and immutable saved Work Order to certified source bytes, governed materialization, visible evidence, and Help-backed refusals in the browser/WASM product.</p><div class="table-wrap"><table><tr><th>Area</th><th>WASM-002 candidate scope at a glance</th></tr><tr><td>Source certification</td><td>Strict whole-file UTF-8 certification; ASCII-first fast path; strict non-ASCII validation; certification bound to exact source identity.</td></tr><tr><td>Materialization &amp; visible storage</td><td>One bounded structural pass for multiple columns; permanent 1..N row identity; deterministic row alignment; Data Sculptor-controlled persistence stays visible in the flat Suitcase under the reserved <code>__DS__</code> governed namespace and semantic artifact classes.</td></tr><tr><td>Legacy conversion</td><td>Windows-1252 compatibility/conversion is an explicit separate governed operation, never a silent analytical fallback.</td></tr><tr><td>Diagnostics, Help &amp; Brand</td><td>Canonical diagnostic event; three-voice Help parity; persistent in-workspace Help / Diagnostic Surface; durable branded HTML support-handoff report; negative boundary facts; Brand Manifest, local assets, provenance, and presentation-only substitution proof.</td></tr><tr><td>Shared architecture</td><td>One shared semantic core suitable for WASM and later native CLI reuse; presentation/branding remains separated from analytical semantics; future white-label generation is enabled without semantic forks.</td></tr><tr><td>Browser front end</td><td>Suitcase-first writable-folder gate; full-width visible Suitcase Directory; editable aliases backed by a visible mapping artifact; one Work Order editor whose saved TXT artifacts are immutable; saved-Work-Order-only execution; read-only Execution Output; Help Engine for all user-facing Help/refusal guidance; no point-and-click analytical source/column selection and no second command prompt.</td></tr></table></div><h2>Explicitly not in WASM-002 right now</h2><p>0/1 filter masks, filter combination/reuse, and filter-driven build/export are V1-BACKLOG. PRETTY Tables, Rich Footnotes, and Supporting Context are V1-BACKLOG. Hosted white-label configuration, payments, customer administration, and post-launch outreach are later or explicitly out of this build.</p><p>Completion rule: candidate requirements move through review and freeze before implementation. The WASM-002 slice is complete only when its frozen requirements and acceptance gates are black BUILT &amp; ACCEPTED with retained evidence, independent QA, populated BUILD metadata, and human acceptance. Deferred and rejected items do not become obligations merely because they remain visible in this master PRD.</p><h1 id="section-2" class="section-heading">1. Product Backlog Governance</h1><p>This document is the master product backlog and product contract record for Data Sculptor. It may contain current build requirements, later V1 work, post-V1 intentions, product principles, and documentary/method requirements. An active implementation unit such as WASM-002 freezes only the requirements explicitly allocated to that build when its development contract is accepted.</p><article class="requirement status-na" data-scope="PRODUCT" data-status="N/A" data-build="N/A" data-id="PB-GOV-001" data-search="pb-gov-001 - master backlog is broader than one build the product backlog prd may continue to capture product truth and future requirements while an accepted build slice is frozen. adding backlog material does not silently change an active development contract.">
+<div id="content"><div class="eyebrow">RED5SORCERY DATA SCULPTOR</div><h1 class="doc-title">PRODUCT BACKLOG PRD</h1><div class="revision-line">Revision AB - Composable Work Order Contract</div><p class="front-small">Day 043 - 20 September 2026</p><p class="front-small">Free. Fast. Private. PRETTY.  Data work you can explain.</p><p>Documentation is a primary interface. Human analytical authority remains final.</p><p><strong>REVISION AB</strong> keeps this standalone HTML Product Backlog PRD as the working master and builds on Revision AA by defining composable saved Work Orders. A saved immutable Work Order may invoke other named saved immutable Work Orders in an explicit order, and an invoked Work Order may itself invoke further saved Work Orders. Human-facing Work Order names or aliases must resolve deterministically to exact physical WKO artifacts before execution; drafts are never invocation targets; cycles are refused; nested execution order is deterministic; and receipts preserve the exact physical Work Order chain that actually ran. This composition remains governed orchestration rather than arbitrary executable code. Revision AB also reconciles the Work Order editor with the current Day 043 interaction model: the editor may load a saved immutable Work Order for inspection or Run, while editing loaded instructions creates a new non-runnable draft that must be saved as a new immutable WKO artifact before execution. The writable-Suitcase gate, visible flat Suitcase Directory, alias mapping, read-only Execution Output, Help-Engine-only user guidance, and candidate Work Order filename shape <code>__DS__WKO__&lt;UTC&gt;__&lt;UUID&gt;.txt</code> remain in force as UNDER REVIEW candidates. The refreshed Day 043 prototype remains non-normative design evidence; numbered requirements remain authoritative. Revision AB does not claim implementation or freeze.</p><h1 id="section-1" class="section-heading">How to Read This PRD / Current Build Dashboard</h1><p>This page is the front door to the master backlog. It shows what the fields mean, how requirement status moves, and what the current WASM-002 candidate build contains. The SCOPE field attached to each individual requirement is authoritative. This dashboard is a derived convenience view; if it ever disagrees with a requirement&#x27;s SCOPE field, the requirement wins and the dashboard must be regenerated.</p><h2>Read any requirement in three fields</h2><div class="table-wrap"><table><tr><th>Field</th><th>Question it answers</th><th>How to read it</th></tr><tr><td>SCOPE</td><td>Where is this intended to be built?</td><td>WASM-002 means it belongs to the current candidate build slice.</td></tr><tr><td>BUILD</td><td>Which accepted build actually delivered it?</td><td>A dash means not yet accepted. WASM-002 is written here only after verified acceptance.</td></tr><tr><td>STATUS</td><td>Where is it in the decision/build lifecycle?</td><td>Orange review; green Claude-approved; purple frozen; blue deferred; red rejected; black built.</td></tr></table></div><div class="table-wrap"><table><tr><th>Lifecycle status colors - text label is authoritative; color is a visual cue</th><th>Lifecycle status colors - text label is authoritative; color is a visual cue</th><th>Lifecycle status colors - text label is authoritative; color is a visual cue</th><th>Lifecycle status colors - text label is authoritative; color is a visual cue</th></tr><tr><td>UNDER REVIEW</td><td>Candidate is still being specified/challenged.</td><td>QA APPROVED</td><td>Claude has reviewed and approved the requirement; not yet frozen.</td></tr><tr><td>FROZEN FOR BUILD</td><td>T has accepted it into the frozen development contract.</td><td>DEFERRED</td><td>Valid backlog item deliberately postponed.</td></tr><tr><td>REJECTED</td><td>Considered and rejected; retained with the decision record.</td><td>BUILT &amp; ACCEPTED</td><td>Implemented, verified, independently QA&#x27;d, and accepted; BUILD is populated.</td></tr></table></div><p>Example now:  SCOPE: WASM-002    STATUS: UNDER REVIEW    BUILD: -</p><p>Typical path: orange UNDER REVIEW -&gt; green QA APPROVED -&gt; purple FROZEN FOR BUILD by T -&gt; black BUILT &amp; ACCEPTED after implementation, verification, independent QA, retained evidence, and human acceptance. A candidate may instead move to blue DEFERRED or red REJECTED. Red items stay in the PRD so the decision is not forgotten.</p><p>Fast navigation: search for &quot;SCOPE: WASM-002&quot; to scan the current candidate build. Search for a STATUS label to scan lifecycle state. The historical W002- prefix in an ID does not determine current scope.</p><h2>Current build candidate: WASM-002</h2><p>Status: DRAFT / NOT FROZEN. All current SCOPE: WASM-002 requirements remain orange UNDER REVIEW in Revision AB; this revision does not presume Claude approval or T freeze. Purpose: establish the trusted path from a validated visible Suitcase and immutable saved Work Order to certified source bytes, governed materialization, visible evidence, and Help-backed refusals in the browser/WASM product.</p><div class="table-wrap"><table><tr><th>Area</th><th>WASM-002 candidate scope at a glance</th></tr><tr><td>Source certification</td><td>Strict whole-file UTF-8 certification; ASCII-first fast path; strict non-ASCII validation; certification bound to exact source identity.</td></tr><tr><td>Materialization &amp; visible storage</td><td>One bounded structural pass for multiple columns; permanent 1..N row identity; deterministic row alignment; Data Sculptor-controlled persistence stays visible in the flat Suitcase under the reserved <code>__DS__</code> governed namespace and semantic artifact classes.</td></tr><tr><td>Legacy conversion</td><td>Windows-1252 compatibility/conversion is an explicit separate governed operation, never a silent analytical fallback.</td></tr><tr><td>Diagnostics, Help &amp; Brand</td><td>Canonical diagnostic event; three-voice Help parity; persistent in-workspace Help / Diagnostic Surface; durable branded HTML support-handoff report; negative boundary facts; Brand Manifest, local assets, provenance, and presentation-only substitution proof.</td></tr><tr><td>Shared architecture</td><td>One shared semantic core suitable for WASM and later native CLI reuse; presentation/branding remains separated from analytical semantics; future white-label generation is enabled without semantic forks.</td></tr><tr><td>Work Order orchestration</td><td>Saved immutable Work Orders may invoke other named saved immutable Work Orders; names resolve to exact WKO identities before execution; order is deterministic; cycles refuse; receipts preserve the complete physical invocation chain.</td></tr><tr><td>Browser front end</td><td>Suitcase-first writable-folder gate; full-width visible Suitcase Directory; editable aliases backed by a visible mapping artifact; one Work Order editor that can create drafts or load saved immutable WKO artifacts; only saved Work Orders can Run; editing a loaded saved Work Order creates a new draft; read-only Execution Output; Help Engine for all user-facing Help/refusal guidance; no point-and-click analytical source/column selection and no second command prompt.</td></tr></table></div><h2>Explicitly not in WASM-002 right now</h2><p>0/1 filter masks, filter combination/reuse, and filter-driven build/export are V1-BACKLOG. PRETTY Tables, Rich Footnotes, and Supporting Context are V1-BACKLOG. Hosted white-label configuration, payments, customer administration, and post-launch outreach are later or explicitly out of this build.</p><p>Completion rule: candidate requirements move through review and freeze before implementation. The WASM-002 slice is complete only when its frozen requirements and acceptance gates are black BUILT &amp; ACCEPTED with retained evidence, independent QA, populated BUILD metadata, and human acceptance. Deferred and rejected items do not become obligations merely because they remain visible in this master PRD.</p><h1 id="section-2" class="section-heading">1. Product Backlog Governance</h1><p>This document is the master product backlog and product contract record for Data Sculptor. It may contain current build requirements, later V1 work, post-V1 intentions, product principles, and documentary/method requirements. An active implementation unit such as WASM-002 freezes only the requirements explicitly allocated to that build when its development contract is accepted.</p><article class="requirement status-na" data-scope="PRODUCT" data-status="N/A" data-build="N/A" data-id="PB-GOV-001" data-search="pb-gov-001 - master backlog is broader than one build the product backlog prd may continue to capture product truth and future requirements while an accepted build slice is frozen. adding backlog material does not silently change an active development contract.">
 <div class="req-head"><div><div class="req-id">PB-GOV-001</div><h3>Master backlog is broader than one build</h3></div><span class="status-badge status-na"><span class="dot"></span>N/A</span></div>
 <div class="metadata"><span class="meta"><b>SCOPE</b><span>PRODUCT</span></span><span class="meta"><b>BUILD</b><span>N/A</span></span></div>
 <div class="req-body"><p>The Product Backlog PRD may continue to capture product truth and future requirements while an accepted build slice is frozen. Adding backlog material does not silently change an active development contract.</p></div>
@@ -438,10 +438,10 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
 <div class="req-head"><div><div class="req-id">W002-GLOSS-028</div><h3>Flight Recorder</h3></div><span class="status-badge status-na"><span class="dot"></span>N/A</span></div>
 <div class="metadata"><span class="meta"><b>SCOPE</b><span>PRODUCT</span></span><span class="meta"><b>BUILD</b><span>N/A</span></span></div>
 <div class="req-body"><p>The durable chronological record of project events and evidence. Its responsibility is historical fact, not merely current orientation. The exact artifact representation and class assignment remain freeze items.</p></div>
-</article><article class="requirement status-na" data-scope="PRODUCT" data-status="N/A" data-build="N/A" data-id="W002-GLOSS-029" data-search="w002-gloss-029 - work order a human-readable, non-executable utf-8 instruction artifact describing one governed data sculptor operation and its explicit inputs, parameters, and requested outputs. a work order expresses what the human is asking data sculptor to do; it does not contain implementation logic or executable code.">
+</article><article class="requirement status-na" data-scope="PRODUCT" data-status="N/A" data-build="N/A" data-id="W002-GLOSS-029" data-search="w002-gloss-029 - work order human-readable non-executable utf-8 governed instruction artifact one operation or ordered orchestration saved work orders explicit inputs parameters outputs deterministic composition not arbitrary executable code">
 <div class="req-head"><div><div class="req-id">W002-GLOSS-029</div><h3>Work Order</h3></div><span class="status-badge status-na"><span class="dot"></span>N/A</span></div>
 <div class="metadata"><span class="meta"><b>SCOPE</b><span>PRODUCT</span></span><span class="meta"><b>BUILD</b><span>N/A</span></span></div>
-<div class="req-body"><p>A human-readable, non-executable UTF-8 instruction artifact describing one governed Data Sculptor operation and its explicit inputs, parameters, and requested outputs. A Work Order expresses what the human is asking Data Sculptor to do; it does not contain implementation logic or executable code.</p></div>
+<div class="req-body"><p>A human-readable, non-executable UTF-8 instruction artifact describing a governed Data Sculptor operation or an ordered orchestration of other saved Work Orders, together with explicit inputs, parameters, requested outputs, and governed references. A Work Order expresses what the human is asking Data Sculptor to do; composition does not turn the Work Order into arbitrary executable code or permit hidden implementation logic.</p></div>
 </article><article class="requirement status-na" data-scope="PRODUCT" data-status="N/A" data-build="N/A" data-id="W002-GLOSS-029.1" data-search="w002-gloss-029.1 - a work order is parsed deterministically and validated before execution.">
 <div class="req-head"><div><div class="req-id">W002-GLOSS-029.1</div><h3>A Work Order is parsed deterministically and validated before execution.</h3></div><span class="status-badge status-na"><span class="dot"></span>N/A</span></div>
 <div class="metadata"><span class="meta"><b>SCOPE</b><span>PRODUCT</span></span><span class="meta"><b>BUILD</b><span>N/A</span></span></div>
@@ -2043,6 +2043,50 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
 <div class="metadata"><span class="meta"><b>SCOPE</b><span>WASM-002</span></span><span class="meta"><b>BUILD</b><span>—</span></span></div>
 <div class="req-body"><p>A Help Report generated from the frozen support-handoff path must contain the governed diagnostic context required for interpretation while demonstrating that source data rows are not silently embedded. Any frozen treatment of sensitive paths or Work Order excerpts must be exercised by acceptance fixtures.</p></div>
 </article>
+<h1 id="section-wasm002-work-order-composition" class="section-heading">WASM-002 Composable Work Order Requirements</h1>
+<p>Saved Work Orders are intended to be reusable analytical building blocks, not isolated one-shot files. WASM-002 therefore treats Work Order composition as governed orchestration: one saved immutable Work Order may invoke other named saved immutable Work Orders, including Work Orders that themselves invoke further saved Work Orders. The deterministic engine remains authoritative for parsing, resolution, ordering, refusal, and provenance.</p>
+<div class="derived-note"><strong>Grammar remains a freeze item.</strong> A future readable surface might use a form such as <code>RUN: CleanCrimeSource</code> followed by <code>RUN: MaterializeOffence</code>. This example expresses the intended capability only; the exact keyword, punctuation, naming syntax, and complete grammar are not frozen by Revision AB.</div>
+<article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-WKO-001" data-search="w002-wko-001 saved work order may invoke other saved work orders composition orchestration nested reusable named deterministic no arbitrary code">
+<div class="req-head"><div><div class="req-id">W002-WKO-001</div><h3>Saved Work Orders may invoke other saved Work Orders</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
+<div class="metadata"><span class="meta"><b>SCOPE</b><span>WASM-002</span></span><span class="meta"><b>BUILD</b><span>—</span></span></div>
+<div class="req-body"><p>A saved immutable Work Order may contain governed instructions that invoke one or more other saved immutable Work Orders. An invoked Work Order may itself invoke further saved Work Orders. This capability is deterministic Work Order composition/orchestration and must not introduce arbitrary executable code, hidden scripting semantics, or a second execution engine.</p></div>
+</article>
+<article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-WKO-002" data-search="w002-wko-002 named work order reference resolves unique alias name exact immutable physical wko draft ambiguous missing refuse description not identity">
+<div class="req-head"><div><div class="req-id">W002-WKO-002</div><h3>Named Work Order references resolve to exact immutable WKO artifacts</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
+<div class="metadata"><span class="meta"><b>SCOPE</b><span>WASM-002</span></span><span class="meta"><b>BUILD</b><span>—</span></span></div>
+<div class="req-body"><p>A human-facing Work Order name or alias used by an invocation must resolve deterministically to exactly one saved immutable WKO artifact before that target may execute. A transient draft is never a valid invocation target. A missing, ambiguous, or otherwise unsafe name resolution must refuse rather than guess. A descriptive label does not become execution identity merely because it is visible; executable naming/alias semantics must be governed and unique.</p></div>
+</article>
+<article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-WKO-003" data-search="w002-wko-003 deterministic invocation order nested expansion explicit listed order call point same graph same execution order">
+<div class="req-head"><div><div class="req-id">W002-WKO-003</div><h3>Invocation order and nested expansion are deterministic</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
+<div class="metadata"><span class="meta"><b>SCOPE</b><span>WASM-002</span></span><span class="meta"><b>BUILD</b><span>—</span></span></div>
+<div class="req-body"><p>When a Work Order invokes multiple saved Work Orders, Data Sculptor must execute them in the explicit governed order stated by the caller. A nested Work Order invocation executes at its governed call position before execution returns to the caller's next instruction. Identical saved Work Orders, name-resolution state, inputs, and settings must therefore produce the same invocation order.</p></div>
+</article>
+<article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-WKO-004" data-search="w002-wko-004 cycle recursion detection self indirect a b a refuse before loop bounded depth count freeze item help">
+<div class="req-head"><div><div class="req-id">W002-WKO-004</div><h3>Recursive Work Order cycles are refused</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
+<div class="metadata"><span class="meta"><b>SCOPE</b><span>WASM-002</span></span><span class="meta"><b>BUILD</b><span>—</span></span></div>
+<div class="req-body"><p>Data Sculptor must detect and refuse a reachable Work Order invocation cycle, including direct self-invocation and indirect cycles such as A → B → A. The engine must not recurse indefinitely or silently truncate the cycle. Any maximum nesting depth, total invocation count, or related resource bound beyond cycle prevention remains an explicit freeze item and must be governed rather than implicit.</p></div>
+</article>
+<article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-WKO-005" data-search="w002-wko-005 invoked child refusal failure propagates parent stop no silent skip continue future on error semantics freeze">
+<div class="req-head"><div><div class="req-id">W002-WKO-005</div><h3>Invoked Work Order refusal is visible and stops the composed run by default</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
+<div class="metadata"><span class="meta"><b>SCOPE</b><span>WASM-002</span></span><span class="meta"><b>BUILD</b><span>—</span></span></div>
+<div class="req-body"><p>If an invoked Work Order refuses or fails under governed execution, the calling composed run must not silently skip that failure and continue as though the child succeeded. The refusal must remain visible through canonical diagnostics and Execution Output, and later caller instructions must not execute unless a future explicit, separately frozen error-handling construct defines otherwise.</p></div>
+</article>
+<article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-WKO-006" data-search="w002-wko-006 receipt provenance root work order every invoked physical wko uuid hash alias resolution parent child order outcome exact chain reproducibility">
+<div class="req-head"><div><div class="req-id">W002-WKO-006</div><h3>Receipts preserve the exact physical Work Order invocation chain</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
+<div class="metadata"><span class="meta"><b>SCOPE</b><span>WASM-002</span></span><span class="meta"><b>BUILD</b><span>—</span></span></div>
+<div class="req-body"><p>The governed execution record must identify the root saved Work Order and every invoked saved Work Order by exact physical WKO identity, not only by the human-facing name used at call time. The record must preserve enough information to reconstruct name resolution, parent/child relationship, deterministic invocation order, and outcome for each Work Order in the composed run. Human-facing names may aid orientation but do not replace immutable execution identity or required integrity evidence.</p></div>
+</article>
+<h2>Composable Work Order Acceptance Gates</h2>
+<article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-WKO-ACC-001" data-search="w002-wko-acc-001 nested saved work order chain aliases exact physical resolution deterministic order receipt a b c">
+<div class="req-head"><div><div class="req-id">W002-WKO-ACC-001</div><h3>Nested saved-Work-Order composition acceptance</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
+<div class="metadata"><span class="meta"><b>SCOPE</b><span>WASM-002</span></span><span class="meta"><b>BUILD</b><span>—</span></span></div>
+<div class="req-body"><p>An acceptance fixture must execute a saved root Work Order that invokes at least one named saved Work Order which itself invokes another saved Work Order. Evidence must show each human-facing reference resolving to one exact immutable WKO artifact, deterministic nested order, read-only Execution Output that makes the chain understandable, and a receipt/provenance record containing the exact physical Work Order identities that actually ran.</p></div>
+</article>
+<article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-WKO-ACC-002" data-search="w002-wko-acc-002 work order cycle a b a refusal before recursive execution no partial later child help diagnostic">
+<div class="req-head"><div><div class="req-id">W002-WKO-ACC-002</div><h3>Invocation-cycle refusal acceptance</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
+<div class="metadata"><span class="meta"><b>SCOPE</b><span>WASM-002</span></span><span class="meta"><b>BUILD</b><span>—</span></span></div>
+<div class="req-body"><p>An acceptance fixture containing a reachable invocation cycle such as A → B → A must refuse deterministically rather than recurse or silently truncate the chain. The canonical diagnostic and Help path must identify the cycle sufficiently for the analyst to correct it, and no instructions positioned after the detected failing invocation may be presented as successfully executed.</p></div>
+</article>
 <h1 id="section-wasm002-front-end" class="section-heading">WASM-002 Browser Front-End / Console Requirements</h1>
 <p>This section turns the Day 043 browser interaction prototype into candidate WASM-002 requirements. The intent is deliberately narrow: expose the minimum browser workbench needed to authorize a visible Suitcase, author and save immutable Work Orders, run only saved Work Orders through the shared engine, inspect visible files and aliases, observe read-only execution output, and receive governed Help. The Work Order is the analytical command surface; the browser is the authorization, inventory, metadata, observation, diagnostic, and Help surface; the shared Rust core remains authoritative for governed execution.</p>
 <p>The front end must make the build understandable without pretending that deferred V1 features already exist. The reference prototype is included below because the interaction design itself is useful evidence, but it is not permitted to become an undocumented second contract.</p>
@@ -2130,7 +2174,7 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
 <article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-UI-020" data-search="w002-ui-020 saved work order only run target immutable txt draft save creates new artifact no mutate">
 <div class="req-head"><div><div class="req-id">W002-UI-020</div><h3>Saved Work Orders are the only Run targets</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
 <div class="metadata"><span class="meta"><b>SCOPE</b><span>WASM-002</span></span><span class="meta"><b>BUILD</b><span>—</span></span></div>
-<div class="req-body"><p>The browser may contain an editable Work Order draft and a view of saved Work Orders, but Run shall operate only on a selected saved Work Order TXT artifact read from the Suitcase. Saving a modified draft creates a new immutable Work Order; it does not mutate an existing saved Run target.</p></div>
+<div class="req-body"><p>The Work Order editor may create a new draft or load a saved Work Order TXT artifact from the validated Suitcase. A loaded saved Work Order is an immutable Run target and may be inspected or run directly. If the analyst changes its instruction text, the editor must transition to a new draft derived from that saved Work Order; the draft is not runnable until it is saved as a new immutable Work Order with a new governed physical identity. The original saved Work Order remains unchanged.</p></div>
 </article>
 <article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-UI-021" data-search="w002-ui-021 user chooses suitcase folder data sculptor chooses generated filenames no save as filename work order column help receipt map">
 <div class="req-head"><div><div class="req-id">W002-UI-021</div><h3>User chooses the Suitcase; Data Sculptor chooses generated filenames</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
@@ -2140,7 +2184,7 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
 <article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-UI-022" data-search="w002-ui-022 execution output read only terminal observation saved work order resolution stages refusal artifacts no command prompt input">
 <div class="req-head"><div><div class="req-id">W002-UI-022</div><h3>Execution Output is read-only observation, never command input</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
 <div class="metadata"><span class="meta"><b>SCOPE</b><span>WASM-002</span></span><span class="meta"><b>BUILD</b><span>—</span></span></div>
-<div class="req-body"><p>The browser shall provide a read-only Execution Output surface that reports what saved Work Order was run, how source/alias references resolved, which stages occurred, what was refused, and which governed artifacts were created or assigned. The surface shall not accept commands, analytical text, or cursor-driven execution input.</p></div>
+<div class="req-body"><p>The browser shall provide a read-only Execution Output surface that reports what saved Work Order was run, how source/alias and nested Work Order references resolved, which saved Work Orders were invoked and in what order, which stages occurred, what was refused, and which governed artifacts were created or assigned. The surface shall not accept commands, analytical text, or cursor-driven execution input.</p></div>
 </article>
 <article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-UI-023" data-search="w002-ui-023 saved work order editable description metadata does not rename rewrite immutable txt filename visible">
 <div class="req-head"><div><div class="req-id">W002-UI-023</div><h3>Saved Work Order descriptions remain editable metadata</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
@@ -2156,7 +2200,7 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
 <article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-UI-ACC-001" data-search="w002-ui-acc-001 single command surface saved work order run target no second prompt point click source column draft not executable">
 <div class="req-head"><div><div class="req-id">W002-UI-ACC-001</div><h3>Single-command-surface and saved-run-target acceptance</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
 <div class="metadata"><span class="meta"><b>SCOPE</b><span>WASM-002</span></span><span class="meta"><b>BUILD</b><span>—</span></span></div>
-<div class="req-body"><p>The acceptance check must show one editable Work Order draft surface and no second independent prompt, command-entry cursor, point-and-click source selector, or point-and-click column selector. A governed Run must read a selected saved Work Order TXT artifact; the transient draft must not be executable authority.</p></div>
+<div class="req-body"><p>The acceptance check must show one Work Order editor that can hold either a new draft or a loaded saved Work Order and no second independent prompt, command-entry cursor, point-and-click source selector, or point-and-click column selector. A governed Run must read a loaded/selected saved Work Order TXT artifact. Editing the instruction text of a loaded saved Work Order must transition the editor to a new draft state that cannot Run until saved as a new immutable Work Order.</p></div>
 </article><article class="requirement status-under-review" data-scope="WASM-002" data-status="UNDER REVIEW" data-build="—" data-id="W002-UI-ACC-002" data-search="w002-ui-acc-002 certification refusal gating no later stages no materialized outputs source unchanged help">
 <div class="req-head"><div><div class="req-id">W002-UI-ACC-002</div><h3>Certification-refusal gating acceptance</h3></div><span class="status-badge status-under-review"><span class="dot"></span>UNDER REVIEW</span></div>
 <div class="metadata"><span class="meta"><b>SCOPE</b><span>WASM-002</span></span><span class="meta"><b>BUILD</b><span>—</span></span></div>
@@ -2241,10 +2285,10 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
 <div class="req-body"><p>Editing the human-facing description of a saved Work Order must change the description view while leaving the Work Order TXT bytes, physical filename, UUID, and governed historical identity unchanged.</p></div>
 </article>
 <h2>Embedded Day 043 Reference Prototype — exact HTML source</h2>
-<p><strong>Evidence status:</strong> non-normative Day 043 interaction prototype. Numbered requirements above govern. The exact source below is embedded so the PRD preserves the concrete Suitcase-first, Work-Order-driven browser artifact that motivated these requirements rather than merely describing it after the fact.</p>
-<div class="derived-note"><strong>Prototype file:</strong> Data_Sculptor_WASM002_Front_End_Prototype.html<br><strong>SHA-256:</strong> <code>334A5857DC5D81C35C03B6185882363D1B680974781D701619C70F068B0C9FEF</code><br><strong>Companion file:</strong> <a href="Data_Sculptor_WASM002_Front_End_Prototype.html">open the interactive prototype</a></div>
+<p><strong>Evidence status:</strong> non-normative Day 043 interaction prototype. Numbered requirements above govern. The exact source below is embedded so the PRD preserves the concrete current browser artifact that motivates these requirements rather than merely describing it after the fact.</p>
+<div class="derived-note"><strong>Prototype file:</strong> Data_Sculptor_WASM002_Front_End_Prototype.html<br><strong>SHA-256:</strong> <code>23E08FEB1E201094729C56F4D1579FD4055DD61144ADBE5AE6AACEF7D65F58CE</code><br><strong>Companion file:</strong> <a href="Data_Sculptor_WASM002_Front_End_Prototype.html">open the interactive prototype</a></div>
 <details style="margin:16px 0 28px;background:#fff;border:1px solid #d9e1ea;border-radius:10px;padding:12px 14px">
-<summary style="cursor:pointer;font-weight:800;color:#203d5e">Show exact embedded prototype HTML (59,746 bytes)</summary>
+<summary style="cursor:pointer;font-weight:800;color:#203d5e">Show exact embedded prototype HTML (73,224 bytes)</summary>
 <pre style="margin-top:12px;max-height:720px;overflow:auto;white-space:pre;tab-size:2;background:#0b1018;color:#e6edf5;padding:16px;border-radius:8px;font-size:12px;line-height:1.45"><code>&lt;!doctype html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
@@ -2284,9 +2328,10 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
   .ctx{background:var(--panel2);padding:13px 15px;min-width:0}.k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
   .v{font-family:var(--mono);font-size:14px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.v.ok{color:var(--accent3)}.v.wait{color:var(--amber)}.v.err{color:var(--red2)}
 
-  .grid-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px}
+  .grid-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px;align-items:stretch}
   .span-2{grid-column:1/-1}
   .stack{display:grid;gap:16px;align-content:start}
+  .grid-top &gt; .stack{height:100%}.grid-top &gt; .stack &gt; .panel{height:100%;display:flex;flex-direction:column}.grid-top &gt; .stack &gt; .panel &gt; .panel-body{flex:1;display:flex;flex-direction:column}
   .panel{background:linear-gradient(180deg,var(--panel) 0%,#0e1621 100%);border:1px solid var(--line2);box-shadow:var(--shadow);min-width:0}
   .panel-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:13px 15px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.012)}
   .panel-title{font-family:var(--mono);font-size:13px;letter-spacing:.11em;text-transform:uppercase;color:var(--soft)}
@@ -2332,10 +2377,13 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
   .alias-input{width:100%;min-width:180px;background:#091019;border:1px solid var(--line2);color:var(--accent3);padding:7px 9px;font-family:var(--mono);font-size:13px}
   .alias-input::placeholder{color:#62758a}.alias-input:disabled{color:var(--muted);background:#0b121c;border-color:var(--line);cursor:not-allowed}
   .terminal-output{margin:0;min-height:260px;max-height:440px;overflow:auto;background:#070c12;border:1px solid var(--line);padding:14px 15px;color:var(--soft);font-family:var(--mono);font-size:14px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+  .grid-top &gt; .stack:last-of-type .terminal-output{flex:1;min-height:100%;max-height:none}
   .terminal-output .term-ok{color:var(--green)}
   .terminal-output .term-warn{color:var(--amber)}
   .terminal-output .term-err{color:var(--red2)}
 
+  .workorder-load{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end;margin-bottom:13px}
+  .workorder-load .field-label{margin-bottom:5px}.workorder-select{width:100%;background:#091019;border:1px solid var(--line2);color:var(--ink);padding:9px 10px;font-family:var(--mono);font-size:13px}.workorder-select:disabled{color:var(--muted);background:#0b121c;cursor:not-allowed}
   .editor-wrap{position:relative;min-height:230px}.editor-highlight,#workOrder{position:absolute;inset:0;margin:0;padding:14px 15px;border:1px solid var(--line);background:#091019;white-space:pre-wrap;overflow:auto;tab-size:2;line-height:1.62;min-height:230px;font-family:var(--mono);font-size:14px}
   .editor-highlight{display:none}#workOrder{resize:vertical;color:var(--accent3);caret-color:#ffffff;outline:none;z-index:2;background:#091019}#workOrder::placeholder{color:#71849a}#workOrder::selection{background:rgba(159,189,221,.30);color:#ffffff}#workOrder:focus{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
   .tok-key{color:var(--accent3);font-weight:700}.tok-value{color:#d7e3ee}.tok-comment{color:#71849a}.tok-op{color:var(--amber);font-weight:700}
@@ -2345,7 +2393,10 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
 
   .path{display:grid;gap:10px}.stage{border:1px solid var(--line);background:#0b121c;padding:11px 12px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}.stage-title{font-weight:700;font-size:15px;margin-bottom:3px}.stage-desc{font-size:13px;color:var(--muted)}.stage-state{font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line2);padding:3px 6px;white-space:nowrap}.stage.active{border-color:var(--accent2);background:rgba(110,143,175,.09)}.stage.active .stage-state{color:var(--accent3);border-color:var(--accent2)}.stage.pass{border-color:#48667e;background:rgba(110,143,175,.08)}.stage.pass .stage-state{color:var(--accent3)}.stage.fail{border-color:var(--red);background:rgba(185,74,80,.08)}.stage.fail .stage-state{color:var(--red2);border-color:var(--red)}
 
-  .lower{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:16px;margin-top:16px}.artifact-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}.artifact{display:grid;grid-template-columns:145px 1fr;gap:10px;padding:9px 0;border-bottom:1px dotted var(--line);font-size:12.5px}.artifact:last-child{border-bottom:0}.artifact .type{font-family:var(--mono);color:var(--accent3)}.artifact .detail{color:var(--muted)}.empty{font-family:var(--mono);font-size:13px;color:var(--muted);padding:8px 0}
+  .lower{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}.empty{font-family:var(--mono);font-size:13px;color:var(--muted);padding:8px 0}
+  .pretty-branding,.data-dictionary{margin-top:16px}
+  .pretty-toml-editor{width:100%;min-height:240px;resize:vertical;background:#091019;border:1px solid var(--line);color:var(--accent3);caret-color:#fff;padding:14px 15px;font-family:var(--mono);font-size:14px;line-height:1.62;tab-size:2}
+  .pretty-toml-editor::placeholder{color:#71849a}.pretty-toml-editor::selection{background:rgba(159,189,221,.30);color:#fff}.pretty-toml-editor:focus{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);outline:none}
   .diag{min-height:180px}.diag-summary{font-family:var(--mono);font-size:14px;white-space:pre-wrap;color:var(--soft)}.diag-summary .sev{color:var(--red2);font-weight:700}.diag-summary .help{color:var(--accent3);font-weight:700}.diag-summary .info{color:var(--green);font-weight:700}.diag-grid{margin-top:12px;display:grid;grid-template-columns:150px 1fr;gap:6px 12px;font-family:var(--mono);font-size:13px}.diag-grid dt{color:var(--muted)}.diag-grid dd{margin:0;color:var(--soft);word-break:break-word}.diag-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:13px;padding-top:10px;border-top:1px solid var(--line)}.voice-select{background:#0a111b;color:var(--ink);border:1px solid var(--line2);padding:7px 9px;font-family:var(--mono);font-size:13px}
 
   .scope-strip{margin-top:16px;border:1px solid var(--line2);background:#0b121c;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start}.scope-text{font-size:12.5px;color:var(--muted);max-width:110ch}.scope-text strong{color:var(--soft)}.scope-tags{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.tag{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line2);padding:4px 7px;color:var(--muted)}.tag.in{color:var(--accent3);border-color:#48667e}.tag.out{color:#a58f91;border-color:#5c3d42}
@@ -2353,7 +2404,7 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
   .hidden-file{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 
   @media(max-width:1180px){.context{grid-template-columns:repeat(3,1fr)}.grid-top,.lower{grid-template-columns:1fr}}
-  @media(max-width:720px){.shell{padding:12px}.gate-grid{grid-template-columns:1fr}.context{grid-template-columns:1fr}.editor-wrap,.editor-highlight,#workOrder{min-height:300px}.artifact{grid-template-columns:1fr}.diag-grid{grid-template-columns:1fr}.stage{grid-template-columns:1fr}.stage-state{grid-column:1;justify-self:start}.saved-row{grid-template-columns:26px 1fr}.saved-meta{grid-column:2}.scope-strip{grid-template-columns:1fr}.scope-tags{justify-content:flex-start}}
+  @media(max-width:720px){.shell{padding:12px}.gate-grid{grid-template-columns:1fr}.context{grid-template-columns:1fr}.editor-wrap,.editor-highlight,#workOrder{min-height:300px}.diag-grid{grid-template-columns:1fr}.stage{grid-template-columns:1fr}.stage-state{grid-column:1;justify-self:start}.saved-row{grid-template-columns:26px 1fr}.saved-meta{grid-column:2}.scope-strip{grid-template-columns:1fr}.scope-tags{justify-content:flex-start}}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -2414,14 +2465,23 @@ p{max-width:96ch} .requirement{background:white;border:1px solid var(--line);bor
 
     &lt;div class="stack"&gt;
       &lt;article class="panel" aria-labelledby="wo-title"&gt;
-        &lt;div class="panel-head"&gt;&lt;div id="wo-title" class="panel-title"&gt;Work Order draft&lt;/div&gt;&lt;div class="panel-note"&gt;Saved = immutable&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="panel-head"&gt;&lt;div id="wo-title" class="panel-title"&gt;Work Order — new draft&lt;/div&gt;&lt;div class="panel-note" id="woModeNote"&gt;Saved TXT = immutable&lt;/div&gt;&lt;/div&gt;
         &lt;div class="panel-body"&gt;
+          &lt;div class="workorder-load" aria-label="Load a saved Work Order into the editor"&gt;
+            &lt;div&gt;
+              &lt;label class="field-label" for="savedWorkOrderSelect"&gt;Saved Work Order&lt;/label&gt;
+              &lt;select id="savedWorkOrderSelect" class="workorder-select" disabled&gt;
+                &lt;option value=""&gt;No saved Work Orders available&lt;/option&gt;
+              &lt;/select&gt;
+            &lt;/div&gt;
+            &lt;button class="term-btn" id="loadWorkOrderBtn" type="button" disabled&gt;[L] Load&lt;/button&gt;
+          &lt;/div&gt;
           &lt;label class="field-label" for="draftDescription"&gt;Description&lt;/label&gt;
           &lt;input class="text-input" id="draftDescription" type="text" value="" placeholder="Optional description for this Work Order" maxlength="180" disabled /&gt;
           &lt;div style="height:10px"&gt;&lt;/div&gt;
           &lt;div class="editor-wrap"&gt;
             &lt;pre id="highlight" class="editor-highlight" aria-hidden="true"&gt;&lt;/pre&gt;
-            &lt;textarea id="workOrder" aria-label="Illustrative WASM-002 Work Order draft" spellcheck="false" disabled&gt;# Illustrative WASM-002 Work Order — grammar not frozen
+            &lt;textarea id="workOrder" aria-label="WASM-002 Work Order editor" spellcheck="false" disabled&gt;# Illustrative WASM-002 Work Order — grammar not frozen
 OPERATION: MATERIALIZE
 SOURCE: 35100178.csv
 COLUMN: VALUE
@@ -2430,17 +2490,10 @@ OUTPUT: SUITCASE&lt;/textarea&gt;
           &lt;div class="actions" aria-label="Work Order actions"&gt;
             &lt;button class="primary-btn" id="saveWorkOrderBtn" type="button" disabled&gt;Save NEW Work Order TXT&lt;/button&gt;
             &lt;button class="term-btn" id="validateBtn" type="button" disabled&gt;[V] Validate draft&lt;/button&gt;
-            &lt;button class="term-btn" id="runBtn" type="button" disabled&gt;[R] Run selected saved Work Order&lt;/button&gt;
+            &lt;button class="term-btn" id="runBtn" type="button" disabled&gt;[R] Run loaded saved Work Order&lt;/button&gt;
             &lt;button class="term-btn" id="helpBtn" type="button"&gt;[H] Help&lt;/button&gt;
           &lt;/div&gt;
           &lt;div class="statusline" id="draftState"&gt;Draft locked · validate a Suitcase first.&lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/article&gt;
-
-      &lt;article class="panel" aria-labelledby="saved-title"&gt;
-        &lt;div class="panel-head"&gt;&lt;div id="saved-title" class="panel-title"&gt;Saved Work Orders only&lt;/div&gt;&lt;div class="panel-note"&gt;&lt;span class="tiny-badge lock"&gt;IMMUTABLE TXT&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
-        &lt;div class="panel-body"&gt;
-          &lt;div class="saved-list" id="savedWorkOrders"&gt;&lt;div class="saved-empty"&gt;No saved Work Orders yet.&lt;/div&gt;&lt;/div&gt;
         &lt;/div&gt;
       &lt;/article&gt;
     &lt;/div&gt;
@@ -2457,11 +2510,6 @@ Waiting for a saved Work Order.&lt;/pre&gt;
   &lt;/section&gt;
 
   &lt;section class="lower"&gt;
-    &lt;article class="panel" aria-labelledby="artifact-title"&gt;
-      &lt;div class="panel-head"&gt;&lt;div id="artifact-title" class="panel-title"&gt;Suitcase artifacts&lt;/div&gt;&lt;div class="panel-note"&gt;Visible files&lt;/div&gt;&lt;/div&gt;
-      &lt;div class="panel-body"&gt;&lt;div id="artifactArea" class="empty"&gt;No artifacts yet.&lt;/div&gt;&lt;/div&gt;
-    &lt;/article&gt;
-
     &lt;article class="panel" aria-labelledby="diag-title"&gt;
       &lt;div class="panel-head"&gt;
         &lt;div id="diag-title" class="panel-title"&gt;Help Engine&lt;/div&gt;
@@ -2473,6 +2521,40 @@ Waiting for a saved Work Order.&lt;/pre&gt;
           &lt;button class="term-btn" id="fullHelpBtn" type="button"&gt;[H] Full Help&lt;/button&gt;
           &lt;button class="term-btn" id="saveHelpBtn" type="button"&gt;[S] Save HTML Help Report to Suitcase&lt;/button&gt;
         &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/article&gt;
+  &lt;/section&gt;
+
+  &lt;section class="pretty-branding" aria-label="PRETTY Branding TOML editor"&gt;
+    &lt;article class="panel" aria-labelledby="pretty-brand-title"&gt;
+      &lt;div class="panel-head"&gt;
+        &lt;div id="pretty-brand-title" class="panel-title"&gt;PRETTY Branding TOML&lt;/div&gt;
+        &lt;div class="panel-note"&gt;Saved only · not applied yet&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="panel-body"&gt;
+        &lt;textarea id="prettyBrandToml" class="pretty-toml-editor" aria-label="PRETTY Branding TOML draft" spellcheck="false" disabled placeholder="# PRETTY Branding TOML
+# Saved to the Suitcase only; no branding is applied yet."&gt;&lt;/textarea&gt;
+        &lt;div class="actions"&gt;
+          &lt;button class="primary-btn" id="savePrettyBrandBtn" type="button" disabled&gt;Save NEW Branding TOML&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class="statusline" id="prettyBrandState"&gt;Editor locked · validate a Suitcase first.&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/article&gt;
+  &lt;/section&gt;
+
+  &lt;section class="data-dictionary" aria-label="User Data Dictionary TOML editor"&gt;
+    &lt;article class="panel" aria-labelledby="data-dictionary-title"&gt;
+      &lt;div class="panel-head"&gt;
+        &lt;div id="data-dictionary-title" class="panel-title"&gt;User Data Dictionary TOML&lt;/div&gt;
+        &lt;div class="panel-note"&gt;Saved only · not applied yet&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="panel-body"&gt;
+        &lt;textarea id="dataDictionaryToml" class="pretty-toml-editor" aria-label="User Data Dictionary TOML draft" spellcheck="false" disabled placeholder="# User Data Dictionary TOML
+# Saved to the Suitcase only; no dictionary behavior is applied yet."&gt;&lt;/textarea&gt;
+        &lt;div class="actions"&gt;
+          &lt;button class="primary-btn" id="saveDataDictionaryBtn" type="button" disabled&gt;Save NEW Data Dictionary TOML&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class="statusline" id="dataDictionaryState"&gt;Editor locked · validate a Suitcase first.&lt;/div&gt;
       &lt;/div&gt;
     &lt;/article&gt;
   &lt;/section&gt;
@@ -2490,8 +2572,9 @@ Waiting for a saved Work Order.&lt;/pre&gt;
   const workOrder=document.getElementById('workOrder');
   const highlight=document.getElementById('highlight');
   const draftDescription=document.getElementById('draftDescription');
-  const savedWorkOrdersEl=document.getElementById('savedWorkOrders');
-  const artifactArea=document.getElementById('artifactArea');
+  const woTitle=document.getElementById('wo-title');
+  const woModeNote=document.getElementById('woModeNote');
+  const draftState=document.getElementById('draftState');
   const suitcaseFilesBody=document.getElementById('suitcaseFilesBody');
   const refreshFilesBtn=document.getElementById('refreshFilesBtn');
   const diagArea=document.getElementById('diagArea');
@@ -2507,7 +2590,15 @@ Waiting for a saved Work Order.&lt;/pre&gt;
   const saveWorkOrderBtn=document.getElementById('saveWorkOrderBtn');
   const validateBtn=document.getElementById('validateBtn');
   const runBtn=document.getElementById('runBtn');
+  const savedWorkOrderSelect=document.getElementById('savedWorkOrderSelect');
+  const loadWorkOrderBtn=document.getElementById('loadWorkOrderBtn');
   const executionOutput=document.getElementById('executionOutput');
+  const prettyBrandToml=document.getElementById('prettyBrandToml');
+  const savePrettyBrandBtn=document.getElementById('savePrettyBrandBtn');
+  const prettyBrandState=document.getElementById('prettyBrandState');
+  const dataDictionaryToml=document.getElementById('dataDictionaryToml');
+  const saveDataDictionaryBtn=document.getElementById('saveDataDictionaryBtn');
+  const dataDictionaryState=document.getElementById('dataDictionaryState');
 
   let suitcaseHandle=null;
   let suitcaseValidated=false;
@@ -2516,8 +2607,9 @@ Waiting for a saved Work Order.&lt;/pre&gt;
   let headers=[];
   let selectedHeader=null;
   let materialized=[];
-  let savedWorkOrders=[];
   let selectedWorkOrderName=null;
+  let workOrderMode='new'; // new | saved | derived
+  let loadedSavedWorkOrderName=null;
   let descriptions=new Map();
   let aliases=new Map(); // physical filename -&gt; human-facing alias
   const ALIAS_MAP_FILENAME='__DS__MAP__ALIASES.csv';
@@ -2585,6 +2677,100 @@ Waiting for a saved Work Order.&lt;/pre&gt;
     emitHelp({code:'PROTOTYPE-SUITCASE-GATE',severity:'ERROR',phase,observed:'The Suitcase gate has not been satisfied. Data Sculptor will not begin analytical work until a writable Suitcase is validated.',next:'Choose and validate the Suitcase folder first. Data Sculptor will test write access without asking you to name an artifact.',facts:{suitcase_validated:false,gate_required_first:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
     return false;
   }
+  function isSavedWorkOrderName(name){
+    return /^__DS__WKO__/i.test(String(name||'')) &amp;&amp; /\.txt$/i.test(String(name||''));
+  }
+
+  function updateSavedWorkOrderPicker(){
+    if(!savedWorkOrderSelect||!loadWorkOrderBtn)return;
+    const saved=suitcaseFiles.filter(item=&gt;isSavedWorkOrderName(item.name));
+    const previous=savedWorkOrderSelect.value;
+    if(!suitcaseValidated){
+      savedWorkOrderSelect.innerHTML='&lt;option value=""&gt;Validate a Suitcase first&lt;/option&gt;';
+      savedWorkOrderSelect.disabled=true;loadWorkOrderBtn.disabled=true;return;
+    }
+    if(!saved.length){
+      savedWorkOrderSelect.innerHTML='&lt;option value=""&gt;No saved Work Orders in this Suitcase&lt;/option&gt;';
+      savedWorkOrderSelect.disabled=true;loadWorkOrderBtn.disabled=true;return;
+    }
+    savedWorkOrderSelect.innerHTML='&lt;option value=""&gt;Choose a saved Work Order…&lt;/option&gt;'+saved.map(item=&gt;`&lt;option value="${esc(item.name)}"&gt;${esc(item.name)}&lt;/option&gt;`).join('');
+    savedWorkOrderSelect.disabled=false;
+    const preferred=(workOrderMode==='saved'&amp;&amp;selectedWorkOrderName)?selectedWorkOrderName:(loadedSavedWorkOrderName||previous);
+    if(preferred&amp;&amp;saved.some(item=&gt;item.name===preferred))savedWorkOrderSelect.value=preferred;
+    loadWorkOrderBtn.disabled=!savedWorkOrderSelect.value;
+  }
+
+  async function loadWorkOrderFromPicker(){
+    if(!requireSuitcase('WORK ORDER LOAD'))return;
+    const name=savedWorkOrderSelect.value;
+    if(!name){emitHelp({code:'PROTOTYPE-WO-LOAD-NONE',severity:'HELP',phase:'WORK ORDER LOAD',observed:'No saved Work Order is selected in the Work Order editor.',next:'Choose a saved WKO TXT from the list, then load it.',facts:{saved_work_order_selected:false}});return}
+    const item=suitcaseFiles.find(x=&gt;x.name===name&amp;&amp;isSavedWorkOrderName(x.name));
+    if(!item){emitHelp({code:'PROTOTYPE-WO-LOAD-MISSING',severity:'ERROR',phase:'WORK ORDER LOAD',observed:'The selected saved Work Order is no longer visible in the Suitcase.',next:'Refresh the Suitcase directory and choose it again.',facts:{filename:name}});return}
+    await loadSavedWorkOrder(item);
+  }
+
+  function updateWorkOrderUi(){
+    const locked=!suitcaseValidated;
+    if(locked){
+      woTitle.textContent='Work Order — new draft';
+      woModeNote.textContent='Only saved TXT can run';
+      draftState.textContent='Draft locked · validate a Suitcase first.';
+      runBtn.disabled=true;
+      return;
+    }
+    if(workOrderMode==='saved' &amp;&amp; selectedWorkOrderName){
+      woTitle.textContent='Work Order — saved / immutable';
+      woModeNote.textContent='Saved TXT · runnable';
+      draftState.textContent=`Loaded saved Work Order: ${selectedWorkOrderName} · original TXT is immutable. Edit instructions to create a new draft.`;
+      runBtn.disabled=false;
+      runBtn.textContent='[R] Run loaded saved Work Order';
+      return;
+    }
+    if(workOrderMode==='derived'){
+      woTitle.textContent='Work Order — new draft from saved Work Order';
+      woModeNote.textContent='Draft · save before run';
+      draftState.textContent=`Derived draft: editable · ${loadedSavedWorkOrderName||'the original saved Work Order'} remains unchanged. Saving creates a new WKO TXT.`;
+      runBtn.disabled=true;
+      runBtn.textContent='[R] Run loaded saved Work Order';
+      return;
+    }
+    woTitle.textContent='Work Order — new draft';
+    woModeNote.textContent='Only saved TXT can run';
+    draftState.textContent='Draft state: editable · saving creates a new immutable TXT artifact; it never overwrites a saved Work Order.';
+    runBtn.disabled=true;
+    runBtn.textContent='[R] Run loaded saved Work Order';
+  }
+
+  function updateRunTarget(){
+    if(workOrderMode==='saved' &amp;&amp; selectedWorkOrderName){
+      ctxRunTarget.textContent=selectedWorkOrderName;ctxRunTarget.className='v ok';
+    }else{
+      ctxRunTarget.textContent='NO SAVED WORK ORDER LOADED';ctxRunTarget.className='v wait';
+    }
+    updateWorkOrderUi();
+  }
+
+  async function loadSavedWorkOrder(item){
+    if(!requireSuitcase('WORK ORDER LOAD'))return;
+    if(!item||!item.handle||!isSavedWorkOrderName(item.name))return;
+    try{
+      const file=item.file||await item.handle.getFile();
+      const text=await file.text();
+      workOrder.value=text;
+      draftDescription.value=descriptions.get(item.name)||'';
+      selectedWorkOrderName=item.name;
+      loadedSavedWorkOrderName=item.name;
+      workOrderMode='saved';
+      renderHighlight();
+      updateRunTarget();
+      updateSavedWorkOrderPicker();
+      workOrder.focus();
+      emitHelp({code:'PROTOTYPE-WO-LOADED',severity:'INFO',phase:'WORK ORDER LOAD',observed:`Saved Work Order ${item.name} was loaded into the Work Order editor.`,next:'Run it as saved, or edit the instructions to create a new derived draft. The original TXT will not be overwritten.',facts:{filename:item.name,loaded_from_suitcase:true,original_immutable:true,double_click_load:true,execution_requires_saved_work_order:true}});
+    }catch(err){
+      emitHelp({code:'PROTOTYPE-WO-LOAD-FAILED',severity:'ERROR',phase:'WORK ORDER LOAD',observed:`The saved Work Order ${item.name} could not be loaded.`,next:'Refresh the Suitcase directory and try again.',facts:{filename:item.name,error:String(err)}});
+    }
+  }
+
   function updateWorkspaceGate(){
     const locked=!suitcaseValidated;
     refreshFilesBtn.disabled=locked;
@@ -2592,7 +2778,13 @@ Waiting for a saved Work Order.&lt;/pre&gt;
     draftDescription.disabled=locked;
     saveWorkOrderBtn.disabled=locked;
     validateBtn.disabled=locked;
-    runBtn.disabled=locked;
+    runBtn.disabled=true;
+    prettyBrandToml.disabled=locked;
+    savePrettyBrandBtn.disabled=locked;
+    prettyBrandState.textContent=locked?'Editor locked · validate a Suitcase first.':'Editable · saved TOML is retained in the Suitcase but is not parsed or applied yet.';
+    dataDictionaryToml.disabled=locked;
+    saveDataDictionaryBtn.disabled=locked;
+    dataDictionaryState.textContent=locked?'Editor locked · validate a Suitcase first.':'Editable · saved TOML is retained in the Suitcase but is not parsed or applied yet.';
     if(locked){
       suitcaseGate.classList.remove('ready');
       suitcaseGateStatus.textContent='NOT VALIDATED · workspace controls are locked';
@@ -2600,7 +2792,7 @@ Waiting for a saved Work Order.&lt;/pre&gt;
       ctxSource.textContent='LOCKED UNTIL SUITCASE VALIDATES';ctxSource.className='v wait';
       ctxHeaders.textContent='LOCKED';ctxHeaders.className='v wait';
       suitcaseFiles=[];renderSuitcaseFiles();
-      document.getElementById('draftState').textContent='Draft locked · validate a Suitcase first.';
+      updateWorkOrderUi();
     }else{
       suitcaseGate.classList.add('ready');
       suitcaseGateStatus.textContent=`VALIDATED · selected folder: ${suitcaseHandle.name} · workspace unlocked`;
@@ -2612,9 +2804,10 @@ Waiting for a saved Work Order.&lt;/pre&gt;
         ctxSource.textContent=sourceFile.name;ctxSource.className='v ok';
         ctxHeaders.textContent=`${headers.length} DETECTED`;ctxHeaders.className='v ok';
       }
-      document.getElementById('draftState').textContent='Draft state: editable · saving creates a new immutable TXT artifact; it never overwrites a saved Work Order.';
+      updateWorkOrderUi();
     }
     renderHeaders();
+    updateSavedWorkOrderPicker();
   }
 
   function renderHeaders(){
@@ -2724,12 +2917,62 @@ Waiting for a saved Work Order.&lt;/pre&gt;
     const d=i===0?0:(v&gt;=100?0:(v&gt;=10?1:2));
     return `${v.toFixed(d)} ${units[i]}`;
   }
+
+  function mimeForSuitcaseFile(name,reportedType=''){
+    if(reportedType)return reportedType;
+    const ext=(String(name).toLowerCase().split('.').pop()||'');
+    const mime={
+      txt:'text/plain',toml:'text/plain',csv:'text/csv',json:'application/json',xml:'application/xml',
+      html:'text/html',htm:'text/html',css:'text/css',js:'text/javascript',md:'text/markdown',
+      png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',gif:'image/gif',webp:'image/webp',svg:'image/svg+xml',bmp:'image/bmp',
+      pdf:'application/pdf',
+      mp3:'audio/mpeg',m4a:'audio/mp4',wav:'audio/wav',ogg:'audio/ogg',
+      mp4:'video/mp4',webm:'video/webm',mov:'video/quicktime',
+      zip:'application/zip',
+      docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      pptx:'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+    };
+    return mime[ext]||'application/octet-stream';
+  }
+
+  async function openSuitcaseFile(item){
+    if(!item||!item.handle)return;
+    // Open the tab synchronously from the double-click so Chromium treats this as
+    // a direct user action rather than a scripted pop-up after asynchronous I/O.
+    const viewer=window.open('about:blank','_blank');
+    if(!viewer){
+      emitHelp({code:'PROTOTYPE-FILE-OPEN-BLOCKED',severity:'ERROR',phase:'SUITCASE DIRECTORY',observed:`The browser blocked the new tab for ${item.name}.`,next:'Allow pop-ups for this local prototype and double-click the file again.',facts:{filename:item.name,double_click_open:true,file_executed:false}});
+      return;
+    }
+    try{
+      // The opened artifact must not be able to navigate back into the prototype
+      // through window.opener. Double-click is inspection/opening only, never execution.
+      try{viewer.opener=null}catch{}
+      try{
+        viewer.document.title=`Opening ${item.name}`;
+        viewer.document.body.style.cssText='margin:24px;background:#0b1018;color:#dce9f7;font:14px ui-monospace,Consolas,monospace';
+        viewer.document.body.textContent=`Opening ${item.name}…`;
+      }catch{}
+      const file=item.file||await item.handle.getFile();
+      const mime=mimeForSuitcaseFile(item.name,file.type);
+      const blob=(file.type===mime||!mime)?file:file.slice(0,file.size,mime);
+      const url=URL.createObjectURL(blob);
+      viewer.location.replace(url);
+      // Give the new tab ample time to load/read the Blob URL, including large files.
+      setTimeout(()=&gt;URL.revokeObjectURL(url),60*60*1000);
+    }catch(err){
+      try{viewer.close()}catch{}
+      emitHelp({code:'PROTOTYPE-FILE-OPEN-FAILED',severity:'ERROR',phase:'SUITCASE DIRECTORY',observed:`Data Sculptor could not open ${item.name}.`,next:'Refresh the Suitcase directory and try again. Browser-supported formats open in a new tab; unsupported formats follow the browser’s normal file handling.',facts:{filename:item.name,error:String(err),double_click_open:true,file_executed:false}});
+    }
+  }
+
   function renderSuitcaseFiles(){
     if(!suitcaseValidated||!suitcaseHandle){
-      suitcaseFilesBody.innerHTML='&lt;tr&gt;&lt;td colspan="4" class="saved-empty"&gt;Validate a Suitcase to see its files.&lt;/td&gt;&lt;/tr&gt;';return;
+      suitcaseFilesBody.innerHTML='&lt;tr&gt;&lt;td colspan="4" class="saved-empty"&gt;Validate a Suitcase to see its files.&lt;/td&gt;&lt;/tr&gt;';updateSavedWorkOrderPicker();return;
     }
     if(!suitcaseFiles.length){
-      suitcaseFilesBody.innerHTML='&lt;tr&gt;&lt;td colspan="4" class="saved-empty"&gt;This Suitcase is empty.&lt;/td&gt;&lt;/tr&gt;';return;
+      suitcaseFilesBody.innerHTML='&lt;tr&gt;&lt;td colspan="4" class="saved-empty"&gt;This Suitcase is empty.&lt;/td&gt;&lt;/tr&gt;';updateSavedWorkOrderPicker();return;
     }
     suitcaseFilesBody.innerHTML=suitcaseFiles.map(item=&gt;{
       const lower=item.name.toLowerCase();
@@ -2740,12 +2983,25 @@ Waiting for a saved Work Order.&lt;/pre&gt;
       const aliasCell=systemMap
         ? '&lt;span class="tiny-badge lock"&gt;SYSTEM MAP&lt;/span&gt;'
         : `&lt;input class="alias-input" data-alias-file="${esc(item.name)}" value="${esc(alias)}" placeholder="Add alias" maxlength="120" aria-label="Alias for ${esc(item.name)}"&gt;`;
-      return `&lt;tr&gt;&lt;td class="filename"&gt;${esc(item.name)}&lt;/td&gt;&lt;td&gt;${aliasCell}&lt;/td&gt;&lt;td class="file-kind"&gt;${esc(type)}&lt;/td&gt;&lt;td class="file-size"&gt;${esc(formatBytes(item.size))}&lt;/td&gt;&lt;/tr&gt;`;
+      const openTitle=isSavedWorkOrderName(item.name)?`Double-click to load ${item.name} into the Work Order editor`:`Double-click to open ${item.name}`;
+      return `&lt;tr class="file-entry" data-open-file="${esc(item.name)}" title="${esc(openTitle)}"&gt;&lt;td class="filename"&gt;${esc(item.name)}&lt;/td&gt;&lt;td&gt;${aliasCell}&lt;/td&gt;&lt;td class="file-kind"&gt;${esc(type)}&lt;/td&gt;&lt;td class="file-size"&gt;${esc(formatBytes(item.size))}&lt;/td&gt;&lt;/tr&gt;`;
     }).join('');
     suitcaseFilesBody.querySelectorAll('.alias-input').forEach(inp=&gt;{
       inp.addEventListener('change',e=&gt;updateAlias(e.target.dataset.aliasFile,e.target.value,e.target));
       inp.addEventListener('keydown',e=&gt;{if(e.key==='Enter'){e.preventDefault();e.target.blur()}});
+      // Editing an alias is metadata work; it must not accidentally open the file.
+      inp.addEventListener('dblclick',e=&gt;e.stopPropagation());
     });
+    suitcaseFilesBody.querySelectorAll('tr[data-open-file]').forEach(row=&gt;{
+      row.addEventListener('dblclick',e=&gt;{
+        if(e.target.closest('input,button,select,textarea,a'))return;
+        const item=suitcaseFiles.find(x=&gt;x.name===row.dataset.openFile);
+        if(!item)return;
+        if(isSavedWorkOrderName(item.name))loadSavedWorkOrder(item);
+        else openSuitcaseFile(item);
+      });
+    });
+    updateSavedWorkOrderPicker();
   }
 
 
@@ -2768,6 +3024,12 @@ Waiting for a saved Work Order.&lt;/pre&gt;
     found.sort((a,b)=&gt;a.name.localeCompare(b.name,undefined,{numeric:true,sensitivity:'base'}));
     suitcaseFiles=found;
     await loadAliasMapFromSuitcase();
+    if(workOrderMode==='saved' &amp;&amp; selectedWorkOrderName &amp;&amp; !suitcaseFiles.some(x=&gt;x.name===selectedWorkOrderName)){
+      loadedSavedWorkOrderName=selectedWorkOrderName;
+      selectedWorkOrderName=null;
+      workOrderMode='derived';
+      updateRunTarget();
+    }
     renderSuitcaseFiles();
   }
 
@@ -2797,16 +3059,15 @@ Waiting for a saved Work Order.&lt;/pre&gt;
 
       suitcaseHandle=candidate;suitcaseValidated=true;
       sourceFile=null;headers=[];selectedHeader=null;materialized=[];
-      savedWorkOrders=[];selectedWorkOrderName=null;descriptions=new Map();aliases=new Map();
+      selectedWorkOrderName=null;loadedSavedWorkOrderName=null;workOrderMode='new';descriptions=new Map();aliases=new Map();
       ctxSource.textContent='AWAITING WORK ORDER';ctxSource.className='v wait';
       ctxHeaders.textContent='AWAITING RUN';ctxHeaders.className='v wait';
       ctxColumn.textContent='NONE';ctxColumn.className='v wait';
-      updateRunTarget();renderHeaders();renderMappings();renderSavedWorkOrders();resetExecution();
+      updateRunTarget();renderHeaders();renderMappings();resetExecution();
       ctxSuitcase.textContent=`${suitcaseHandle.name} · VALIDATED`;ctxSuitcase.className='v ok';
       ctxSuitcase.title='Selected Suitcase folder name. The browser does not expose the full Windows absolute path to this page.';
       updateWorkspaceGate();
       await refreshSuitcaseFilesFromSuitcase();
-      await refreshSavedWorkOrdersFromSuitcase();
       emitHelp({code:'PROTOTYPE-SUITCASE-VALIDATED',severity:'INFO',phase:'SUITCASE VALIDATION',observed:`Suitcase folder “${suitcaseHandle.name}” passed the writable-folder validation gate. Its visible files are now listed in the Suitcase directory.`,next:'Author and save a Work Order. The Work Order names the source and requested column.',facts:{suitcase_folder_name:suitcaseHandle.name,absolute_path_exposed:false,suitcase_validated:true,suitcase_file_count:suitcaseFiles.length,source_selected:false,headers_scanned:false,write_probe_pass:true,probe_removed:true,flat_artifacts:true,no_subfolder_created:true,user_chooses_filename:false}})
     }catch(err){
       if(err&amp;&amp;err.name==='AbortError')return;
@@ -2850,35 +3111,21 @@ Waiting for a saved Work Order.&lt;/pre&gt;
     const text=workOrder.value;if(!validateWorkOrder(text))return;
     const filename=makeFilename('WKO','txt');
     try{
-      const handle=await writeTextToSuitcase(filename,text,'text/plain');
+      await writeTextToSuitcase(filename,text,'text/plain');
       const description=draftDescription.value.trim()||'Saved Work Order';descriptions.set(filename,description);
-      savedWorkOrders.push({filename,handle,created:nowLabel()});selectedWorkOrderName=filename;renderSavedWorkOrders();updateRunTarget();
-      artifactArea.className='';artifactArea.innerHTML=`&lt;ul class="artifact-list"&gt;&lt;li class="artifact"&gt;&lt;span class="type"&gt;Work Order · WKO&lt;/span&gt;&lt;span class="detail"&gt;&lt;span class="filename"&gt;${esc(filename)}&lt;/span&gt; · UTF-8 TXT · saved directly into the authorized Suitcase&lt;/span&gt;&lt;/li&gt;&lt;li class="artifact"&gt;&lt;span class="type"&gt;Mutability&lt;/span&gt;&lt;span class="detail"&gt;Saved Work Order bytes are immutable through this UI. Editing the draft and saving again creates a different filename.&lt;/span&gt;&lt;/li&gt;&lt;li class="artifact"&gt;&lt;span class="type"&gt;Description&lt;/span&gt;&lt;span class="detail"&gt;${esc(description)} · mutable UI metadata mapped to the immutable filename; changing it does not rewrite or rename the TXT artifact&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;`;
+      selectedWorkOrderName=filename;loadedSavedWorkOrderName=filename;workOrderMode='saved';
       await refreshSuitcaseFilesFromSuitcase();
-      emitHelp({code:'PROTOTYPE-WO-SAVED',severity:'INFO',phase:'WORK ORDER SAVE',observed:`A new immutable Work Order was saved as ${filename}.`,next:'Select it in Saved Work Orders to make it the Run target, or continue editing the draft and save another Work Order.',facts:{filename,suitcase:suitcaseHandle.name,user_chose_filename:false,work_order_editable_after_save:false,description_editable:true}})
+      updateRunTarget();
+      emitHelp({code:'PROTOTYPE-WO-SAVED',severity:'INFO',phase:'WORK ORDER SAVE',observed:`A new immutable Work Order was saved as ${filename} and is now loaded in the Work Order editor.`,next:'Run the saved Work Order, or edit its instructions to create a new derived draft. The saved TXT will not be overwritten.',facts:{filename,suitcase:suitcaseHandle.name,user_chose_filename:false,work_order_editable_after_save:false,description_editable:true,loaded_as_run_target:true}})
     }catch(err){emitHelp({code:'PROTOTYPE-WO-SAVE-FAILED',severity:'ERROR',phase:'WORK ORDER SAVE',observed:'The Work Order TXT could not be written to the authorized Suitcase.',next:'Check folder permission and try saving again.',facts:{error:String(err)}})}
   }
 
-  async function refreshSavedWorkOrdersFromSuitcase(){
-    if(!suitcaseHandle)return;
-    const found=[];
-    try{for await(const [name,handle] of suitcaseHandle.entries()){if(handle.kind==='file'&amp;&amp;name.startsWith('__DS__WKO')&amp;&amp;name.toLowerCase().endsWith('.txt')){found.push({filename:name,handle,created:'existing file'})}}}catch{}
-    const known=new Set(savedWorkOrders.map(x=&gt;x.filename));for(const x of found){if(!known.has(x.filename))savedWorkOrders.push(x)}
-    savedWorkOrders.sort((a,b)=&gt;b.filename.localeCompare(a.filename));renderSavedWorkOrders()
-  }
-  function renderSavedWorkOrders(){
-    if(!savedWorkOrders.length){savedWorkOrdersEl.innerHTML='&lt;div class="saved-empty"&gt;No saved Work Orders are visible yet. Authorize a Suitcase and save a draft.&lt;/div&gt;';return}
-    savedWorkOrdersEl.innerHTML=savedWorkOrders.map((w,i)=&gt;{const desc=descriptions.get(w.filename)||'Saved Work Order';return `&lt;div class="saved-row ${selectedWorkOrderName===w.filename?'selected':''}" data-file="${esc(w.filename)}"&gt;&lt;input class="saved-select" type="radio" name="savedWorkOrderPick" ${selectedWorkOrderName===w.filename?'checked':''} aria-label="Select saved Work Order ${esc(w.filename)}"&gt;&lt;div class="saved-main"&gt;&lt;input class="saved-description" data-desc-for="${esc(w.filename)}" value="${esc(desc)}" aria-label="Editable description for ${esc(w.filename)}"&gt;&lt;div class="saved-file"&gt;${esc(w.filename)}&lt;/div&gt;&lt;div class="saved-note"&gt;Description is editable metadata. TXT instructions and physical filename are immutable through Data Sculptor.&lt;/div&gt;&lt;/div&gt;&lt;div class="saved-meta"&gt;${esc(w.created)}&lt;br&gt;&lt;span class="tiny-badge lock"&gt;SAVED TXT&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;`}).join('');
-    savedWorkOrdersEl.querySelectorAll('.saved-row').forEach(row=&gt;{row.addEventListener('click',e=&gt;{if(e.target.classList.contains('saved-description'))return;selectedWorkOrderName=row.dataset.file;renderSavedWorkOrders();updateRunTarget();emitHelp({code:'PROTOTYPE-RUN-TARGET-SELECTED',severity:'INFO',phase:'WORK ORDER SELECTION',observed:`${selectedWorkOrderName} is now the saved Run target.`,next:'Run will read this saved TXT artifact; the editable draft is not an execution path.',facts:{run_target:selectedWorkOrderName,transient_editor_is_run_target:false}})})});
-    savedWorkOrdersEl.querySelectorAll('.saved-description').forEach(inp=&gt;{inp.addEventListener('change',e=&gt;{const f=e.target.dataset.descFor;descriptions.set(f,e.target.value.trim()||'Saved Work Order');emitHelp({code:'PROTOTYPE-WO-DESCRIPTION-UPDATED',severity:'INFO',phase:'WORK ORDER DESCRIPTION',observed:'The human-facing description was updated.',next:'No other action is required. The saved Work Order TXT and its physical filename were not changed.',facts:{filename:f,file_rewritten:false,file_renamed:false,description:descriptions.get(f)}})})})
-  }
-  function updateRunTarget(){if(selectedWorkOrderName){ctxRunTarget.textContent=selectedWorkOrderName;ctxRunTarget.className='v ok'}else{ctxRunTarget.textContent='NO SAVED WORK ORDER SELECTED';ctxRunTarget.className='v wait'}}
 
   async function runSelected(){
     if(!requireSuitcase('RUN'))return;
-    if(!selectedWorkOrderName){emitHelp({code:'PROTOTYPE-RUN-NO-SAVED-WO',severity:'ERROR',phase:'RUN',observed:'No saved Work Order is selected as the Run target.',next:'Save a new Work Order or select one from Saved Work Orders.',facts:{saved_run_target:false,transient_editor_is_run_target:false}});return}
-    const item=savedWorkOrders.find(x=&gt;x.filename===selectedWorkOrderName);if(!item)return;
-    let text='';try{text=await (await item.handle.getFile()).text()}catch(err){emitHelp({code:'PROTOTYPE-RUN-WO-READ-FAILED',severity:'ERROR',phase:'RUN',observed:'The selected saved Work Order could not be read from the Suitcase.',next:'Re-authorize the Suitcase or select another saved Work Order.',facts:{filename:selectedWorkOrderName,error:String(err)}});return}
+    if(workOrderMode!=='saved'||!selectedWorkOrderName){emitHelp({code:'PROTOTYPE-RUN-NO-SAVED-WO',severity:'ERROR',phase:'RUN',observed:'No saved Work Order is loaded as the Run target.',next:'Save the current draft, or double-click a saved WKO TXT in the Suitcase directory to load it.',facts:{saved_run_target:false,transient_editor_is_run_target:false}});return}
+    const item=suitcaseFiles.find(x=&gt;x.name===selectedWorkOrderName);if(!item){emitHelp({code:'PROTOTYPE-RUN-WO-MISSING',severity:'ERROR',phase:'RUN',observed:'The loaded saved Work Order is no longer visible in the Suitcase.',next:'Refresh the Suitcase directory and load a saved Work Order again.',facts:{filename:selectedWorkOrderName}});return}
+    let text='';try{text=await (await item.handle.getFile()).text()}catch(err){emitHelp({code:'PROTOTYPE-RUN-WO-READ-FAILED',severity:'ERROR',phase:'RUN',observed:'The loaded saved Work Order could not be read from the Suitcase.',next:'Re-authorize the Suitcase or double-click another saved Work Order in the directory.',facts:{filename:selectedWorkOrderName,error:String(err)}});return}
     if(!validateWorkOrder(text))return;
     const spec=parseWorkOrder(text);
     setExecution([`&gt; RUN ${selectedWorkOrderName}`,'WORK ORDER VALIDATED',`Operation: ${spec.operation}`,`Source requested: ${spec.source}`,`Column requested: ${spec.column}`]);
@@ -2917,11 +3164,48 @@ Waiting for a saved Work Order.&lt;/pre&gt;
       appendExecution(`Storage Engine filename: ${filename}`);
       appendExecution('Materialization: SIMULATED · Rust/WASM engine not connected');
       appendExecution('COMPLETE · interaction prototype');
-      artifactArea.className='';artifactArea.innerHTML=`&lt;ul class="artifact-list"&gt;&lt;li class="artifact"&gt;&lt;span class="type"&gt;Run target&lt;/span&gt;&lt;span class="detail"&gt;&lt;span class="filename"&gt;${esc(selectedWorkOrderName)}&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;&lt;li class="artifact"&gt;&lt;span class="type"&gt;Source&lt;/span&gt;&lt;span class="detail"&gt;${esc(f.name)}&lt;/span&gt;&lt;/li&gt;&lt;li class="artifact"&gt;&lt;span class="type"&gt;Column alias&lt;/span&gt;&lt;span class="detail"&gt;${esc(resolved)}&lt;/span&gt;&lt;/li&gt;&lt;li class="artifact"&gt;&lt;span class="type"&gt;Governed filename&lt;/span&gt;&lt;span class="detail"&gt;&lt;span class="filename"&gt;${esc(filename)}&lt;/span&gt; · assigned by the Storage Engine model&lt;/span&gt;&lt;/li&gt;&lt;li class="artifact"&gt;&lt;span class="type"&gt;Prototype boundary&lt;/span&gt;&lt;span class="detail"&gt;No analytical CSV bytes were written by this HTML prototype.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;`;
       emitHelp({code:'PROTOTYPE-RUN-SIMULATION',severity:'INFO',phase:'RUN',observed:`The saved Work Order resolved source ${spec.source} to ${f.name} and column ${resolved}. The Storage Engine model assigned ${filename}.`,next:'Treat the execution output as interaction evidence only; no Rust/WASM analytical execution occurs in this HTML prototype.',facts:{run_target:selectedWorkOrderName,source_reference:spec.source,resolved_source_filename:f.name,resolved_via:sourceResolution.via,column:resolved,filename,alias_mapping_file:ALIAS_MAP_FILENAME,transient_editor_is_run_target:false,real_wasm_execution:false,user_clicked_source:false,user_clicked_column:false}});
     }catch(err){
       appendExecution(`FAILED · ${String(err)}`);
       emitHelp({code:'PROTOTYPE-RUN-FAILED',severity:'ERROR',phase:'RUN',observed:'The prototype could not resolve the Work Order against the selected Suitcase.',next:'Review the Help facts and create a corrected Work Order if needed.',facts:{error:String(err),run_target:selectedWorkOrderName}});
+    }
+  }
+
+  async function savePrettyBrandToml(){
+    if(!requireSuitcase('PRETTY BRANDING SAVE'))return;
+    const text=prettyBrandToml.value;
+    if(!text.trim()){
+      emitHelp({code:'PROTOTYPE-PRETTY-BRAND-EMPTY',severity:'ERROR',phase:'PRETTY BRANDING SAVE',observed:'No PRETTY Branding TOML content has been entered.',next:'Enter TOML text before saving.',facts:{artifact_class:'BRD',format:'TOML',parsed:false,applied:false}});
+      return;
+    }
+    const filename=makeFilename('BRD','toml');
+    const payload=text.endsWith('\n')?text:text+'\n';
+    try{
+      await writeTextToSuitcase(filename,payload,'application/toml');
+      await refreshSuitcaseFilesFromSuitcase();
+      prettyBrandState.innerHTML=`Saved as &lt;strong&gt;${esc(filename)}&lt;/strong&gt; · not applied`;
+      emitHelp({code:'PROTOTYPE-PRETTY-BRAND-SAVED',severity:'INFO',phase:'PRETTY BRANDING SAVE',observed:`PRETTY Branding TOML was saved as ${filename}.`,next:'No branding behavior changes in this prototype. The TOML remains a visible Suitcase artifact for later PRETTY work.',facts:{filename,artifact_class:'BRD',format:'TOML',parsed:false,applied:false,user_chose_filename:false,suitcase:suitcaseHandle.name}});
+    }catch(err){
+      emitHelp({code:'PROTOTYPE-PRETTY-BRAND-SAVE-FAILED',severity:'ERROR',phase:'PRETTY BRANDING SAVE',observed:'The PRETTY Branding TOML file could not be written to the authorized Suitcase.',next:'Check Suitcase write permission and try again.',facts:{error:String(err),artifact_class:'BRD',format:'TOML',applied:false}});
+    }
+  }
+
+  async function saveDataDictionaryToml(){
+    if(!requireSuitcase('DATA DICTIONARY SAVE'))return;
+    const text=dataDictionaryToml.value;
+    if(!text.trim()){
+      emitHelp({code:'PROTOTYPE-DATA-DICTIONARY-EMPTY',severity:'ERROR',phase:'DATA DICTIONARY SAVE',observed:'No User Data Dictionary TOML content has been entered.',next:'Enter TOML text before saving.',facts:{artifact_class:'DDC',format:'TOML',parsed:false,applied:false}});
+      return;
+    }
+    const filename=makeFilename('DDC','toml');
+    const payload=text.endsWith('\n')?text:text+'\n';
+    try{
+      await writeTextToSuitcase(filename,payload,'application/toml');
+      await refreshSuitcaseFilesFromSuitcase();
+      dataDictionaryState.innerHTML=`Saved as &lt;strong&gt;${esc(filename)}&lt;/strong&gt; · not applied`;
+      emitHelp({code:'PROTOTYPE-DATA-DICTIONARY-SAVED',severity:'INFO',phase:'DATA DICTIONARY SAVE',observed:`User Data Dictionary TOML was saved as ${filename}.`,next:'No dictionary behavior changes in this prototype. The TOML remains a visible Suitcase artifact for later data-dictionary work.',facts:{filename,artifact_class:'DDC',format:'TOML',parsed:false,applied:false,user_chose_filename:false,suitcase:suitcaseHandle.name}});
+    }catch(err){
+      emitHelp({code:'PROTOTYPE-DATA-DICTIONARY-SAVE-FAILED',severity:'ERROR',phase:'DATA DICTIONARY SAVE',observed:'The User Data Dictionary TOML file could not be written to the authorized Suitcase.',next:'Check Suitcase write permission and try again.',facts:{error:String(err),artifact_class:'DDC',format:'TOML',applied:false}});
     }
   }
 
@@ -2933,25 +3217,47 @@ Waiting for a saved Work Order.&lt;/pre&gt;
   }
 
   function fullHelp(){if(!currentDiagnostic)return;const d=currentDiagnostic;diagArea.innerHTML=`&lt;span class="${d.severity==='ERROR'?'sev':(d.severity==='INFO'?'info':'help')}"&gt;${esc(d.severity)} · ${esc(d.code)} · FULL HELP&lt;/span&gt;&lt;div style="margin-top:12px"&gt;&lt;strong style="color:var(--accent3)"&gt;Casual&lt;/strong&gt;&lt;br&gt;${esc(wording(d,'casual'))}&lt;/div&gt;&lt;div style="margin-top:12px"&gt;&lt;strong style="color:var(--accent3)"&gt;Office Speak&lt;/strong&gt;&lt;br&gt;${esc(wording(d,'office'))}&lt;/div&gt;&lt;div style="margin-top:12px"&gt;&lt;strong style="color:var(--accent3)"&gt;Technical&lt;/strong&gt;&lt;br&gt;${esc(wording(d,'technical'))}&lt;/div&gt;&lt;dl class="diag-grid"&gt;&lt;dt&gt;Canonical facts&lt;/dt&gt;&lt;dd&gt;${esc(JSON.stringify(d.facts||{},null,2))}&lt;/dd&gt;&lt;dt&gt;Phase&lt;/dt&gt;&lt;dd&gt;${esc(d.phase)}&lt;/dd&gt;&lt;/dl&gt;`}
-  function genericHelp(){emitHelp({code:'PROTOTYPE-HELP',severity:'HELP',phase:'WORKSPACE',observed:'Data Sculptor follows a governed sequence: validate the Suitcase, author and save a Work Order, then run that saved artifact.',next:suitcaseValidated?'Author or select a saved Work Order. The directory exposes inventory and editable aliases, but analytical intent still comes only from a saved Work Order.':'Choose and validate the Suitcase.',facts:{prototype:true,storage_engine_surface:true,help_engine_surface:true,saved_work_orders_immutable:true,alias_editable:true,alias_mapping_file:ALIAS_MAP_FILENAME}})}
+  function genericHelp(){emitHelp({code:'PROTOTYPE-HELP',severity:'HELP',phase:'WORKSPACE',observed:'Data Sculptor follows a governed sequence: validate the Suitcase, author and save a Work Order, then run that saved artifact.',next:suitcaseValidated?'Author and save a new Work Order, or choose a saved WKO TXT in the Work Order editor and load it. Double-clicking the same WKO in the Suitcase directory also loads it.':'Choose and validate the Suitcase.',facts:{prototype:true,storage_engine_surface:true,help_engine_surface:true,saved_work_orders_immutable:true,work_order_editor_loads_saved_files:true,alias_editable:true,alias_mapping_file:ALIAS_MAP_FILENAME}})}
 
-  workOrder.addEventListener('input',renderHighlight);workOrder.addEventListener('scroll',renderHighlight);
+  workOrder.addEventListener('input',()=&gt;{
+    if(workOrderMode==='saved'){
+      loadedSavedWorkOrderName=selectedWorkOrderName;
+      selectedWorkOrderName=null;
+      workOrderMode='derived';
+      updateRunTarget();
+      updateSavedWorkOrderPicker();
+      emitHelp({code:'PROTOTYPE-WO-DERIVED-DRAFT',severity:'INFO',phase:'WORK ORDER EDIT',observed:`The loaded saved Work Order remains immutable. The editor now contains a new draft derived from ${loadedSavedWorkOrderName}.`,next:'Validate and save this draft to create a new immutable Work Order TXT before running it.',facts:{source_work_order:loadedSavedWorkOrderName,source_rewritten:false,new_draft:true,run_requires_save:true}});
+    }
+    renderHighlight();
+  });
+  workOrder.addEventListener('scroll',renderHighlight);
+  draftDescription.addEventListener('change',()=&gt;{
+    if(workOrderMode==='saved'&amp;&amp;selectedWorkOrderName){
+      descriptions.set(selectedWorkOrderName,draftDescription.value.trim()||'Saved Work Order');
+      emitHelp({code:'PROTOTYPE-WO-DESCRIPTION-UPDATED',severity:'INFO',phase:'WORK ORDER DESCRIPTION',observed:'The human-facing description was updated in prototype metadata.',next:'The saved Work Order TXT and its physical filename were not changed.',facts:{filename:selectedWorkOrderName,file_rewritten:false,file_renamed:false,description:descriptions.get(selectedWorkOrderName)}});
+    }
+  });
   voice.addEventListener('change',()=&gt;{if(currentDiagnostic)emitHelp(currentDiagnostic)});
   document.getElementById('suitcaseBtn').addEventListener('click',authorizeSuitcase);
   refreshFilesBtn.addEventListener('click',refreshSuitcaseFilesFromSuitcase);
+  savedWorkOrderSelect.addEventListener('change',()=&gt;{loadWorkOrderBtn.disabled=!savedWorkOrderSelect.value});
+  loadWorkOrderBtn.addEventListener('click',loadWorkOrderFromPicker);
   document.getElementById('saveWorkOrderBtn').addEventListener('click',saveNewWorkOrder);
   document.getElementById('validateBtn').addEventListener('click',()=&gt;validateWorkOrder(workOrder.value));
   document.getElementById('runBtn').addEventListener('click',runSelected);
   document.getElementById('helpBtn').addEventListener('click',genericHelp);
   document.getElementById('fullHelpBtn').addEventListener('click',fullHelp);
   document.getElementById('saveHelpBtn').addEventListener('click',saveHelpReport);
+  savePrettyBrandBtn.addEventListener('click',savePrettyBrandToml);
+  saveDataDictionaryBtn.addEventListener('click',saveDataDictionaryToml);
   document.addEventListener('keydown',e=&gt;{if(e.key==='F1'){e.preventDefault();genericHelp()}if(e.key==='Escape'){clearHelp()}if((e.ctrlKey||e.metaKey)&amp;&amp;e.shiftKey&amp;&amp;e.key.toLowerCase()==='s'){e.preventDefault();saveNewWorkOrder()}if((e.ctrlKey||e.metaKey)&amp;&amp;e.key==='Enter'){e.preventDefault();runSelected()}});
 
-  renderMappings();renderSavedWorkOrders();renderHighlight();updateRunTarget();resetExecution();updateWorkspaceGate();emitHelp({code:'PROTOTYPE-SUITCASE-FIRST',severity:'HELP',phase:'SESSION START',observed:'A Suitcase is required before work begins.',next:'Choose and validate a Suitcase.',facts:{gate_required_first:true,suitcase_validated:false,workspace_locked:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
+  renderMappings();renderHighlight();updateRunTarget();updateSavedWorkOrderPicker();resetExecution();updateWorkspaceGate();emitHelp({code:'PROTOTYPE-SUITCASE-FIRST',severity:'HELP',phase:'SESSION START',observed:'A Suitcase is required before work begins.',next:'Choose and validate a Suitcase.',facts:{gate_required_first:true,suitcase_validated:false,workspace_locked:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
 })();
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
+
 </code></pre>
 </details>
 <h1 id="section-34" class="section-heading">9. Legacy Scope Index - Historical / Derived</h1><p><strong>Revision T authority rule: W002-SCOPE-* entries are retained for historical citation and decision continuity. They are not an independent scope authority. Current build allocation is defined only by the SCOPE metadata attached to the underlying normative requirements; the dashboard and this legacy index are derived views.</strong></p><article class="requirement status-na" data-scope="RECORD" data-status="N/A" data-build="N/A" data-id="W002-SCOPE-001" data-search="w002-scope-001 - historical wasm-002 scope summary (legacy record) wasm-002 must establish the source-certification/materialization and help/pretty/brand architecture without turning the prototype into a complete encoding laboratory, documentation system, theming system, or commercial packaging system.">
@@ -3230,7 +3536,7 @@ Waiting for a saved Work Order.&lt;/pre&gt;
 <div class="req-head"><div><div class="req-id">W002-HIST-007</div><h3>Intended outward sequence</h3></div><span class="status-badge status-na"><span class="dot"></span>N/A</span></div>
 <div class="metadata"><span class="meta"><b>SCOPE</b><span>RECORD</span></span><span class="meta"><b>BUILD</b><span>N/A</span></span></div>
 <div class="req-body"><p>The intended sequence is to build and launch V1 first, with the public repository becoming available at V1 rather than before it. After V1, Red5Sorcery may publish dedicated engineering and design articles about the journey and its evidence. The longer-form book The Decision to Build may follow as the multi-voice record of how the product, method, architecture, and Council developed. No detailed pre-V1 engineering article or pre-V1 public repository is required or intended by this record.</p></div>
-</article><h2>Documentary principle</h2><p>The project was real before it became useful as a story. Build the product, preserve the evidence, and let later storytelling remain accountable to the record.</p><h1 id="section-39" class="section-heading">Revision V Decision Record</h1><p>Revision V preserves the standalone HTML Product Backlog PRD as the working master and adds the candidate WASM-002 browser front-end / console requirement set derived from the Day 042 prototype. The prototype is embedded verbatim as design evidence and linked as a companion interactive HTML file. The numbered W002-UI-* and W002-UI-ACC-* requirements govern; illustrative prototype literals remain unfrozen. This revision does not freeze the new requirements and does not claim implementation.</p><div class="table-wrap"><table><tr><th>Document</th><th>Red5Sorcery Data Sculptor Product Backlog PRD</th></tr><tr><td>Revision</td><td>V - Draft / Not Frozen</td></tr><tr><td>Date</td><td>19 September 2026 (Day 042)</td></tr><tr><td>Previous baseline</td><td>Product Backlog PRD Revision U</td></tr><tr><td>Major changes</td><td>Narrow WASM-002 browser front-end / console requirements; single Work Order command surface; visible certification/materialization stages; visible Suitcase artifact orientation; diagnostic/Help UI requirements; explicit scope boundary; embedded exact Day 042 prototype source and fingerprint.</td></tr><tr><td>WASM-002 scope effect</td><td>Adds candidate browser front-end requirements and acceptance gates to SCOPE: WASM-002. Existing candidate requirements remain under review; nothing is frozen by Revision V.</td></tr></table></div><h1 id="section-40" class="section-heading">Revision W Decision Record</h1><p>Revision W formalizes the Help / Diagnostic Surface as part of the WASM-002 interaction architecture and explains the design rationale behind it. It defines the canonical diagnostic event as authority, the live pane as a transient co-present projection, and the styled HTML Help Report as a durable support-handoff artifact. It also adds anti-modal/toast requirements, idle-state discipline, two-audience report content, relevant negative boundary facts, Work Order lineage, offline portability, tamper-evident fingerprinting, and a disclosure boundary that prevents Help from becoming a silent source-data export path. This revision does not freeze the new requirements and does not claim implementation.</p><div class="table-wrap"><table><tr><th>Document</th><th>Red5Sorcery Data Sculptor Product Backlog PRD</th></tr><tr><td>Revision</td><td>W - Draft / Not Frozen</td></tr><tr><td>Date</td><td>19 September 2026 (Day 042)</td></tr><tr><td>Previous baseline</td><td>Product Backlog PRD Revision V</td></tr><tr><td>Major changes</td><td>Help/Diagnostic design rationale; projection-versus-authority boundary; persistent dedicated Help surface; no modal/toast-only governed refusals; quiet idle state; direct Save HTML Help Report action; support-handoff report content; negative boundary facts; Work Order lineage; offline portability; integrity fingerprinting; bounded disclosure/privacy; new Help and UI acceptance gates.</td></tr><tr><td>WASM-002 scope effect</td><td>Adds candidate Help/Diagnostic and support-handoff requirements and acceptance gates to SCOPE: WASM-002. Existing candidate requirements remain under review; nothing is frozen by Revision W.</td></tr></table></div><h1 id="section-41" class="section-heading">Revision X Decision Record</h1><p>Revision X preserves Revision W&#x27;s Help / Diagnostic architecture and adds a product-level rationale explaining what Data Sculptor is being built to do for analysts and why. It records the project&#x27;s working observation that much analyst anxiety is forensic rather than mathematical; defines the intended burden shift in which the product absorbs systems complexity instead of exporting it to the analyst; treats explainable failure as part of the analytical record; and records a four-line design creed beneath “Data work you can explain.” The new material is rationale, not a substitute for numbered requirements, and it does not freeze, approve, or claim implementation of any under-review WASM-002 requirement.</p><div class="table-wrap"><table><tr><th>Document</th><th>Red5Sorcery Data Sculptor Product Backlog PRD</th></tr><tr><td>Revision</td><td>X - Draft / Not Frozen</td></tr><tr><td>Date</td><td>19 September 2026 (Day 042)</td></tr><tr><td>Previous baseline</td><td>Product Backlog PRD Revision W</td></tr><tr><td>Major changes</td><td>Product rationale describing forensic uncertainty in analyst work; systems-burden transfer from analyst to product; Source → Work Order → Governed Run → Visible Evidence mental model; sophistication absorbed by the product rather than exposed to the user; explainable failure as part of the analytical record; visible evidence and professional agency; four-line design creed beneath “Data work you can explain.”</td></tr><tr><td>WASM-002 scope effect</td><td>No new build allocation and no lifecycle promotion. Existing SCOPE and STATUS metadata remain authoritative. The added text explains the purpose behind existing product and WASM-002 requirements.</td></tr></table></div><h1 id="section-42" class="section-heading">Revision Y Decision Record</h1><p>Revision Y preserves Revision X’s product rationale and moves a concise “What We Are Building — and Why” statement to the front of the PRD, immediately beneath the title, date, and public product promise. The change makes purpose precede backlog machinery: a new reader first sees what Data Sculptor is, the forensic uncertainty it is intended to reduce, the systems burden the product is intended to absorb, the Source → Work Order → Governed Run → Visible Evidence working model, and the four-line design creed. The longer rationale remains in the Product Promise section. This is a document-orientation change only; it does not create, freeze, approve, reject, or claim implementation of any requirement.</p><div class="table-wrap"><table><tr><th>Document</th><th>Red5Sorcery Data Sculptor Product Backlog PRD</th></tr><tr><td>Revision</td><td>Y - Draft / Not Frozen</td></tr><tr><td>Date</td><td>19 September 2026 (Day 042)</td></tr><tr><td>Previous baseline</td><td>Product Backlog PRD Revision X</td></tr><tr><td>Major changes</td><td>Added a front-door “What We Are Building — and Why” section before the dashboard/governance material; surfaced the analyst problem, burden shift, Source → Work Order → Governed Run → Visible Evidence mental model, and four-line design creed at first reading; retained the fuller rationale in the Product Promise section.</td></tr><tr><td>WASM-002 scope effect</td><td>No new build allocation and no lifecycle promotion. Existing SCOPE, STATUS, BUILD, and requirement IDs remain authoritative and unchanged.</td></tr></table></div><h1 id="section-43" class="section-heading">Revision Z Decision Record</h1><p>Revision Z defines the candidate Storage Engine namespace contract for the visible flat Suitcase. It establishes <code>__DS__</code> as the exact reserved Data Sculptor governed namespace; distinguishes external source files from Data Sculptor-governed derivatives; requires a fixed-width three-uppercase-letter semantic artifact class; keeps serialization formats such as TOML, HTML, CSV, BIN, and TXT orthogonal to semantic meaning; records the current working artifact-class registry; requires preservation of unknown future classes; prohibits silent casing normalization and silent collision overwrite; and states the governing rule that names route while contents and provenance prove. The exact identity-token grammar remains an explicit freeze item. The revision also corrects the carried-forward scratch naming example from the obsolete <code>_DS_SCR_</code> form to the current conceptual <code>__DS__SCR__...</code> family.</p><div class="table-wrap"><table><tr><th>Document</th><th>Red5Sorcery Data Sculptor Product Backlog PRD</th></tr><tr><td>Revision</td><td>Z - Draft / Not Frozen</td></tr><tr><td>Date</td><td>19 September 2026 (Day 042)</td></tr><tr><td>Previous baseline</td><td>Product Backlog PRD Revision Y</td></tr><tr><td>Major changes</td><td>Reserved <code>__DS__</code> namespace; semantic three-letter artifact classes; external-source boundary; serialization/class separation including TOML manifests; candidate class registry; prefix/class validation boundary; unknown-class preservation; canonical casing; collision safety; names-route/content-proves rule; explicit identity-grammar freeze items.</td></tr><tr><td>WASM-002 scope effect</td><td>Adds candidate storage namespace requirements PB-STOR-004 through PB-STOR-013 to SCOPE: WASM-002. Existing requirements remain otherwise unchanged in lifecycle status; nothing is frozen or claimed implemented by Revision Z.</td></tr></table></div><h1 id="section-44" class="section-heading">Revision AA Decision Record</h1><p>Revision AA reconciles the Day 043 browser interaction prototype with the authoritative WASM-002 contract. The revision moves the browser workbench away from a GUI-rich analytical surface and toward a Suitcase-first, Work-Order-driven model: a writable Suitcase must be validated before work begins; the Suitcase Directory is the visible physical inventory; aliases are editable metadata persisted in a governed mapping artifact; analytical source and column choices are expressed only in saved Work Orders; saved Work Orders are immutable and Data Sculptor assigns their governed filenames; the Execution Output is read-only; and Help Engine output is the sole Data Sculptor-controlled user-facing Help/refusal path. Revision AA also records the candidate Work Order filename shape <code>__DS__WKO__&lt;UTC&gt;__&lt;UUID&gt;.txt</code>, the Day 043 alias-map singleton <code>__DS__MAP__ALIASES.csv</code>, deterministic alias resolution, and anti-rebinding requirements. The new and revised requirements remain UNDER REVIEW; this revision does not freeze or claim implementation.</p><div class="table-wrap"><table><tr><th>Document</th><th>Red5Sorcery Data Sculptor Product Backlog PRD</th></tr><tr><td>Revision</td><td>AA - Draft / Not Frozen</td></tr><tr><td>Date</td><td>20 September 2026 (Day 043)</td></tr><tr><td>Previous baseline</td><td>Product Backlog PRD Revision Z</td></tr><tr><td>Major changes</td><td>Suitcase-first validation gate; full-width visible Suitcase Directory; directory-as-inventory rather than analytical command surface; saved-Work-Order-only execution; immutable Work Order TXT artifacts; Data Sculptor-generated filenames; candidate WKO UTC+UUID filename shape; editable descriptions separated from physical identity; read-only Execution Output; editable file aliases; visible alias mapping artifact; deterministic alias resolution and anti-rebinding; all user-facing Help/refusal guidance through the Help Engine; exact Day 043 prototype source and fingerprint embedded as design evidence.</td></tr><tr><td>WASM-002 scope effect</td><td>Adds and revises candidate storage/browser requirements and acceptance gates within SCOPE: WASM-002. Existing lifecycle states remain unchanged; nothing is frozen or claimed implemented by Revision AA.</td></tr></table></div></div><div class="no-results" id="noresults">No requirements match the current filters.</div>
+</article><h2>Documentary principle</h2><p>The project was real before it became useful as a story. Build the product, preserve the evidence, and let later storytelling remain accountable to the record.</p><h1 id="section-39" class="section-heading">Revision V Decision Record</h1><p>Revision V preserves the standalone HTML Product Backlog PRD as the working master and adds the candidate WASM-002 browser front-end / console requirement set derived from the Day 042 prototype. The prototype is embedded verbatim as design evidence and linked as a companion interactive HTML file. The numbered W002-UI-* and W002-UI-ACC-* requirements govern; illustrative prototype literals remain unfrozen. This revision does not freeze the new requirements and does not claim implementation.</p><div class="table-wrap"><table><tr><th>Document</th><th>Red5Sorcery Data Sculptor Product Backlog PRD</th></tr><tr><td>Revision</td><td>V - Draft / Not Frozen</td></tr><tr><td>Date</td><td>19 September 2026 (Day 042)</td></tr><tr><td>Previous baseline</td><td>Product Backlog PRD Revision U</td></tr><tr><td>Major changes</td><td>Narrow WASM-002 browser front-end / console requirements; single Work Order command surface; visible certification/materialization stages; visible Suitcase artifact orientation; diagnostic/Help UI requirements; explicit scope boundary; embedded exact Day 042 prototype source and fingerprint.</td></tr><tr><td>WASM-002 scope effect</td><td>Adds candidate browser front-end requirements and acceptance gates to SCOPE: WASM-002. Existing candidate requirements remain under review; nothing is frozen by Revision V.</td></tr></table></div><h1 id="section-40" class="section-heading">Revision W Decision Record</h1><p>Revision W formalizes the Help / Diagnostic Surface as part of the WASM-002 interaction architecture and explains the design rationale behind it. It defines the canonical diagnostic event as authority, the live pane as a transient co-present projection, and the styled HTML Help Report as a durable support-handoff artifact. It also adds anti-modal/toast requirements, idle-state discipline, two-audience report content, relevant negative boundary facts, Work Order lineage, offline portability, tamper-evident fingerprinting, and a disclosure boundary that prevents Help from becoming a silent source-data export path. This revision does not freeze the new requirements and does not claim implementation.</p><div class="table-wrap"><table><tr><th>Document</th><th>Red5Sorcery Data Sculptor Product Backlog PRD</th></tr><tr><td>Revision</td><td>W - Draft / Not Frozen</td></tr><tr><td>Date</td><td>19 September 2026 (Day 042)</td></tr><tr><td>Previous baseline</td><td>Product Backlog PRD Revision V</td></tr><tr><td>Major changes</td><td>Help/Diagnostic design rationale; projection-versus-authority boundary; persistent dedicated Help surface; no modal/toast-only governed refusals; quiet idle state; direct Save HTML Help Report action; support-handoff report content; negative boundary facts; Work Order lineage; offline portability; integrity fingerprinting; bounded disclosure/privacy; new Help and UI acceptance gates.</td></tr><tr><td>WASM-002 scope effect</td><td>Adds candidate Help/Diagnostic and support-handoff requirements and acceptance gates to SCOPE: WASM-002. Existing candidate requirements remain under review; nothing is frozen by Revision W.</td></tr></table></div><h1 id="section-41" class="section-heading">Revision X Decision Record</h1><p>Revision X preserves Revision W&#x27;s Help / Diagnostic architecture and adds a product-level rationale explaining what Data Sculptor is being built to do for analysts and why. It records the project&#x27;s working observation that much analyst anxiety is forensic rather than mathematical; defines the intended burden shift in which the product absorbs systems complexity instead of exporting it to the analyst; treats explainable failure as part of the analytical record; and records a four-line design creed beneath “Data work you can explain.” The new material is rationale, not a substitute for numbered requirements, and it does not freeze, approve, or claim implementation of any under-review WASM-002 requirement.</p><div class="table-wrap"><table><tr><th>Document</th><th>Red5Sorcery Data Sculptor Product Backlog PRD</th></tr><tr><td>Revision</td><td>X - Draft / Not Frozen</td></tr><tr><td>Date</td><td>19 September 2026 (Day 042)</td></tr><tr><td>Previous baseline</td><td>Product Backlog PRD Revision W</td></tr><tr><td>Major changes</td><td>Product rationale describing forensic uncertainty in analyst work; systems-burden transfer from analyst to product; Source → Work Order → Governed Run → Visible Evidence mental model; sophistication absorbed by the product rather than exposed to the user; explainable failure as part of the analytical record; visible evidence and professional agency; four-line design creed beneath “Data work you can explain.”</td></tr><tr><td>WASM-002 scope effect</td><td>No new build allocation and no lifecycle promotion. Existing SCOPE and STATUS metadata remain authoritative. The added text explains the purpose behind existing product and WASM-002 requirements.</td></tr></table></div><h1 id="section-42" class="section-heading">Revision Y Decision Record</h1><p>Revision Y preserves Revision X’s product rationale and moves a concise “What We Are Building — and Why” statement to the front of the PRD, immediately beneath the title, date, and public product promise. The change makes purpose precede backlog machinery: a new reader first sees what Data Sculptor is, the forensic uncertainty it is intended to reduce, the systems burden the product is intended to absorb, the Source → Work Order → Governed Run → Visible Evidence working model, and the four-line design creed. The longer rationale remains in the Product Promise section. This is a document-orientation change only; it does not create, freeze, approve, reject, or claim implementation of any requirement.</p><div class="table-wrap"><table><tr><th>Document</th><th>Red5Sorcery Data Sculptor Product Backlog PRD</th></tr><tr><td>Revision</td><td>Y - Draft / Not Frozen</td></tr><tr><td>Date</td><td>19 September 2026 (Day 042)</td></tr><tr><td>Previous baseline</td><td>Product Backlog PRD Revision X</td></tr><tr><td>Major changes</td><td>Added a front-door “What We Are Building — and Why” section before the dashboard/governance material; surfaced the analyst problem, burden shift, Source → Work Order → Governed Run → Visible Evidence mental model, and four-line design creed at first reading; retained the fuller rationale in the Product Promise section.</td></tr><tr><td>WASM-002 scope effect</td><td>No new build allocation and no lifecycle promotion. Existing SCOPE, STATUS, BUILD, and requirement IDs remain authoritative and unchanged.</td></tr></table></div><h1 id="section-43" class="section-heading">Revision Z Decision Record</h1><p>Revision Z defines the candidate Storage Engine namespace contract for the visible flat Suitcase. It establishes <code>__DS__</code> as the exact reserved Data Sculptor governed namespace; distinguishes external source files from Data Sculptor-governed derivatives; requires a fixed-width three-uppercase-letter semantic artifact class; keeps serialization formats such as TOML, HTML, CSV, BIN, and TXT orthogonal to semantic meaning; records the current working artifact-class registry; requires preservation of unknown future classes; prohibits silent casing normalization and silent collision overwrite; and states the governing rule that names route while contents and provenance prove. The exact identity-token grammar remains an explicit freeze item. The revision also corrects the carried-forward scratch naming example from the obsolete <code>_DS_SCR_</code> form to the current conceptual <code>__DS__SCR__...</code> family.</p><div class="table-wrap"><table><tr><th>Document</th><th>Red5Sorcery Data Sculptor Product Backlog PRD</th></tr><tr><td>Revision</td><td>Z - Draft / Not Frozen</td></tr><tr><td>Date</td><td>19 September 2026 (Day 042)</td></tr><tr><td>Previous baseline</td><td>Product Backlog PRD Revision Y</td></tr><tr><td>Major changes</td><td>Reserved <code>__DS__</code> namespace; semantic three-letter artifact classes; external-source boundary; serialization/class separation including TOML manifests; candidate class registry; prefix/class validation boundary; unknown-class preservation; canonical casing; collision safety; names-route/content-proves rule; explicit identity-grammar freeze items.</td></tr><tr><td>WASM-002 scope effect</td><td>Adds candidate storage namespace requirements PB-STOR-004 through PB-STOR-013 to SCOPE: WASM-002. Existing requirements remain otherwise unchanged in lifecycle status; nothing is frozen or claimed implemented by Revision Z.</td></tr></table></div><h1 id="section-44" class="section-heading">Revision AA Decision Record</h1><p>Revision AA reconciles the Day 043 browser interaction prototype with the authoritative WASM-002 contract. The revision moves the browser workbench away from a GUI-rich analytical surface and toward a Suitcase-first, Work-Order-driven model: a writable Suitcase must be validated before work begins; the Suitcase Directory is the visible physical inventory; aliases are editable metadata persisted in a governed mapping artifact; analytical source and column choices are expressed only in saved Work Orders; saved Work Orders are immutable and Data Sculptor assigns their governed filenames; the Execution Output is read-only; and Help Engine output is the sole Data Sculptor-controlled user-facing Help/refusal path. Revision AA also records the candidate Work Order filename shape <code>__DS__WKO__&lt;UTC&gt;__&lt;UUID&gt;.txt</code>, the Day 043 alias-map singleton <code>__DS__MAP__ALIASES.csv</code>, deterministic alias resolution, and anti-rebinding requirements. The new and revised requirements remain UNDER REVIEW; this revision does not freeze or claim implementation.</p><div class="table-wrap"><table><tr><th>Document</th><th>Red5Sorcery Data Sculptor Product Backlog PRD</th></tr><tr><td>Revision</td><td>AA - Draft / Not Frozen</td></tr><tr><td>Date</td><td>20 September 2026 (Day 043)</td></tr><tr><td>Previous baseline</td><td>Product Backlog PRD Revision Z</td></tr><tr><td>Major changes</td><td>Suitcase-first validation gate; full-width visible Suitcase Directory; directory-as-inventory rather than analytical command surface; saved-Work-Order-only execution; immutable Work Order TXT artifacts; Data Sculptor-generated filenames; candidate WKO UTC+UUID filename shape; editable descriptions separated from physical identity; read-only Execution Output; editable file aliases; visible alias mapping artifact; deterministic alias resolution and anti-rebinding; all user-facing Help/refusal guidance through the Help Engine; exact Day 043 prototype source and fingerprint embedded as design evidence.</td></tr><tr><td>WASM-002 scope effect</td><td>Adds and revises candidate storage/browser requirements and acceptance gates within SCOPE: WASM-002. Existing lifecycle states remain unchanged; nothing is frozen or claimed implemented by Revision AA.</td></tr></table></div><h1 id="section-45" class="section-heading">Revision AB Decision Record</h1><p>Revision AB defines composable saved Work Orders as a candidate WASM-002 capability. A saved immutable Work Order may invoke other named saved immutable Work Orders, including nested composition. Human-facing invocation names must resolve deterministically to exact physical WKO artifacts; drafts cannot be invocation targets; execution order is explicit and deterministic; cycles refuse; child refusal stops the composed run by default; and receipts preserve the complete exact physical invocation chain. The revision also reconciles the current Work Order editor behavior: a saved Work Order may be loaded into the editor for inspection or Run, while changing its instruction text creates a new non-runnable draft that must be saved as a new immutable WKO artifact before execution. The exact composition grammar remains a freeze item. The embedded Day 043 prototype source and fingerprint are refreshed as non-normative design evidence. All new and revised requirements remain UNDER REVIEW; Revision AB does not freeze or claim implementation.</p><div class="table-wrap"><table><tr><th>Document</th><th>Red5Sorcery Data Sculptor Product Backlog PRD</th></tr><tr><td>Revision</td><td>AB - Draft / Not Frozen</td></tr><tr><td>Date</td><td>20 September 2026 (Day 043)</td></tr><tr><td>Previous baseline</td><td>Product Backlog PRD Revision AA</td></tr><tr><td>Major changes</td><td>Composable saved Work Orders; named invocation resolved to exact immutable WKO identity; nested deterministic execution order; cycle refusal; default child-refusal propagation; complete Work Order invocation provenance in receipts; Work Order editor loads saved immutable WKO artifacts and converts edits into new drafts; refreshed exact Day 043 prototype source/fingerprint.</td></tr><tr><td>WASM-002 scope effect</td><td>Adds W002-WKO-001 through W002-WKO-006 and W002-WKO-ACC-001 through W002-WKO-ACC-002 to SCOPE: WASM-002, and revises relevant Work Order/UI wording. Existing lifecycle states remain unchanged; nothing is frozen or claimed implemented by Revision AB.</td></tr></table></div></div><div class="no-results" id="noresults">No requirements match the current filters.</div>
 </main>
 <button class="backtop" onclick="scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 <script>
