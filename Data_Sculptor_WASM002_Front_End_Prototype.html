@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Data Sculptor — WASM-002 Front-End Prototype</title>
-<meta name="description" content="Day 043 WASM-002 browser front-end design prototype for Red5Sorcery Data Sculptor." />
+<meta name="description" content="Day 044 WASM-002 browser front-end design prototype for Red5Sorcery Data Sculptor." />
 <style>
   :root{
     color-scheme:dark;
@@ -83,8 +83,8 @@
   .file-kind{font-family:var(--mono);font-size:12px;color:var(--muted)}
   .file-size{font-family:var(--mono);font-size:12px;color:var(--soft);white-space:nowrap}
   .source-mark{color:var(--green);font-family:var(--mono);font-size:12px;white-space:nowrap}
-  .alias-input{width:100%;min-width:180px;background:#091019;border:1px solid var(--line2);color:var(--accent3);padding:7px 9px;font-family:var(--mono);font-size:13px}
-  .alias-input::placeholder{color:#62758a}.alias-input:disabled{color:var(--muted);background:#0b121c;border-color:var(--line);cursor:not-allowed}
+  .alias-display{display:inline-block;max-width:100%;font-family:var(--mono);font-size:13px;color:var(--accent3);word-break:break-word}
+  .alias-display.empty{color:#62758a}
   .terminal-output{margin:0;min-height:260px;max-height:440px;overflow:auto;background:#070c12;border:1px solid var(--line);padding:14px 15px;color:var(--soft);font-family:var(--mono);font-size:14px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
   .grid-top > .stack:last-of-type .terminal-output{flex:1;min-height:100%;max-height:none}
   .terminal-output .term-ok{color:var(--green)}
@@ -121,7 +121,7 @@
   <header class="topline">
     <div>
       <div class="brand"><strong>Red<span class="brand-five">5</span>Sorcery</strong> / Data Sculptor / WASM-002</div>
-      <div class="brand" style="margin-top:5px;color:var(--muted)">Browser front-end design prototype · Day 043</div>
+      <div class="brand" style="margin-top:5px;color:var(--muted)">Browser front-end design prototype · Day 044</div>
     </div>
     <div class="head-right">
       <span class="pill warn"><span class="dot"></span>DRAFT / NOT FROZEN</span>
@@ -160,6 +160,7 @@
     <article class="panel span-2" aria-labelledby="files-title">
       <div class="panel-head">
         <div id="files-title" class="panel-title">Suitcase directory</div>
+        <div class="panel-note">Aliases display only · assign via Work Order</div>
         <button class="term-btn" id="refreshFilesBtn" type="button" disabled>[R] Refresh</button>
       </div>
       <div class="panel-body">
@@ -531,27 +532,7 @@ Waiting for a saved Work Order.</pre>
     // Physical artifacts are shown in the Suitcase directory; no separate mapping panel.
   }
 
-  function csvCell(value){
-    const text=String(value??'');
-    return /[",\r\n]/.test(text) ? `"${text.replace(/"/g,'""')}"` : text;
-  }
-
-  function parseCsvLine(line){
-    const out=[];let field='',quoted=false;
-    for(let i=0;i<line.length;i++){
-      const ch=line[i];
-      if(quoted){
-        if(ch==='"'){if(line[i+1]==='"'){field+='"';i++}else quoted=false}
-        else field+=ch;
-      }else{
-        if(ch==='"')quoted=true;
-        else if(ch===','){out.push(field);field=''}
-        else field+=ch;
-      }
-    }
-    out.push(field);return out;
-  }
-
+  // Alias state is read-only in the browser directory. Governed Work Orders own alias mutation.
   async function loadAliasMapFromSuitcase(){
     aliases=new Map();
     if(!suitcaseHandle)return;
@@ -571,45 +552,7 @@ Waiting for a saved Work Order.</pre>
     }
   }
 
-  async function saveAliasMapToSuitcase(){
-    if(!suitcaseHandle)throw new Error('Suitcase not authorized');
-    const rows=[['alias','filename'],...Array.from(aliases.entries()).map(([filename,alias])=>[alias,filename]).sort((a,b)=>a[0].localeCompare(b[0],undefined,{sensitivity:'base'}))];
-    const csv=rows.map(r=>r.map(csvCell).join(',')).join('\n')+'\n';
-    await writeTextToSuitcase(ALIAS_MAP_FILENAME,csv,'text/csv');
-  }
-
   function aliasKey(value){return String(value??'').trim().toLocaleLowerCase()}
-
-  async function updateAlias(filename,newValue,input){
-    const next=String(newValue??'').trim();
-    const prior=aliases.get(filename)||'';
-    if(filename===ALIAS_MAP_FILENAME){if(input)input.value='';return}
-    if(next){
-      const key=aliasKey(next);
-      const physicalCollision=suitcaseFiles.find(item=>item.name!==filename&&aliasKey(item.name)===key);
-      if(physicalCollision){
-        if(input)input.value=prior;
-        emitHelp({code:'PROTOTYPE-ALIAS-SHADOWS-FILENAME',severity:'ERROR',phase:'ALIAS MAP',observed:`Alias “${next}” conflicts with the physical filename ${physicalCollision.name}.`,next:'Choose an alias that does not match another visible Suitcase filename.',facts:{alias:next,requested_filename:filename,conflicting_filename:physicalCollision.name,mapping_file:ALIAS_MAP_FILENAME}});
-        return;
-      }
-      const collision=Array.from(aliases.entries()).find(([otherFile,otherAlias])=>otherFile!==filename&&aliasKey(otherAlias)===key);
-      if(collision){
-        if(input)input.value=prior;
-        emitHelp({code:'PROTOTYPE-ALIAS-DUPLICATE',severity:'ERROR',phase:'ALIAS MAP',observed:`Alias “${next}” is already assigned to ${collision[0]}.`,next:'Choose a unique alias. Existing alias assignments are not silently reassigned.',facts:{alias:next,requested_filename:filename,existing_filename:collision[0],mapping_file:ALIAS_MAP_FILENAME}});
-        return;
-      }
-      aliases.set(filename,next);
-    }else aliases.delete(filename);
-    try{
-      await saveAliasMapToSuitcase();
-      await refreshSuitcaseFilesFromSuitcase();
-      emitHelp({code:'PROTOTYPE-ALIAS-MAP-UPDATED',severity:'INFO',phase:'ALIAS MAP',observed:next?`Alias “${next}” now maps to ${filename}.`:`The alias for ${filename} was cleared.`,next:'Work Orders may refer to a physical filename or to a unique alias from the Suitcase directory.',facts:{filename,alias:next||null,mapping_file:ALIAS_MAP_FILENAME,mapping_file_updated:true,physical_file_renamed:false,physical_file_rewritten:false}});
-    }catch(err){
-      if(prior)aliases.set(filename,prior);else aliases.delete(filename);
-      if(input)input.value=prior;
-      emitHelp({code:'PROTOTYPE-ALIAS-MAP-WRITE-FAILED',severity:'ERROR',phase:'ALIAS MAP',observed:'The alias mapping file could not be updated.',next:'Check Suitcase write permission and try again.',facts:{filename,alias:next,error:String(err),mapping_file:ALIAS_MAP_FILENAME}});
-    }
-  }
 
   function resolveSuitcaseFile(reference){
     const token=String(reference??'').trim();
@@ -691,16 +634,12 @@ Waiting for a saved Work Order.</pre>
       const alias=aliases.get(item.name)||'';
       const aliasCell=systemMap
         ? '<span class="tiny-badge lock">SYSTEM MAP</span>'
-        : `<input class="alias-input" data-alias-file="${esc(item.name)}" value="${esc(alias)}" placeholder="Add alias" maxlength="120" aria-label="Alias for ${esc(item.name)}">`;
+        : (alias
+          ? `<span class="alias-display" title="Alias assigned through governed Work Order">${esc(alias)}</span>`
+          : '<span class="alias-display empty" title="No alias assigned · assign aliases through a governed Work Order">—</span>');
       const openTitle=isSavedWorkOrderName(item.name)?`Double-click to load ${item.name} into the Work Order editor`:`Double-click to open ${item.name}`;
       return `<tr class="file-entry" data-open-file="${esc(item.name)}" title="${esc(openTitle)}"><td class="filename">${esc(item.name)}</td><td>${aliasCell}</td><td class="file-kind">${esc(type)}</td><td class="file-size">${esc(formatBytes(item.size))}</td></tr>`;
     }).join('');
-    suitcaseFilesBody.querySelectorAll('.alias-input').forEach(inp=>{
-      inp.addEventListener('change',e=>updateAlias(e.target.dataset.aliasFile,e.target.value,e.target));
-      inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}});
-      // Editing an alias is metadata work; it must not accidentally open the file.
-      inp.addEventListener('dblclick',e=>e.stopPropagation());
-    });
     suitcaseFilesBody.querySelectorAll('tr[data-open-file]').forEach(row=>{
       row.addEventListener('dblclick',e=>{
         if(e.target.closest('input,button,select,textarea,a'))return;
@@ -843,7 +782,7 @@ Waiting for a saved Work Order.</pre>
     if(!sourceResolution){
       appendExecution('REFUSED · source alias or filename not found in Suitcase');
       sourceFile=null;headers=[];selectedHeader=null;ctxSource.textContent='SOURCE NOT FOUND';ctxSource.className='v err';ctxHeaders.textContent='NOT SCANNED';ctxHeaders.className='v wait';ctxColumn.textContent='NONE';ctxColumn.className='v wait';renderHeaders();
-      emitHelp({code:'PROTOTYPE-SOURCE-NOT-FOUND',severity:'ERROR',phase:'RUN',observed:`Source “${spec.source}” did not resolve to a Suitcase filename or alias.`,next:'Correct the SOURCE line in a new Work Order, or create the intended alias in the Suitcase directory.',facts:{source_requested:spec.source,suitcase:suitcaseHandle.name,mapping_file:ALIAS_MAP_FILENAME}});return;
+      emitHelp({code:'PROTOTYPE-SOURCE-NOT-FOUND',severity:'ERROR',phase:'RUN',observed:`Source “${spec.source}” did not resolve to a Suitcase filename or alias.`,next:'Correct the SOURCE line in a new Work Order, or assign the intended alias through a governed Work Order.',facts:{source_requested:spec.source,suitcase:suitcaseHandle.name,mapping_file:ALIAS_MAP_FILENAME}});return;
     }
     const sourceItem=sourceResolution.item;
     if(!sourceItem.name.toLowerCase().endsWith('.csv')){
@@ -926,7 +865,7 @@ Waiting for a saved Work Order.</pre>
   }
 
   function fullHelp(){if(!currentDiagnostic)return;const d=currentDiagnostic;diagArea.innerHTML=`<span class="${d.severity==='ERROR'?'sev':(d.severity==='INFO'?'info':'help')}">${esc(d.severity)} · ${esc(d.code)} · FULL HELP</span><div style="margin-top:12px"><strong style="color:var(--accent3)">Casual</strong><br>${esc(wording(d,'casual'))}</div><div style="margin-top:12px"><strong style="color:var(--accent3)">Office Speak</strong><br>${esc(wording(d,'office'))}</div><div style="margin-top:12px"><strong style="color:var(--accent3)">Technical</strong><br>${esc(wording(d,'technical'))}</div><dl class="diag-grid"><dt>Canonical facts</dt><dd>${esc(JSON.stringify(d.facts||{},null,2))}</dd><dt>Phase</dt><dd>${esc(d.phase)}</dd></dl>`}
-  function genericHelp(){emitHelp({code:'PROTOTYPE-HELP',severity:'HELP',phase:'WORKSPACE',observed:'Data Sculptor follows a governed sequence: validate the Suitcase, author and save a Work Order, then run that saved artifact.',next:suitcaseValidated?'Author and save a new Work Order, or choose a saved WKO TXT in the Work Order editor and load it. Double-clicking the same WKO in the Suitcase directory also loads it.':'Choose and validate the Suitcase.',facts:{prototype:true,storage_engine_surface:true,help_engine_surface:true,saved_work_orders_immutable:true,work_order_editor_loads_saved_files:true,alias_editable:true,alias_mapping_file:ALIAS_MAP_FILENAME}})}
+  function genericHelp(){emitHelp({code:'PROTOTYPE-HELP',severity:'HELP',phase:'WORKSPACE',observed:'Data Sculptor follows a governed sequence: validate the Suitcase, author and save a Work Order, then run that saved artifact.',next:suitcaseValidated?'Author and save a new Work Order, or choose a saved WKO TXT in the Work Order editor and load it. Double-clicking the same WKO in the Suitcase directory also loads it.':'Choose and validate the Suitcase.',facts:{prototype:true,storage_engine_surface:true,help_engine_surface:true,saved_work_orders_immutable:true,work_order_editor_loads_saved_files:true,alias_editable_in_gui:false,alias_assignment_surface:'WORK ORDER',alias_mapping_file:ALIAS_MAP_FILENAME}})}
 
   workOrder.addEventListener('input',()=>{
     if(workOrderMode==='saved'){
