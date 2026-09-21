@@ -191,11 +191,15 @@
           <div style="height:10px"></div>
           <div class="editor-wrap">
             <pre id="highlight" class="editor-highlight" aria-hidden="true"></pre>
-            <textarea id="workOrder" aria-label="WASM-002 Work Order editor" spellcheck="false" disabled># Illustrative WASM-002 Work Order — grammar not frozen
-OPERATION: MATERIALIZE
-SOURCE: 35100178.csv
-COLUMN: VALUE
-OUTPUT: SUITCASE</textarea>
+            <textarea id="workOrder" aria-label="WASM-002 Work Order editor" spellcheck="false" disabled>SUITCASE: .
+SOURCE "35100178.csv"
+
+KEEP
+  HEADER "REF_DATE" AS "Year"
+  HEADER "GEO"
+  COLUMN 7 AS "Crime Rate"
+
+MATERIALIZE</textarea>
           </div>
           <div class="actions" aria-label="Work Order actions">
             <button class="primary-btn" id="saveWorkOrderBtn" type="button" disabled>Save NEW Work Order TXT</button>
@@ -797,16 +801,44 @@ Waiting for a saved Work Order.</pre>
     const writable=await handle.createWritable();await writable.write(new Blob([text],{type:mime+';charset=utf-8'}));await writable.close();return handle
   }
 
-  function validateWorkOrder(text){
-    if(!requireSuitcase('WORK ORDER VALIDATION'))return false;
-    const problems=[];if(!text.trim())problems.push('Draft is empty.');if(!/^OPERATION:\s*\S+/mi.test(text))problems.push('OPERATION is missing.');if(!/^SOURCE:\s*\S+/mi.test(text))problems.push('SOURCE is missing.');if(!/^COLUMN:\s*\S+/mi.test(text))problems.push('COLUMN is missing.');if(!/^OUTPUT:\s*SUITCASE\s*$/mi.test(text))problems.push('OUTPUT: SUITCASE is missing.');
-    if(problems.length){emitHelp({code:'PROTOTYPE-WO-VALIDATION-FAILED',severity:'ERROR',phase:'WORK ORDER VALIDATION',observed:problems.join(' '),next:'Correct the draft and validate again.',facts:{problems}});return false}
-    emitHelp({code:'PROTOTYPE-WO-VALIDATION-PASS',severity:'INFO',phase:'WORK ORDER VALIDATION',observed:'The draft satisfies this prototype’s minimal structural checks.',next:'Save it as a new immutable Work Order TXT when you are ready. Final grammar is still a PRD freeze item.',facts:{prototype_validation_only:true,final_grammar_frozen:false}});return true
+  function parseWorkOrder(text){
+    const lines=text.replace(/\r\n?/g,'\n').split('\n');
+    let suitcase=false,source='',inKeep=false,materialize=false;
+    const selectors=[],problems=[];
+    for(const raw of lines){
+      const line=raw.trim();
+      if(!line)continue;
+      if(/^SUITCASE:\s*\.\s*$/i.test(line)){suitcase=true;continue}
+      let m=line.match(/^SOURCE\s+"([^"]*)"\s*$/i);
+      if(m){source=m[1];continue}
+      if(/^KEEP\s*$/i.test(line)){inKeep=true;continue}
+      if(/^MATERIALIZE\s*$/i.test(line)){materialize=true;inKeep=false;continue}
+      if(inKeep){
+        m=line.match(/^HEADER\s+"([^"]*)"(?:\s+AS\s+"([^"]*)")?\s*$/i);
+        if(m){selectors.push({kind:'HEADER',value:m[1],alias:m[2]??null});continue}
+        m=line.match(/^COLUMN\s+([+-]?\d+)(?:\s+AS\s+"([^"]*)")?\s*$/i);
+        if(m){selectors.push({kind:'COLUMN',value:Number(m[1]),alias:m[2]??null});continue}
+      }
+      problems.push(`Unrecognized line: ${line}`);
+    }
+    if(!suitcase)problems.push('SUITCASE: . is missing.');
+    if(!source)problems.push('SOURCE "..." is missing.');
+    if(!selectors.length)problems.push('KEEP must contain at least one HEADER or COLUMN selector.');
+    if(!materialize)problems.push('MATERIALIZE is missing.');
+    for(const s of selectors){
+      if(s.kind==='COLUMN'&&(!Number.isInteger(s.value)||s.value<1))problems.push(`Invalid 1-based COLUMN ordinal: ${s.value}`);
+      if(s.alias!==null&&!s.alias.length)problems.push('AS alias must not be empty.');
+    }
+    return {suitcase,source,selectors,materialize,problems};
   }
 
-  function parseWorkOrder(text){
-    const get=(key)=>{const m=text.match(new RegExp('^'+key+'\\s*:\\s*(.+)$','mi'));return m?m[1].trim():''};
-    return {operation:get('OPERATION').toUpperCase(),source:get('SOURCE'),column:get('COLUMN'),output:get('OUTPUT').toUpperCase()};
+  function validateWorkOrder(text){
+    if(!requireSuitcase('WORK ORDER VALIDATION'))return false;
+    if(!text.trim()){emitHelp({code:'PROTOTYPE-WO-VALIDATION-FAILED',severity:'ERROR',phase:'WORK ORDER VALIDATION',observed:'Draft is empty.',next:'Enter a DS-STEPS materialization Work Order and validate again.',facts:{problems:['Draft is empty.']}});return false}
+    const spec=parseWorkOrder(text);
+    if(spec.problems.length){emitHelp({code:'PROTOTYPE-WO-VALIDATION-FAILED',severity:'ERROR',phase:'WORK ORDER VALIDATION',observed:spec.problems.join(' '),next:'Correct the draft and validate again.',facts:{problems:spec.problems}});return false}
+    emitHelp({code:'PROTOTYPE-WO-VALIDATION-PASS',severity:'INFO',phase:'WORK ORDER VALIDATION',observed:'The draft satisfies the Revision AL bounded DS-STEPS materialization shape.',next:'Save it as a new immutable Work Order TXT when you are ready. Runtime source/header/alias resolution occurs when the saved Work Order is run.',facts:{prototype_validation_only:true,revision:'AL',selectors:spec.selectors.length}});
+    return true
   }
 
   async function saveNewWorkOrder(){
@@ -831,7 +863,7 @@ Waiting for a saved Work Order.</pre>
     let text='';try{text=await (await item.handle.getFile()).text()}catch(err){emitHelp({code:'PROTOTYPE-RUN-WO-READ-FAILED',severity:'ERROR',phase:'RUN',observed:'The loaded saved Work Order could not be read from the Suitcase.',next:'Re-authorize the Suitcase or double-click another saved Work Order in the directory.',facts:{filename:selectedWorkOrderName,error:String(err)}});return}
     if(!validateWorkOrder(text))return;
     const spec=parseWorkOrder(text);
-    setExecution([`> RUN ${selectedWorkOrderName}`,'WORK ORDER VALIDATED',`Operation: ${spec.operation}`,`Source requested: ${spec.source}`,`Column requested: ${spec.column}`]);
+    setExecution([`> RUN ${selectedWorkOrderName}`,'WORK ORDER VALIDATED','Operation: MATERIALIZE',`Source requested: ${spec.source}`,`KEEP selectors: ${spec.selectors.map(s=>s.kind+' '+s.value+(s.alias!==null?' AS '+s.alias:'')).join(' | ')}`]);
 
     const sourceResolution=resolveSuitcaseFile(spec.source);
     if(!sourceResolution){
@@ -853,21 +885,60 @@ Waiting for a saved Work Order.</pre>
       appendExecution('Reading header…');
       headers=await parseFirstCsvRecord(f);
       appendExecution(`${headers.length} columns detected`);
-      const resolved=headers.find(h=>h===spec.column);
-      if(!resolved){
-        selectedHeader=null;ctxColumn.textContent='COLUMN NOT FOUND';ctxColumn.className='v err';renderHeaders();
-        appendExecution(`REFUSED · column alias not found: ${spec.column}`);
-        emitHelp({code:'PROTOTYPE-COLUMN-NOT-FOUND',severity:'ERROR',phase:'RUN',observed:`Column alias “${spec.column}” was not found in ${f.name}.`,next:'Inspect the detected aliases and create a new Work Order with an exact COLUMN value.',facts:{source:f.name,column_requested:spec.column,detected_headers:headers}});return;
+      const resolvedSelections=[];
+      const seenOrdinals=new Set();
+      const requestedAliases=new Set();
+      for(const sel of spec.selectors){
+        let ordinal=0,header='';
+        if(sel.kind==='HEADER'){
+          const matches=[];for(let i=0;i<headers.length;i++)if(headers[i]===sel.value)matches.push(i+1);
+          if(matches.length!==1){
+            appendExecution(`REFUSED · HEADER "${sel.value}" matched ${matches.length} columns`);
+            emitHelp({code:'PROTOTYPE-COLUMN-HEADER-AMBIGUOUS',severity:'ERROR',phase:'RUN',observed:`HEADER "${sel.value}" matched ${matches.length} source columns.`,next:'Use an exact unique HEADER or a 1-based COLUMN ordinal.',facts:{source:f.name,header:sel.value,matches}});
+            return;
+          }
+          ordinal=matches[0];header=headers[ordinal-1];
+        }else{
+          ordinal=sel.value;
+          if(ordinal<1||ordinal>headers.length){
+            appendExecution(`REFUSED · COLUMN ${ordinal} is outside 1..${headers.length}`);
+            emitHelp({code:'PROTOTYPE-COLUMN-ORDINAL-OUT-OF-RANGE',severity:'ERROR',phase:'RUN',observed:`COLUMN ${ordinal} is outside the source width.`,next:`Use a COLUMN ordinal from 1 through ${headers.length}.`,facts:{source:f.name,ordinal,source_width:headers.length}});
+            return;
+          }
+          header=headers[ordinal-1];
+        }
+        if(seenOrdinals.has(ordinal)){
+          appendExecution(`REFUSED · source column ${ordinal} selected more than once`);
+          emitHelp({code:'PROTOTYPE-COLUMN-DUPLICATE-SELECTION',severity:'ERROR',phase:'RUN',observed:`Source column ${ordinal} was selected more than once.`,next:'Keep only one selector for each source column.',facts:{source:f.name,ordinal,header}});
+          return;
+        }
+        seenOrdinals.add(ordinal);
+        const priorAlias=[...aliases.entries()].find(([fn,a])=>a&&fn&&a);
+        const alias=sel.alias!==null?sel.alias:header; // interaction prototype does not reconstruct logical-key inheritance
+        if(requestedAliases.has(alias)){
+          appendExecution(`REFUSED · duplicate resulting alias: ${alias}`);
+          emitHelp({code:'PROTOTYPE-ALIAS-DUPLICATE',severity:'ERROR',phase:'RUN',observed:`Two selected columns would use alias "${alias}".`,next:'Assign unique aliases with AS in a new Work Order.',facts:{alias}});
+          return;
+        }
+        requestedAliases.add(alias);
+        resolvedSelections.push({ordinal,header,alias});
       }
-      selectedHeader=resolved;ctxColumn.textContent=resolved;ctxColumn.className='v ok';renderHeaders();
-      appendExecution(`Column resolved: ${resolved}`);
+      selectedHeader=resolvedSelections.length===1?resolvedSelections[0].header:`${resolvedSelections.length} columns`;
+      ctxColumn.textContent=resolvedSelections.map(x=>x.alias).join(', ');ctxColumn.className='v ok';renderHeaders();
+      for(const x of resolvedSelections)appendExecution(`Resolved: COLUMN ${x.ordinal} · HEADER "${x.header}" · ALIAS "${x.alias}"`);
       appendExecution('Whole-source certification: SIMULATED');
-      const filename=makeFilename('COL','csv');
-      materialized.push({alias:resolved,filename});renderMappings();
-      appendExecution(`Storage Engine filename: ${filename}`);
+      const created=[];
+      for(const x of resolvedSelections){
+        const filename=makeFilename('COL','csv');
+        materialized.push({alias:x.alias,filename});
+        created.push({ordinal:x.ordinal,header:x.header,alias:x.alias,filename});
+        appendExecution(`Storage Engine filename: ${filename} ← ${x.alias}`);
+      }
+      renderMappings();
       appendExecution('Materialization: SIMULATED · Rust/WASM engine not connected');
+      appendExecution('MAP successor: SIMULATED · Revision AL resolved mapping semantics');
       appendExecution('COMPLETE · interaction prototype');
-      emitHelp({code:'PROTOTYPE-RUN-SIMULATION',severity:'INFO',phase:'RUN',observed:`The saved Work Order resolved source ${spec.source} to ${f.name} and column ${resolved}. The Storage Engine model assigned ${filename}.`,next:'Treat the execution output as interaction evidence only; no Rust/WASM analytical execution occurs in this HTML prototype.',facts:{run_target:selectedWorkOrderName,source_reference:spec.source,resolved_source_filename:f.name,resolved_via:sourceResolution.via,column:resolved,filename,alias_mapping_file:activeAliasMapFilename,transient_editor_is_run_target:false,real_wasm_execution:false,user_clicked_source:false,user_clicked_column:false}});
+      emitHelp({code:'PROTOTYPE-RUN-SIMULATION',severity:'INFO',phase:'RUN',observed:`The saved Work Order resolved ${resolvedSelections.length} KEEP selector(s) against ${f.name}.`,next:'Treat the execution output as interaction evidence only; no Rust/WASM analytical execution occurs in this HTML prototype.',facts:{run_target:selectedWorkOrderName,source_reference:spec.source,resolved_source_filename:f.name,resolved_via:sourceResolution.via,selections:created,alias_mapping_file:activeAliasMapFilename,revision:'AL',transient_editor_is_run_target:false,real_wasm_execution:false,user_clicked_source:false,user_clicked_column:false}});
     }catch(err){
       appendExecution(`FAILED · ${String(err)}`);
       emitHelp({code:'PROTOTYPE-RUN-FAILED',severity:'ERROR',phase:'RUN',observed:'The prototype could not resolve the Work Order against the selected Suitcase.',next:'Review the Help facts and create a corrected Work Order if needed.',facts:{error:String(err),run_target:selectedWorkOrderName}});
