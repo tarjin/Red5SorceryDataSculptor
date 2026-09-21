@@ -285,7 +285,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 043</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 044</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -315,18 +315,18 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 043, Sunday 20 September 2026</div>
+      <div class="state-top">Project state — Day 044, Monday 21 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>WASM-002 specification — continuing the browser-first shared-core contract before any new product implementation begins.</dd>
         <dt>Contract</dt>
-        <dd>WASM-001b remains preserved as an experimental lineage rather than retroactively treated as completed acceptance. The official Product Backlog PRD is the standalone HTML working master: <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">open the current Product Backlog PRD</a>. The current working master is Revision Z with 569 recorded requirements. Per-requirement SCOPE remains the allocation authority, STATUS records lifecycle independently, and PDF renderings remain snapshots rather than the live backlog. WASM-002 is still DRAFT / UNDER REVIEW / NOT FROZEN.</dd>
+        <dd>WASM-001b remains preserved as an experimental lineage rather than retroactively treated as completed acceptance. The official Product Backlog PRD is the standalone HTML working master: <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">open the current Product Backlog PRD</a>. Day 043 landed at Revision AB with 600 recorded requirements. Per-requirement SCOPE remains the allocation authority, STATUS records lifecycle independently, and PDF renderings remain snapshots rather than the live backlog. WASM-002 is still DRAFT / UNDER REVIEW / NOT FROZEN.</dd>
         <dt>Build state</dt>
-        <dd>No WASM-002 production implementation has started. Day 042 moved the Product Backlog PRD from Revision U to Revision Z, used the front-end prototype as non-normative design evidence, made Help a first-class WASM-002 concern, separated generalized PRETTY into WASM-003, tightened the governed artifact namespace, and added an explicit Save Work Order TXT path. The prototype is now newer than the snapshot embedded in Revision Z, so that difference remains an open reconciliation item.</dd>
+        <dd>No WASM-002 production implementation has started. Day 043 consolidated the browser workbench around four distinct responsibilities: Suitcase Directory for what exists, Work Order for what the analyst asked for, Execution Output for what happened, and Help for what needs explanation. Redundant artifact and saved-Work-Order panels were removed; immutable saved Work Orders now load into the editor; edits become new drafts; PRETTY Branding TOML and User Data Dictionary TOML remain save-only prototype surfaces; and Revision AB records composable saved Work Orders with deterministic resolution, order, cycle refusal, failure rules, and complete receipt provenance.</dd>
         <dt>Now building</dt>
-        <dd>Day 043 continues the WASM-002 PRD. The immediate job is to reconcile the newer prototype and explicit TXT Work Order save path with the working master, then keep converting the remaining design direction into explicit, reviewable, testable requirements.</dd>
+        <dd>Day 044 continues WASM-002 requirements work. The immediate job is to reconcile the remaining Day 043 design notes into explicit numbered requirements, preserve the small syntax-first interface, and keep every candidate reviewable and testable before freeze.</dd>
         <dt>Unsettled</dt>
-        <dd class="open">Reconcile the Revision Z prototype snapshot and requirements with the current Save Work Order TXT behavior, then determine which WASM-002 candidates are ready for adversarial review and what evidence each frozen requirement will require for acceptance.</dd>
+        <dd class="open">The next reconciliation pass still has to settle exact Work Order grammar, WIP/WKO lifecycle details, Suitcase-relative path rules, the sequential V1 execution contract, the three-theme presentation boundary, and the acceptance evidence required before any of those candidates become frozen requirements.</dd>
         <dt>Released</dt>
         <dd>Nothing. There is no build to download.</dd>
       </dl>
@@ -906,11 +906,19 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         </div>
       </li>
       <li>
-        <div class="log-day">Day 043<span class="log-date">Sun 20 Sep</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-day">Day 043<span class="log-date">Sun 20 Sep</span><span class="log-tag">Specification</span></div>
         <div class="log-entry">
-          <h3>Continue the WASM-002 PRD</h3>
-          <p>Today continues from Revision Z of the <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">official HTML Product Backlog PRD</a>. The work remains specification, not implementation: reconcile the newer prototype and explicit Save Work Order TXT path with the working master, continue sharpening WASM-002 requirements, keep SCOPE and lifecycle state explicit, and preserve unresolved decisions until they have evidence behind them.</p>
-          <p class="log-after"><b>Planned flight</b>Work through the PRD one bounded decision at a time, keep the HTML backlog authoritative, reconcile the open prototype delta, and bank the next coherent revision before implementation resumes.</p>
+          <h3>The Workbench Found Its Shape</h3>
+          <p>The WASM-002 interface stopped behaving like a collection of prototype panels and consolidated into a smaller system. The Suitcase Directory became the single visible filesystem and artifact-orientation surface; the redundant Suitcase Artifacts and Saved Work Orders panels disappeared; immutable saved Work Orders load into the editor and remain the only runnable Work Orders; editing one creates a new draft rather than changing history. PRETTY Branding TOML and User Data Dictionary TOML were retained as narrowly governed save-only surfaces. The <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">Product Backlog PRD</a> landed at Revision AB with 600 recorded requirements, still draft and not frozen.</p>
+          <p class="log-after"><b>After hours</b>The design was pushed beneath the screen: syntax as the authoritative contract, explicit WIP versus validated WKO lifecycle, Suitcase-relative file resolution, composable Work Orders with explicit data flow, sequential V1 execution, a deliberately small procedural surface above Rust/WASM, three presentation themes, and a reaffirmed boundary between external AI assistance and deterministic local execution. Additional V1 privacy-feature work was kept separately scoped rather than folded into WASM-002.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 044<span class="log-date">Mon 21 Sep</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-entry">
+          <h3>Continue the WASM-002 Requirements</h3>
+          <p>Today begins from Revision AB of the <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">official HTML Product Backlog PRD</a>. The work remains specification, not implementation: reconcile the remaining Day 043 design notes into numbered requirements, keep the syntax-first workbench small, preserve explicit lifecycle and path semantics, and define the acceptance evidence each candidate will need before freeze.</p>
+          <p class="log-after"><b>Planned flight</b>Work through the WASM-002 requirements one bounded decision at a time, keep the HTML backlog authoritative, and bank the next coherent revision without starting production implementation prematurely.</p>
         </div>
       </li>
     </ol>
