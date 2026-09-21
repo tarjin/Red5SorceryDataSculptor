@@ -160,7 +160,7 @@
     <article class="panel span-2" aria-labelledby="files-title">
       <div class="panel-head">
         <div id="files-title" class="panel-title">Suitcase directory</div>
-        <div class="panel-note">Aliases display only · Work Order governs changes · latest valid MAP is default</div>
+        <div class="panel-note">Column aliases display only · latest valid MAP is display default · Work Order may bind history</div>
         <button class="term-btn" id="refreshFilesBtn" type="button" disabled>[R] Refresh</button>
       </div>
       <div class="panel-body">
@@ -555,11 +555,12 @@ Waiting for a saved Work Order.</pre>
   }
 
   // Alias state is read-only in the browser directory. Governed Work Orders own alias mutation.
-  // Prototype discovery uses the provisional alias CSV header alias,filename. The PRD remains authoritative.
+  // Revision AK: display aliases from the canonical five-column materialized-column MAP.
   async function loadAliasMapFromSuitcase(){
     aliases=new Map();
     activeAliasMapFilename=null;
     if(!suitcaseHandle)return;
+    const expectedHeader=['source_filename','source_column_number','source_header','alias','column_filename'];
     const candidates=[];
     for(const item of suitcaseFiles){
       const ident=aliasMapIdentity(item.name);
@@ -567,14 +568,29 @@ Waiting for a saved Work Order.</pre>
       try{
         const file=item.file||await item.handle.getFile();
         const text=await file.text();
-        const lines=text.replace(/^\uFEFF/,'').split(/\r?\n/).filter(Boolean);
+        if(text.charCodeAt(0)===0xFEFF)continue; // canonical MAP is UTF-8 without BOM
+        const lines=text.split(/\n/).filter((line,i,arr)=>!(i===arr.length-1&&line===''));
         if(!lines.length)continue;
-        const header=parseCsvLine(lines[0]).map(x=>String(x||'').trim().toLowerCase());
-        if(header[0]!=='alias'||header[1]!=='filename')continue;
-        candidates.push({item,ident,lines});
+        const header=parseCsvLine(lines[0].replace(/\r$/,'')).map(x=>String(x??''));
+        if(header.length!==expectedHeader.length||header.some((v,i)=>v!==expectedHeader[i]))continue;
+        const rows=[];
+        const keys=new Set();
+        let valid=true;
+        for(let i=1;i<lines.length;i++){
+          const row=parseCsvLine(lines[i].replace(/\r$/,''));
+          if(row.length!==5){valid=false;break}
+          const [sourceFilename,columnNumberText,sourceHeader,alias,columnFilename]=row;
+          const columnNumber=Number(columnNumberText);
+          const key=`${sourceFilename}\u0000${columnNumberText}\u0000${sourceHeader}`;
+          if(!sourceFilename||!Number.isInteger(columnNumber)||columnNumber<1||!alias||!columnFilename||keys.has(key)){valid=false;break}
+          const target=suitcaseFiles.find(x=>x.name===columnFilename);
+          if(!target||!/^__DS__COL__\d{8}T\d{9}Z__[0-9a-f-]{36}\.[a-z0-9]+$/.test(columnFilename)){valid=false;break}
+          keys.add(key);
+          rows.push({sourceFilename,columnNumber,sourceHeader,alias,columnFilename});
+        }
+        if(valid)candidates.push({item,ident,rows});
       }catch(err){
-        emitHelp({code:'PROTOTYPE-ALIAS-MAP-READ-FAILED',severity:'ERROR',phase:'ALIAS MAP',observed:`Candidate alias MAP ${item.name} could not be read.`,next:'Inspect the MAP artifact or choose an explicit historical MAP through the governed Work Order once that syntax is frozen.',facts:{mapping_file:item.name,error:String(err)}});
-        return;
+        emitHelp({code:'PROTOTYPE-ALIAS-MAP-READ-FAILED',severity:'ERROR',phase:'ALIAS MAP',observed:`Candidate alias MAP ${item.name} could not be read.`,next:'Inspect the MAP artifact or explicitly name a valid historical MAP in the governed Work Order once that syntax is frozen.',facts:{mapping_file:item.name,error:String(err)}});
       }
     }
     if(!candidates.length)return;
@@ -582,15 +598,12 @@ Waiting for a saved Work Order.</pre>
     const newestStamp=candidates[0].ident.timestamp;
     const newest=candidates.filter(x=>x.ident.timestamp===newestStamp);
     if(newest.length!==1){
-      emitHelp({code:'PROTOTYPE-ALIAS-MAP-AMBIGUOUS-LATEST',severity:'ERROR',phase:'ALIAS MAP',observed:`${newest.length} valid alias MAP artifacts share the latest UTC millisecond timestamp ${newestStamp}.`,next:'Do not infer chronology from UUID. A governed Work Order must identify the exact MAP to use.',facts:{latest_timestamp:newestStamp,candidate_maps:newest.map(x=>x.item.name),uuid_is_not_chronology:true}});
+      emitHelp({code:'PROTOTYPE-ALIAS-MAP-AMBIGUOUS-LATEST',severity:'ERROR',phase:'ALIAS MAP',observed:`${newest.length} valid alias MAP artifacts share the latest UTC millisecond timestamp ${newestStamp}.`,next:'Do not infer chronology from UUID. Explicitly identify the MAP to use in the governed Work Order.',facts:{latest_timestamp:newestStamp,candidate_maps:newest.map(x=>x.item.name),uuid_is_not_chronology:true}});
       return;
     }
     const chosen=newest[0];
     activeAliasMapFilename=chosen.item.name;
-    for(let i=1;i<chosen.lines.length;i++){
-      const [alias,filename]=parseCsvLine(chosen.lines[i]);
-      if(alias&&filename)aliases.set(filename,alias);
-    }
+    for(const row of chosen.rows)aliases.set(row.columnFilename,row.alias);
   }
 
   function aliasKey(value){return String(value??'').trim().toLocaleLowerCase()}
@@ -907,7 +920,7 @@ Waiting for a saved Work Order.</pre>
   }
 
   function fullHelp(){if(!currentDiagnostic)return;const d=currentDiagnostic;diagArea.innerHTML=`<span class="${d.severity==='ERROR'?'sev':(d.severity==='INFO'?'info':'help')}">${esc(d.severity)} · ${esc(d.code)} · FULL HELP</span><div style="margin-top:12px"><strong style="color:var(--accent3)">Casual</strong><br>${esc(wording(d,'casual'))}</div><div style="margin-top:12px"><strong style="color:var(--accent3)">Office Speak</strong><br>${esc(wording(d,'office'))}</div><div style="margin-top:12px"><strong style="color:var(--accent3)">Technical</strong><br>${esc(wording(d,'technical'))}</div><dl class="diag-grid"><dt>Canonical facts</dt><dd>${esc(JSON.stringify(d.facts||{},null,2))}</dd><dt>Phase</dt><dd>${esc(d.phase)}</dd></dl>`}
-  function genericHelp(){emitHelp({code:'PROTOTYPE-HELP',severity:'HELP',phase:'WORKSPACE',observed:'Data Sculptor follows a governed sequence: validate the Suitcase, author and save a Work Order, then run that saved artifact.',next:suitcaseValidated?'Author and save a new Work Order, or choose a saved WKO TXT in the Work Order editor and load it. Double-clicking the same WKO in the Suitcase directory also loads it.':'Choose and validate the Suitcase.',facts:{prototype:true,storage_engine_surface:true,help_engine_surface:true,saved_work_orders_immutable:true,work_order_editor_loads_saved_files:true,alias_editable_in_gui:false,alias_assignment_surface:'WORK ORDER',alias_mapping_file:activeAliasMapFilename}})}
+  function genericHelp(){emitHelp({code:'PROTOTYPE-HELP',severity:'HELP',phase:'WORKSPACE',observed:'Data Sculptor follows a governed sequence: validate the Suitcase, author and save a Work Order, then run that saved artifact.',next:suitcaseValidated?'Author and save a new Work Order, or choose a saved WKO TXT in the Work Order editor and load it. Double-clicking the same WKO in the Suitcase directory also loads it.':'Choose and validate the Suitcase.',facts:{prototype:true,storage_engine_surface:true,help_engine_surface:true,saved_work_orders_immutable:true,work_order_editor_loads_saved_files:true,alias_editable_in_gui:false,alias_assignment_surface:'WORK ORDER + MATERIALIZATION DEFAULTS',alias_mapping_file:activeAliasMapFilename}})}
 
   workOrder.addEventListener('input',()=>{
     if(workOrderMode==='saved'){
