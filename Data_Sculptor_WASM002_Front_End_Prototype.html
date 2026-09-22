@@ -121,7 +121,7 @@
   <header class="topline">
     <div>
       <div class="brand"><strong>Red<span class="brand-five">5</span>Sorcery</strong> / Data Sculptor / WASM-002</div>
-      <div class="brand" style="margin-top:5px;color:var(--muted)">Browser front-end design prototype · Day 044</div>
+      <div class="brand" style="margin-top:5px;color:var(--muted)">Browser front-end design prototype · Day 045</div>
     </div>
     <div class="head-right">
       <span class="pill warn"><span class="dot"></span>DRAFT / NOT FROZEN</span>
@@ -149,7 +149,7 @@
           <div>
             <div class="gate-kicker">Required first · Suitcase gate</div>
             <div class="gate-title" id="suitcase-gate-title">Validate where Data Sculptor work belongs</div>
-            <div class="gate-copy">Choose one writable Suitcase folder to begin.</div>
+            <div class="gate-copy">Choose one writable Suitcase folder. Data Sculptor validates it only after successfully creating, completely writing, and closing a retained governed HTML Suitcase Validation Certificate.</div>
           </div>
           <button class="primary-btn" id="suitcaseBtn" type="button">Choose &amp; validate Suitcase</button>
         </div>
@@ -186,12 +186,11 @@
             </div>
             <button class="term-btn" id="loadWorkOrderBtn" type="button" disabled>[L] Load</button>
           </div>
-          <label class="field-label" for="draftDescription">Description</label>
-          <input class="text-input" id="draftDescription" type="text" value="" placeholder="Optional description for this Work Order" maxlength="180" disabled />
-          <div style="height:10px"></div>
           <div class="editor-wrap">
             <pre id="highlight" class="editor-highlight" aria-hidden="true"></pre>
-            <textarea id="workOrder" aria-label="WASM-002 Work Order editor" spellcheck="false" disabled>SUITCASE: .
+            <textarea id="workOrder" aria-label="WASM-002 Work Order editor" spellcheck="false" disabled># Human-facing Work Order name and comments live in the WKO itself
+SUITCASE: .
+WORK ORDER AS "Prepare monthly crime data"
 SOURCE "35100178.csv"
 
 KEEP
@@ -285,7 +284,6 @@ Waiting for a saved Work Order.</pre>
 (() => {
   const workOrder=document.getElementById('workOrder');
   const highlight=document.getElementById('highlight');
-  const draftDescription=document.getElementById('draftDescription');
   const woTitle=document.getElementById('wo-title');
   const woModeNote=document.getElementById('woModeNote');
   const draftState=document.getElementById('draftState');
@@ -324,8 +322,11 @@ Waiting for a saved Work Order.</pre>
   let selectedWorkOrderName=null;
   let workOrderMode='new'; // new | saved | derived
   let loadedSavedWorkOrderName=null;
-  let descriptions=new Map();
-  let aliases=new Map(); // physical filename -> human-facing alias
+  let aliases=new Map(); // Store/COL physical filename -> human-facing alias
+  let wkoAliases=new Map(); // WKO physical filename -> Work Order alias
+  let activeWkoAliasMapFilename=null;
+  let activeWkoRows=[];
+  let suitcaseCertificateFilename=null;
   const ALIAS_MAP_RE=/^__DS__MAP__(\d{8}T\d{9}Z)__([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})\.csv$/;
   let activeAliasMapFilename=null;
   let currentDiagnostic=null;
@@ -408,7 +409,10 @@ Waiting for a saved Work Order.</pre>
       savedWorkOrderSelect.innerHTML='<option value="">No saved Work Orders in this Suitcase</option>';
       savedWorkOrderSelect.disabled=true;loadWorkOrderBtn.disabled=true;return;
     }
-    savedWorkOrderSelect.innerHTML='<option value="">Choose a saved Work Order…</option>'+saved.map(item=>`<option value="${esc(item.name)}">${esc(item.name)}</option>`).join('');
+    savedWorkOrderSelect.innerHTML='<option value="">Choose a saved Work Order (alias or filename)…</option>'+saved.map(item=>{
+      const label=wkoAliases.get(item.name)||item.name;
+      return `<option value="${esc(item.name)}">${esc(label)}</option>`;
+    }).join('');
     savedWorkOrderSelect.disabled=false;
     const preferred=(workOrderMode==='saved'&&selectedWorkOrderName)?selectedWorkOrderName:(loadedSavedWorkOrderName||previous);
     if(preferred&&saved.some(item=>item.name===preferred))savedWorkOrderSelect.value=preferred;
@@ -472,7 +476,6 @@ Waiting for a saved Work Order.</pre>
       const file=item.file||await item.handle.getFile();
       const text=await file.text();
       workOrder.value=text;
-      draftDescription.value=descriptions.get(item.name)||'';
       selectedWorkOrderName=item.name;
       loadedSavedWorkOrderName=item.name;
       workOrderMode='saved';
@@ -490,7 +493,6 @@ Waiting for a saved Work Order.</pre>
     const locked=!suitcaseValidated;
     refreshFilesBtn.disabled=locked;
     workOrder.disabled=locked;
-    draftDescription.disabled=locked;
     saveWorkOrderBtn.disabled=locked;
     validateBtn.disabled=locked;
     runBtn.disabled=true;
@@ -510,7 +512,7 @@ Waiting for a saved Work Order.</pre>
       updateWorkOrderUi();
     }else{
       suitcaseGate.classList.add('ready');
-      suitcaseGateStatus.textContent=`VALIDATED · selected folder: ${suitcaseHandle.name} · workspace unlocked`;
+      suitcaseGateStatus.textContent=`VALIDATED · CER retained: ${suitcaseCertificateFilename||'certificate saved'} · workspace unlocked`;
       suitcaseBtn.textContent='Change & revalidate Suitcase';
       if(!sourceFile){
         ctxSource.textContent='AWAITING WORK ORDER';ctxSource.className='v wait';
@@ -559,12 +561,12 @@ Waiting for a saved Work Order.</pre>
   }
 
   // Alias state is read-only in the browser directory. Governed Work Orders own alias mutation.
-  // Revision AK: display aliases from the canonical five-column materialized-column MAP.
+  // Store MAP and WKO MAP are separate profiles of the same governed MAP artifact class.
   async function loadAliasMapFromSuitcase(){
     aliases=new Map();
     activeAliasMapFilename=null;
     if(!suitcaseHandle)return;
-    const expectedHeader=['source_filename','source_column_number','source_header','alias','column_filename'];
+    const expectedHeader=['store_alias','store_source_filename','rid_filename','rid_alias','source_filename','source_column_number','source_header','alias','column_filename'];
     const candidates=[];
     for(const item of suitcaseFiles){
       const ident=aliasMapIdentity(item.name);
@@ -572,29 +574,78 @@ Waiting for a saved Work Order.</pre>
       try{
         const file=item.file||await item.handle.getFile();
         const text=await file.text();
-        if(text.charCodeAt(0)===0xFEFF)continue; // canonical MAP is UTF-8 without BOM
+        if(text.charCodeAt(0)===0xFEFF)continue;
         const lines=text.split(/\n/).filter((line,i,arr)=>!(i===arr.length-1&&line===''));
         if(!lines.length)continue;
         const header=parseCsvLine(lines[0].replace(/\r$/,'')).map(x=>String(x??''));
         if(header.length!==expectedHeader.length||header.some((v,i)=>v!==expectedHeader[i]))continue;
         const rows=[];
         const keys=new Set();
-        let valid=true;
+        let valid=true,storeMeta=null;
         for(let i=1;i<lines.length;i++){
           const row=parseCsvLine(lines[i].replace(/\r$/,''));
-          if(row.length!==5){valid=false;break}
-          const [sourceFilename,columnNumberText,sourceHeader,alias,columnFilename]=row;
+          if(row.length!==9){valid=false;break}
+          const [storeAlias,storeSourceFilename,ridFilename,ridAlias,sourceFilename,columnNumberText,sourceHeader,alias,columnFilename]=row;
           const columnNumber=Number(columnNumberText);
           const key=`${sourceFilename}\u0000${columnNumberText}\u0000${sourceHeader}`;
+          const meta=[storeAlias,storeSourceFilename,ridFilename,ridAlias];
+          if(!storeMeta)storeMeta=meta;
+          if(meta.some((v,j)=>v!==storeMeta[j])){valid=false;break}
           if(!sourceFilename||!Number.isInteger(columnNumber)||columnNumber<1||!alias||!columnFilename||keys.has(key)){valid=false;break}
           const target=suitcaseFiles.find(x=>x.name===columnFilename);
-          if(!target||!/^__DS__COL__\d{8}T\d{9}Z__[0-9a-f-]{36}\.[a-z0-9]+$/.test(columnFilename)){valid=false;break}
+          if(!target||!/^__DS__COL__\d{8}T\d{9}Z__[0-9a-f-]{36}\.[a-z0-9]+$/i.test(columnFilename)){valid=false;break}
           keys.add(key);
-          rows.push({sourceFilename,columnNumber,sourceHeader,alias,columnFilename});
+          rows.push({alias,columnFilename});
         }
         if(valid)candidates.push({item,ident,rows});
       }catch(err){
-        emitHelp({code:'PROTOTYPE-ALIAS-MAP-READ-FAILED',severity:'ERROR',phase:'ALIAS MAP',observed:`Candidate alias MAP ${item.name} could not be read.`,next:'Inspect the MAP artifact or explicitly name a valid historical MAP in the governed Work Order once that syntax is frozen.',facts:{mapping_file:item.name,error:String(err)}});
+        emitHelp({code:'PROTOTYPE-STORE-MAP-READ-FAILED',severity:'ERROR',phase:'STORE MAP',observed:`Candidate Store MAP ${item.name} could not be read.`,next:'Inspect the MAP artifact. The prototype will not guess around an unreadable governed map.',facts:{mapping_file:item.name,error:String(err)}});
+      }
+    }
+    if(!candidates.length)return;
+    candidates.sort((a,b)=>b.ident.timestamp.localeCompare(a.ident.timestamp));
+    const newestStamp=candidates[0].ident.timestamp;
+    const newest=candidates.filter(x=>x.ident.timestamp===newestStamp);
+    if(newest.length!==1)return;
+    const chosen=newest[0];
+    activeAliasMapFilename=chosen.item.name;
+    for(const row of chosen.rows)aliases.set(row.columnFilename,row.alias);
+  }
+
+  async function loadWkoAliasMapFromSuitcase(){
+    wkoAliases=new Map();
+    activeWkoAliasMapFilename=null;
+    activeWkoRows=[];
+    if(!suitcaseHandle)return;
+    const expectedHeader=['wko_alias','wko_filename'];
+    const candidates=[];
+    for(const item of suitcaseFiles){
+      const ident=aliasMapIdentity(item.name);
+      if(!ident)continue;
+      try{
+        const file=item.file||await item.handle.getFile();
+        const text=await file.text();
+        if(text.charCodeAt(0)===0xFEFF)continue;
+        const lines=text.split(/\n/).filter((line,i,arr)=>!(i===arr.length-1&&line===''));
+        if(!lines.length)continue;
+        const header=parseCsvLine(lines[0].replace(/\r$/,'')).map(x=>String(x??''));
+        if(header.length!==2||header.some((v,i)=>v!==expectedHeader[i]))continue;
+        const rows=[],filenames=new Set(),nonEmptyAliases=new Set();
+        let valid=true;
+        for(let i=1;i<lines.length;i++){
+          const row=parseCsvLine(lines[i].replace(/\r$/,''));
+          if(row.length!==2){valid=false;break}
+          const [alias,wkoFilename]=row;
+          if(!isSavedWorkOrderName(wkoFilename)||filenames.has(wkoFilename)){valid=false;break}
+          const target=suitcaseFiles.find(x=>x.name===wkoFilename);
+          if(!target){valid=false;break}
+          if(alias){const k=aliasKey(alias);if(nonEmptyAliases.has(k)){valid=false;break}nonEmptyAliases.add(k)}
+          filenames.add(wkoFilename);
+          rows.push({alias,wkoFilename});
+        }
+        if(valid)candidates.push({item,ident,rows});
+      }catch(err){
+        emitHelp({code:'PROTOTYPE-WKO-MAP-READ-FAILED',severity:'ERROR',phase:'WKO MAP',observed:`Candidate WKO MAP ${item.name} could not be read.`,next:'Inspect the MAP artifact. Saved Work Orders remain addressable by physical filename.',facts:{mapping_file:item.name,error:String(err)}});
       }
     }
     if(!candidates.length)return;
@@ -602,12 +653,23 @@ Waiting for a saved Work Order.</pre>
     const newestStamp=candidates[0].ident.timestamp;
     const newest=candidates.filter(x=>x.ident.timestamp===newestStamp);
     if(newest.length!==1){
-      emitHelp({code:'PROTOTYPE-ALIAS-MAP-AMBIGUOUS-LATEST',severity:'ERROR',phase:'ALIAS MAP',observed:`${newest.length} valid alias MAP artifacts share the latest UTC millisecond timestamp ${newestStamp}.`,next:'Do not infer chronology from UUID. Explicitly identify the MAP to use in the governed Work Order.',facts:{latest_timestamp:newestStamp,candidate_maps:newest.map(x=>x.item.name),uuid_is_not_chronology:true}});
+      emitHelp({code:'PROTOTYPE-WKO-MAP-AMBIGUOUS-LATEST',severity:'ERROR',phase:'WKO MAP',observed:`${newest.length} valid WKO MAP artifacts share the latest UTC millisecond timestamp ${newestStamp}.`,next:'The prototype will fall back to physical WKO filenames rather than guess which alias registry is current.',facts:{latest_timestamp:newestStamp,candidate_maps:newest.map(x=>x.item.name)}});
       return;
     }
     const chosen=newest[0];
-    activeAliasMapFilename=chosen.item.name;
-    for(const row of chosen.rows)aliases.set(row.columnFilename,row.alias);
+    activeWkoAliasMapFilename=chosen.item.name;
+    activeWkoRows=chosen.rows.slice();
+    for(const row of chosen.rows)if(row.alias)wkoAliases.set(row.wkoFilename,row.alias);
+  }
+
+  function csvField(value){
+    const s=String(value??'');
+    return /[",\r\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s;
+  }
+
+  function buildWkoMapCsv(rows){
+    const sorted=rows.slice().sort((a,b)=>a.wkoFilename.localeCompare(b.wkoFilename));
+    return 'wko_alias,wko_filename\n'+sorted.map(r=>`${csvField(r.alias)},${csvField(r.wkoFilename)}`).join('\n')+'\n';
   }
 
   function aliasKey(value){return String(value??'').trim().toLocaleLowerCase()}
@@ -689,13 +751,15 @@ Waiting for a saved Work Order.</pre>
       const csv=lower.endsWith('.csv');
       const type=csv?'CSV':(lower.endsWith('.txt')?'TXT':(lower.endsWith('.html')||lower.endsWith('.htm')?'HTML':(lower.includes('.')?lower.split('.').pop().toUpperCase():'FILE')));
       const aliasMap=Boolean(aliasMapIdentity(item.name));
-      const activeAliasMap=item.name===activeAliasMapFilename;
-      const alias=aliases.get(item.name)||'';
+      const activeStoreMap=item.name===activeAliasMapFilename;
+      const activeWkoMap=item.name===activeWkoAliasMapFilename;
+      const alias=(isSavedWorkOrderName(item.name)?wkoAliases.get(item.name):aliases.get(item.name))||'';
+      const mapLabel=activeStoreMap?'ACTIVE STORE MAP':(activeWkoMap?'ACTIVE WKO MAP':'MAP HISTORY');
       const aliasCell=aliasMap
-        ? `<span class="tiny-badge lock">${activeAliasMap?'ACTIVE ALIAS MAP':'MAP HISTORY'}</span>`
+        ? `<span class="tiny-badge lock">${mapLabel}</span>`
         : (alias
-          ? `<span class="alias-display" title="Alias assigned through governed Work Order">${esc(alias)}</span>`
-          : '<span class="alias-display empty" title="No alias assigned · assign aliases through a governed Work Order">—</span>');
+          ? `<span class="alias-display" title="Alias recorded in governed MAP state">${esc(alias)}</span>`
+          : '<span class="alias-display empty" title="No governed alias recorded">—</span>');
       const openTitle=isSavedWorkOrderName(item.name)?`Double-click to load ${item.name} into the Work Order editor`:`Double-click to open ${item.name}`;
       return `<tr class="file-entry" data-open-file="${esc(item.name)}" title="${esc(openTitle)}"><td class="filename">${esc(item.name)}</td><td>${aliasCell}</td><td class="file-kind">${esc(type)}</td><td class="file-size">${esc(formatBytes(item.size))}</td></tr>`;
     }).join('');
@@ -731,6 +795,7 @@ Waiting for a saved Work Order.</pre>
     found.sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true,sensitivity:'base'}));
     suitcaseFiles=found;
     await loadAliasMapFromSuitcase();
+    await loadWkoAliasMapFromSuitcase();
     if(workOrderMode==='saved' && selectedWorkOrderName && !suitcaseFiles.some(x=>x.name===selectedWorkOrderName)){
       loadedSavedWorkOrderName=selectedWorkOrderName;
       selectedWorkOrderName=null;
@@ -740,11 +805,16 @@ Waiting for a saved Work Order.</pre>
     renderSuitcaseFiles();
   }
 
+  function suitcaseCertificateHtml({filename,utc,uuid}){
+    const safe=x=>esc(x);
+    return `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>Suitcase Validation Certificate</title>\n<style>body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#0b1018;color:#e6edf5;margin:40px;line-height:1.55}main{max-width:900px;margin:auto;border:1px solid #34485d;background:#111a26;padding:28px}h1{margin-top:0;font-size:26px}dl{display:grid;grid-template-columns:180px 1fr;gap:8px 16px}dt{font-weight:700;color:#9fbddd}dd{margin:0;font-family:ui-monospace,Consolas,monospace;overflow-wrap:anywhere}.pass{font-weight:800;color:#88b8a3}.note{margin-top:24px;color:#b8c6d6;border-top:1px solid #34485d;padding-top:18px}</style>\n</head>\n<body>\n<main>\n<h1>Suitcase Validation Certificate</h1>\n<dl>\n<dt>RESULT</dt><dd class="pass">PASS</dd>\n<dt>SUITCASE</dt><dd>.</dd>\n<dt>UTC</dt><dd>${safe(utc)}</dd>\n<dt>UUID</dt><dd>${safe(uuid)}</dd>\n<dt>ARTIFACT</dt><dd>${safe(filename)}</dd>\n<dt>TEST</dt><dd>CREATE_WRITE_CLOSE</dd>\n</dl>\n<p>Data Sculptor successfully created, completely wrote, and closed this governed HTML certificate in the selected Suitcase.</p>\n<p>This certificate establishes that the selected directory was writable by Data Sculptor at the recorded UTC time and accepted the governed artifact filename used for this certificate.</p>\n<p class="note"><strong>Limitations.</strong> This certificate does not certify available disk capacity, guarantee the success of future analytical operations, or certify later SCR-to-final-class rename/publication operations. Presentation uses the built-in Red5Sorcery / Data Sculptor prototype branding.</p>\n</main>\n</body>\n</html>\n`;
+  }
+
   async function authorizeSuitcase(){
     if(!window.showDirectoryPicker){
       suitcaseValidated=false;updateWorkspaceGate();
       ctxSuitcase.textContent='DIRECTORY API UNAVAILABLE';ctxSuitcase.className='v err';
-      emitHelp({code:'PROTOTYPE-SUITCASE-API-UNAVAILABLE',severity:'ERROR',phase:'SUITCASE VALIDATION',observed:'This browser context does not expose the directory picker needed to validate a Suitcase without a Save As filename dialog.',next:'Open the prototype in a current Chromium-based browser context that supports the File System Access API.',facts:{directory_picker:false,no_filename_prompt_required:true,gate_required_first:true}});return;
+      emitHelp({code:'PROTOTYPE-SUITCASE-API-UNAVAILABLE',severity:'ERROR',phase:'SUITCASE VALIDATION',observed:'This browser context does not expose the directory picker needed to create the governed Suitcase Validation Certificate.',next:'Open the prototype in a current Chromium-based browser context that supports the File System Access API.',facts:{directory_picker:false,certificate_required:true,gate_required_first:true}});return;
     }
     try{
       const candidate=await window.showDirectoryPicker({mode:'readwrite'});
@@ -753,33 +823,36 @@ Waiting for a saved Work Order.</pre>
       if(permission!=='granted'&&candidate.requestPermission)permission=await candidate.requestPermission({mode:'readwrite'});
       if(permission!=='granted')throw new Error('Read/write permission was not granted for the selected folder.');
 
-      const probe=`__DS_SCR_SUITCASE_VALIDATION__${utcStamp()}__${uuidV4()}.tmp`;
-      let probeCreated=false;
+      const certificateAt=new Date();
+      const certificateUuid=uuidV4();
+      const certificateUtc=utcStamp(certificateAt);
+      const certificateFilename=makeFilename('CER','html',{at:certificateAt,uuid:certificateUuid});
+      const certificateHtml=suitcaseCertificateHtml({filename:certificateFilename,utc:certificateUtc,uuid:certificateUuid});
       try{
-        const h=await candidate.getFileHandle(probe,{create:true});probeCreated=true;
-        const w=await h.createWritable();await w.write('Red5Sorcery Data Sculptor Suitcase validation probe.\n');await w.close();
-        await candidate.removeEntry(probe);probeCreated=false;
+        const h=await candidate.getFileHandle(certificateFilename,{create:true});
+        const w=await h.createWritable();
+        await w.write(new Blob([certificateHtml],{type:'text/html;charset=utf-8'}));
+        await w.close();
       }catch(err){
-        if(probeCreated){try{await candidate.removeEntry(probe)}catch{}}
-        throw new Error(`Suitcase write/delete validation failed: ${err&&err.message?err.message:String(err)}`);
+        throw new Error(`Suitcase CER create/write/close failed: ${err&&err.message?err.message:String(err)}`);
       }
 
-      suitcaseHandle=candidate;suitcaseValidated=true;
+      suitcaseHandle=candidate;suitcaseCertificateFilename=certificateFilename;suitcaseValidated=true;
       sourceFile=null;headers=[];selectedHeader=null;materialized=[];
-      selectedWorkOrderName=null;loadedSavedWorkOrderName=null;workOrderMode='new';descriptions=new Map();aliases=new Map();
+      selectedWorkOrderName=null;loadedSavedWorkOrderName=null;workOrderMode='new';aliases=new Map();wkoAliases=new Map();activeWkoRows=[];
       ctxSource.textContent='AWAITING WORK ORDER';ctxSource.className='v wait';
       ctxHeaders.textContent='AWAITING RUN';ctxHeaders.className='v wait';
       ctxColumn.textContent='NONE';ctxColumn.className='v wait';
       updateRunTarget();renderHeaders();renderMappings();resetExecution();
       ctxSuitcase.textContent=`${suitcaseHandle.name} · VALIDATED`;ctxSuitcase.className='v ok';
-      ctxSuitcase.title='Selected Suitcase folder name. The browser does not expose the full Windows absolute path to this page.';
+      ctxSuitcase.title=`Validated by retained certificate ${certificateFilename}. The browser does not expose the full Windows absolute path to this page.`;
       updateWorkspaceGate();
       await refreshSuitcaseFilesFromSuitcase();
-      emitHelp({code:'PROTOTYPE-SUITCASE-VALIDATED',severity:'INFO',phase:'SUITCASE VALIDATION',observed:`Suitcase folder “${suitcaseHandle.name}” passed the writable-folder validation gate. Its visible files are now listed in the Suitcase directory.`,next:'Author and save a Work Order. The Work Order names the source and requested column.',facts:{suitcase_folder_name:suitcaseHandle.name,absolute_path_exposed:false,suitcase_validated:true,suitcase_file_count:suitcaseFiles.length,source_selected:false,headers_scanned:false,write_probe_pass:true,probe_removed:true,flat_artifacts:true,no_subfolder_created:true,user_chooses_filename:false}})
+      emitHelp({code:'PROTOTYPE-SUITCASE-VALIDATED',severity:'INFO',phase:'SUITCASE VALIDATION',observed:`Suitcase folder “${suitcaseHandle.name}” is validated because Data Sculptor successfully created, completely wrote, and closed retained certificate ${certificateFilename}.`,next:'Author and save a Work Order, or load an existing saved Work Order.',facts:{suitcase_folder_name:suitcaseHandle.name,absolute_path_exposed:false,suitcase_validated:true,certificate_filename:certificateFilename,certificate_class:'CER',certificate_format:'HTML',test:'CREATE_WRITE_CLOSE',certificate_retained:true,validation_only_delete:false,validation_only_rename:false,suitcase_file_count:suitcaseFiles.length,flat_artifacts:true,no_subfolder_created:true,user_chooses_filename:false}})
     }catch(err){
       if(err&&err.name==='AbortError')return;
-      suitcaseHandle=null;suitcaseValidated=false;updateWorkspaceGate();ctxSuitcase.textContent='VALIDATION FAILED';ctxSuitcase.className='v err';
-      emitHelp({code:'PROTOTYPE-SUITCASE-VALIDATION-FAILED',severity:'ERROR',phase:'SUITCASE VALIDATION',observed:'The selected folder did not pass the Suitcase validation gate.',next:'Choose a writable folder and validate again. No analytical work is enabled until the gate passes.',facts:{suitcase_validated:false,error:String(err),gate_required_first:true}})
+      suitcaseHandle=null;suitcaseCertificateFilename=null;suitcaseValidated=false;updateWorkspaceGate();ctxSuitcase.textContent='VALIDATION FAILED';ctxSuitcase.className='v err';
+      emitHelp({code:'PROTOTYPE-SUITCASE-VALIDATION-FAILED',severity:'ERROR',phase:'SUITCASE VALIDATION',observed:'The selected folder did not pass the Suitcase validation gate because the governed HTML CER could not be successfully created, completely written, and closed.',next:'Choose a writable folder and validate again. No analytical work is enabled until the CER save succeeds.',facts:{suitcase_validated:false,certificate_required:true,error:String(err),gate_required_first:true}})
     }
   }
 
@@ -801,15 +874,27 @@ Waiting for a saved Work Order.</pre>
     const writable=await handle.createWritable();await writable.write(new Blob([text],{type:mime+';charset=utf-8'}));await writable.close();return handle
   }
 
+  function stripDsComment(raw){
+    let quoted=false;
+    for(let i=0;i<raw.length;i++){
+      const ch=raw[i];
+      if(ch==='"') quoted=!quoted;
+      else if(ch==='#'&&!quoted) return raw.slice(0,i);
+    }
+    return raw;
+  }
+
   function parseWorkOrder(text){
     const lines=text.replace(/\r\n?/g,'\n').split('\n');
-    let suitcase=false,source='',inKeep=false,materialize=false;
+    let suitcase=false,source='',inKeep=false,materialize=false,workOrderAlias=null;
     const selectors=[],problems=[];
     for(const raw of lines){
-      const line=raw.trim();
+      const line=stripDsComment(raw).trim();
       if(!line)continue;
       if(/^SUITCASE:\s*\.\s*$/i.test(line)){suitcase=true;continue}
-      let m=line.match(/^SOURCE\s+"([^"]*)"\s*$/i);
+      let m=line.match(/^WORK\s+ORDER\s+AS\s+"([^"]*)"\s*$/i);
+      if(m){if(workOrderAlias!==null)problems.push('WORK ORDER AS may appear at most once.');else workOrderAlias=m[1];continue}
+      m=line.match(/^SOURCE\s+"([^"]*)"\s*$/i);
       if(m){source=m[1];continue}
       if(/^KEEP\s*$/i.test(line)){inKeep=true;continue}
       if(/^MATERIALIZE\s*$/i.test(line)){materialize=true;inKeep=false;continue}
@@ -822,6 +907,7 @@ Waiting for a saved Work Order.</pre>
       problems.push(`Unrecognized line: ${line}`);
     }
     if(!suitcase)problems.push('SUITCASE: . is missing.');
+    if(workOrderAlias!==null&&!workOrderAlias.length)problems.push('WORK ORDER AS alias must not be empty.');
     if(!source)problems.push('SOURCE "..." is missing.');
     if(!selectors.length)problems.push('KEEP must contain at least one HEADER or COLUMN selector.');
     if(!materialize)problems.push('MATERIALIZE is missing.');
@@ -829,7 +915,7 @@ Waiting for a saved Work Order.</pre>
       if(s.kind==='COLUMN'&&(!Number.isInteger(s.value)||s.value<1))problems.push(`Invalid 1-based COLUMN ordinal: ${s.value}`);
       if(s.alias!==null&&!s.alias.length)problems.push('AS alias must not be empty.');
     }
-    return {suitcase,source,selectors,materialize,problems};
+    return {suitcase,workOrderAlias,source,selectors,materialize,problems};
   }
 
   function validateWorkOrder(text){
@@ -837,22 +923,38 @@ Waiting for a saved Work Order.</pre>
     if(!text.trim()){emitHelp({code:'PROTOTYPE-WO-VALIDATION-FAILED',severity:'ERROR',phase:'WORK ORDER VALIDATION',observed:'Draft is empty.',next:'Enter a DS-STEPS materialization Work Order and validate again.',facts:{problems:['Draft is empty.']}});return false}
     const spec=parseWorkOrder(text);
     if(spec.problems.length){emitHelp({code:'PROTOTYPE-WO-VALIDATION-FAILED',severity:'ERROR',phase:'WORK ORDER VALIDATION',observed:spec.problems.join(' '),next:'Correct the draft and validate again.',facts:{problems:spec.problems}});return false}
-    emitHelp({code:'PROTOTYPE-WO-VALIDATION-PASS',severity:'INFO',phase:'WORK ORDER VALIDATION',observed:'The draft satisfies the Revision AL bounded DS-STEPS materialization shape.',next:'Save it as a new immutable Work Order TXT when you are ready. Runtime source/header/alias resolution occurs when the saved Work Order is run.',facts:{prototype_validation_only:true,revision:'AL',selectors:spec.selectors.length}});
+    emitHelp({code:'PROTOTYPE-WO-VALIDATION-PASS',severity:'INFO',phase:'WORK ORDER VALIDATION',observed:'The draft satisfies the Revision BC bounded DS-STEPS materialization shape.',next:'Save it as a new immutable Work Order TXT when you are ready. Runtime source/header/alias resolution occurs when the saved Work Order is run.',facts:{prototype_validation_only:true,revision:'BC',work_order_alias:spec.workOrderAlias,selectors:spec.selectors.length}});
     return true
   }
 
   async function saveNewWorkOrder(){
     if(!requireSuitcase('WORK ORDER SAVE'))return;
     const text=workOrder.value;if(!validateWorkOrder(text))return;
-    const filename=makeFilename('WKO','txt');
+    const spec=parseWorkOrder(text);
+    if(spec.workOrderAlias){
+      const wanted=aliasKey(spec.workOrderAlias);
+      const collision=activeWkoRows.find(r=>r.alias&&aliasKey(r.alias)===wanted);
+      if(collision){
+        emitHelp({code:'PROTOTYPE-WKO-ALIAS-DUPLICATE',severity:'ERROR',phase:'WORK ORDER SAVE',observed:`Work Order alias “${spec.workOrderAlias}” is already bound to ${collision.wkoFilename}.`,next:'Choose a unique WORK ORDER AS alias, or omit the alias and save by physical filename only.',facts:{alias:spec.workOrderAlias,existing_wko:collision.wkoFilename}});return;
+      }
+    }
+    const txAt=new Date();
+    const filename=makeFilename('WKO','txt',{at:txAt,uuid:uuidV4()});
+    const mapFilename=makeFilename('MAP','csv',{at:txAt,uuid:uuidV4()});
+    let wkoWritten=false;
     try{
-      await writeTextToSuitcase(filename,text,'text/plain');
-      const description=draftDescription.value.trim()||'Saved Work Order';descriptions.set(filename,description);
+      await writeTextToSuitcase(filename,text,'text/plain');wkoWritten=true;
+      const nextRows=activeWkoRows.slice();
+      nextRows.push({alias:spec.workOrderAlias||'',wkoFilename:filename});
+      await writeTextToSuitcase(mapFilename,buildWkoMapCsv(nextRows),'text/csv');
       selectedWorkOrderName=filename;loadedSavedWorkOrderName=filename;workOrderMode='saved';
       await refreshSuitcaseFilesFromSuitcase();
       updateRunTarget();
-      emitHelp({code:'PROTOTYPE-WO-SAVED',severity:'INFO',phase:'WORK ORDER SAVE',observed:`A new immutable Work Order was saved as ${filename} and is now loaded in the Work Order editor.`,next:'Run the saved Work Order, or edit its instructions to create a new derived draft. The saved TXT will not be overwritten.',facts:{filename,suitcase:suitcaseHandle.name,user_chose_filename:false,work_order_editable_after_save:false,description_editable:true,loaded_as_run_target:true}})
-    }catch(err){emitHelp({code:'PROTOTYPE-WO-SAVE-FAILED',severity:'ERROR',phase:'WORK ORDER SAVE',observed:'The Work Order TXT could not be written to the authorized Suitcase.',next:'Check folder permission and try saving again.',facts:{error:String(err)}})}
+      emitHelp({code:'PROTOTYPE-WO-SAVED',severity:'INFO',phase:'WORK ORDER SAVE',observed:`A new immutable Work Order was saved as ${filename}, and a successor WKO MAP was published as ${mapFilename}. The saved Work Order is now the runnable target.`,next:'Run the saved Work Order, or edit its instructions to create a new derived draft. The saved TXT and MAP remain unchanged.',facts:{filename,wko_map:mapFilename,suitcase:suitcaseHandle.name,user_chose_filename:false,work_order_editable_after_save:false,work_order_alias:spec.workOrderAlias,work_order_alias_in_wko:true,loaded_as_run_target:true,prototype_map_publication:true}})
+    }catch(err){
+      if(wkoWritten){try{await suitcaseHandle.removeEntry(filename)}catch{}}
+      emitHelp({code:'PROTOTYPE-WO-SAVE-FAILED',severity:'ERROR',phase:'WORK ORDER SAVE',observed:'The Work Order save transaction could not publish both the immutable WKO and its successor WKO MAP.',next:'Check folder permission and try saving again. The prototype attempts to remove an uncommitted WKO if MAP publication fails.',facts:{error:String(err),wko_filename:filename,wko_map:mapFilename}})
+    }
   }
 
 
@@ -938,7 +1040,7 @@ Waiting for a saved Work Order.</pre>
       appendExecution('Materialization: SIMULATED · Rust/WASM engine not connected');
       appendExecution('MAP successor: SIMULATED · Revision AL resolved mapping semantics');
       appendExecution('COMPLETE · interaction prototype');
-      emitHelp({code:'PROTOTYPE-RUN-SIMULATION',severity:'INFO',phase:'RUN',observed:`The saved Work Order resolved ${resolvedSelections.length} KEEP selector(s) against ${f.name}.`,next:'Treat the execution output as interaction evidence only; no Rust/WASM analytical execution occurs in this HTML prototype.',facts:{run_target:selectedWorkOrderName,source_reference:spec.source,resolved_source_filename:f.name,resolved_via:sourceResolution.via,selections:created,alias_mapping_file:activeAliasMapFilename,revision:'AL',transient_editor_is_run_target:false,real_wasm_execution:false,user_clicked_source:false,user_clicked_column:false}});
+      emitHelp({code:'PROTOTYPE-RUN-SIMULATION',severity:'INFO',phase:'RUN',observed:`The saved Work Order resolved ${resolvedSelections.length} KEEP selector(s) against ${f.name}.`,next:'Treat the execution output as interaction evidence only; no Rust/WASM analytical execution occurs in this HTML prototype.',facts:{run_target:selectedWorkOrderName,source_reference:spec.source,resolved_source_filename:f.name,resolved_via:sourceResolution.via,selections:created,alias_mapping_file:activeAliasMapFilename,revision:'BC',transient_editor_is_run_target:false,real_wasm_execution:false,user_clicked_source:false,user_clicked_column:false}});
     }catch(err){
       appendExecution(`FAILED · ${String(err)}`);
       emitHelp({code:'PROTOTYPE-RUN-FAILED',severity:'ERROR',phase:'RUN',observed:'The prototype could not resolve the Work Order against the selected Suitcase.',next:'Review the Help facts and create a corrected Work Order if needed.',facts:{error:String(err),run_target:selectedWorkOrderName}});
@@ -1005,12 +1107,6 @@ Waiting for a saved Work Order.</pre>
     renderHighlight();
   });
   workOrder.addEventListener('scroll',renderHighlight);
-  draftDescription.addEventListener('change',()=>{
-    if(workOrderMode==='saved'&&selectedWorkOrderName){
-      descriptions.set(selectedWorkOrderName,draftDescription.value.trim()||'Saved Work Order');
-      emitHelp({code:'PROTOTYPE-WO-DESCRIPTION-UPDATED',severity:'INFO',phase:'WORK ORDER DESCRIPTION',observed:'The human-facing description was updated in prototype metadata.',next:'The saved Work Order TXT and its physical filename were not changed.',facts:{filename:selectedWorkOrderName,file_rewritten:false,file_renamed:false,description:descriptions.get(selectedWorkOrderName)}});
-    }
-  });
   voice.addEventListener('change',()=>{if(currentDiagnostic)emitHelp(currentDiagnostic)});
   document.getElementById('suitcaseBtn').addEventListener('click',authorizeSuitcase);
   refreshFilesBtn.addEventListener('click',refreshSuitcaseFilesFromSuitcase);
@@ -1026,7 +1122,7 @@ Waiting for a saved Work Order.</pre>
   saveDataDictionaryBtn.addEventListener('click',saveDataDictionaryToml);
   document.addEventListener('keydown',e=>{if(e.key==='F1'){e.preventDefault();genericHelp()}if(e.key==='Escape'){clearHelp()}if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==='s'){e.preventDefault();saveNewWorkOrder()}if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();runSelected()}});
 
-  renderMappings();renderHighlight();updateRunTarget();updateSavedWorkOrderPicker();resetExecution();updateWorkspaceGate();emitHelp({code:'PROTOTYPE-SUITCASE-FIRST',severity:'HELP',phase:'SESSION START',observed:'A Suitcase is required before work begins.',next:'Choose and validate a Suitcase.',facts:{gate_required_first:true,suitcase_validated:false,workspace_locked:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
+  renderMappings();renderHighlight();updateRunTarget();updateSavedWorkOrderPicker();resetExecution();updateWorkspaceGate();emitHelp({code:'PROTOTYPE-SUITCASE-FIRST',severity:'HELP',phase:'SESSION START',observed:'A Suitcase is required before work begins.',next:'Choose a Suitcase. Data Sculptor will validate it only after the retained HTML CER is successfully created, completely written, and closed.',facts:{gate_required_first:true,suitcase_validated:false,workspace_locked:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
 })();
 </script>
 </body>
