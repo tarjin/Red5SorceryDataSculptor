@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Data Sculptor — Red5Sorcery</title>
-<meta name="description" content="A local-first analytical workbench for office analysts. Deterministic execution and optional AI help with no automatic data sharing. Built in public.">
+<meta name="description" content="A local-first analytical workbench for office analysts. Deterministic execution, visible evidence, PRETTY human-facing outputs, and optional AI help with no automatic data sharing. Built in public.">
 <meta property="og:title" content="Data Sculptor — Red5Sorcery">
 <meta property="og:description" content="A local-first analytical workbench for office analysts. Deterministic execution, inspectable work, review-ready outputs — and a daily public record of how it is being built.">
 <meta property="og:type" content="website">
@@ -285,7 +285,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 044</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 045</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -315,18 +315,20 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="state">
-      <div class="state-top">Project state — Day 044, Monday 21 September 2026</div>
+      <div class="state-top">Project state — Day 045, Tuesday 22 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>WASM-002 specification — continuing the browser-first shared-core contract before any new product implementation begins.</dd>
         <dt>Contract</dt>
-        <dd>WASM-001b remains preserved as an experimental lineage rather than retroactively treated as completed acceptance. The official Product Backlog PRD is the standalone HTML working master: <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">open the current Product Backlog PRD</a>. Day 043 landed at Revision AB with 600 recorded requirements. Per-requirement SCOPE remains the allocation authority, STATUS records lifecycle independently, and PDF renderings remain snapshots rather than the live backlog. WASM-002 is still DRAFT / UNDER REVIEW / NOT FROZEN.</dd>
+        <dd>WASM-001b remains preserved as an experimental lineage rather than retroactively treated as completed acceptance. The official Product Backlog PRD is the standalone HTML working master: <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">open the current Product Backlog PRD</a>. Day 044 landed at Revision AV with 742 recorded requirements. Per-requirement SCOPE remains the allocation authority, STATUS records lifecycle independently, and PDF renderings remain snapshots rather than the live backlog. WASM-002 is still DRAFT / UNDER REVIEW / NOT FROZEN.</dd>
         <dt>Build state</dt>
-        <dd>No WASM-002 production implementation has started. Day 043 consolidated the browser workbench around four distinct responsibilities: Suitcase Directory for what exists, Work Order for what the analyst asked for, Execution Output for what happened, and Help for what needs explanation. Redundant artifact and saved-Work-Order panels were removed; immutable saved Work Orders now load into the editor; edits become new drafts; PRETTY Branding TOML and User Data Dictionary TOML remain save-only prototype surfaces; and Revision AB records composable saved Work Orders with deterministic resolution, order, cycle refusal, failure rules, and complete receipt provenance.</dd>
+        <dd>No WASM-002 production implementation has started. Day 044 pushed the design beneath the interface and closed several architectural questions: one immutable RID spine per Store; automatic RID creation on the first Store-establishing materialization; a unified Store MAP for Store/RID/column identity and aliases; aligned two-valued 0/1 Boolean selection columns as the future filtering model; lightweight Suitcase INVENTORY snapshots; an explicit Help boundary for cross-session source continuity; deterministic TXT run Receipts that link each execution back to the exact immutable Work Order; and a reconciled governed artifact-class registry. Saved Work Orders remain the executable authority, and one WKO represents one executable request in WASM-002.</dd>
         <dt>Now building</dt>
-        <dd>Day 044 continues WASM-002 requirements work. The immediate job is to reconcile the remaining Day 043 design notes into explicit numbered requirements, preserve the small syntax-first interface, and keep every candidate reviewable and testable before freeze.</dd>
+        <dd>Day 045 continues WASM-002 requirements work from Revision AV. The goal is to close the remaining specification edges, run a contradiction/consolidation pass, and — if the contract is ready — hand the PRD to Claude for independent adversarial QA before any freeze claim.</dd>
         <dt>Unsettled</dt>
-        <dd class="open">The next reconciliation pass still has to settle exact Work Order grammar, WIP/WKO lifecycle details, Suitcase-relative path rules, the sequential V1 execution contract, the three-theme presentation boundary, and the acceptance evidence required before any of those candidates become frozen requirements.</dd>
+        <dd class="open">The remaining WASM-002 work is now mostly closure rather than architectural discovery: exact alias-maintenance and historical-MAP syntax; host-safe publication/path mechanics; Work Order description persistence and Flight Recorder representation; Help-report fingerprint placement; exact Brand Manifest serialization; and final measurable memory/performance acceptance boundaries where evidence is still needed.</dd>
+        <dt>Privacy R&amp;D</dt>
+        <dd>RQSM is carried openly as separate V1-BACKLOG privacy work: a lawful, user-controlled research direction for protecting sensitive digital information inside ordinary image carriers. It is not part of WASM-002 and does not alter the current analytical-core contract.</dd>
         <dt>Released</dt>
         <dd>Nothing. There is no build to download.</dd>
       </dl>
@@ -354,7 +356,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
       </div>
       <div class="promise-item">
         <h3>Pretty</h3>
-        <p>Analytical work ends in a file somebody else opens, and usually that means a spreadsheet. Output should arrive formatted and legible and ready to send, not as a raw dump that costs an hour of tidying before anyone can look at it.</p>
+        <p>Analytical work ends in something another person has to read and act on. The human-facing payoff is a PRETTY table or report: governed, formatted, legible and ready to send. CSV can remain an interchange format, but the handoff should not be a raw dump that costs an hour of tidying before anyone can look at it.</p>
       </div>
     </div>
 
@@ -919,6 +921,15 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>Continue the WASM-002 Requirements</h3>
           <p>Today begins from Revision AB of the <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">official HTML Product Backlog PRD</a>. The work remains specification, not implementation: reconcile the remaining Day 043 design notes into numbered requirements, keep the syntax-first workbench small, preserve explicit lifecycle and path semantics, and define the acceptance evidence each candidate will need before freeze.</p>
           <p class="log-after"><b>Planned flight</b>Work through the WASM-002 requirements one bounded decision at a time, keep the HTML backlog authoritative, and bank the next coherent revision without starting production implementation prematurely.</p>
+          <p class="log-after"><b>Landing</b>The day closed at Product Backlog Revision AV with 742 recorded requirements, still draft and not frozen. The Store model converged around one permanent RID spine per Store, a unified Store MAP, aligned 0/1 Boolean selection columns, lightweight INVENTORY snapshots, an explicit Help boundary for cross-session source continuity, deterministic TXT Receipts tied to exact Work Orders, and a reconciled artifact-class registry. Separate V1 privacy work on RQSM was kept visible in the public record rather than hidden, while remaining outside WASM-002 scope.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 045<span class="log-date">Tue 22 Sep</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-entry">
+          <h3>Finish the WASM-002 Contract</h3>
+          <p>The day begins from Revision AV of the <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">official HTML Product Backlog PRD</a>, with 742 recorded requirements. The core architecture is largely settled. Today is about closing the remaining specification edges, checking the document for contradictions and stale language, and resisting the temptation to invent new architecture merely because the end is close.</p>
+          <p class="log-after"><b>Planned flight</b>If the PRD survives the final consolidation pass, hand it to Claude for independent adversarial QA. No WASM-002 implementation begins merely because the document feels nearly finished.</p>
         </div>
       </li>
     </ol>
