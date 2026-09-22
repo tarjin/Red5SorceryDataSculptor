@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Data Sculptor — WASM-002 Front-End Prototype</title>
-<meta name="description" content="Day 044 WASM-002 browser front-end design prototype for Red5Sorcery Data Sculptor." />
+<meta name="description" content="Day 045 WASM-002 browser front-end design prototype for Red5Sorcery Data Sculptor, aligned through PRD Revision BF." />
 <style>
   :root{
     color-scheme:dark;
@@ -121,7 +121,7 @@
   <header class="topline">
     <div>
       <div class="brand"><strong>Red<span class="brand-five">5</span>Sorcery</strong> / Data Sculptor / WASM-002</div>
-      <div class="brand" style="margin-top:5px;color:var(--muted)">Browser front-end design prototype · Day 045</div>
+      <div class="brand" style="margin-top:5px;color:var(--muted)">Browser front-end design prototype · Day 045 · PRD Revision BF</div>
     </div>
     <div class="head-right">
       <span class="pill warn"><span class="dot"></span>DRAFT / NOT FROZEN</span>
@@ -130,7 +130,7 @@
     </div>
   </header>
 
-  <div class="notice"><strong>DESIGN PROTOTYPE.</strong> Rust/WASM execution is not connected. Column materialization is simulated.</div>
+  <div class="notice"><strong>DESIGN PROTOTYPE.</strong> Rust/WASM execution is not connected. Column materialization is simulated. Help voices resolve through an embedded build-time placeholder catalog.</div>
   <div class="creed"><strong>The human names the meaning. Data Sculptor names the file.</strong></div>
 
   <section class="context" aria-label="Current project context">
@@ -226,7 +226,7 @@ Waiting for a saved Work Order.</pre>
     <article class="panel" aria-labelledby="diag-title">
       <div class="panel-head">
         <div id="diag-title" class="panel-title">Help Engine</div>
-        <div style="display:flex;gap:8px;align-items:center"><label for="voice" class="panel-note">voice</label><select id="voice" class="voice-select" aria-label="Help voice"><option value="casual">Casual</option><option value="office" selected>Office Speak</option><option value="technical">Technical</option></select></div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="panel-note">embedded catalog v1 · placeholder copy</span><label for="voice" class="panel-note">voice</label><select id="voice" class="voice-select" aria-label="Help voice"><option value="casual">Casual</option><option value="office" selected>Office Speak</option><option value="technical">Technical</option></select></div>
       </div>
       <div class="panel-body diag">
         <div id="diagArea" class="diag-summary"><span class="help">HELP ENGINE · READY</span></div>
@@ -277,8 +277,262 @@ Waiting for a saved Work Order.</pre>
     <div class="scope-tags"><span class="tag in">Storage Engine</span><span class="tag in">Help Engine</span><span class="tag out">Prototype only</span></div>
   </section>
 
-  <footer class="footer"><span>Ctrl+Shift+S Save · Ctrl+Enter Run · F1 Help · Esc Clear Help</span><span>Prototype only · PRD remains authoritative</span></footer>
+  <footer class="footer"><span>Ctrl+Shift+S Save · Ctrl+Enter Run · F1 Help · Esc Clear Help</span><span>Prototype only · embedded placeholder Help catalog · PRD remains authoritative</span></footer>
 </main>
+
+<script id="ds-help-catalog" type="application/json">
+{
+  "catalog_version": "1",
+  "messages": [
+    {
+      "diagnostic_id": "DS-PTP-001",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-002",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-003",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-004",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-005",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-006",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-007",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-008",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-009",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-010",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-011",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-012",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-013",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-014",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-015",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-016",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-017",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-018",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-019",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-020",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-021",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-022",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-023",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-024",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-025",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-026",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-027",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-028",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-029",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-030",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-031",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-032",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-033",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-034",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-035",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-036",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-037",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-038",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-039",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-040",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    },
+    {
+      "diagnostic_id": "DS-PTP-041",
+      "casual": "[CASUAL PLACEHOLDER] {diagnostic_id}",
+      "office_speak": "[OFFICE PLACEHOLDER] {diagnostic_id}",
+      "technical": "[TECHNICAL PLACEHOLDER] {diagnostic_id} · phase={phase}"
+    }
+  ]
+}
+</script>
 
 <script>
 (() => {
@@ -375,22 +629,56 @@ Waiting for a saved Work Order.</pre>
   function appendExecution(line=''){executionOutput.textContent+=(executionOutput.textContent?'\n':'')+line;executionOutput.scrollTop=executionOutput.scrollHeight}
   function resetExecution(){setExecution(['EXECUTION OUTPUT · READY','Waiting for a saved Work Order.'])}
 
+  // Revision BF prototype proof: one embedded non-executable JSON catalog, no runtime fetch.
+  const helpCatalog=(()=>{
+    const node=document.getElementById('ds-help-catalog');
+    if(!node) throw new Error('Embedded Help catalog ds-help-catalog is missing.');
+    const parsed=JSON.parse(node.textContent);
+    if(!parsed || parsed.catalog_version!=='1' || !Array.isArray(parsed.messages)) throw new Error('Embedded Help catalog schema is invalid.');
+    const byId=new Map();
+    let previous=null;
+    for(const entry of parsed.messages){
+      const keys=Object.keys(entry).sort().join(',');
+      if(keys!=='casual,diagnostic_id,office_speak,technical') throw new Error('Embedded Help catalog entry schema is invalid.');
+      if(!/^DS-[A-Z]{3}-\d{3}$/.test(entry.diagnostic_id)) throw new Error(`Noncanonical diagnostic ID in embedded Help catalog: ${entry.diagnostic_id}`);
+      if(previous!==null && previous>entry.diagnostic_id) throw new Error('Embedded Help catalog is not sorted by diagnostic_id.');
+      if(byId.has(entry.diagnostic_id)) throw new Error(`Duplicate diagnostic ID in embedded Help catalog: ${entry.diagnostic_id}`);
+      for(const key of ['casual','office_speak','technical']) if(typeof entry[key]!=='string') throw new Error(`Missing Help voice ${key} for ${entry.diagnostic_id}`);
+      byId.set(entry.diagnostic_id,entry);
+      previous=entry.diagnostic_id;
+    }
+    return {version:parsed.catalog_version,byId,count:parsed.messages.length};
+  })();
+  diagArea.innerHTML=`<span class="help">HELP ENGINE · READY · EMBEDDED CATALOG v${helpCatalog.version} · ${helpCatalog.count} PLACEHOLDER ENTRIES</span>`;
+
+  function helpTemplateFacts(d){
+    return Object.assign({diagnostic_id:d.code,phase:d.phase},d.facts||{});
+  }
+  function renderHelpTemplate(template,d){
+    const facts=helpTemplateFacts(d);
+    return template.replace(/\{([a-z0-9_]+)\}/g,(whole,name)=>{
+      if(!Object.prototype.hasOwnProperty.call(facts,name)) throw new Error(`Unknown Help placeholder {${name}} for ${d.code}`);
+      const value=facts[name];
+      return (value!==null && typeof value==='object') ? JSON.stringify(value) : String(value ?? '');
+    });
+  }
   function wording(d,v){
-    if(v==='casual') return `${d.observed} ${d.next}`;
-    if(v==='technical') return `${d.phase}: ${d.observed} Safe next action: ${d.next}`;
-    return `${d.observed} ${d.next}`;
+    const entry=helpCatalog.byId.get(d.code);
+    if(!entry) return `[HELP CATALOG MISS] ${d.code}`;
+    const key=v==='office'?'office_speak':v;
+    return renderHelpTemplate(entry[key],d);
   }
   function emitHelp(d){
     currentDiagnostic=d;
     const cls=d.severity==='ERROR'?'sev':(d.severity==='INFO'?'info':'help');
-    diagArea.innerHTML=`<span class="${cls}">${esc(d.severity)} · ${esc(d.code)}</span>\n${esc(wording(d,voice.value))}<dl class="diag-grid"><dt>Source</dt><dd>Help Engine</dd><dt>Phase</dt><dd>${esc(d.phase)}</dd><dt>Canonical facts</dt><dd>${esc(JSON.stringify(d.facts||{},null,2))}</dd><dt>Safe next action</dt><dd>${esc(d.next)}</dd></dl>`;
+    diagArea.innerHTML=`<span class="${cls}">${esc(d.severity)} · ${esc(d.code)}</span>\n${esc(wording(d,voice.value))}<dl class="diag-grid"><dt>Source</dt><dd>Help Engine · embedded catalog v${helpCatalog.version}</dd><dt>Phase</dt><dd>${esc(d.phase)}</dd><dt>Canonical facts</dt><dd>${esc(JSON.stringify(d.facts||{},null,2))}</dd><dt>Safe next action</dt><dd>${esc(d.next)}</dd></dl>`;
     diagActions.hidden=false;
   }
-  function clearHelp(){currentDiagnostic=null;diagArea.innerHTML='<span class="help">HELP ENGINE · READY</span>';diagActions.hidden=true}
+  function clearHelp(){currentDiagnostic=null;diagArea.innerHTML=`<span class="help">HELP ENGINE · READY · EMBEDDED CATALOG v${helpCatalog.version} · ${helpCatalog.count} PLACEHOLDER ENTRIES</span>`;diagActions.hidden=true}
 
   function requireSuitcase(phase){
     if(suitcaseValidated&&suitcaseHandle)return true;
-    emitHelp({code:'PROTOTYPE-SUITCASE-GATE',severity:'ERROR',phase,observed:'The Suitcase gate has not been satisfied. Data Sculptor will not begin analytical work until a writable Suitcase is validated.',next:'Choose and validate the Suitcase folder first. Data Sculptor will test write access without asking you to name an artifact.',facts:{suitcase_validated:false,gate_required_first:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
+    emitHelp({code:'DS-PTP-026',severity:'ERROR',phase,observed:'The Suitcase gate has not been satisfied. Data Sculptor will not begin analytical work until a writable Suitcase is validated.',next:'Choose and validate the Suitcase folder first. Data Sculptor will test write access without asking you to name an artifact.',facts:{suitcase_validated:false,gate_required_first:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
     return false;
   }
   function isSavedWorkOrderName(name){
@@ -422,9 +710,9 @@ Waiting for a saved Work Order.</pre>
   async function loadWorkOrderFromPicker(){
     if(!requireSuitcase('WORK ORDER LOAD'))return;
     const name=savedWorkOrderSelect.value;
-    if(!name){emitHelp({code:'PROTOTYPE-WO-LOAD-NONE',severity:'HELP',phase:'WORK ORDER LOAD',observed:'No saved Work Order is selected in the Work Order editor.',next:'Choose a saved WKO TXT from the list, then load it.',facts:{saved_work_order_selected:false}});return}
+    if(!name){emitHelp({code:'DS-PTP-036',severity:'HELP',phase:'WORK ORDER LOAD',observed:'No saved Work Order is selected in the Work Order editor.',next:'Choose a saved WKO TXT from the list, then load it.',facts:{saved_work_order_selected:false}});return}
     const item=suitcaseFiles.find(x=>x.name===name&&isSavedWorkOrderName(x.name));
-    if(!item){emitHelp({code:'PROTOTYPE-WO-LOAD-MISSING',severity:'ERROR',phase:'WORK ORDER LOAD',observed:'The selected saved Work Order is no longer visible in the Suitcase.',next:'Refresh the Suitcase directory and choose it again.',facts:{filename:name}});return}
+    if(!item){emitHelp({code:'DS-PTP-035',severity:'ERROR',phase:'WORK ORDER LOAD',observed:'The selected saved Work Order is no longer visible in the Suitcase.',next:'Refresh the Suitcase directory and choose it again.',facts:{filename:name}});return}
     await loadSavedWorkOrder(item);
   }
 
@@ -483,9 +771,9 @@ Waiting for a saved Work Order.</pre>
       updateRunTarget();
       updateSavedWorkOrderPicker();
       workOrder.focus();
-      emitHelp({code:'PROTOTYPE-WO-LOADED',severity:'INFO',phase:'WORK ORDER LOAD',observed:`Saved Work Order ${item.name} was loaded into the Work Order editor.`,next:'Run it as saved, or edit the instructions to create a new derived draft. The original TXT will not be overwritten.',facts:{filename:item.name,loaded_from_suitcase:true,original_immutable:true,double_click_load:true,execution_requires_saved_work_order:true}});
+      emitHelp({code:'DS-PTP-037',severity:'INFO',phase:'WORK ORDER LOAD',observed:`Saved Work Order ${item.name} was loaded into the Work Order editor.`,next:'Run it as saved, or edit the instructions to create a new derived draft. The original TXT will not be overwritten.',facts:{filename:item.name,loaded_from_suitcase:true,original_immutable:true,double_click_load:true,execution_requires_saved_work_order:true}});
     }catch(err){
-      emitHelp({code:'PROTOTYPE-WO-LOAD-FAILED',severity:'ERROR',phase:'WORK ORDER LOAD',observed:`The saved Work Order ${item.name} could not be loaded.`,next:'Refresh the Suitcase directory and try again.',facts:{filename:item.name,error:String(err)}});
+      emitHelp({code:'DS-PTP-034',severity:'ERROR',phase:'WORK ORDER LOAD',observed:`The saved Work Order ${item.name} could not be loaded.`,next:'Refresh the Suitcase directory and try again.',facts:{filename:item.name,error:String(err)}});
     }
   }
 
@@ -599,7 +887,7 @@ Waiting for a saved Work Order.</pre>
         }
         if(valid)candidates.push({item,ident,rows});
       }catch(err){
-        emitHelp({code:'PROTOTYPE-STORE-MAP-READ-FAILED',severity:'ERROR',phase:'STORE MAP',observed:`Candidate Store MAP ${item.name} could not be read.`,next:'Inspect the MAP artifact. The prototype will not guess around an unreadable governed map.',facts:{mapping_file:item.name,error:String(err)}});
+        emitHelp({code:'DS-PTP-023',severity:'ERROR',phase:'STORE MAP',observed:`Candidate Store MAP ${item.name} could not be read.`,next:'Inspect the MAP artifact. The prototype will not guess around an unreadable governed map.',facts:{mapping_file:item.name,error:String(err)}});
       }
     }
     if(!candidates.length)return;
@@ -645,7 +933,7 @@ Waiting for a saved Work Order.</pre>
         }
         if(valid)candidates.push({item,ident,rows});
       }catch(err){
-        emitHelp({code:'PROTOTYPE-WKO-MAP-READ-FAILED',severity:'ERROR',phase:'WKO MAP',observed:`Candidate WKO MAP ${item.name} could not be read.`,next:'Inspect the MAP artifact. Saved Work Orders remain addressable by physical filename.',facts:{mapping_file:item.name,error:String(err)}});
+        emitHelp({code:'DS-PTP-032',severity:'ERROR',phase:'WKO MAP',observed:`Candidate WKO MAP ${item.name} could not be read.`,next:'Inspect the MAP artifact. Saved Work Orders remain addressable by physical filename.',facts:{mapping_file:item.name,error:String(err)}});
       }
     }
     if(!candidates.length)return;
@@ -653,7 +941,7 @@ Waiting for a saved Work Order.</pre>
     const newestStamp=candidates[0].ident.timestamp;
     const newest=candidates.filter(x=>x.ident.timestamp===newestStamp);
     if(newest.length!==1){
-      emitHelp({code:'PROTOTYPE-WKO-MAP-AMBIGUOUS-LATEST',severity:'ERROR',phase:'WKO MAP',observed:`${newest.length} valid WKO MAP artifacts share the latest UTC millisecond timestamp ${newestStamp}.`,next:'The prototype will fall back to physical WKO filenames rather than guess which alias registry is current.',facts:{latest_timestamp:newestStamp,candidate_maps:newest.map(x=>x.item.name)}});
+      emitHelp({code:'DS-PTP-031',severity:'ERROR',phase:'WKO MAP',observed:`${newest.length} valid WKO MAP artifacts share the latest UTC millisecond timestamp ${newestStamp}.`,next:'The prototype will fall back to physical WKO filenames rather than guess which alias registry is current.',facts:{latest_timestamp:newestStamp,candidate_maps:newest.map(x=>x.item.name)}});
       return;
     }
     const chosen=newest[0];
@@ -714,7 +1002,7 @@ Waiting for a saved Work Order.</pre>
     // a direct user action rather than a scripted pop-up after asynchronous I/O.
     const viewer=window.open('about:blank','_blank');
     if(!viewer){
-      emitHelp({code:'PROTOTYPE-FILE-OPEN-BLOCKED',severity:'ERROR',phase:'SUITCASE DIRECTORY',observed:`The browser blocked the new tab for ${item.name}.`,next:'Allow pop-ups for this local prototype and double-click the file again.',facts:{filename:item.name,double_click_open:true,file_executed:false}});
+      emitHelp({code:'DS-PTP-008',severity:'ERROR',phase:'SUITCASE DIRECTORY',observed:`The browser blocked the new tab for ${item.name}.`,next:'Allow pop-ups for this local prototype and double-click the file again.',facts:{filename:item.name,double_click_open:true,file_executed:false}});
       return;
     }
     try{
@@ -735,7 +1023,7 @@ Waiting for a saved Work Order.</pre>
       setTimeout(()=>URL.revokeObjectURL(url),60*60*1000);
     }catch(err){
       try{viewer.close()}catch{}
-      emitHelp({code:'PROTOTYPE-FILE-OPEN-FAILED',severity:'ERROR',phase:'SUITCASE DIRECTORY',observed:`Data Sculptor could not open ${item.name}.`,next:'Refresh the Suitcase directory and try again. Browser-supported formats open in a new tab; unsupported formats follow the browser’s normal file handling.',facts:{filename:item.name,error:String(err),double_click_open:true,file_executed:false}});
+      emitHelp({code:'DS-PTP-009',severity:'ERROR',phase:'SUITCASE DIRECTORY',observed:`Data Sculptor could not open ${item.name}.`,next:'Refresh the Suitcase directory and try again. Browser-supported formats open in a new tab; unsupported formats follow the browser’s normal file handling.',facts:{filename:item.name,error:String(err),double_click_open:true,file_executed:false}});
     }
   }
 
@@ -790,7 +1078,7 @@ Waiting for a saved Work Order.</pre>
         }
       }
     }catch(err){
-      emitHelp({code:'PROTOTYPE-SUITCASE-LIST-FAILED',severity:'ERROR',phase:'SUITCASE DIRECTORY',observed:'Data Sculptor could not enumerate the selected Suitcase directory.',next:'Revalidate the Suitcase and try Refresh.',facts:{error:String(err)}});
+      emitHelp({code:'DS-PTP-027',severity:'ERROR',phase:'SUITCASE DIRECTORY',observed:'Data Sculptor could not enumerate the selected Suitcase directory.',next:'Revalidate the Suitcase and try Refresh.',facts:{error:String(err)}});
     }
     found.sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true,sensitivity:'base'}));
     suitcaseFiles=found;
@@ -814,7 +1102,7 @@ Waiting for a saved Work Order.</pre>
     if(!window.showDirectoryPicker){
       suitcaseValidated=false;updateWorkspaceGate();
       ctxSuitcase.textContent='DIRECTORY API UNAVAILABLE';ctxSuitcase.className='v err';
-      emitHelp({code:'PROTOTYPE-SUITCASE-API-UNAVAILABLE',severity:'ERROR',phase:'SUITCASE VALIDATION',observed:'This browser context does not expose the directory picker needed to create the governed Suitcase Validation Certificate.',next:'Open the prototype in a current Chromium-based browser context that supports the File System Access API.',facts:{directory_picker:false,certificate_required:true,gate_required_first:true}});return;
+      emitHelp({code:'DS-PTP-024',severity:'ERROR',phase:'SUITCASE VALIDATION',observed:'This browser context does not expose the directory picker needed to create the governed Suitcase Validation Certificate.',next:'Open the prototype in a current Chromium-based browser context that supports the File System Access API.',facts:{directory_picker:false,certificate_required:true,gate_required_first:true}});return;
     }
     try{
       const candidate=await window.showDirectoryPicker({mode:'readwrite'});
@@ -848,11 +1136,11 @@ Waiting for a saved Work Order.</pre>
       ctxSuitcase.title=`Validated by retained certificate ${certificateFilename}. The browser does not expose the full Windows absolute path to this page.`;
       updateWorkspaceGate();
       await refreshSuitcaseFilesFromSuitcase();
-      emitHelp({code:'PROTOTYPE-SUITCASE-VALIDATED',severity:'INFO',phase:'SUITCASE VALIDATION',observed:`Suitcase folder “${suitcaseHandle.name}” is validated because Data Sculptor successfully created, completely wrote, and closed retained certificate ${certificateFilename}.`,next:'Author and save a Work Order, or load an existing saved Work Order.',facts:{suitcase_folder_name:suitcaseHandle.name,absolute_path_exposed:false,suitcase_validated:true,certificate_filename:certificateFilename,certificate_class:'CER',certificate_format:'HTML',test:'CREATE_WRITE_CLOSE',certificate_retained:true,validation_only_delete:false,validation_only_rename:false,suitcase_file_count:suitcaseFiles.length,flat_artifacts:true,no_subfolder_created:true,user_chooses_filename:false}})
+      emitHelp({code:'DS-PTP-028',severity:'INFO',phase:'SUITCASE VALIDATION',observed:`Suitcase folder “${suitcaseHandle.name}” is validated because Data Sculptor successfully created, completely wrote, and closed retained certificate ${certificateFilename}.`,next:'Author and save a Work Order, or load an existing saved Work Order.',facts:{suitcase_folder_name:suitcaseHandle.name,absolute_path_exposed:false,suitcase_validated:true,certificate_filename:certificateFilename,certificate_class:'CER',certificate_format:'HTML',test:'CREATE_WRITE_CLOSE',certificate_retained:true,validation_only_delete:false,validation_only_rename:false,suitcase_file_count:suitcaseFiles.length,flat_artifacts:true,no_subfolder_created:true,user_chooses_filename:false}})
     }catch(err){
       if(err&&err.name==='AbortError')return;
       suitcaseHandle=null;suitcaseCertificateFilename=null;suitcaseValidated=false;updateWorkspaceGate();ctxSuitcase.textContent='VALIDATION FAILED';ctxSuitcase.className='v err';
-      emitHelp({code:'PROTOTYPE-SUITCASE-VALIDATION-FAILED',severity:'ERROR',phase:'SUITCASE VALIDATION',observed:'The selected folder did not pass the Suitcase validation gate because the governed HTML CER could not be successfully created, completely written, and closed.',next:'Choose a writable folder and validate again. No analytical work is enabled until the CER save succeeds.',facts:{suitcase_validated:false,certificate_required:true,error:String(err),gate_required_first:true}})
+      emitHelp({code:'DS-PTP-029',severity:'ERROR',phase:'SUITCASE VALIDATION',observed:'The selected folder did not pass the Suitcase validation gate because the governed HTML CER could not be successfully created, completely written, and closed.',next:'Choose a writable folder and validate again. No analytical work is enabled until the CER save succeeds.',facts:{suitcase_validated:false,certificate_required:true,error:String(err),gate_required_first:true}})
     }
   }
 
@@ -920,10 +1208,10 @@ Waiting for a saved Work Order.</pre>
 
   function validateWorkOrder(text){
     if(!requireSuitcase('WORK ORDER VALIDATION'))return false;
-    if(!text.trim()){emitHelp({code:'PROTOTYPE-WO-VALIDATION-FAILED',severity:'ERROR',phase:'WORK ORDER VALIDATION',observed:'Draft is empty.',next:'Enter a DS-STEPS materialization Work Order and validate again.',facts:{problems:['Draft is empty.']}});return false}
+    if(!text.trim()){emitHelp({code:'DS-PTP-040',severity:'ERROR',phase:'WORK ORDER VALIDATION',observed:'Draft is empty.',next:'Enter a DS-STEPS materialization Work Order and validate again.',facts:{problems:['Draft is empty.']}});return false}
     const spec=parseWorkOrder(text);
-    if(spec.problems.length){emitHelp({code:'PROTOTYPE-WO-VALIDATION-FAILED',severity:'ERROR',phase:'WORK ORDER VALIDATION',observed:spec.problems.join(' '),next:'Correct the draft and validate again.',facts:{problems:spec.problems}});return false}
-    emitHelp({code:'PROTOTYPE-WO-VALIDATION-PASS',severity:'INFO',phase:'WORK ORDER VALIDATION',observed:'The draft satisfies the Revision BC bounded DS-STEPS materialization shape.',next:'Save it as a new immutable Work Order TXT when you are ready. Runtime source/header/alias resolution occurs when the saved Work Order is run.',facts:{prototype_validation_only:true,revision:'BC',work_order_alias:spec.workOrderAlias,selectors:spec.selectors.length}});
+    if(spec.problems.length){emitHelp({code:'DS-PTP-040',severity:'ERROR',phase:'WORK ORDER VALIDATION',observed:spec.problems.join(' '),next:'Correct the draft and validate again.',facts:{problems:spec.problems}});return false}
+    emitHelp({code:'DS-PTP-041',severity:'INFO',phase:'WORK ORDER VALIDATION',observed:'The draft satisfies the Revision BF bounded DS-STEPS materialization shape.',next:'Save it as a new immutable Work Order TXT when you are ready. Runtime source/header/alias resolution occurs when the saved Work Order is run.',facts:{prototype_validation_only:true,revision:'BF',work_order_alias:spec.workOrderAlias,selectors:spec.selectors.length}});
     return true
   }
 
@@ -935,7 +1223,7 @@ Waiting for a saved Work Order.</pre>
       const wanted=aliasKey(spec.workOrderAlias);
       const collision=activeWkoRows.find(r=>r.alias&&aliasKey(r.alias)===wanted);
       if(collision){
-        emitHelp({code:'PROTOTYPE-WKO-ALIAS-DUPLICATE',severity:'ERROR',phase:'WORK ORDER SAVE',observed:`Work Order alias “${spec.workOrderAlias}” is already bound to ${collision.wkoFilename}.`,next:'Choose a unique WORK ORDER AS alias, or omit the alias and save by physical filename only.',facts:{alias:spec.workOrderAlias,existing_wko:collision.wkoFilename}});return;
+        emitHelp({code:'DS-PTP-030',severity:'ERROR',phase:'WORK ORDER SAVE',observed:`Work Order alias “${spec.workOrderAlias}” is already bound to ${collision.wkoFilename}.`,next:'Choose a unique WORK ORDER AS alias, or omit the alias and save by physical filename only.',facts:{alias:spec.workOrderAlias,existing_wko:collision.wkoFilename}});return;
       }
     }
     const txAt=new Date();
@@ -950,19 +1238,19 @@ Waiting for a saved Work Order.</pre>
       selectedWorkOrderName=filename;loadedSavedWorkOrderName=filename;workOrderMode='saved';
       await refreshSuitcaseFilesFromSuitcase();
       updateRunTarget();
-      emitHelp({code:'PROTOTYPE-WO-SAVED',severity:'INFO',phase:'WORK ORDER SAVE',observed:`A new immutable Work Order was saved as ${filename}, and a successor WKO MAP was published as ${mapFilename}. The saved Work Order is now the runnable target.`,next:'Run the saved Work Order, or edit its instructions to create a new derived draft. The saved TXT and MAP remain unchanged.',facts:{filename,wko_map:mapFilename,suitcase:suitcaseHandle.name,user_chose_filename:false,work_order_editable_after_save:false,work_order_alias:spec.workOrderAlias,work_order_alias_in_wko:true,loaded_as_run_target:true,prototype_map_publication:true}})
+      emitHelp({code:'DS-PTP-039',severity:'INFO',phase:'WORK ORDER SAVE',observed:`A new immutable Work Order was saved as ${filename}, and a successor WKO MAP was published as ${mapFilename}. The saved Work Order is now the runnable target.`,next:'Run the saved Work Order, or edit its instructions to create a new derived draft. The saved TXT and MAP remain unchanged.',facts:{filename,wko_map:mapFilename,suitcase:suitcaseHandle.name,user_chose_filename:false,work_order_editable_after_save:false,work_order_alias:spec.workOrderAlias,work_order_alias_in_wko:true,loaded_as_run_target:true,prototype_map_publication:true}})
     }catch(err){
       if(wkoWritten){try{await suitcaseHandle.removeEntry(filename)}catch{}}
-      emitHelp({code:'PROTOTYPE-WO-SAVE-FAILED',severity:'ERROR',phase:'WORK ORDER SAVE',observed:'The Work Order save transaction could not publish both the immutable WKO and its successor WKO MAP.',next:'Check folder permission and try saving again. The prototype attempts to remove an uncommitted WKO if MAP publication fails.',facts:{error:String(err),wko_filename:filename,wko_map:mapFilename}})
+      emitHelp({code:'DS-PTP-038',severity:'ERROR',phase:'WORK ORDER SAVE',observed:'The Work Order save transaction could not publish both the immutable WKO and its successor WKO MAP.',next:'Check folder permission and try saving again. The prototype attempts to remove an uncommitted WKO if MAP publication fails.',facts:{error:String(err),wko_filename:filename,wko_map:mapFilename}})
     }
   }
 
 
   async function runSelected(){
     if(!requireSuitcase('RUN'))return;
-    if(workOrderMode!=='saved'||!selectedWorkOrderName){emitHelp({code:'PROTOTYPE-RUN-NO-SAVED-WO',severity:'ERROR',phase:'RUN',observed:'No saved Work Order is loaded as the Run target.',next:'Save the current draft, or double-click a saved WKO TXT in the Suitcase directory to load it.',facts:{saved_run_target:false,transient_editor_is_run_target:false}});return}
-    const item=suitcaseFiles.find(x=>x.name===selectedWorkOrderName);if(!item){emitHelp({code:'PROTOTYPE-RUN-WO-MISSING',severity:'ERROR',phase:'RUN',observed:'The loaded saved Work Order is no longer visible in the Suitcase.',next:'Refresh the Suitcase directory and load a saved Work Order again.',facts:{filename:selectedWorkOrderName}});return}
-    let text='';try{text=await (await item.handle.getFile()).text()}catch(err){emitHelp({code:'PROTOTYPE-RUN-WO-READ-FAILED',severity:'ERROR',phase:'RUN',observed:'The loaded saved Work Order could not be read from the Suitcase.',next:'Re-authorize the Suitcase or double-click another saved Work Order in the directory.',facts:{filename:selectedWorkOrderName,error:String(err)}});return}
+    if(workOrderMode!=='saved'||!selectedWorkOrderName){emitHelp({code:'DS-PTP-017',severity:'ERROR',phase:'RUN',observed:'No saved Work Order is loaded as the Run target.',next:'Save the current draft, or double-click a saved WKO TXT in the Suitcase directory to load it.',facts:{saved_run_target:false,transient_editor_is_run_target:false}});return}
+    const item=suitcaseFiles.find(x=>x.name===selectedWorkOrderName);if(!item){emitHelp({code:'DS-PTP-019',severity:'ERROR',phase:'RUN',observed:'The loaded saved Work Order is no longer visible in the Suitcase.',next:'Refresh the Suitcase directory and load a saved Work Order again.',facts:{filename:selectedWorkOrderName}});return}
+    let text='';try{text=await (await item.handle.getFile()).text()}catch(err){emitHelp({code:'DS-PTP-020',severity:'ERROR',phase:'RUN',observed:'The loaded saved Work Order could not be read from the Suitcase.',next:'Re-authorize the Suitcase or double-click another saved Work Order in the directory.',facts:{filename:selectedWorkOrderName,error:String(err)}});return}
     if(!validateWorkOrder(text))return;
     const spec=parseWorkOrder(text);
     setExecution([`> RUN ${selectedWorkOrderName}`,'WORK ORDER VALIDATED','Operation: MATERIALIZE',`Source requested: ${spec.source}`,`KEEP selectors: ${spec.selectors.map(s=>s.kind+' '+s.value+(s.alias!==null?' AS '+s.alias:'')).join(' | ')}`]);
@@ -971,12 +1259,12 @@ Waiting for a saved Work Order.</pre>
     if(!sourceResolution){
       appendExecution('REFUSED · source alias or filename not found in Suitcase');
       sourceFile=null;headers=[];selectedHeader=null;ctxSource.textContent='SOURCE NOT FOUND';ctxSource.className='v err';ctxHeaders.textContent='NOT SCANNED';ctxHeaders.className='v wait';ctxColumn.textContent='NONE';ctxColumn.className='v wait';renderHeaders();
-      emitHelp({code:'PROTOTYPE-SOURCE-NOT-FOUND',severity:'ERROR',phase:'RUN',observed:`Source “${spec.source}” did not resolve to a Suitcase filename or alias.`,next:'Correct the SOURCE line in a new Work Order, or assign the intended alias through a governed Work Order.',facts:{source_requested:spec.source,suitcase:suitcaseHandle.name,mapping_file:activeAliasMapFilename}});return;
+      emitHelp({code:'DS-PTP-022',severity:'ERROR',phase:'RUN',observed:`Source “${spec.source}” did not resolve to a Suitcase filename or alias.`,next:'Correct the SOURCE line in a new Work Order, or assign the intended alias through a governed Work Order.',facts:{source_requested:spec.source,suitcase:suitcaseHandle.name,mapping_file:activeAliasMapFilename}});return;
     }
     const sourceItem=sourceResolution.item;
     if(!sourceItem.name.toLowerCase().endsWith('.csv')){
       appendExecution('REFUSED · resolved SOURCE is not a CSV file');
-      emitHelp({code:'PROTOTYPE-SOURCE-NOT-CSV',severity:'ERROR',phase:'RUN',observed:`Source “${spec.source}” resolves to ${sourceItem.name}, which is not a CSV file.`,next:'Create and save a new Work Order naming a CSV filename or CSV alias.',facts:{source_requested:spec.source,resolved_filename:sourceItem.name,resolved_via:sourceResolution.via}});return;
+      emitHelp({code:'DS-PTP-021',severity:'ERROR',phase:'RUN',observed:`Source “${spec.source}” resolves to ${sourceItem.name}, which is not a CSV file.`,next:'Create and save a new Work Order naming a CSV filename or CSV alias.',facts:{source_requested:spec.source,resolved_filename:sourceItem.name,resolved_via:sourceResolution.via}});return;
     }
 
     try{
@@ -996,7 +1284,7 @@ Waiting for a saved Work Order.</pre>
           const matches=[];for(let i=0;i<headers.length;i++)if(headers[i]===sel.value)matches.push(i+1);
           if(matches.length!==1){
             appendExecution(`REFUSED · HEADER "${sel.value}" matched ${matches.length} columns`);
-            emitHelp({code:'PROTOTYPE-COLUMN-HEADER-AMBIGUOUS',severity:'ERROR',phase:'RUN',observed:`HEADER "${sel.value}" matched ${matches.length} source columns.`,next:'Use an exact unique HEADER or a 1-based COLUMN ordinal.',facts:{source:f.name,header:sel.value,matches}});
+            emitHelp({code:'DS-PTP-003',severity:'ERROR',phase:'RUN',observed:`HEADER "${sel.value}" matched ${matches.length} source columns.`,next:'Use an exact unique HEADER or a 1-based COLUMN ordinal.',facts:{source:f.name,header:sel.value,matches}});
             return;
           }
           ordinal=matches[0];header=headers[ordinal-1];
@@ -1004,14 +1292,14 @@ Waiting for a saved Work Order.</pre>
           ordinal=sel.value;
           if(ordinal<1||ordinal>headers.length){
             appendExecution(`REFUSED · COLUMN ${ordinal} is outside 1..${headers.length}`);
-            emitHelp({code:'PROTOTYPE-COLUMN-ORDINAL-OUT-OF-RANGE',severity:'ERROR',phase:'RUN',observed:`COLUMN ${ordinal} is outside the source width.`,next:`Use a COLUMN ordinal from 1 through ${headers.length}.`,facts:{source:f.name,ordinal,source_width:headers.length}});
+            emitHelp({code:'DS-PTP-004',severity:'ERROR',phase:'RUN',observed:`COLUMN ${ordinal} is outside the source width.`,next:`Use a COLUMN ordinal from 1 through ${headers.length}.`,facts:{source:f.name,ordinal,source_width:headers.length}});
             return;
           }
           header=headers[ordinal-1];
         }
         if(seenOrdinals.has(ordinal)){
           appendExecution(`REFUSED · source column ${ordinal} selected more than once`);
-          emitHelp({code:'PROTOTYPE-COLUMN-DUPLICATE-SELECTION',severity:'ERROR',phase:'RUN',observed:`Source column ${ordinal} was selected more than once.`,next:'Keep only one selector for each source column.',facts:{source:f.name,ordinal,header}});
+          emitHelp({code:'DS-PTP-002',severity:'ERROR',phase:'RUN',observed:`Source column ${ordinal} was selected more than once.`,next:'Keep only one selector for each source column.',facts:{source:f.name,ordinal,header}});
           return;
         }
         seenOrdinals.add(ordinal);
@@ -1019,7 +1307,7 @@ Waiting for a saved Work Order.</pre>
         const alias=sel.alias!==null?sel.alias:header; // interaction prototype does not reconstruct logical-key inheritance
         if(requestedAliases.has(alias)){
           appendExecution(`REFUSED · duplicate resulting alias: ${alias}`);
-          emitHelp({code:'PROTOTYPE-ALIAS-DUPLICATE',severity:'ERROR',phase:'RUN',observed:`Two selected columns would use alias "${alias}".`,next:'Assign unique aliases with AS in a new Work Order.',facts:{alias}});
+          emitHelp({code:'DS-PTP-001',severity:'ERROR',phase:'RUN',observed:`Two selected columns would use alias "${alias}".`,next:'Assign unique aliases with AS in a new Work Order.',facts:{alias}});
           return;
         }
         requestedAliases.add(alias);
@@ -1040,10 +1328,10 @@ Waiting for a saved Work Order.</pre>
       appendExecution('Materialization: SIMULATED · Rust/WASM engine not connected');
       appendExecution('MAP successor: SIMULATED · Revision AL resolved mapping semantics');
       appendExecution('COMPLETE · interaction prototype');
-      emitHelp({code:'PROTOTYPE-RUN-SIMULATION',severity:'INFO',phase:'RUN',observed:`The saved Work Order resolved ${resolvedSelections.length} KEEP selector(s) against ${f.name}.`,next:'Treat the execution output as interaction evidence only; no Rust/WASM analytical execution occurs in this HTML prototype.',facts:{run_target:selectedWorkOrderName,source_reference:spec.source,resolved_source_filename:f.name,resolved_via:sourceResolution.via,selections:created,alias_mapping_file:activeAliasMapFilename,revision:'BC',transient_editor_is_run_target:false,real_wasm_execution:false,user_clicked_source:false,user_clicked_column:false}});
+      emitHelp({code:'DS-PTP-018',severity:'INFO',phase:'RUN',observed:`The saved Work Order resolved ${resolvedSelections.length} KEEP selector(s) against ${f.name}.`,next:'Treat the execution output as interaction evidence only; no Rust/WASM analytical execution occurs in this HTML prototype.',facts:{run_target:selectedWorkOrderName,source_reference:spec.source,resolved_source_filename:f.name,resolved_via:sourceResolution.via,selections:created,alias_mapping_file:activeAliasMapFilename,revision:'BF',transient_editor_is_run_target:false,real_wasm_execution:false,user_clicked_source:false,user_clicked_column:false}});
     }catch(err){
       appendExecution(`FAILED · ${String(err)}`);
-      emitHelp({code:'PROTOTYPE-RUN-FAILED',severity:'ERROR',phase:'RUN',observed:'The prototype could not resolve the Work Order against the selected Suitcase.',next:'Review the Help facts and create a corrected Work Order if needed.',facts:{error:String(err),run_target:selectedWorkOrderName}});
+      emitHelp({code:'DS-PTP-016',severity:'ERROR',phase:'RUN',observed:'The prototype could not resolve the Work Order against the selected Suitcase.',next:'Review the Help facts and create a corrected Work Order if needed.',facts:{error:String(err),run_target:selectedWorkOrderName}});
     }
   }
 
@@ -1051,7 +1339,7 @@ Waiting for a saved Work Order.</pre>
     if(!requireSuitcase('PRETTY BRANDING SAVE'))return;
     const text=prettyBrandToml.value;
     if(!text.trim()){
-      emitHelp({code:'PROTOTYPE-PRETTY-BRAND-EMPTY',severity:'ERROR',phase:'PRETTY BRANDING SAVE',observed:'No PRETTY Branding TOML content has been entered.',next:'Enter TOML text before saving.',facts:{artifact_class:'BRD',format:'TOML',parsed:false,applied:false}});
+      emitHelp({code:'DS-PTP-013',severity:'ERROR',phase:'PRETTY BRANDING SAVE',observed:'No PRETTY Branding TOML content has been entered.',next:'Enter TOML text before saving.',facts:{artifact_class:'BRD',format:'TOML',parsed:false,applied:false}});
       return;
     }
     const filename=makeFilename('BRD','toml');
@@ -1060,9 +1348,9 @@ Waiting for a saved Work Order.</pre>
       await writeTextToSuitcase(filename,payload,'application/toml');
       await refreshSuitcaseFilesFromSuitcase();
       prettyBrandState.innerHTML=`Saved as <strong>${esc(filename)}</strong> · not applied`;
-      emitHelp({code:'PROTOTYPE-PRETTY-BRAND-SAVED',severity:'INFO',phase:'PRETTY BRANDING SAVE',observed:`PRETTY Branding TOML was saved as ${filename}.`,next:'No branding behavior changes in this prototype. The TOML remains a visible Suitcase artifact for later PRETTY work.',facts:{filename,artifact_class:'BRD',format:'TOML',parsed:false,applied:false,user_chose_filename:false,suitcase:suitcaseHandle.name}});
+      emitHelp({code:'DS-PTP-015',severity:'INFO',phase:'PRETTY BRANDING SAVE',observed:`PRETTY Branding TOML was saved as ${filename}.`,next:'No branding behavior changes in this prototype. The TOML remains a visible Suitcase artifact for later PRETTY work.',facts:{filename,artifact_class:'BRD',format:'TOML',parsed:false,applied:false,user_chose_filename:false,suitcase:suitcaseHandle.name}});
     }catch(err){
-      emitHelp({code:'PROTOTYPE-PRETTY-BRAND-SAVE-FAILED',severity:'ERROR',phase:'PRETTY BRANDING SAVE',observed:'The PRETTY Branding TOML file could not be written to the authorized Suitcase.',next:'Check Suitcase write permission and try again.',facts:{error:String(err),artifact_class:'BRD',format:'TOML',applied:false}});
+      emitHelp({code:'DS-PTP-014',severity:'ERROR',phase:'PRETTY BRANDING SAVE',observed:'The PRETTY Branding TOML file could not be written to the authorized Suitcase.',next:'Check Suitcase write permission and try again.',facts:{error:String(err),artifact_class:'BRD',format:'TOML',applied:false}});
     }
   }
 
@@ -1070,7 +1358,7 @@ Waiting for a saved Work Order.</pre>
     if(!requireSuitcase('DATA DICTIONARY SAVE'))return;
     const text=dataDictionaryToml.value;
     if(!text.trim()){
-      emitHelp({code:'PROTOTYPE-DATA-DICTIONARY-EMPTY',severity:'ERROR',phase:'DATA DICTIONARY SAVE',observed:'No User Data Dictionary TOML content has been entered.',next:'Enter TOML text before saving.',facts:{artifact_class:'DDC',format:'TOML',parsed:false,applied:false}});
+      emitHelp({code:'DS-PTP-005',severity:'ERROR',phase:'DATA DICTIONARY SAVE',observed:'No User Data Dictionary TOML content has been entered.',next:'Enter TOML text before saving.',facts:{artifact_class:'DDC',format:'TOML',parsed:false,applied:false}});
       return;
     }
     const filename=makeFilename('DDC','toml');
@@ -1079,21 +1367,21 @@ Waiting for a saved Work Order.</pre>
       await writeTextToSuitcase(filename,payload,'application/toml');
       await refreshSuitcaseFilesFromSuitcase();
       dataDictionaryState.innerHTML=`Saved as <strong>${esc(filename)}</strong> · not applied`;
-      emitHelp({code:'PROTOTYPE-DATA-DICTIONARY-SAVED',severity:'INFO',phase:'DATA DICTIONARY SAVE',observed:`User Data Dictionary TOML was saved as ${filename}.`,next:'No dictionary behavior changes in this prototype. The TOML remains a visible Suitcase artifact for later data-dictionary work.',facts:{filename,artifact_class:'DDC',format:'TOML',parsed:false,applied:false,user_chose_filename:false,suitcase:suitcaseHandle.name}});
+      emitHelp({code:'DS-PTP-007',severity:'INFO',phase:'DATA DICTIONARY SAVE',observed:`User Data Dictionary TOML was saved as ${filename}.`,next:'No dictionary behavior changes in this prototype. The TOML remains a visible Suitcase artifact for later data-dictionary work.',facts:{filename,artifact_class:'DDC',format:'TOML',parsed:false,applied:false,user_chose_filename:false,suitcase:suitcaseHandle.name}});
     }catch(err){
-      emitHelp({code:'PROTOTYPE-DATA-DICTIONARY-SAVE-FAILED',severity:'ERROR',phase:'DATA DICTIONARY SAVE',observed:'The User Data Dictionary TOML file could not be written to the authorized Suitcase.',next:'Check Suitcase write permission and try again.',facts:{error:String(err),artifact_class:'DDC',format:'TOML',applied:false}});
+      emitHelp({code:'DS-PTP-006',severity:'ERROR',phase:'DATA DICTIONARY SAVE',observed:'The User Data Dictionary TOML file could not be written to the authorized Suitcase.',next:'Check Suitcase write permission and try again.',facts:{error:String(err),artifact_class:'DDC',format:'TOML',applied:false}});
     }
   }
 
   async function saveHelpReport(){
     if(!currentDiagnostic)return;if(!requireSuitcase('HELP REPORT SAVE'))return
     const d=currentDiagnostic;const filename=makeFilename('HLP','html');
-    const html=`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(d.code)} — Data Sculptor Help</title><style>body{font-family:system-ui,sans-serif;max-width:900px;margin:40px auto;padding:0 24px;color:#172033;background:#f7f9fc}h1{margin-bottom:4px}.meta{color:#667085}.box{background:white;border:1px solid #d9e1ea;border-left:6px solid #9fb7d5;padding:18px;margin:18px 0}pre{white-space:pre-wrap;overflow:auto;background:#eef2f6;padding:12px}</style><h1>Red5Sorcery Data Sculptor</h1><p class="meta">WASM-002 Help Engine report · design prototype</p><div class="box"><h2>${esc(d.severity)} · ${esc(d.code)}</h2><p><strong>Phase:</strong> ${esc(d.phase)}</p><p>${esc(wording(d,'office'))}</p></div><div class="box"><h2>Canonical facts</h2><pre>${esc(JSON.stringify(d.facts||{},null,2))}</pre></div><div class="box"><h2>Safe next action</h2><p>${esc(d.next)}</p></div>`;
-    try{await writeTextToSuitcase(filename,html,'text/html');await refreshSuitcaseFilesFromSuitcase();emitHelp({code:'PROTOTYPE-HELP-REPORT-SAVED',severity:'INFO',phase:'HELP REPORT SAVE',observed:`The Help Engine report was saved as ${filename} in the authorized Suitcase.`,next:'The report is a visible portable artifact. Its final governed class/token shape remains a PRD freeze item.',facts:{filename,user_chose_filename:false,suitcase:suitcaseHandle.name}})}catch(err){emitHelp({code:'PROTOTYPE-HELP-REPORT-SAVE-FAILED',severity:'ERROR',phase:'HELP REPORT SAVE',observed:'The Help Report could not be written.',next:'Check Suitcase permission and try again.',facts:{error:String(err)}})}
+    const html=`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(d.code)} — Data Sculptor Help</title><style>body{font-family:system-ui,sans-serif;max-width:900px;margin:40px auto;padding:0 24px;color:#172033;background:#f7f9fc}h1{margin-bottom:4px}.meta{color:#667085}.box{background:white;border:1px solid #d9e1ea;border-left:6px solid #9fb7d5;padding:18px;margin:18px 0}pre{white-space:pre-wrap;overflow:auto;background:#eef2f6;padding:12px}</style><h1>Red5Sorcery Data Sculptor</h1><p class="meta">WASM-002 Help Engine report · design prototype · embedded Help catalog v${helpCatalog.version}</p><div class="box"><h2>${esc(d.severity)} · ${esc(d.code)}</h2><p><strong>Phase:</strong> ${esc(d.phase)}</p><p>${esc(wording(d,'office'))}</p></div><div class="box"><h2>Canonical facts</h2><pre>${esc(JSON.stringify(d.facts||{},null,2))}</pre></div><div class="box"><h2>Safe next action</h2><p>${esc(d.next)}</p></div>`;
+    try{await writeTextToSuitcase(filename,html,'text/html');await refreshSuitcaseFilesFromSuitcase();emitHelp({code:'DS-PTP-012',severity:'INFO',phase:'HELP REPORT SAVE',observed:`The Help Engine report was saved as ${filename} in the authorized Suitcase.`,next:'The report is a visible portable artifact. Its final governed class/token shape remains a PRD freeze item.',facts:{filename,user_chose_filename:false,suitcase:suitcaseHandle.name}})}catch(err){emitHelp({code:'DS-PTP-011',severity:'ERROR',phase:'HELP REPORT SAVE',observed:'The Help Report could not be written.',next:'Check Suitcase permission and try again.',facts:{error:String(err)}})}
   }
 
   function fullHelp(){if(!currentDiagnostic)return;const d=currentDiagnostic;diagArea.innerHTML=`<span class="${d.severity==='ERROR'?'sev':(d.severity==='INFO'?'info':'help')}">${esc(d.severity)} · ${esc(d.code)} · FULL HELP</span><div style="margin-top:12px"><strong style="color:var(--accent3)">Casual</strong><br>${esc(wording(d,'casual'))}</div><div style="margin-top:12px"><strong style="color:var(--accent3)">Office Speak</strong><br>${esc(wording(d,'office'))}</div><div style="margin-top:12px"><strong style="color:var(--accent3)">Technical</strong><br>${esc(wording(d,'technical'))}</div><dl class="diag-grid"><dt>Canonical facts</dt><dd>${esc(JSON.stringify(d.facts||{},null,2))}</dd><dt>Phase</dt><dd>${esc(d.phase)}</dd></dl>`}
-  function genericHelp(){emitHelp({code:'PROTOTYPE-HELP',severity:'HELP',phase:'WORKSPACE',observed:'Data Sculptor follows a governed sequence: validate the Suitcase, author and save a Work Order, then run that saved artifact.',next:suitcaseValidated?'Author and save a new Work Order, or choose a saved WKO TXT in the Work Order editor and load it. Double-clicking the same WKO in the Suitcase directory also loads it.':'Choose and validate the Suitcase.',facts:{prototype:true,storage_engine_surface:true,help_engine_surface:true,saved_work_orders_immutable:true,work_order_editor_loads_saved_files:true,alias_editable_in_gui:false,alias_assignment_surface:'WORK ORDER + MATERIALIZATION DEFAULTS',alias_mapping_file:activeAliasMapFilename}})}
+  function genericHelp(){emitHelp({code:'DS-PTP-010',severity:'HELP',phase:'WORKSPACE',observed:'Data Sculptor follows a governed sequence: validate the Suitcase, author and save a Work Order, then run that saved artifact.',next:suitcaseValidated?'Author and save a new Work Order, or choose a saved WKO TXT in the Work Order editor and load it. Double-clicking the same WKO in the Suitcase directory also loads it.':'Choose and validate the Suitcase.',facts:{prototype:true,storage_engine_surface:true,help_engine_surface:true,help_catalog_embedded:true,help_catalog_version:helpCatalog.version,help_catalog_entries:helpCatalog.count,help_catalog_runtime_fetch:false,saved_work_orders_immutable:true,work_order_editor_loads_saved_files:true,alias_editable_in_gui:false,alias_assignment_surface:'WORK ORDER + MATERIALIZATION DEFAULTS',alias_mapping_file:activeAliasMapFilename}})}
 
   workOrder.addEventListener('input',()=>{
     if(workOrderMode==='saved'){
@@ -1102,7 +1390,7 @@ Waiting for a saved Work Order.</pre>
       workOrderMode='derived';
       updateRunTarget();
       updateSavedWorkOrderPicker();
-      emitHelp({code:'PROTOTYPE-WO-DERIVED-DRAFT',severity:'INFO',phase:'WORK ORDER EDIT',observed:`The loaded saved Work Order remains immutable. The editor now contains a new draft derived from ${loadedSavedWorkOrderName}.`,next:'Validate and save this draft to create a new immutable Work Order TXT before running it.',facts:{source_work_order:loadedSavedWorkOrderName,source_rewritten:false,new_draft:true,run_requires_save:true}});
+      emitHelp({code:'DS-PTP-033',severity:'INFO',phase:'WORK ORDER EDIT',observed:`The loaded saved Work Order remains immutable. The editor now contains a new draft derived from ${loadedSavedWorkOrderName}.`,next:'Validate and save this draft to create a new immutable Work Order TXT before running it.',facts:{source_work_order:loadedSavedWorkOrderName,source_rewritten:false,new_draft:true,run_requires_save:true}});
     }
     renderHighlight();
   });
@@ -1122,7 +1410,7 @@ Waiting for a saved Work Order.</pre>
   saveDataDictionaryBtn.addEventListener('click',saveDataDictionaryToml);
   document.addEventListener('keydown',e=>{if(e.key==='F1'){e.preventDefault();genericHelp()}if(e.key==='Escape'){clearHelp()}if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==='s'){e.preventDefault();saveNewWorkOrder()}if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();runSelected()}});
 
-  renderMappings();renderHighlight();updateRunTarget();updateSavedWorkOrderPicker();resetExecution();updateWorkspaceGate();emitHelp({code:'PROTOTYPE-SUITCASE-FIRST',severity:'HELP',phase:'SESSION START',observed:'A Suitcase is required before work begins.',next:'Choose a Suitcase. Data Sculptor will validate it only after the retained HTML CER is successfully created, completely written, and closed.',facts:{gate_required_first:true,suitcase_validated:false,workspace_locked:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
+  renderMappings();renderHighlight();updateRunTarget();updateSavedWorkOrderPicker();resetExecution();updateWorkspaceGate();emitHelp({code:'DS-PTP-025',severity:'HELP',phase:'SESSION START',observed:'A Suitcase is required before work begins.',next:'Choose a Suitcase. Data Sculptor will validate it only after the retained HTML CER is successfully created, completely written, and closed.',facts:{gate_required_first:true,suitcase_validated:false,workspace_locked:true,user_chooses_folder:true,user_chooses_artifact_filename:false}});
 })();
 </script>
 </body>
