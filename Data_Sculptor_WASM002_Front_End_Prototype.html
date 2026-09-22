@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Data Sculptor — WASM-002 Front-End Prototype</title>
-<meta name="description" content="Day 045 WASM-002 browser front-end design prototype for Red5Sorcery Data Sculptor, aligned through PRD Revision BF." />
+<meta name="description" content="Day 045 WASM-002 browser front-end design prototype for Red5Sorcery Data Sculptor, provided as non-binding design evidence alongside the authoritative Revision BL WASM-002 Adversarial QA PRD." />
 <style>
   :root{
     color-scheme:dark;
@@ -121,16 +121,16 @@
   <header class="topline">
     <div>
       <div class="brand"><strong>Red<span class="brand-five">5</span>Sorcery</strong> / Data Sculptor / WASM-002</div>
-      <div class="brand" style="margin-top:5px;color:var(--muted)">Browser front-end design prototype · Day 045 · PRD Revision BF</div>
+      <div class="brand" style="margin-top:5px;color:var(--muted)">Browser front-end design prototype · Day 045 · QA reference: PRD Revision BL</div>
     </div>
     <div class="head-right">
       <span class="pill warn"><span class="dot"></span>DRAFT / NOT FROZEN</span>
       <span class="pill"><span class="dot"></span>LOCAL-FIRST INTERACTION PROTOTYPE</span>
-      <a class="prd-link" href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">[P] Product Backlog PRD</a>
+      <a class="prd-link" href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_PRD_RevBL_2026-09-22.html">[P] Revision BL WASM-002 QA PRD</a>
     </div>
   </header>
 
-  <div class="notice"><strong>DESIGN PROTOTYPE.</strong> Rust/WASM execution is not connected. Column materialization is simulated. Help voices resolve through an embedded build-time placeholder catalog.</div>
+  <div class="notice"><strong>DESIGN PROTOTYPE — NON-BINDING.</strong> Rust/WASM execution is not connected; analytical behavior shown here may be simulated. This prototype predates the final WASM-002 PRD cleanup and may contain controls, wording, or concepts that were later changed or deferred. The <strong>Revision BL WASM-002 Adversarial QA PRD is authoritative</strong>. If this prototype conflicts with that PRD, the PRD wins. Use this prototype only to understand interaction ideas, screen organization, and design direction.</div>
   <div class="creed"><strong>The human names the meaning. Data Sculptor names the file.</strong></div>
 
   <section class="context" aria-label="Current project context">
@@ -238,11 +238,13 @@ Waiting for a saved Work Order.</pre>
     </article>
   </section>
 
+  <div class="notice" role="note" aria-label="Out-of-scope prototype controls"><strong>OUT OF SCOPE FOR WASM-002.</strong> The PRETTY Branding TOML and User Data Dictionary TOML panels below are retained only as historical prototype concepts. They are not requirements in the Revision BL WASM-002 QA PRD and must not be treated as WASM-002 acceptance scope.</div>
+
   <section class="pretty-branding" aria-label="PRETTY Branding TOML editor">
     <article class="panel" aria-labelledby="pretty-brand-title">
       <div class="panel-head">
         <div id="pretty-brand-title" class="panel-title">PRETTY Branding TOML</div>
-        <div class="panel-note">Saved only · not applied yet</div>
+        <div class="panel-note">OUT OF SCOPE FOR WASM-002 · historical prototype</div>
       </div>
       <div class="panel-body">
         <textarea id="prettyBrandToml" class="pretty-toml-editor" aria-label="PRETTY Branding TOML draft" spellcheck="false" disabled placeholder="# PRETTY Branding TOML
@@ -259,7 +261,7 @@ Waiting for a saved Work Order.</pre>
     <article class="panel" aria-labelledby="data-dictionary-title">
       <div class="panel-head">
         <div id="data-dictionary-title" class="panel-title">User Data Dictionary TOML</div>
-        <div class="panel-note">Saved only · not applied yet</div>
+        <div class="panel-note">OUT OF SCOPE FOR WASM-002 · historical prototype</div>
       </div>
       <div class="panel-body">
         <textarea id="dataDictionaryToml" class="pretty-toml-editor" aria-label="User Data Dictionary TOML draft" spellcheck="false" disabled placeholder="# User Data Dictionary TOML
@@ -277,7 +279,7 @@ Waiting for a saved Work Order.</pre>
     <div class="scope-tags"><span class="tag in">Storage Engine</span><span class="tag in">Help Engine</span><span class="tag out">Prototype only</span></div>
   </section>
 
-  <footer class="footer"><span>Ctrl+Shift+S Save · Ctrl+Enter Run · F1 Help · Esc Clear Help</span><span>Prototype only · embedded placeholder Help catalog · PRD remains authoritative</span></footer>
+  <footer class="footer"><span>Ctrl+Shift+S Save · Ctrl+Enter Run · F1 Help · Esc Clear Help</span><span>Prototype only · Revision BL WASM-002 QA PRD is authoritative</span></footer>
 </main>
 
 <script id="ds-help-catalog" type="application/json">
