@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Data Sculptor — WASM-002 Teachable Scenario: First Materialization (Pre-QA Candidate)</title>
+<style>
+  :root {
+    --bg: #0b1018;
+    --panel: #111a27;
+    --panel2: #0f1723;
+    --paper: #f8fafc;
+    --ink: #172033;
+    --ink-dark: #e6edf5;
+    --muted: #64748b;
+    --muted-dark: #94a3b8;
+    --line: #cbd5e1;
+    --line-dark: #2a394b;
+    --accent: #2368b5;
+    --accent-dark: #9fbddd;
+    --accent-soft: rgba(35, 104, 181, 0.08);
+    --amber: #c65f00;
+    --amber-dark: #c8aa68;
+    --amber-soft: rgba(200, 170, 104, 0.1);
+    --green: #2f7d32;
+    --green-dark: #88b8a3;
+    --green-soft: rgba(136, 184, 163, 0.1);
+    --red: #b42318;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: #0d131d;
+    color: #e2e8f0;
+    font-family: var(--sans);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  .container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 40px 24px 100px;
+  }
+
+  header.hero {
+    border-bottom: 2px solid #7d1f2b;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  h1.doc-title {
+    font-size: 2.1rem;
+    line-height: 1.25;
+    margin: 0 0 10px;
+    color: #ffffff;
+  }
+
+  .meta-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--muted-dark);
+    margin-top: 14px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--line-dark);
+    background: var(--panel);
+  }
+  .pill.orange { border-color: var(--amber-dark); color: var(--amber-dark); }
+  .pill.blue { border-color: var(--accent-dark); color: var(--accent-dark); }
+
+  .notice-box {
+    background: linear-gradient(135deg, rgba(200, 170, 104, 0.08), rgba(200, 170, 104, 0.02));
+    border: 1px solid rgba(200, 170, 104, 0.35);
+    border-left: 5px solid var(--amber-dark);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 24px 0 32px;
+    font-size: 0.9rem;
+    color: #cbd5e1;
+  }
+  .notice-box strong { color: var(--amber-dark); }
+
+  .creed-banner {
+    background: var(--panel);
+    border: 1px solid var(--line-dark);
+    border-left: 4px solid var(--accent-dark);
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin-bottom: 36px;
+    font-family: var(--sans);
+    color: #f1f5f9;
+  }
+  .creed-banner b { color: var(--accent-dark); }
+
+  h2.section-heading {
+    font-size: 1.35rem;
+    color: #ffffff;
+    border-bottom: 1px solid var(--line-dark);
+    padding-bottom: 8px;
+    margin: 44px 0 18px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .section-ref {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--muted-dark);
+    font-weight: normal;
+  }
+
+  p { margin: 10px 0; color: #cbd5e1; }
+  ul { padding-left: 20px; margin: 8px 0; }
+  li { margin-bottom: 6px; }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line-dark);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .card-title {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-dark);
+    margin-bottom: 8px;
+  }
+
+  .step-block {
+    background: var(--panel);
+    border: 1px solid var(--line-dark);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+  .step-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line-dark);
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+  }
+  .step-num {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--amber-dark);
+    letter-spacing: 0.08em;
+  }
+  .step-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  pre.code-editor, pre.terminal {
+    font-family: var(--mono);
+    font-size: 0.86rem;
+    line-height: 1.55;
+    padding: 14px 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 12px 0;
+  }
+  pre.code-editor {
+    background: #070c13;
+    border: 1px solid var(--line-dark);
+    color: #d1d5db;
+  }
+  pre.terminal {
+    background: #05080d;
+    border: 1px solid #1e293b;
+    color: #94a3b8;
+  }
+  .tok-kw { color: #9fbddd; font-weight: 700; }
+  .tok-str { color: #cbd5e1; }
+  .tok-com { color: #64748b; font-style: italic; }
+  .term-ok { color: #88b8a3; font-weight: 600; }
+  .term-hi { color: #e2e8f0; font-weight: 600; }
+  .term-warn { color: #c8aa68; }
+
+  .table-wrap {
+    overflow-x: auto;
+    margin: 18px 0 24px;
+    border: 1px solid var(--line-dark);
+    border-radius: 6px;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.88rem;
+    text-align: left;
+    background: var(--panel2);
+  }
+  th, td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line-dark);
+    vertical-align: top;
+  }
+  th {
+    background: #0b111a;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted-dark);
+  }
+  tr:last-child td { border-bottom: none; }
+  .td-mono { font-family: var(--mono); font-size: 0.82rem; }
+
+  .invariant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin: 20px 0;
+  }
+  .invariant-card {
+    background: #090e17;
+    border: 1px solid var(--line-dark);
+    border-top: 3px solid var(--accent-dark);
+    padding: 14px;
+    border-radius: 4px;
+  }
+  .invariant-card b {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: #ffffff;
+    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  .qa-notes {
+    background: #0a0f16;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 22px;
+    margin-top: 48px;
+  }
+  .qa-notes h3 {
+    margin-top: 0;
+    color: #f8fafc;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="hero">
+    <div class="eyebrow">Red5Sorcery Data Sculptor · Milestone WASM-002</div>
+    <h1 class="doc-title">Teachable Scenario: First Materialization</h1>
+    <div class="meta-strip">
+      <span class="pill orange">PRE-QA CANDIDATE · DRAFT / NOT FROZEN</span>
+      <span class="pill blue">SPEC BASIS: PRD Revision BL</span>
+      <span>QA STATUS: Pending independent Claude adversarial review</span>
+    </div>
+  </header>
+
+  <div class="notice-box">
+    <strong>AUTHORITY &amp; STATUS BOUNDARY:</strong> This document is a derived instructional walkthrough and acceptance reference, <em>not</em> an authoritative Engineering Standard or a second specification contract[cite: 3]. Numbered requirements in the Product Backlog PRD Revision BL govern unconditionally[cite: 1, 3]. All candidate WASM-002 requirements remain <code>UNDER REVIEW</code> pending Claude QA review and human freeze[cite: 1, 3].
+  </div>
+
+  <div class="creed-banner">
+    <strong>Design Creed — “Data work you can explain.”</strong><br/>
+    Data Sculptor is designed to reduce forensic uncertainty by combining bounded-memory processing, strict source certification, deterministic row identity, governed Work Orders, visible artifacts, and durable Receipts[cite: 1, 3]:
+    <div style="font-family: var(--mono); font-size: 0.86rem; margin-top: 8px; color: #9fbddd;">
+      I know what I asked the computer to do. I know what it actually did. I know what happened when it couldn’t do it. And I can show somebody else.[cite: 1]
+    </div>
+  </div>
+
+  <section aria-labelledby="scope-title">
+    <h2 class="section-heading" id="scope-title">
+      1. Scenario Scope &amp; Target Goal
+      <span class="section-ref">PRD: W002-MAT-002 / W002-RID-002</span>
+    </h2>
+    <p>
+      An office analyst receives an uninspected, valid-UTF-8 Statistics Canada CSV data drop (<code>crime_stats_2025.csv</code>)[cite: 1, 2, 3]. Operating within a supported browser context, the analyst must validate a local folder workspace (Suitcase), author a declarative Work Order selecting three columns, save the Work Order into an immutable physical artifact, and execute materialization to establish a brand-new Store[cite: 1, 2, 3].
+    </p>
+    <p>
+      This walkthrough teaches <strong>run-local source continuity, exact byte accounting, deterministic row alignment, and visible governed persistence</strong>[cite: 1, 3]. It deliberately documents the happy path for <em>First Materialization establishing a new Store</em>; it does not claim automatic cross-session cryptographic identity for source bytes (which belongs to the deferred V1 <code>FINGERPRINT</code> / <code>LCK</code> workflow), nor does it cover refusal or recovery mechanics[cite: 1, 3].
+    </p>
+  </section>
+
+  <section aria-labelledby="env-title">
+    <h2 class="section-heading" id="env-title">
+      2. Preconditions &amp; Initial Boundary
+      <span class="section-ref">PRD: PB-STOR-001 / W002-UI-017</span>
+    </h2>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">Scenario Host Context</div>
+        <p style="font-size:0.88rem; margin:0;">
+          A supported Chromium-based browser context exposing the File System Access API (<code>showDirectoryPicker</code>)[cite: 2, 3]. Core analytical execution is local-first and does not require a proprietary Red5Sorcery backend[cite: 1, 3]. Packaging details remain separate from core semantics[cite: 3].
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">Local Directory State</div>
+        <p style="font-size:0.88rem; margin:0;">
+          An accessible local folder chosen as the Suitcase, containing initially exactly one file: <code>crime_stats_2025.csv</code> (UTF-8, 100,000 logical records, multiline quoted descriptions, no byte-order anomalies)[cite: 1, 3].
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">Pre-Validation Gate</div>
+        <p style="font-size:0.88rem; margin:0;">
+          The browser front end has embedded the validated Help message catalog (v1) in <code>#ds-help-catalog</code>[cite: 1, 2]. The workspace remains locked against Work Order saving, Run, or analytical execution <em>except</em> Help and the Suitcase-selection control[cite: 2, 3].
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="journey-title">
+    <h2 class="section-heading" id="journey-title">
+      3. Step-by-Step Governed Execution Walkthrough
+      <span class="section-ref">PRD: W002-STOR-022 / W002-ENC-001 / W002-MAT-002</span>
+    </h2>
+
+    <!-- Step 1 -->
+    <div class="step-block">
+      <div class="step-head">
+        <div class="step-title">Step 1: Suitcase Validation Gate</div>
+        <div class="step-num">PHASE 0 · GATE</div>
+      </div>
+      <p><strong>Analyst Action:</strong> The analyst clicks <em>[Choose &amp; validate Suitcase]</em> and selects the folder containing <code>crime_stats_2025.csv</code> via the native folder picker[cite: 2].</p>
+      <p><strong>Governed Engine Behavior (PRD: W002-STOR-022 through 022.3, W002-UI-017/018)[cite: 1, 3]:</strong></p>
+      <ul>
+        <li>Data Sculptor allocates a canonical physical filename matching <code>__DS__CER__YYYYMMDDTHHMMSSmmmZ__&lt;uuid-v4&gt;.html</code>[cite: 1].</li>
+        <li>The engine creates, completely writes, and successfully closes one governed <code>CER</code> HTML certificate in the root of the folder[cite: 1, 3].</li>
+        <li>The retained certificate proves that the canonical governed filename form was accepted and writable at that recorded UTC timestamp[cite: 1, 3]. Validation performs no validation-only deletion or rename[cite: 1, 3].</li>
+        <li><em>Limitation Boundary:</em> The CER does not certify free disk capacity, future analytical success, or later <code>SCR</code>-to-final rename operations[cite: 1, 3].</li>
+      </ul>
+      <p><strong>Illustrative Observable Behavior:</strong> The Suitcase gate indicator shifts to validated, and directory/editor controls unlock[cite: 2, 3]. Exact visible colors and badge strings remain UI presentation evidence[cite: 3].</p>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step-block">
+      <div class="step-head">
+        <div class="step-title">Step 2: Work Order Drafting (WIP State)</div>
+        <div class="step-num">PHASE 1 · DRAFT</div>
+      </div>
+      <p><strong>Analyst Action:</strong> In the Work Order editor, the analyst authors a declarative DS-STEPS specification and clicks <em>[Validate draft]</em>[cite: 1, 2]:</p>
+      <pre class="code-editor"><span class="tok-com"># Establishing Crime Analytics Store</span>
+<span class="tok-kw">SUITCASE:</span> .
+<span class="tok-kw">WORK ORDER AS</span> <span class="tok-str">"Establish Crime Analytics 2025"</span>
+<span class="tok-kw">SOURCE</span> <span class="tok-str">"crime_stats_2025.csv"</span>
+
+<span class="tok-kw">KEEP</span>
+  <span class="tok-kw">HEADER</span> <span class="tok-str">"REF_DATE"</span> <span class="tok-kw">AS</span> <span class="tok-str">"Reporting Year"</span>
+  <span class="tok-kw">HEADER</span> <span class="tok-str">"GEO"</span> <span class="tok-kw">AS</span> <span class="tok-str">"Jurisdiction"</span>
+  <span class="tok-kw">COLUMN</span> 7 <span class="tok-str">AS</span> <span class="tok-str">"Violent Crime Rate"</span>
+
+<span class="tok-kw">MATERIALIZE</span></pre>
+      <p><strong>Governed Engine Behavior (PRD: W002-STEPS-001/001.1, W002-WKO-010, W002-UI-001)[cite: 1, 3]:</strong></p>
+      <ul>
+        <li>The engine parses the text: verifies <code>SUITCASE: .</code>, singular <code>WORK ORDER AS</code>, non-empty <code>SOURCE</code>, valid <code>KEEP</code> block with at least one selector, and terminal <code>MATERIALIZE</code>[cite: 1, 2].</li>
+        <li>Confirms that column ordinals are 1-based integers (&ge; 1) and aliases are non-empty[cite: 1, 2].</li>
+        <li><em>Contract Invariant:</em> Analytical intent is expressed strictly in Work Order text; point-and-click source or column selection is not authoritative[cite: 1, 3]. An editable draft is a non-executable WIP; <strong>the Run control remains disabled</strong>[cite: 1, 2, 3].</li>
+      </ul>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step-block">
+      <div class="step-head">
+        <div class="step-title">Step 3: Save Immutable Work Order Transaction</div>
+        <div class="step-num">PHASE 2 · PUBLISH WKO</div>
+      </div>
+      <p><strong>Analyst Action:</strong> The analyst clicks <em>[Save NEW Work Order TXT]</em> (or presses <code>Ctrl+Shift+S</code>)[cite: 2].</p>
+      <p><strong>Governed Engine Behavior (PRD: W002-STOR-018.2/.3/.4, PB-STOR-013/014)[cite: 1, 3]:</strong></p>
+      <ul>
+        <li>The engine verifies that the non-empty alias <code>"Establish Crime Analytics 2025"</code> does not collide within the newest valid WKO MAP registry[cite: 1, 2, 3].</li>
+        <li>A single save-transaction UTC timestamp is established[cite: 1, 2, 3]. Data Sculptor persists the draft text to <code>__DS__WKO__YYYYMMDDTHHMMSSmmmZ__&lt;uuid-1&gt;.txt</code>[cite: 1, 2].</li>
+        <li>The complete successor WKO MAP is constructed under a governed scratch identity (<code>SCR</code>), closed, reopened, and fully validated against referenced visible WKO files[cite: 1, 3].</li>
+        <li>The validated candidate is promoted by host rename to <code>__DS__MAP__YYYYMMDDTHHMMSSmmmZ__&lt;uuid-2&gt;.csv</code>[cite: 1, 2, 3]. This rename is the <strong>alias-registry commit point</strong>[cite: 1, 3]. The WKO and successor WKO MAP share the transaction UTC and have distinct UUIDs[cite: 1, 3].</li>
+        <li><em>Failure Handling:</em> If WKO MAP publication fails, the WKO is rolled back out of committed state where safely possible, or retained as attributable recovery evidence, and reported through Help[cite: 1, 3].</li>
+      </ul>
+      <p><strong>Illustrative Observable Behavior:</strong> The saved WKO becomes immutable and is loaded as the active Run target[cite: 1, 2, 3]. The Run button unlocks[cite: 2]. Editing this text immediately detaches it into a new non-executable WIP draft[cite: 1, 2, 3].</p>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step-block">
+      <div class="step-head">
+        <div class="step-title">Step 4: Governed Run — Certification, Materialization &amp; Publication</div>
+        <div class="step-num">PHASE 3 · EXECUTE &amp; COMMIT</div>
+      </div>
+      <p><strong>Analyst Action:</strong> The analyst clicks <em>[Run loaded saved Work Order]</em> (or presses <code>Ctrl+Enter</code>)[cite: 2].</p>
+      <p><strong>Governed Engine Behavior (PRD: W002-ENC-001..005, W002-MAT-001..003, W002-RID-002, W002-RCP-001..010)[cite: 1, 3]:</strong></p>
+      <ul>
+        <li><strong>Stage 1 (Strict Whole-Source UTF-8 Certification):</strong> The engine streams <code>crime_stats_2025.csv</code> through bounded input windows using the ASCII-first strict inline validator (or an equivalent conforming implementation)[cite: 1, 3]. The 4 MiB WASM-001b window size is a proven reference point, not a frozen production constant[cite: 1, 3]. Certification must pass before any materialization begins[cite: 1]. The same run-local selected source instance remains bound across Stage 1 and Stage 2; Stage 2 must not re-resolve or substitute the source[cite: 1, 3].</li>
+        <li><strong>Stage 2 (Single-Pass Structural Materialization):</strong> Stage 2 restarts at byte offset zero of that same source instance, consumes any offset-zero UTF-8 BOM as metadata, parses the header once, resolves all requested KEEP selectors, and traverses the logical data records in <em>one single forward pass</em>[cite: 1, 3]. Embedded newlines inside quoted fields are preserved within their logical record and do not advance row identity[cite: 1].</li>
+        <li><strong>Bounded Staging &amp; Candidate Creation:</strong> Because this run establishes a brand-new Store, the engine automatically generates the Store's permanent row identity (<code>RID</code>)[cite: 1, 3]. The engine incrementally writes four visible scratch candidate artifacts: one for the <code>RID</code> (1..N) and three for the requested columns (<code>COL</code>)[cite: 1, 3]. Memory and staging buffers remain strictly bounded; the SCR files themselves grow with output size[cite: 1, 3].</li>
+        <li><strong>All-or-Refuse Publication Boundary:</strong> After every candidate reaches EOF, all four streams reconcile to exactly N = 100,000 accepted logical rows, and candidate validation passes[cite: 1, 3]:
+          <ol>
+            <li>Data Sculptor allocates one publication-transaction UTC token[cite: 1, 3].</li>
+            <li>The RID candidate is promoted first by host rename: <code>SCR</code> &rarr; <code>__DS__RID__&lt;UTC&gt;__&lt;uuid-R&gt;.csv</code>[cite: 1, 3].</li>
+            <li>COL candidates are promoted in resolved KEEP order: <code>SCR</code> &rarr; <code>__DS__COL__&lt;UTC&gt;__&lt;uuid-C1..C3&gt;.csv</code>[cite: 1, 3]. Physical COL headers retain the exact decoded source headers; assigned <code>AS</code> aliases live in MAP metadata[cite: 1, 3].</li>
+            <li>The complete 9-column successor Store MAP is written as <code>SCR</code>, closed, reopened, and fully validated[cite: 1, 3].</li>
+            <li>The final <code>SCR</code>-to-<code>MAP</code> host rename occurs last and is the <strong>Store-state commit point</strong>[cite: 1, 3]. The newly published RID, COL, and Store MAP artifacts share the exact publication-transaction UTC[cite: 1, 3].</li>
+          </ol>
+        </li>
+        <li><strong>Automatic Run Receipt:</strong> Once the Store state is committed, Data Sculptor automatically publishes a line-oriented plain-text Receipt (<code>__DS__RCP__&lt;UTC_rcp&gt;__&lt;uuid-rcp&gt;.txt</code>) carrying its own creation timestamp, exact WKO lineage, certified byte count, logical row count, and <code>RESULT: SUCCESS</code>[cite: 1, 3]. (Refused runs also attempt a receipt; receipt-persistence failure is its own governed evidence failure)[cite: 1, 3].</li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="terminal-title">
+    <h2 class="section-heading" id="terminal-title">
+      4. Read-Only Execution Output Observation
+      <span class="section-ref">PRD: W002-UI-022 / W002-RCP-009</span>
+    </h2>
+    <p>
+      The read-only Execution Output surface reports run progression, stage facts, and resulting governed artifact identities[cite: 1, 2, 3]. The following stream is an <strong>illustrative, non-normative rendering</strong> and does not replace the authoritative WKO, Store MAP, Receipt, or canonical diagnostic event[cite: 1, 3]:
+    </p>
+    <pre class="terminal">> RUN __DS__WKO__20260922T213000100Z__3fa85f64-8c1b-4f9e-a7d2-1b8f3a9e2c4d.txt
+<span class="term-ok">WORK ORDER VALIDATED</span> · OPERATION: MATERIALIZE
+Source bound: crime_stats_2025.csv (run-local instance)
+Stage 1 UTF-8 Certification: <span class="term-ok">PASS</span> (142,503,112 source bytes verified)
+Stage 2 Single-Pass Materialization: <span class="term-ok">100,000 logical rows accepted</span>
+RID Published: <span class="term-hi">__DS__RID__20260922T213005120Z__a1b2c3d4-1111-4000-8000-000000000001.csv</span> (Action: CREATED)
+COL Published (1/3): <span class="term-hi">__DS__COL__20260922T213005120Z__e5f6a7b8-2222-4000-8000-000000000002.csv</span> [Reporting Year]
+COL Published (2/3): <span class="term-hi">__DS__COL__20260922T213005120Z__c9d0e1f2-3333-4000-8000-000000000003.csv</span> [Jurisdiction]
+COL Published (3/3): <span class="term-hi">__DS__COL__20260922T213005120Z__3a4b5c6d-4444-4000-8000-000000000004.csv</span> [Violent Crime Rate]
+Store MAP Committed: <span class="term-hi">__DS__MAP__20260922T213005120Z__7e8f9a0b-5555-4000-8000-000000000005.csv</span>
+Receipt Published: <span class="term-hi">__DS__RCP__20260922T213005850Z__f1e2d3c4-6666-4000-8000-000000000006.txt</span>
+<span class="term-ok">EXECUTION COMPLETE · RESULT: SUCCESS</span></pre>
+  </section>
+
+  <section aria-labelledby="ledger-title">
+    <h2 class="section-heading" id="ledger-title">
+      5. Visible Physical Artifact Ledger
+      <span class="section-ref">PRD: PB-STOR-001 / PB-STOR-006 / PB-STOR-013</span>
+    </h2>
+    <p>
+      Under this <strong>deliberately empty-start happy-path fixture</strong>—one source initially present, successful CER validation, one saved WKO/WKO MAP transaction, first materialization of three columns, successful Store MAP commit, and successful Receipt publication—the Suitcase ends with exactly ten visible files[cite: 3]. Real Suitcases may contain multiple Stores, historical snapshots, inventories, or recovery evidence[cite: 1, 3].
+    </p>
+    <p>
+      Data Sculptor intentionally persists project/analytical state only in the visible Suitcase; incidental browser/OS runtime caches outside Data Sculptor control are explicitly outside this contract[cite: 1, 3].
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Canonical Filename</th>
+            <th>Class</th>
+            <th>Format</th>
+            <th>Role &amp; Governance Rules</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-mono">crime_stats_2025.csv</td>
+            <td><em>Input</em></td>
+            <td>CSV</td>
+            <td>Analyst-owned input file. Data Sculptor does not modify the source in place or rename it into <code>__DS__</code>[cite: 1, 3].</td>
+          </tr>
+          <tr>
+            <td class="td-mono">__DS__CER__...html</td>
+            <td><code>CER</code></td>
+            <td>HTML</td>
+            <td>Retained Suitcase Validation Certificate. Proves folder writability at creation UTC; remains visible evidence[cite: 1, 2, 3].</td>
+          </tr>
+          <tr>
+            <td class="td-mono">__DS__WKO__...txt</td>
+            <td><code>WKO</code></td>
+            <td>TXT</td>
+            <td>Authorizing Work Order artifact. Immutable text document; authoring timestamp remains its own[cite: 1, 3].</td>
+          </tr>
+          <tr>
+            <td class="td-mono">__DS__MAP__...csv (1)</td>
+            <td><code>MAP</code></td>
+            <td>CSV</td>
+            <td>WKO Alias Registry Profile (2 columns: <code>wko_alias,wko_filename</code>). Promotion is save commit point[cite: 1, 3].</td>
+          </tr>
+          <tr>
+            <td class="td-mono">__DS__RID__...csv</td>
+            <td><code>RID</code></td>
+            <td>CSV</td>
+            <td>Store Row Identity Spine (1 column, integers 1..100000 with UTF-8 BOM and LF endings). Generated once on Store establishment[cite: 1, 3].</td>
+          </tr>
+          <tr>
+            <td class="td-mono">__DS__COL__...csv (1)</td>
+            <td><code>COL</code></td>
+            <td>CSV</td>
+            <td>Materialized column: <code>REF_DATE</code>. Header retains source text; <code>Reporting Year</code> alias recorded in MAP[cite: 1, 3].</td>
+          </tr>
+          <tr>
+            <td class="td-mono">__DS__COL__...csv (2)</td>
+            <td><code>COL</code></td>
+            <td>CSV</td>
+            <td>Materialized column: <code>GEO</code>. Aligned to the 100,000 RID axis in exact logical record order[cite: 1, 3].</td>
+          </tr>
+          <tr>
+            <td class="td-mono">__DS__COL__...csv (3)</td>
+            <td><code>COL</code></td>
+            <td>CSV</td>
+            <td>Materialized column: Col 7. Header retains source text; <code>Violent Crime Rate</code> alias recorded in MAP[cite: 1, 3].</td>
+          </tr>
+          <tr>
+            <td class="td-mono">__DS__MAP__...csv (2)</td>
+            <td><code>MAP</code></td>
+            <td>CSV</td>
+            <td>Store MAP Profile (9 columns). Complete snapshot binding Store metadata, RID file, and COL mappings. Host rename from SCR is commit point[cite: 1, 3].</td>
+          </tr>
+          <tr>
+            <td class="td-mono">__DS__RCP__...txt</td>
+            <td><code>RCP</code></td>
+            <td>TXT</td>
+            <td>Canonical Execution Receipt. Deterministic line-oriented <code>KEY: VALUE</code> UTF-8 text with LF endings; records exact WKO lineage and facts[cite: 1, 3].</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="invariants-title">
+    <h2 class="section-heading" id="invariants-title">
+      6. Governed Architectural Invariants Illustrated
+      <span class="section-ref">Summary of Rev BL Candidate Invariants</span>
+    </h2>
+    <div class="invariant-grid">
+      <div class="invariant-card">
+        <b>1. Absolute Gate Precedence</b>
+        No Work Order saving, Run, or analytical processing occurs before successful CER validation; Help and Suitcase selection remain available[cite: 1, 2, 3].
+      </div>
+      <div class="invariant-card">
+        <b>2. Draft / WKO Separation</b>
+        Analytical intent lives in text. Editing occurs in non-executable WIP state; only saved immutable WKO artifacts can be invoked[cite: 1, 2, 3].
+      </div>
+      <div class="invariant-card">
+        <b>3. Implicit Row Spine</b>
+        The 1..N RID artifact is mandatory engine infrastructure created automatically on first Store materialization and reused on subsequent same-Store runs[cite: 1, 3].
+      </div>
+      <div class="invariant-card">
+        <b>4. Single-Pass Bounded Execution</b>
+        Stage 2 structural materialization processes multiple selected columns and RID in one single forward pass under bounded memory staging and backpressure[cite: 1, 3].
+      </div>
+      <div class="invariant-card">
+        <b>5. All-or-Refuse Publication</b>
+        Outputs stage as SCR candidates; RID promotes first, COLs in resolved KEEP order, and successor Store MAP promotes last as the sole Store-state commit point[cite: 1, 3].
+      </div>
+      <div class="invariant-card">
+        <b>6. Governed Visible Persistence</b>
+        No Data Sculptor-controlled project state is intentionally persisted outside the flat Suitcase. Project history remains fully inspectable by ordinary OS tools[cite: 1, 3].
+      </div>
+    </div>
+  </section>
+
+  <section class="qa-notes" aria-labelledby="questions-title">
+    <h2 class="section-heading" id="questions-title" style="margin-top:0; border:none;">
+      7. Review Questions and Non-Blocking Follow-ons
+      <span class="section-ref">Categorized for Prioritization</span>
+    </h2>
+    <p>
+      In reconciling this scenario against Revision BL and Spock's audit, the following questions arose. They are categorized to distinguish true specification ambiguities from implementation policies, UX ideas, and documentation planning[cite: 3]:
+    </p>
+    <ol>
+      <li>
+        <strong>[Implementation Policy] WKO MAP Rollback Boundary on Interrupted Save (PRD: W002-STOR-018.3)[cite: 1, 3]:</strong><br/>
+        When saving a WKO, the draft WKO is persisted first, and then the successor WKO MAP candidate is validated and promoted[cite: 1, 3]. The PRD states that if MAP promotion fails, Data Sculptor must roll back the new WKO out of committed state <em>where safely possible</em>, or retain attributable <code>SCR</code>/<code>RCV</code> evidence[cite: 1, 3]. In a browser/WASM context using the File System Access API, should the engine actively attempt an immediate <code>removeEntry()</code> on the newly written WKO file if MAP commit fails, or should it immediately transition the WKO file into a tombstoned/recovery name to preserve forensics without partial state?
+      </li>
+      <li>
+        <strong>[Specification/QA] Reconciling Store Source Filename vs. Explicit MAP Inheritance (PRD: W002-STOR-019.2/.3)[cite: 1, 3]:</strong><br/>
+        In automatic Store MAP inheritance, Data Sculptor matches the exact <code>SOURCE</code> filename against <code>store_source_filename</code>[cite: 1, 3]. If an analyst renames their source CSV externally, automatic inheritance treats this as a brand-new Store establishing a new RID[cite: 1, 3]. The PRD allows overriding this via <code>MAP "__DS__MAP__..."</code>[cite: 1, 3]. Does Rev BL intend an externally renamed source to be compatible with explicit historical MAP selection, and if so, what evidence establishes that compatibility? Right now the PRD does not justify teaching MAP selection as a rename-recovery technique.
+      </li>
+      <li>
+        <strong>[UX Enhancement] Execution Output vs. Terminal Lineage Standards (PRD: W002-UI-022)[cite: 1, 3]:</strong><br/>
+        The prototype displays a live progress terminal[cite: 2]. Spock correctly emphasized that Execution Output is an observation surface rather than an authoritative ledger[cite: 3]. To avoid analyst confusion between what is displayed on screen and what is written to the <code>RCP</code> file, should the UI provide a direct one-click action to view the persisted <code>RCP</code> text file directly in the workspace, reinforcing that the file on disk is the authoritative record?
+      </li>
+      <li>
+        <strong>[Documentation Planning] Structure of Subsequent Teachable Scenarios[cite: 3]:</strong><br/>
+        Spock recommended keeping this document strictly focused on First Materialization and creating a companion scenario for "Explainable Refusal &amp; Help"[cite: 3]. Should Scenario #2 focus on a failed UTF-8 certification encountering Windows-1252 bytes and demonstrating the <code>CVT</code> conversion suggestion, or should it focus on a structural CSV syntax refusal (e.g., ragged columns or multiline quote exhaustion)[cite: 1, 3]?
+      </li>
+    </ol>
+  </section>
+
+  <section class="qa-notes" aria-labelledby="references-title" style="margin-top:24px; padding:16px 22px; background: #0b111a;">
+    <h2 class="section-heading" id="references-title" style="margin-top:0; border:none; font-size: 1rem; color: #cbd5e1;">
+      8. Source References
+    </h2>
+    <ul style="font-size: 0.85rem; color: var(--muted-dark); list-style: none; padding-left: 0;">
+      <li style="margin-bottom: 4px;"><strong>[1]</strong> Red5Sorcery Data Sculptor Product Backlog PRD — Revision BL (Candidate 2026-09-22)</li>
+      <li style="margin-bottom: 4px;"><strong>[2]</strong> Red5Sorcery Data Sculptor WASM-002 Prototype for RevBL QA (2026-09-22)</li>
+      <li style="margin-bottom: 4px;"><strong>[3]</strong> Red5Sorcery Data Sculptor WASM-002 Teachable Scenario Accuracy Review (Spock, 2026-09-22)</li>
+    </ul>
+  </section>
+
+</div>
+
+</body>
+</html>
