@@ -281,7 +281,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 </style>
 </head>
 <body>
-<!-- Day 046 public-site preflight update: Revision BL / 778 requirements / 384 SCOPE=WASM-002; independent adversarial QA and targeted revisions; no implementation or freeze claimed. -->
+<!-- Day 046 public-site landing update: Revision BL / 778 requirements / 384 SCOPE=WASM-002; Claude Pass 1 adversarial QA complete with 34 findings; Council reconciliation underway with F-02, F-03 and F-04 resolved by frozen decisions; no WASM-002 implementation or PRD freeze claimed. -->
 
 <header class="masthead">
   <div class="wrap">
@@ -320,6 +320,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
       <a class="watch" href="Data_Sculptor_WASM002_Help_Scenario_001_First_Materialization.html">Read Scenario 1: First Materialization<span>&#8594;</span></a>
     </div>
 
+    <div class="hero-cta">
+      <span class="cta-label">WASM-002 independent adversarial QA — Claude Pass 1</span>
+      <a class="watch" href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass1_2026-09-23.html">Read Claude's 34-finding QA Review<span>&#8594;</span></a>
+    </div>
+
+    <div class="hero-cta">
+      <span class="cta-label">WASM-002 QA reconciliation — Council decision record</span>
+      <a class="watch" href="Red5Sorcery_Data_Sculptor_WASM002_Claude_QA_Reconciliation_Log_Pass1_2026-09-23.html">Open the Claude QA Reconciliation Log<span>&#8594;</span></a>
+    </div>
+
     <div class="state">
       <div class="state-top">Project state — Day 046, Wednesday 23 September 2026</div>
       <dl>
@@ -328,11 +338,11 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <dt>Contract</dt>
         <dd>WASM-001b remains preserved as an experimental lineage rather than retroactively treated as completed acceptance. The official Product Backlog PRD is the standalone HTML working master: <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">open the current Product Backlog PRD</a>. Day 045 landed at Revision BL with 778 recorded requirements, 384 of them scoped to WASM-002. Per-requirement SCOPE remains the allocation authority, STATUS records lifecycle independently, and PDF renderings remain snapshots rather than the live backlog. Revision BL is DRAFT / UNDER REVIEW / NOT FROZEN.</dd>
         <dt>Build state</dt>
-        <dd>No WASM-002 production implementation has started. Day 045 completed the pre-QA reconciliation and packaged Revision BL for independent review. The diagnostic registry and HLP provenance contract were closed for the candidate, Brand Manifest and Custom presentation work were deferred rather than forced into WASM-002, and Claude completed a context/orientation pass without beginning the independent adversarial review.</dd>
+        <dd>No WASM-002 production implementation has started. Claude completed Pass 1 independent adversarial QA against Revision BL and filed 34 findings: 11 blocking, 15 material non-blocking and 8 clarity findings. The review is published here: <a href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass1_2026-09-23.html">Claude's WASM-002 Revision BL adversarial QA review</a>. Revision BL remains the reviewed baseline rather than being silently rewritten.</dd>
         <dt>Now building</dt>
-        <dd>Day 046 is the independent adversarial QA flight. Claude reviews Revision BL as the baseline; specification changes are made only where a finding supports them. The goal is not to enlarge the design, but to test whether the contract is internally consistent, complete enough to govern implementation, and ready for a later freeze decision.</dd>
+        <dd>Day 046 moved from review into evidence-led reconciliation. F-02, F-03 and F-04 are resolved by frozen Council decisions covering the WKO registry lifecycle and repair, Store damage/recovery boundaries, RID serialization and existing-Store cardinality protection. The separate working record is public here: <a href="Red5Sorcery_Data_Sculptor_WASM002_Claude_QA_Reconciliation_Log_Pass1_2026-09-23.html">Claude QA Reconciliation Log — Pass 1</a>. F-05, source-to-MAP compatibility, is the next checkpoint.</dd>
         <dt>Unsettled</dt>
-        <dd class="open">The independent findings are not yet complete, and no approval or freeze is claimed. Any revisions made today remain part of specification work until the review closes and the resulting candidate is explicitly accepted.</dd>
+        <dd class="open">Claude's 34 findings are complete, but reconciliation is not. Thirty-one findings remain open after today's landing. No WASM-002 approval, implementation start or PRD freeze is claimed; accepted QA decisions remain in the separate reconciliation record until they are deliberately integrated into a later PRD revision.</dd>
         <dt>Privacy R&amp;D</dt>
         <dd>RQSM is carried openly as separate V1-BACKLOG privacy work: a lawful, user-controlled research direction for protecting sensitive digital information inside ordinary image carriers. It is not part of WASM-002 and does not alter the current analytical-core contract.</dd>
         <dt>Released</dt>
@@ -951,6 +961,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>Put the Contract Under Adversarial Review</h3>
           <p>The day opens from Revision BL of the <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">official HTML Product Backlog PRD</a>: 778 recorded requirements, 384 scoped to WASM-002, still DRAFT / UNDER REVIEW / NOT FROZEN. The design phase has reached the point where the useful work is no longer adding ideas. It is trying to break the contract before code has to live with it.</p>
           <p class="log-after"><b>Planned flight</b>Claude begins independent adversarial QA from Revision BL. Findings are reviewed one at a time, and only targeted specification corrections supported by evidence are allowed into the PRD. No implementation, approval or freeze is claimed at preflight.</p>
+          <p class="log-after"><b>Landing</b>Claude's Pass 1 review closed with 34 findings — 11 blocking, 15 material non-blocking and 8 clarity. The Council then began a separate reconciliation record rather than rewriting the reviewed baseline. F-02, F-03 and F-04 are resolved by frozen decisions; F-05 is next. <a href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass1_2026-09-23.html">Read Claude's QA review</a> · <a href="Red5Sorcery_Data_Sculptor_WASM002_Claude_QA_Reconciliation_Log_Pass1_2026-09-23.html">Open the reconciliation log</a>.</p>
         </div>
       </li>
     </ol>
