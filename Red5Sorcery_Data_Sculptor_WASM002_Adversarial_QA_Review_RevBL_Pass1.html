@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Sculptor — WASM-002 Adversarial QA Review of Revision BL — Pass 1</title>
+<style>
+:root {
+  --paper:#FBFBF9; --ink:#1D2330; --muted:#586173; --rule:#D8DCE3; --panel:#F1F3F6;
+  --red5:#C8102E; --blk-bg:#FBEFF1; --mat:#8F5400; --mat-bg:#FBF3E6; --clr:#35598A; --clr-bg:#EEF3F9;
+  --serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+  --sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --mono: Consolas, "Cascadia Mono", "DejaVu Sans Mono", Menlo, monospace;
+}
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:1.02rem/1.62 var(--serif); }
+main { max-width:50rem; margin:0 auto; padding:2.5rem 1.25rem 4rem; }
+h1,h2,h3,h4 { font-family:var(--sans); line-height:1.25; }
+h1 { font-size:1.9rem; font-weight:650; margin:.2rem 0 .4rem; letter-spacing:-.01em; }
+h2 { font-size:1.3rem; font-weight:650; margin:2.8rem 0 .8rem; padding-top:1rem; border-top:2px solid var(--ink); }
+h3 { font-size:1.12rem; font-weight:620; margin:.25rem 0 .35rem; }
+h4 { font-size:.86rem; font-weight:650; color:var(--muted); margin:1rem 0 .3rem; }
+p { margin:.55rem 0; }
+code { font-family:var(--mono); font-size:.86em; background:var(--panel); padding:.05em .3em; border-radius:3px; overflow-wrap:anywhere; }
+a { color:var(--clr); }
+a:focus-visible { outline:2px solid var(--red5); outline-offset:2px; }
+.brand { font-family:var(--sans); font-weight:700; font-size:1rem; margin:0; }
+.brand .five { color:var(--red5); }
+.lede { color:var(--muted); font-size:1.05rem; margin-top:0; }
+.idtable, .index, .proto, .sumtable { width:100%; border-collapse:collapse; font-family:var(--sans); font-size:.88rem; }
+.idtable th, .idtable td, .proto th, .proto td { text-align:left; vertical-align:top; padding:.4rem .6rem .4rem 0; border-bottom:1px solid var(--rule); }
+.idtable th, .proto th { width:11rem; font-weight:600; color:var(--muted); }
+.idtable td code { font-size:.8rem; }
+.wrap { overflow-x:auto; }
+.sumtable td, .sumtable th { padding:.45rem .7rem; border:1px solid var(--rule); text-align:left; }
+.sumtable td.n { font-weight:700; font-size:1.1rem; text-align:right; width:4rem; }
+.index td { padding:.38rem .5rem; border-bottom:1px solid var(--rule); vertical-align:top; }
+.index td:first-child { white-space:nowrap; font-weight:600; }
+.index .sevcell { white-space:nowrap; font-size:.74rem; font-weight:700; }
+.index tr.blocking .sevcell { color:var(--red5); }
+.index tr.material .sevcell { color:var(--mat); }
+.index tr.clarity .sevcell { color:var(--clr); }
+.finding { margin:2rem 0; padding:1rem 1.2rem 1rem 1.2rem; border-left:5px solid; background:#fff; border-radius:0 4px 4px 0; box-shadow:0 0 0 1px var(--rule) inset; }
+.finding.blocking { border-left-color:var(--red5); }
+.finding.material { border-left-color:var(--mat); }
+.finding.clarity  { border-left-color:var(--clr); }
+.fid { font-family:var(--sans); font-weight:700; margin:0; font-size:.9rem; display:flex; gap:.7rem; align-items:baseline; flex-wrap:wrap; }
+.sev { font-size:.72rem; font-weight:700; padding:.1rem .45rem; border-radius:3px; }
+.blocking .sev { background:var(--blk-bg); color:var(--red5); }
+.material .sev { background:var(--mat-bg); color:var(--mat); }
+.clarity .sev  { background:var(--clr-bg); color:var(--clr); }
+.cites { font-family:var(--sans); font-size:.8rem; color:var(--muted); margin:.2rem 0 .4rem; }
+.rid { font-size:.76rem; margin-right:.15rem; white-space:nowrap; }
+.finding ul { margin:.2rem 0 .4rem; padding-left:1.25rem; }
+.finding li { margin:.28rem 0; }
+.finding ul.ev, .finding ul.an { list-style:none; padding-left:1.45rem; }
+.finding ul.ev > li, .finding ul.an > li { text-indent:-1.45rem; }
+.finding li.sub { list-style:circle; margin-left:1.2rem; text-indent:0 !important; }
+.ei { display:inline-block; font-family:var(--sans); font-size:.66rem; font-weight:700; width:1.15rem; height:1.15rem; line-height:1.15rem; text-align:center; border-radius:50%; margin-right:.2rem; vertical-align:.1em; text-indent:0; }
+.ei-e { background:var(--ink); color:#fff; }
+.ei-i { background:#fff; color:var(--ink); box-shadow:0 0 0 1.2px var(--ink) inset; }
+.impact { border-top:1px dashed var(--rule); padding-top:.55rem; margin-top:.7rem; }
+.ask { background:var(--panel); padding:.6rem .75rem; border-radius:4px; }
+ol.q li, ul.s li { margin:.45rem 0; }
+.note { font-size:.9rem; color:var(--muted); }
+footer { margin-top:3rem; padding-top:1rem; border-top:1px solid var(--rule); font-family:var(--sans); font-size:.8rem; color:var(--muted); }
+@media print {
+  body { font-size:10pt; }
+  main { max-width:none; padding:0; }
+  .finding { break-inside:avoid-page; box-shadow:none; border:1px solid var(--rule); border-left:5px solid; }
+  .finding.blocking { border-left-color:var(--red5); } .finding.material { border-left-color:var(--mat); } .finding.clarity { border-left-color:var(--clr); }
+  h2 { break-after:avoid; }
+  a { color:inherit; text-decoration:none; }
+}
+</style>
+</head>
+<body>
+<main>
+<p class="brand">Red<span class="five">5</span>Sorcery / Data Sculptor</p>
+<h1>WASM-002 adversarial QA review of Revision BL</h1>
+<p class="lede">Pass 1 — independent requirement review, Wednesday 23 September 2026. Findings only; no requirement text has been changed.</p>
+
+<h2 id="identity">1. Review identity</h2>
+<div class="wrap"><table class="idtable">
+<tr><th scope="row">Contract under review</th><td><code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_PRD_RevBL_2026-09-22.html</code></td></tr>
+<tr><th scope="row">SHA-256 (verified)</th><td><code>828C6A81B2C0A8B97546F728628059C53CC61256FAB23B142E452A8E566E025F</code> — matches the supplied sidecar; 626,877 bytes</td></tr>
+<tr><th scope="row">Requirements in cut</th><td>384, all SCOPE WASM-002, all UNDER REVIEW (independently recounted)</td></tr>
+<tr><th scope="row">Source master</th><td>Product Backlog PRD Revision BL, SHA-256 <code>A5D5D8D0…6408813E6</code> (not supplied; not reviewed)</td></tr>
+<tr><th scope="row">Non-normative input</th><td><code>Data_Sculptor_WASM002_Front_End_Prototype.html</code>, SHA-256 <code>A6EC724DEDC6CCCF08F5EDC4A818EEF361A419DEBAF4A17E0D548636FE8139A6</code> — used only for Appendix A</td></tr>
+<tr><th scope="row">Reviewer</th><td>Claude, independent adversarial QA (no implementation seen)</td></tr>
+<tr><th scope="row">Record discipline</th><td>Append-only. Corrections to this pass will be filed as addenda with the original text preserved.</td></tr>
+</table></div>
+
+<h2 id="method">2. Method and conventions</h2>
+<p>The contract was read end to end, then attacked one lifecycle at a time: Suitcase gate, WKO save, Run, Stage 1, Stage 2, publication, inheritance, alias maintenance, recovery, conversion, Help/HLP, and UI. Each candidate finding was checked against the full text of all 384 retained requirements before it was kept. Where a finding depends on the absence of a rule, that absence was confirmed by full-text search of the cut.</p>
+<p><span class="ei ei-e">E</span> marks evidence: a direct reading of cited requirement text, or a search result. <span class="ei ei-i">I</span> marks interpretation, which is contestable. Interpretations about browser or library behavior are flagged as such and should be verified on the target platform before being relied on.</p>
+<p>Severity uses the project scale. <b>BLOCKING</b>: cannot be frozen as written, because a gate cannot be passed honestly, an independent oracle cannot be derived, or a core promise can be silently broken. <b>MATERIAL NON-BLOCKING</b>: should be resolved before freeze, but a reasonable build could proceed with an explicit decision. <b>CLARITY</b>: wording, structure or navigation. Suggested directions are offered to support T's decision and are not proposed requirement text.</p>
+<p class="note">Out of scope for this pass: the source master, requirements outside the cut (including PB-OPS-003, 003.1 and 010 beyond their listed titles), any implementation, and final Help prose.</p>
+
+<h2 id="summary">3. Summary</h2>
+<div class="wrap"><table class="sumtable">
+<tr><th scope="row">BLOCKING</th><td class="n">11</td></tr>
+<tr><th scope="row">MATERIAL NON-BLOCKING</th><td class="n">15</td></tr>
+<tr><th scope="row">CLARITY</th><td class="n">8</td></tr>
+<tr><th scope="row">Total</th><td class="n">34</td></tr>
+</table></div>
+<p>Revision BL is a strong contract at its core. The Store commit protocol, the strict UTF-8 section and the honesty boundaries hold up well under attack. The blocking findings cluster in three places.</p>
+<p>First, <b>lifecycle edges</b>. What happens when things go missing, get refreshed or get edited — a damaged RID, a re-downloaded source, an aliased Work Order being revised — is either unspecified or leads to silent behavior the contract elsewhere forbids (F-02, F-03, F-04).</p>
+<p>Second, <b>oracles that are referenced but not present</b>. The error contract, the string-literal rules, the CSV input grammar, Receipt serialization, source/MAP compatibility and the conversion form are cited but not in the cut. An independent QA suite cannot be derived without them (F-05 to F-10).</p>
+<p>Third, <b>stale in-scope text</b>, meaning requirements left over from earlier models (F-01, F-11).</p>
+<p>Most blocking items need a decision rather than new machinery.</p>
+
+<h2 id="index">4. Finding index</h2>
+<div class="wrap"><table class="index">
+<thead><tr><th scope="col">ID</th><th scope="col">Severity</th><th scope="col">Finding</th></tr></thead>
+<tbody><tr class="blocking"><td><a href="#F-01">F-01</a></td><td class="sevcell">BLOCKING</td><td>An acceptance gate requires a capability the contract forbids</td></tr><tr class="blocking"><td><a href="#F-02">F-02</a></td><td class="sevcell">BLOCKING</td><td>An aliased Work Order cannot be edited and re-saved, and the WKO alias registry has no retirement path</td></tr><tr class="blocking"><td><a href="#F-03">F-03</a></td><td class="sevcell">BLOCKING</td><td>A missing or damaged RID or COL silently forks the Store, and the RID recovery base is undefined</td></tr><tr class="blocking"><td><a href="#F-04">F-04</a></td><td class="sevcell">BLOCKING</td><td>A same-filename source refresh has no cardinality check against the inherited RID, and there is no way to start a new Store</td></tr><tr class="blocking"><td><a href="#F-05">F-05</a></td><td class="sevcell">BLOCKING</td><td>The source-to-MAP compatibility rule is referenced but never defined</td></tr><tr class="blocking"><td><a href="#F-06">F-06</a></td><td class="sevcell">BLOCKING</td><td>The CSV dialect and the rules for malformed input are not frozen</td></tr><tr class="blocking"><td><a href="#F-07">F-07</a></td><td class="sevcell">BLOCKING</td><td>The meaning of the UTF-8 first-invalid offset is undefined, and the frozen error contract it points to is not in the cut</td></tr><tr class="blocking"><td><a href="#F-08">F-08</a></td><td class="sevcell">BLOCKING</td><td>The DS-STEPS lexical rules are incomplete, and the "governed string-literal rules" they cite are not in the cut</td></tr><tr class="blocking"><td><a href="#F-09">F-09</a></td><td class="sevcell">BLOCKING</td><td>Receipt and Inventory TXT must be tested byte-for-byte, but their serialization is not specified</td></tr><tr class="blocking"><td><a href="#F-10">F-10</a></td><td class="sevcell">BLOCKING</td><td>Windows-1252 conversion has no Work Order form, output contract or class-level serialization</td></tr><tr class="blocking"><td><a href="#F-11">F-11</a></td><td class="sevcell">BLOCKING</td><td>The Store Index is an in-scope obligation with no artifact class, trigger or content contract</td></tr><tr class="material"><td><a href="#F-12">F-12</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>Selecting current state by the greatest UTC has no guard against clock movement</td></tr><tr class="material"><td><a href="#F-13">F-13</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>The single-writer assumption is not stated</td></tr><tr class="material"><td><a href="#F-14">F-14</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>Publication and validity rules for non-Store artifacts are undefined</td></tr><tr class="material"><td><a href="#F-15">F-15</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>MAP eligibility can change when unrelated files appear, and the comparison rules are undefined</td></tr><tr class="material"><td><a href="#F-16">F-16</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>The conversion suggestion conflicts with fixed diagnostic semantics, and the Windows-1252 mapping is not frozen</td></tr><tr class="material"><td><a href="#F-17">F-17</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>The Help rendering contract is missing a coverage fallback, absent-value rendering, and a consistent notion of required facts</td></tr><tr class="material"><td><a href="#F-18">F-18</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>HLP provenance merges "not applicable" with "unavailable", and absence tokens differ across artifacts</td></tr><tr class="material"><td><a href="#F-19">F-19</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>HLP disclosure edge cases: a header can be data, and aliases are not covered by the allowlist</td></tr><tr class="material"><td><a href="#F-20">F-20</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>"Bounded memory" has no stated limits, and header width and KEEP width are unlimited</td></tr><tr class="material"><td><a href="#F-21">F-21</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>Publishing from a historical MAP silently changes what is current</td></tr><tr class="material"><td><a href="#F-22">F-22</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>Expected diagnostics come from a registry the implementer delivers, which undercuts QA independence</td></tr><tr class="material"><td><a href="#F-23">F-23</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>Acceptance coverage has gaps, and test seams are missing</td></tr><tr class="material"><td><a href="#F-24">F-24</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>Session model: a new CER every session, no remembered Suitcase, no preferences, and lost drafts</td></tr><tr class="material"><td><a href="#F-25">F-25</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>The target platform and the small-screen baseline are not defined within the cut</td></tr><tr class="material"><td><a href="#F-26">F-26</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>Allowed SOURCE reference forms are undefined</td></tr><tr class="clarity"><td><a href="#F-27">F-27</a></td><td class="sevcell">CLARITY</td><td>W002-UI-006 says "editable human alias"</td></tr><tr class="clarity"><td><a href="#F-28">F-28</a></td><td class="sevcell">CLARITY</td><td>Brand-Manifest wording survives in in-scope text</td></tr><tr class="clarity"><td><a href="#F-29">F-29</a></td><td class="sevcell">CLARITY</td><td>Section headings misplace in-scope requirements and are out of order</td></tr><tr class="clarity"><td><a href="#F-30">F-30</a></td><td class="sevcell">CLARITY</td><td>Truncated text in titles, evidence and rationale</td></tr><tr class="clarity"><td><a href="#F-31">F-31</a></td><td class="sevcell">CLARITY</td><td>Numbering gaps are not explained</td></tr><tr class="clarity"><td><a href="#F-32">F-32</a></td><td class="sevcell">CLARITY</td><td>Terminology drift</td></tr><tr class="clarity"><td><a href="#F-33">F-33</a></td><td class="sevcell">CLARITY</td><td>Some registered classes have no WASM-002 producer or contract, and unknown-class reporting is unspecified</td></tr><tr class="clarity"><td><a href="#F-34">F-34</a></td><td class="sevcell">CLARITY</td><td>Smaller underspecified points</td></tr></tbody>
+</table></div>
+
+<h2 id="findings">5. Findings</h2>
+
+<section class="finding blocking" id="F-01">
+  <header>
+    <p class="fid">F-01<span class="sev">BLOCKING</span></p>
+    <h3>An acceptance gate requires a capability the contract forbids</h3>
+    <p class="cites">Cited: <code class="rid">W002-UI-ACC-019</code> <code class="rid">W002-UI-023</code> <code class="rid">W002-STOR-018</code> <code class="rid">W002-STOR-015</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-UI-ACC-019 requires that editing the human-facing description of a saved Work Order changes the description view while leaving the WKO bytes, filename and UUID unchanged.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-UI-023 says the browser must not expose a standalone editable Description field for a saved or draft Work Order. W002-STOR-018 says the browser must not maintain a separate mutable Description field or hidden description store.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-015 lists persistent Work Order description storage among items that are no longer open.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The gate describes the pre-Revision-BB mutable-description model. It cannot pass without building exactly what W002-UI-023 and W002-STOR-018 prohibit, and it cannot be failed honestly either, because the capability is forbidden.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> A frozen build could never reach BUILT &amp; ACCEPTED on this gate. An implementer who tries to satisfy it would introduce a second, mutable naming path outside the Work Order.</p>
+  <p class="ask"><b>Question / direction for T.</b> Retire or rewrite W002-UI-ACC-019. A natural replacement is a gate proving that there is no Description field, and that changing a <code>WORK ORDER AS</code> alias requires saving a new WKO. That property is already partly exercised by W002-MAT-ACC-002.4, so the rewrite may simply merge into it.</p>
+</section>
+<section class="finding blocking" id="F-02">
+  <header>
+    <p class="fid">F-02<span class="sev">BLOCKING</span></p>
+    <h3>An aliased Work Order cannot be edited and re-saved, and the WKO alias registry has no retirement path</h3>
+    <p class="cites">Cited: <code class="rid">W002-STOR-018.2</code> <code class="rid">W002-STOR-018.3</code> <code class="rid">W002-STOR-018.4</code> <code class="rid">W002-UI-020</code> <code class="rid">W002-UI-023</code> <code class="rid">W002-MAT-ACC-002.4</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-018.2 says every row in the WKO MAP is a current visible saved WKO. A non-empty alias must be unique within the current WKO MAP, and a save that would duplicate one must be refused rather than disambiguated.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-UI-020 and W002-UI-023 say that editing a loaded saved WKO, including only its comments, produces a derived draft that must be saved as a new WKO. The derived draft naturally carries the original <code>WORK ORDER AS</code> line.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-MAT-ACC-002.4 requires proof that changing only a comment requires a new WKO identity, and its fixture alias is <code>"Prepare monthly crime data"</code>.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> No requirement in the cut removes, retires or supersedes a row in the WKO MAP. W002-STOR-018.3 validates the successor MAP against the referenced visible WKO files.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The core edit loop — load, tweak, save — refuses for every aliased Work Order unless the analyst also invents a new alias. The MAT-ACC-002.4 fixture, as written, would hit that refusal.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Because saved WKOs stay current forever, aliases accumulate permanently. A monthly Work Order would need a new alias every month.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> If an analyst deletes an old WKO file, one of two things happens. Either every later save refuses, because the successor copies a row that points at a missing file. Or, if base selection skips MAPs that are no longer valid, it falls back to an older WKO MAP and silently deregisters every WKO saved after the deleted one. The contract does not say which.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> A WKO file copied in from another Suitcase has a canonical name but no registry row. The contract does not say whether it is a valid Run target.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> The most common authoring action fails by default. The registry can also deadlock or silently lose registrations when ordinary file housekeeping happens.</p>
+  <p class="ask"><b>Question / direction for T.</b> The alias needs a lifecycle decision. Should a newer WKO with the same alias supersede the older row, the way successor MAPs work for Stores? Should a derived draft's save offer that supersession explicitly in Work Order text? The contract should also say what happens when a registered WKO file disappears, and whether unregistered but well-formed WKO files may be loaded and Run.</p>
+</section>
+<section class="finding blocking" id="F-03">
+  <header>
+    <p class="fid">F-03<span class="sev">BLOCKING</span></p>
+    <h3>A missing or damaged RID or COL silently forks the Store, and the RID recovery base is undefined</h3>
+    <p class="cites">Cited: <code class="rid">W002-STOR-019.10</code> <code class="rid">W002-STOR-019.2</code> <code class="rid">W002-STOR-019.3</code> <code class="rid">W002-STOR-019.11</code> <code class="rid">W002-RID-001</code> <code class="rid">W002-RID-008</code> <code class="rid">W002-RID-009</code> <code class="rid">W002-STEPS-010</code> <code class="rid">W002-STOR-020</code> <code class="rid">W002-WKO-012.5</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-019.10: to take part in automatic or explicit inheritance, a MAP must reference a valid visible RID and valid visible COL files.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-019.2: Store lineages are distinguished by the exact <code>rid_filename</code>. If no eligible lineage exists for the exact <code>SOURCE</code>, the materialization establishes a new Store with a new RID.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> Every ordinary MAP in a lineage repeats the same <code>rid_filename</code> (W002-STOR-019.8, W002-STOR-019.11). Every MAP after Store establishment also binds the original COLs unless they were rematerialized.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-RID-009 recovers from a recovery-base MAP that is structurally valid apart from its RID binding, so by W002-STOR-019.10 it is not an eligible MAP. W002-STEPS-010 resolves that base by Store alias and operates on the current degraded Store state only.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-020 leaves cross-Store Store-alias uniqueness outside the freeze. W002-WKO-012.5 lets <code>CLEAR STORE ALIAS</code> store an empty alias. The default Store alias is the source filename (W002-STOR-019.12).</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-RID-001 names the stable row reference as <code>(Store recovery lineage, RID value)</code>, but the nine-column MAP has no field that links a post-recovery MAP to its pre-recovery predecessor.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> <b>Silent fork.</b> If the RID file goes missing — deleted, moved, or not yet downloaded by a cloud-sync client — every MAP in the lineage becomes ineligible at once. The next ordinary <code>MATERIALIZE</code> with the same <code>SOURCE</code> finds no eligible lineage and quietly creates a brand-new Store with a new RID. The same happens if any original COL file is lost. W002-RID-008 intends that damage leads to an explicit recovery decision, never a side effect of <code>MATERIALIZE</code>. The fork contradicts that intent without technically triggering the rule.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> <b>Lost COLs are unrecoverable.</b> A lost COL cannot be repaired inside the Store. Recovery requires every bound COL to be valid, and rematerialization requires an eligible base MAP, which no longer exists.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> <b>The recovery base is undefined.</b> Nothing says which MAP is the current degraded state. Nothing covers what happens when historical MAPs carry older Store aliases. A Store whose alias was cleared cannot be named by <code>RECOVER RID FOR STORE</code>, and its alias cannot be reset first, because <code>UPDATE ALIASES</code> also needs an eligible MAP.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> <b>Compounding.</b> After a silent fork, two Stores share the default alias, so recovery is ambiguous and refuses. If the old RID file later reappears — for example, the sync client finishes — two eligible lineages exist for one source, and automatic inheritance refuses from then on.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> A routine file-system event can turn a governed Store into a different Store with no warning. That undermines the row-identity promise that WASM-002 exists to prove.</p>
+  <p class="ask"><b>Question / direction for T.</b> Three decisions are needed. First, should MAP eligibility separate structurally valid but degraded from invalid, so that a degraded lineage blocks new-Store creation from the same source and refuses with a Help path pointing to recovery? Second, define recovery-base selection precisely: which MAPs are candidates, how a Store alias matches, and what happens with empty or duplicate aliases. Consider allowing <code>MAP "..."</code> as a recovery selector. Third, decide whether recovery lineage needs a persisted link — a predecessor MAP field or an equivalent — rather than living only in the Receipts.</p>
+</section>
+<section class="finding blocking" id="F-04">
+  <header>
+    <p class="fid">F-04<span class="sev">BLOCKING</span></p>
+    <h3>A same-filename source refresh has no cardinality check against the inherited RID, and there is no way to start a new Store</h3>
+    <p class="cites">Cited: <code class="rid">W002-STOR-019.2</code> <code class="rid">W002-RID-005</code> <code class="rid">W002-RID-006</code> <code class="rid">W002-MAT-002.6</code> <code class="rid">W002-MAT-002.7</code> <code class="rid">W002-STEPS-001</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-MAT-002.6 reconciles the selected outputs to one shared N among themselves. It does not require that N to equal the inherited RID's N when the run extends an existing Store.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-RID-005 states the alignment invariant, but no requirement assigns the check to a phase, a refusal diagnostic or an acceptance fixture. No acceptance gate materializes a changed-row-count source into an existing Store.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-019.2 routes on the exact <code>SOURCE</code> filename. A full-text search of the cut finds no syntax that asks for a new Store when an eligible lineage exists.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> The canonical example in W002-STEPS-001 is a monthly Work Order (<code>"Prepare monthly crime data"</code>) over a Statistics Canada table that is refreshed under the same filename.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The expected monthly workflow is: re-download <code>35100178.csv</code> under the same name and run the saved Work Order again. That automatically routes into last month's Store. If the row count changed, there is no specified point where Data Sculptor must refuse before promotion. The successor MAP could then bind COLs of length N′ to a RID of length N.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> If the row count happens to match, the rows are silently treated as aligned. The assurance boundary accepts that risk explicitly, and Help carries it (W002-HELP-011). A count mismatch, though, is something the engine can detect cheaply, so it should not rely on Help alone.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Even when the analyst knows the file is new, the only way to get a fresh Store is to rename the source. That turns the filename into a hidden control channel, which W002-WKO-007 is meant to prevent.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Misaligned columns could be committed as same-Store state, or the analyst is forced into filename tricks to express intent.</p>
+  <p class="ask"><b>Question / direction for T.</b> Add an explicit requirement for existing-Store materialization: the accepted N must equal the inherited RID's N before any promotion, or the run refuses, with a named phase, diagnostic and acceptance fixture. Then decide how an analyst expresses "this is a new row universe" in Work Order text — a <code>NEW STORE</code> clause or an equivalent — instead of by renaming files.</p>
+</section>
+<section class="finding blocking" id="F-05">
+  <header>
+    <p class="fid">F-05<span class="sev">BLOCKING</span></p>
+    <h3>The source-to-MAP compatibility rule is referenced but never defined</h3>
+    <p class="cites">Cited: <code class="rid">W002-STOR-019.3</code> <code class="rid">W002-WKO-012.3</code> <code class="rid">W002-WKO-ACC-008</code> <code class="rid">W002-STOR-019.6</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-019.3 says the named Store MAP must be compatible with the materialization source "under the existing source/Store rules". W002-WKO-012.3 says validation must refuse an incompatible source/MAP pairing.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-WKO-ACC-008 requires a refusal fixture for source/MAP incompatibility.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> The nine-column MAP carries a per-row <code>source_filename</code> separate from <code>store_source_filename</code> (W002-STOR-019.6). The schema therefore allows COLs from sources other than the one that established the Store.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> No requirement in the cut defines "the existing source/Store rules". The key question: may an explicit <code>MAP</code> bring a different source file into an existing Store? If so, that is a positional join by physical row order — the exact kind of silent alignment the product is built to avoid. If not, the separate <code>source_filename</code> column needs a stated purpose in WASM-002.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> A mandatory refusal fixture cannot be written independently, and the implementer would be deciding a join-semantics question on their own.</p>
+  <p class="ask"><b>Question / direction for T.</b> Freeze the compatibility predicate. Is it exact equality of <code>SOURCE</code> with <code>store_source_filename</code>? Or equality plus the N check from F-04? Or something broader? And state what the per-row <code>source_filename</code> is for in WASM-002.</p>
+</section>
+<section class="finding blocking" id="F-06">
+  <header>
+    <p class="fid">F-06<span class="sev">BLOCKING</span></p>
+    <h3>The CSV dialect and the rules for malformed input are not frozen</h3>
+    <p class="cites">Cited: <code class="rid">W002-MAT-002.8</code> <code class="rid">W002-MAT-003.2</code> <code class="rid">W002-MAT-003.3</code> <code class="rid">W002-MAT-ACC-003</code> <code class="rid">W002-MAT-ACC-004</code> <code class="rid">W002-MAT-ACC-005</code> <code class="rid">PB-OPS-001</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> The cut specifies field-count shape (W002-MAT-002.8), the field-size limit, blank-record refusal and output quoting (W002-MAT-002.11). It does not specify the input grammar.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> A full-text search finds no statement that comma is the only delimiter, and nothing on bare CR as a record terminator.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-MAT-003.2 requires the first deterministic refusal condition and its location to be invariant across windows. W002-MAT-ACC-003 and -005 require fixtures for malformed cases.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Each of these needs a frozen answer before independent fixtures can be written:</li><li class="sub">(a) A quote inside an unquoted field, for example <code>ab"c</code>.</li><li class="sub">(b) Characters after a closing quote, for example <code>"ab"c</code>.</li><li class="sub">(c) A bare CR, and CR followed by something other than LF.</li><li class="sub">(d) Whether the last record may omit its terminator.</li><li class="sub">(e) Whether a trailing extra line ending at EOF is a bare blank record, and so a refusal under W002-MAT-002.8. Exported files very often end this way.</li><li class="sub">(f) One-column sources. In a one-column CSV, an unquoted empty value is exactly a blank line, so W002-MAT-002.8 makes any externally exported one-column file with an empty value refuse.</li><li class="sub">(g) Whether delimiters other than comma — the semicolon files common in some locales — are out of scope, and if so, which diagnostic tells the analyst.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The historical toolchain crate <code>csv</code> is lenient on (a) and (b) by default. An implementation built on it would decide these questions silently.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Refusal location and condition are required to be deterministic, but the rules that determine them are not in the contract. QA cannot derive the oracle before seeing a candidate.</p>
+  <p class="ask"><b>Question / direction for T.</b> Freeze a short normative input grammar, either as RFC 4180 with explicit deviations or as a state table, covering (a) through (g). Say which cases refuse, and with which fact that locates them — byte offset, logical row, or physical line.</p>
+</section>
+<section class="finding blocking" id="F-07">
+  <header>
+    <p class="fid">F-07<span class="sev">BLOCKING</span></p>
+    <h3>The meaning of the UTF-8 first-invalid offset is undefined, and the frozen error contract it points to is not in the cut</h3>
+    <p class="cites">Cited: <code class="rid">W002-ENC-004.10</code> <code class="rid">W002-ENC-ACC-006</code> <code class="rid">W002-ENC-ACC-007</code> <code class="rid">W002-ENC-ACC-008</code> <code class="rid">W002-ENC-ACC-009</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-ENC-004.10 requires the exact absolute offset "required by the frozen error contract". Searching the cut for "error contract" finds only this reference.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-ENC-ACC-006 requires rejection "at known exact offsets". W002-ENC-ACC-009 requires "the governed offset" for a sequence truncated by EOF.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> For the bytes <code>E2 82 41</code>, is the reported offset the lead byte (<code>E2</code>) or the first offending byte (<code>41</code>)? For a lone continuation byte, it is obviously that byte. For a sequence truncated by EOF, is it the lead byte or the file length? For a sequence that spans a window boundary, is the offset still absolute? Presumably yes, but it should be stated.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Rust's <code>Utf8Error::valid_up_to</code> reports the start of the invalid sequence. The WASM-001b fixtures may already embody a convention, but the contract does not carry it.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> The invalid-sequence matrix cannot be authored as an independent oracle. Two correct implementations could disagree while both satisfy the text.</p>
+  <p class="ask"><b>Question / direction for T.</b> Import or restate the error contract. For example: the offset is the absolute byte offset of the first byte of the maximal invalid prefix, and a truncated sequence at EOF reports its lead byte. Add the reported fact names — offset, stop reason, and the offending-bytes window if any — to the diagnostic definition.</p>
+</section>
+<section class="finding blocking" id="F-08">
+  <header>
+    <p class="fid">F-08<span class="sev">BLOCKING</span></p>
+    <h3>The DS-STEPS lexical rules are incomplete, and the "governed string-literal rules" they cite are not in the cut</h3>
+    <p class="cites">Cited: <code class="rid">W002-STOR-018</code> <code class="rid">W002-STEPS-001</code> <code class="rid">W002-STEPS-001.1</code> <code class="rid">W002-STEPS-001.2</code> <code class="rid">W002-STEPS-003</code> <code class="rid">W002-WKO-012.1</code> <code class="rid">W002-WKO-013</code> <code class="rid">W002-WKO-ACC-006</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-018 refers to "the governed string-literal rules". Searching the cut finds no definition.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STEPS-001 freezes keyword structure and selector forms, and leaves "other complete-language lexical features" outside the freeze.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-WKO-ACC-006 requires refusal of "<code>RUN</code> or other recognized Work Order-invocation construct". The set of recognized constructs is not listed.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Unanswered questions include:</li><li class="sub">How does a string contain a double quote? A header with a <code>"</code> could then only be chosen by <code>COLUMN n</code>, and a source filename or alias could never contain one.</li><li class="sub">Are keywords case-sensitive? The prototype matches them case-insensitively.</li><li class="sub">How are leading whitespace and indentation handled?</li><li class="sub">How is <code>COLUMN 07</code> or <code>COLUMN +7</code> treated?</li><li class="sub">Is clause order enforced, or only canonical?</li><li class="sub">What happens with a duplicate <code>SOURCE</code>, <code>KEEP</code> or <code>MATERIALIZE</code>, an empty <code>KEEP</code>, or text after <code>MATERIALIZE</code>?</li><li class="sub">Does any unrecognized line refuse?</li><li class="sub">Operation mixing: may a <code>MATERIALIZE</code> Work Order also carry <code>STORE AS</code>, <code>RID AS</code>, <code>CLEAR</code> or <code>RESET</code>? W002-STOR-019.5's "and/or" suggests yes. W002-WKO-012.1 only restricts the alias-only form.</li><li class="sub">WKO byte form: UTF-8 is implied but not stated. Is a BOM allowed? Are CRLF line endings allowed? W002-STEPS-001.2 says comments are preserved byte-for-byte, so whatever the editor produces becomes identity-bearing.</li><li class="sub">Composition fixture: if save-time validation refuses composition syntax, a "structurally saved WKO containing <code>RUN</code>" can only exist as a hand-made file. That runs into the WKO validity questions in F-02 and F-14.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Save-time validation, run-time validation and the chaining-refusal gate all depend on rules the implementer would have to invent.</p>
+  <p class="ask"><b>Question / direction for T.</b> Add a compact lexical section: string-literal escaping (or an explicit statement that there is none, with the consequences); keyword case; whitespace; ordinal numerals; clause cardinality and order; the rule that unknown lines refuse; allowed operation combinations; the WKO byte encoding; and the exact set of composition tokens that trigger the deferred-composition diagnostic.</p>
+</section>
+<section class="finding blocking" id="F-09">
+  <header>
+    <p class="fid">F-09<span class="sev">BLOCKING</span></p>
+    <h3>Receipt and Inventory TXT must be tested byte-for-byte, but their serialization is not specified</h3>
+    <p class="cites">Cited: <code class="rid">W002-RCP-005</code> <code class="rid">W002-RCP-006</code> <code class="rid">W002-RCP-007</code> <code class="rid">W002-RCP-008</code> <code class="rid">W002-CONV-004.2</code> <code class="rid">W002-INV-006</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-RCP-005 requires one deterministic escaping rule that is "acceptance-tested byte-for-byte", but leaves the rule to the implementation.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-RCP-006 lists the core keys "at least". It does not freeze tokens for <code>OPERATION</code>, the explicit none token for <code>DIAGNOSTIC_ID</code>, or how the filenames after <code>CREATED_ARTIFACT_COUNT</code> are serialized — repeated keys, indexed keys, or continuation lines.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-RCP-007 requires "not-run/not-available tokens" but does not name them.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-CONV-004.2 writes <code>SOURCE_ENCODING=WINDOWS-1252-COMPATIBLE</code> with <code>=</code>, while W002-RCP-005 mandates <code>KEY: VALUE</code>. It also allows "or the exact equivalent terminology".</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-RCP-008 gives facts for INVENTORY, conversion and RECOVER RID but none for <code>UPDATE ALIASES</code> (base MAP, successor MAP).</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-INV-006 requires an unambiguous filename representation and ordering, but not the actual line format.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> A byte-for-byte test needs a spec-side oracle. With the rule left to the implementer, QA can only check self-consistency, not conformance.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Some refusals happen before an operation is known — an unparseable WKO, for instance — and <code>OPERATION</code> has no defined value for that case.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Receipts are the Flight Recorder substrate. Leaving their grammar to the implementation weakens the "I can show somebody else" promise at its foundation.</p>
+  <p class="ask"><b>Question / direction for T.</b> Freeze a small TXT grammar shared by RCP and INV: the key set and order per operation, enumerated tokens (including the none, not-run, not-available and unknown-operation values), text escaping, and the list-valued form. Add the <code>UPDATE ALIASES</code> fact section. One golden Receipt per operation in the contract would close this.</p>
+</section>
+<section class="finding blocking" id="F-10">
+  <header>
+    <p class="fid">F-10<span class="sev">BLOCKING</span></p>
+    <h3>Windows-1252 conversion has no Work Order form, output contract or class-level serialization</h3>
+    <p class="cites">Cited: <code class="rid">W002-CONV-001</code> <code class="rid">W002-CONV-001.4</code> <code class="rid">W002-CONV-004</code> <code class="rid">W002-CONV-004.1</code> <code class="rid">W002-CONV-ACC-001</code> <code class="rid">W002-CONV-ACC-002</code> <code class="rid">PB-STOR-006</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-CONV-001 makes conversion a distinct Work Order operation, and W002-CONV-ACC-001 requires it to be run. The canonical DS-STEPS forms in the cut cover <code>MATERIALIZE</code>, <code>INVENTORY</code>, <code>UPDATE ALIASES</code> and <code>RECOVER RID</code> only.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> <code>CVT</code> is registered (PB-STOR-006). No requirement gives its extension, its BOM policy, whether line endings are preserved, whether it goes through SCR staging, or its relationship to later Store routing.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-CONV-004 asks for "canonical UTF-8 output" without defining canonical.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-CONV-ACC-001 does not check the source-unchanged rule (W002-CONV-001.3) or the Receipt facts (W002-CONV-004.2 through .4).</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Converted output presumably becomes the <code>SOURCE</code> of a later Store. Its bytes — BOM, line endings — therefore feed directly into Stage 1 and Stage 2 and into the default Store alias, which will be the long CVT filename.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> An in-scope operation with an acceptance gate cannot be implemented without inventing its syntax and output bytes.</p>
+  <p class="ask"><b>Question / direction for T.</b> Add the canonical conversion Work Order form, the CVT serialization (extension, BOM, byte-preserving line endings, publication path) and golden-byte fixtures. Extend W002-CONV-ACC-001 to check that the source is unchanged, that the output is certifiable, and that the Receipt facts are present. Or, if conversion is not really ready, re-scope it deliberately.</p>
+</section>
+<section class="finding blocking" id="F-11">
+  <header>
+    <p class="fid">F-11<span class="sev">BLOCKING</span></p>
+    <h3>The Store Index is an in-scope obligation with no artifact class, trigger or content contract</h3>
+    <p class="cites">Cited: <code class="rid">W002-STOR-010</code> <code class="rid">W002-STOR-010.3</code> <code class="rid">W002-STOR-010.4</code> <code class="rid">W002-STOR-010.1</code> <code class="rid">PB-STOR-002</code> <code class="rid">W002-STOR-003.5</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-010 says the Store Index must provide a persistent HTML orientation layer, and W002-STOR-010.4 says it is static durable HTML. Both are SCOPE WASM-002.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> No registered class fits it (PB-STOR-006). W002-STOR-003.5 requires every WASM-002-generated governed artifact to use a listed class.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-010.1 forbids a second separately named Store-metadata file. No requirement says when an Index is generated, or what it contains beyond orientation.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> This reads like a pre-Revision-AY concept that the Suitcase Directory (W002-UI-006) and the MAP snapshots have since replaced. As written, the implementer must either mint an unregistered class, breaking W002-STOR-003.5, or leave a normative requirement unmet.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Cheap to fix, but it cannot be frozen as it stands.</p>
+  <p class="ask"><b>Question / direction for T.</b> Re-scope W002-STOR-010, 010.3 and 010.4 to V1-BACKLOG, or recast them as the Suitcase Directory's orientation role. PB-STOR-002's "Store Map/Index" wording would follow.</p>
+</section>
+<section class="finding material" id="F-12">
+  <header>
+    <p class="fid">F-12<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>Selecting current state by the greatest UTC has no guard against clock movement</h3>
+    <p class="cites">Cited: <code class="rid">PB-STOR-013</code> <code class="rid">PB-STOR-011</code> <code class="rid">W002-STOR-019.2</code> <code class="rid">W002-STOR-018.4</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> Current Store MAP and current WKO MAP are both chosen by greatest canonical UTC, with ties refused.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> A search of the cut for clock or monotonic finds nothing. PB-STOR-011 forbids advancing a timestamp to escape a collision.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> A host clock that steps backward — an NTP correction, a Suitcase moved to a machine with a skewed clock, or a virtualized laptop — can give a successor MAP an earlier token than its base. The older snapshot then silently remains current.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Two successive publications within the same millisecond produce a tie. That makes the product refuse its own state until an explicit <code>MAP</code> is used.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Silent staleness, or self-inflicted refusal, both of which only an expert could diagnose.</p>
+  <p class="ask"><b>Question / direction for T.</b> Consider a rule that a successor's transaction UTC must be strictly greater than its base's. Decide whether a violation should refuse with a Help explanation, or wait and re-read the clock. Then test it with an injected clock (see F-23).</p>
+</section>
+<section class="finding material" id="F-13">
+  <header>
+    <p class="fid">F-13<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>The single-writer assumption is not stated</h3>
+    <p class="cites">Cited: <code class="rid">W002-ARCH-014</code> <code class="rid">W002-STOR-018.3</code> <code class="rid">W002-STOR-019.5</code> <code class="rid">W002-HELP-011.2</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-ARCH-014 makes analytical execution sequential within the product. A search of the cut finds no rule for two tabs, two browsers, a sync client, or the later native CLI writing to the same Suitcase.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Two tabs saving from the same base WKO MAP each publish a successor, and the later one drops the other's registration — a lost update. The same race applies to Store MAP successors.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Sync clients such as OneDrive can add conflict copies with ordinary names, and can present files as cloud placeholders that are "missing" until downloaded. That feeds directly into F-03.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Lost updates, and state flipping between committed and missing, with no diagnostic.</p>
+  <p class="ask"><b>Question / direction for T.</b> State the single-writer assumption as a contract boundary. Decide whether WASM-002 must detect a changed base at commit time — for example, by re-checking that the base is still the newest immediately before the final rename — or only explain the risk through Help.</p>
+</section>
+<section class="finding material" id="F-14">
+  <header>
+    <p class="fid">F-14<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>Publication and validity rules for non-Store artifacts are undefined</h3>
+    <p class="cites">Cited: <code class="rid">PB-STOR-008</code> <code class="rid">PB-STOR-012</code> <code class="rid">W002-STOR-018.3</code> <code class="rid">W002-RCP-010</code> <code class="rid">W002-MAT-002.6</code> <code class="rid">W002-INV-002</code> <code class="rid">W002-STOR-022</code> <code class="rid">W002-HELP-009</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> Store artifacts have a full SCR-to-final commit protocol. For WKO (W002-STOR-018.3 persists the WKO directly), RCP, INV, CER, HLP and CVT, the cut does not say whether bytes are staged as SCR or written directly under the final name.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> PB-STOR-008 requires content validation before any governed artifact is trusted. Validity criteria exist only for the two MAP profiles, RID and COL.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> SCR and RCV candidates have no filename rule — extension, whether the timestamp changes on promotion — and no content rule. "Attributable SCR/RCV evidence" (W002-MAT-002.6) has no attribution mechanism. The Receipt is not required to list retained SCR/RCV files.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> If a write is interrupted, it can leave a truncated file with a canonical <code>RCP</code>, <code>INV</code> or <code>WKO</code> name. The Flight Recorder, the WKO chooser and INVENTORY then need a rule for deciding whether it is real.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Chromium's File System Access writable streams stage writes through a sibling <code>.crswap</code> file in the same directory. An interrupted write can therefore leave non-governed debris in the flat Suitcase. That is probably covered by PB-STOR-001's incidental-cache carve-out, but Help and INVENTORY should expect it. This should be verified on the target browser.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Evidence artifacts could be counterfeit or partial without anything detecting it, and debris could not be attributed to the run that left it.</p>
+  <p class="ask"><b>Question / direction for T.</b> Define a per-class publication path — direct write, or SCR then rename. Define minimal validity checks per class, including what makes a WKO loadable and Runnable. Define SCR/RCV naming and content. Require the Receipt to list any SCR/RCV evidence a run leaves behind.</p>
+</section>
+<section class="finding material" id="F-15">
+  <header>
+    <p class="fid">F-15<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>MAP eligibility can change when unrelated files appear, and the comparison rules are undefined</h3>
+    <p class="cites">Cited: <code class="rid">W002-STOR-020</code> <code class="rid">W002-STOR-019.10</code> <code class="rid">W002-STOR-019.2</code> <code class="rid">PB-STOR-010</code> <code class="rid">W002-STEPS-002</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-020 forbids aliases that silently shadow another visible physical filename "under the applicable filename-comparison rules". Those rules are not defined in the cut.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-019.10 includes alias constraints in the eligibility test.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-019.2 routes on the exact <code>SOURCE</code> string. PB-STOR-010 acknowledges case-insensitive file systems.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Dropping a file named <code>GEO</code> into the Suitcase could make the current MAP, whose COL alias is <code>GEO</code>, ineligible. That leads to silent fallback or a fork (F-03), caused by an unrelated file.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> On NTFS, <code>SOURCE "Crime.csv"</code> and <code>SOURCE "crime.csv"</code> may open the same file, yet they route to different Store lineages.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> On macOS, a name typed in NFC and a file stored in NFD can open the same file while comparing unequal byte-for-byte. The same concern applies to <code>HEADER</code> matching on decoded bytes.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Store routing becomes a function of unrelated folder contents and of platform file-name semantics.</p>
+  <p class="ask"><b>Question / direction for T.</b> Define the comparison rule: exact bytes, case-folded, or normalized. Decide whether shadowing is checked only when a MAP is published, rather than every time eligibility is evaluated. Decide whether source routing must detect case or normalization aliases of the same physical file.</p>
+</section>
+<section class="finding material" id="F-16">
+  <header>
+    <p class="fid">F-16<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>The conversion suggestion conflicts with fixed diagnostic semantics, and the Windows-1252 mapping is not frozen</h3>
+    <p class="cites">Cited: <code class="rid">W002-HELP-001.6</code> <code class="rid">W002-HELP-001.7</code> <code class="rid">W002-HELP-001.8</code> <code class="rid">W002-CONV-002</code> <code class="rid">W002-CONV-002.1</code> <code class="rid">W002-CONV-002.3</code> <code class="rid">W002-CONV-002.4</code> <code class="rid">W002-CONV-003.5</code> <code class="rid">W002-ENC-004.10</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> <code>next_action</code> is a fixed per-diagnostic value from the registry. The registry example gives <code>DS-ENC-001</code> the value <code>CONVERT_SOURCE_TO_UTF8</code>.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-CONV-003.5 says Help must not recommend conversion when the bytes are not compatible. Compatibility depends on every byte in the file.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-ENC-004.10 lets certification stop at the first invalid byte. W002-CONV-002 says an assessment "may" run after failure, but not when, in which run, or with what evidence.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-CONV-002.1 refers to "the frozen Windows-1252 rules", but no mapping table or normative reference is in the cut.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> One diagnostic ID cannot carry both "convert" and "don't convert". At least three outcomes need separate IDs: compatible, incompatible, and not assessed.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Assessing compatibility requires another pass over the whole file inside a refused run. Its time and Receipt facts are unspecified.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The WHATWG Encoding Standard, which <code>encoding_rs</code> implements, decodes Windows-1252 without errors: bytes 0x81, 0x8D, 0x8F, 0x90 and 0x9D map to the matching C1 control code points. A converter built on it would silently convert exactly the bytes that W002-CONV-002.3 and 002.4 say must refuse.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Almost any byte stream counts as "compatible", including UTF-16 or Shift-JIS files. So a compatibility-based suggestion can recommend a conversion that produces nonsense, even though the wording avoids calling the file Windows-1252.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> As written, Help would either break W002-CONV-003.5 or have to override the registry. The defined-byte rule could also be lost to a library default.</p>
+  <p class="ask"><b>Question / direction for T.</b> Split the certification-failure diagnostics by assessment outcome. Specify when the assessment runs and what the Receipt records. Freeze the mapping explicitly: the Microsoft best-fit table minus the five undefined bytes, with a pre-check that refuses them. Consider whether Help should also flag patterns such as NUL-heavy content as reasons not to suggest conversion.</p>
+</section>
+<section class="finding material" id="F-17">
+  <header>
+    <p class="fid">F-17<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>The Help rendering contract is missing a coverage fallback, absent-value rendering, and a consistent notion of required facts</h3>
+    <p class="cites">Cited: <code class="rid">W002-HELP-001.4</code> <code class="rid">W002-HELP-001.8</code> <code class="rid">W002-HELP-002.9</code> <code class="rid">W002-HELP-002.10</code> <code class="rid">W002-HELP-004.11</code> <code class="rid">W002-UI-007</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> Build validation fails on Help-catalog IDs that are missing from the registry, but not on registry IDs that are missing from the catalog. W002-HELP-002.9 only requires coverage for the diagnostics exercised in acceptance.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-HELP-001.4 says every required fact must be present at emission. W002-HELP-004.11 speaks of a "required boundary fact" that is unavailable.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> Placeholders may reference optional facts (W002-HELP-002.10). The cut does not define how an absent optional fact renders, or how Boolean, integer, null or list values render inside prose.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> At runtime, a registry diagnostic with no catalog entry has no specified rendering, yet W002-UI-007 routes all user-facing guidance through Help. Absent-value rendering is exactly where the "missing must not become false" rule can quietly fail.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> There are paths where Help cannot render truthfully, or where fallback prose gets invented in the UI.</p>
+  <p class="ask"><b>Question / direction for T.</b> Either require full catalog coverage of the registry at build time, or define a governed fallback rendering. Decide whether the boundary facts are optional-when-unavailable or required-and-nullable. Freeze how each value type renders, including absent values and a literal brace.</p>
+</section>
+<section class="finding material" id="F-18">
+  <header>
+    <p class="fid">F-18<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>HLP provenance merges "not applicable" with "unavailable", and absence tokens differ across artifacts</h3>
+    <p class="cites">Cited: <code class="rid">W002-HELP-009</code> <code class="rid">W002-RCP-010</code> <code class="rid">W002-HELP-004.11</code> <code class="rid">W002-RCP-007</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-HELP-009 uses JSON <code>null</code>, displayed as <code>NOT APPLICABLE</code>, when no WKO or RCP relationship exists.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-RCP-010 describes runs where the Receipt could not be published.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> Absence is "unavailable" in W002-HELP-004.11 and "not-run/not-available" in W002-RCP-007.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> A Help Report for a run whose Receipt failed to publish would say the RCP is <code>NOT APPLICABLE</code>. That is a false negative statement in the very artifact meant for support handoff.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> A small misstatement, but in the evidence surface where honesty matters most.</p>
+  <p class="ask"><b>Question / direction for T.</b> Separate "no relationship exists" from "relationship exists but its artifact is unavailable" in both the JSON and the visible Provenance section. Consider one shared absence vocabulary across RCP, HLP and diagnostics.</p>
+</section>
+<section class="finding material" id="F-19">
+  <header>
+    <p class="fid">F-19<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>HLP disclosure edge cases: a header can be data, and aliases are not covered by the allowlist</h3>
+    <p class="cites">Cited: <code class="rid">W002-HELP-010</code> <code class="rid">W002-HP-ACC-011</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> The allowlist admits the "relevant source column header". It does not mention Store, RID, COL or WKO aliases in any tier.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> If the analyst's CSV has no header row, the first data record is parsed as the header. "Header" disclosure is then disclosure of source values, which is the thing the policy forbids.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Aliases are analyst-authored text, often the most helpful explanatory label. Under the strict allowlist reading they are excluded. Under a loose reading they might leak. The policy should say which.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Possible data leakage through a permitted channel, and uncertainty over which labels a report may use.</p>
+  <p class="ask"><b>Question / direction for T.</b> Decide whether headers are disclosed as metadata with a Help caveat, or only by ordinal when the diagnostic concerns header parsing. Add aliases to an explicit tier.</p>
+</section>
+<section class="finding material" id="F-20">
+  <header>
+    <p class="fid">F-20<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>"Bounded memory" has no stated limits, and header width and KEEP width are unlimited</h3>
+    <p class="cites">Cited: <code class="rid">W002-ENC-001.5</code> <code class="rid">W002-MAT-002.5</code> <code class="rid">W002-MAT-003.1</code> <code class="rid">W002-MAT-001.7</code> <code class="rid">W002-MAT-002.10</code> <code class="rid">W002-MAT-ACC-006</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> "Governed WASM memory budget" appears three times with no value. W002-MAT-ACC-006 records "peak/bounded memory observations" with no threshold.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-MAT-001.7 keeps the full ordered header metadata. W002-MAT-002.10 limits each field to 16 MiB but sets no limit on field count or total header size.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> There is no limit on the number of <code>KEEP</code> selectors, and so no limit on concurrent writers or open file handles.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> A runaway or binary header row with millions of fields grows memory in proportion to the input. That is the exact failure mode bounded processing is meant to rule out. A very wide <code>KEEP</code> list multiplies per-writer staging and browser writable handles.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> "Bounded" cannot be accepted or rejected objectively.</p>
+  <p class="ask"><b>Question / direction for T.</b> Set a numeric budget, or a measurable test such as "peak must not grow when N or source size doubles". Add limits on header field count and bytes, and on <code>KEEP</code> width, each with a diagnostic.</p>
+</section>
+<section class="finding material" id="F-21">
+  <header>
+    <p class="fid">F-21<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>Publishing from a historical MAP silently changes what is current</h3>
+    <p class="cites">Cited: <code class="rid">W002-STOR-019.3</code> <code class="rid">W002-WKO-ACC-008</code> <code class="rid">W002-STOR-019.2</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-WKO-ACC-008 requires an alias-only successor to be published from an explicitly named older base.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-019.2 then picks the newest MAP in the lineage as current.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The branch successor becomes current, and any COLs or aliases added after the older base drop out of current state. This may be the intended way to roll back, but nothing says so, and Help is not required to warn about it.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> An analyst using <code>MAP</code> to inspect or tweak history can silently revert the Store.</p>
+  <p class="ask"><b>Question / direction for T.</b> Say explicitly that branching is allowed and that the newest branch wins, and require Help and the Receipt to state which base was used and that later state was superseded. Or forbid successors from non-newest bases.</p>
+</section>
+<section class="finding material" id="F-22">
+  <header>
+    <p class="fid">F-22<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>Expected diagnostics come from a registry the implementer delivers, which undercuts QA independence</h3>
+    <p class="cites">Cited: <code class="rid">W002-HELP-001.8</code> <code class="rid">W002-HP-ACC-013</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-HELP-001.8 says the PRD need not list the allocated diagnostics, and that "the complete registry delivered with the build is retained acceptance evidence."</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Many gates depend on "the canonical diagnostic" for a named condition, but the set of conditions, their required facts and their behavior (CONTINUE or REFUSE) are defined by the candidate itself. That reverses the contract-before-code principle. QA would be checking the build against a document the build supplied.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> The oracle is weakened for every refusal gate.</p>
+  <p class="ask"><b>Question / direction for T.</b> Without allocating IDs, freeze a minimum condition catalog: each distinct refusal and warning condition the contract implies, with its phase, behavior and required facts. The registry must then cover it. IDs can remain implementation-allocated.</p>
+</section>
+<section class="finding material" id="F-23">
+  <header>
+    <p class="fid">F-23<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>Acceptance coverage has gaps, and test seams are missing</h3>
+    <p class="cites">Cited: <code class="rid">W002-WKO-012.5</code> <code class="rid">W002-WKO-012.6</code> <code class="rid">W002-RCP-010</code> <code class="rid">PB-STOR-011</code> <code class="rid">W002-STOR-007.3</code> <code class="rid">PB-STOR-009</code> <code class="rid">PB-STOR-010</code> <code class="rid">W002-STOR-018.3</code> <code class="rid">W002-HELP-002.11</code> <code class="rid">W002-ENC-ACC-003</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> <b>No gate found for:</b> <code>CLEAR</code> and <code>RESET</code> alias forms, including RESET refusal on an empty header and duplicate-field mutation (W002-WKO-012.5 and .6); Receipt-publication failure (W002-RCP-010); non-zero collision retries (PB-STOR-011, W002-STOR-007.3); preserving and reporting unknown classes (PB-STOR-009); case-variant governed names (PB-STOR-010); WKO save-transaction failure and rollback (W002-STOR-018.3); the embedded catalog's HTML safety and no-runtime-fetch rule (W002-HELP-002.11); and <code>UPDATE ALIASES</code> and INVENTORY Receipt facts.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> Several gates need fault injection — rename failure, UUID collision, source substitution (W002-ENC-ACC-003), a clock step — that an honest build cannot produce on demand.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Without an explicitly allowed test seam, either these gates cannot be exercised, or the build grows undocumented hooks. Undocumented hooks are exactly the hidden alternate path the contract otherwise forbids.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Requirements that are frozen but untested, or test hooks that nothing governs.</p>
+  <p class="ask"><b>Question / direction for T.</b> Add the missing gates. Add one requirement that allows test-only injection of the clock, UUID source, file-system faults and source handles, compiled out of release builds or otherwise provably inert, and that records the retained evidence showing the hooks are absent from the release.</p>
+</section>
+<section class="finding material" id="F-24">
+  <header>
+    <p class="fid">F-24<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>Session model: a new CER every session, no remembered Suitcase, no preferences, and lost drafts</h3>
+    <p class="cites">Cited: <code class="rid">W002-UI-017</code> <code class="rid">W002-STOR-022</code> <code class="rid">PB-STOR-001</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-UI-017 requires a new certificate before the workspace unlocks. PB-STOR-001 forbids browser-private persistence of project metadata.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Remembering the chosen directory handle across sessions needs IndexedDB, which is arguably forbidden. So every session means re-picking the folder and adding another CER — hundreds a year.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Does PB-STOR-001 also forbid remembering the theme or Help voice?</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Unsaved WIP drafts cannot be autosaved anywhere, so closing the tab loses them. The contract is silent on warning the user.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Daily friction, and a Suitcase that fills with CER files over time.</p>
+  <p class="ask"><b>Question / direction for T.</b> Decide whether re-selecting a Suitcase that already holds a CER needs a fresh CER. Decide whether a directory handle and UI preferences count as project metadata. Decide whether unsaved-draft loss must be warned about.</p>
+</section>
+<section class="finding material" id="F-25">
+  <header>
+    <p class="fid">F-25<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>The target platform and the small-screen baseline are not defined within the cut</h3>
+    <p class="cites">Cited: <code class="rid">W002-UI-011</code> <code class="rid">W002-UI-ACC-007</code> <code class="rid">W002-STOR-022.1</code> <code class="rid">W002-RID-004</code> <code class="rid">W002-MAT-002.11</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> Several requirements refer to a "supported host", the "canonical small-screen baseline" and "the canonical low-end Windows laptop". None of these is defined in the cut.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The whole design depends on the File System Access directory picker and writable streams. Those are Chromium-only, and some operations, such as handle rename, vary by version. The browser set, minimum versions and the screen size are acceptance inputs, not presentation details.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Gates W002-UI-ACC-007 and W002-UI-ACC-011 cannot be run reproducibly.</p>
+  <p class="ask"><b>Question / direction for T.</b> Name the supported browsers and minimum versions, and the reference device and resolution, in a WASM-002 requirement. Or import the master definition into the cut.</p>
+</section>
+<section class="finding material" id="F-26">
+  <header>
+    <p class="fid">F-26<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>Allowed SOURCE reference forms are undefined</h3>
+    <p class="cites">Cited: <code class="rid">W002-WKO-009</code> <code class="rid">W002-INV-005</code> <code class="rid">PB-STOR-005</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> File references resolve relative to the Suitcase (W002-WKO-009). User subdirectories may exist (W002-INV-005). No rule covers path separators, <code>..</code>, absolute paths, or pointing <code>SOURCE</code> at governed artifacts (a COL, a CVT) or at non-CSV files.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> <code>SOURCE "sub/x.csv"</code> and <code>SOURCE "../x.csv"</code> need a deterministic refusal or a defined meaning. The <code>..</code> case is also a Suitcase-boundary question.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Using a COL as a source is plausibly useful but creates Store-within-Store lineage.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Portability and Suitcase-boundary guarantees depend on implementation choices.</p>
+  <p class="ask"><b>Question / direction for T.</b> Restrict <code>SOURCE</code> to a bare filename in the Suitcase root, or define the permitted forms. State the policy for governed-artifact and non-CSV sources.</p>
+</section>
+<section class="finding clarity" id="F-27">
+  <header>
+    <p class="fid">F-27<span class="sev">CLARITY</span></p>
+    <h3>W002-UI-006 says "editable human alias"</h3>
+    <p class="cites">Cited: <code class="rid">W002-UI-006</code> <code class="rid">W002-UI-019</code> <code class="rid">W002-UI-024</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-UI-006 lists an "editable human alias where applicable" among the directory columns. W002-UI-019 and W002-UI-024 say aliases in the directory are read-only.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The gates enforce read-only behavior, so this is wording, but it invites someone to build an inline editor.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Wording hazard.</p>
+  <p class="ask"><b>Question / direction for T.</b> Change it to "read-only governed alias where applicable".</p>
+</section>
+<section class="finding clarity" id="F-28">
+  <header>
+    <p class="fid">F-28<span class="sev">CLARITY</span></p>
+    <h3>Brand-Manifest wording survives in in-scope text</h3>
+    <p class="cites">Cited: <code class="rid">W002-UI-016</code> <code class="rid">W002-INV-006</code> <code class="rid">W002-STOR-022.2</code> <code class="rid">W002-HELP-003.2</code> <code class="rid">W002-HP-ACC-003</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> The cut still says: "Brand ... requirements" (W002-UI-016), "branded, UTF-8 TXT" (W002-INV-006), "brandable HTML certificate" (W002-STOR-022.2), and "branded HTML Help report" (W002-HELP-003.2, W002-HP-ACC-003).</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Brand Manifest is deferred. "Branded" presumably means the built-in Red5Sorcery/Data Sculptor presentation, but for a TXT inventory the word has no defined meaning.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Invites scope creep, or a debate over what "branded" TXT means.</p>
+  <p class="ask"><b>Question / direction for T.</b> Replace with "uses the canonical built-in presentation" where HTML, and remove it for TXT.</p>
+</section>
+<section class="finding clarity" id="F-29">
+  <header>
+    <p class="fid">F-29<span class="sev">CLARITY</span></p>
+    <h3>Section headings misplace in-scope requirements and are out of order</h3>
+    <p class="cites">Cited: <code class="rid">W002-WKO-007</code> <code class="rid">W002-WKO-012.1</code> <code class="rid">W002-CONV-ACC-001</code> <code class="rid">W002-STOR-016</code> <code class="rid">W002-WKO-ACC-003</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> In-scope <code>UPDATE ALIASES</code>, <code>CLEAR</code> and <code>RESET</code> (W002-WKO-012.x) and the Work Order contract (W002-WKO-007 to 013) sit under the heading "Work Order Composition — Deferred Beyond WASM-002".</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> Conversion and Help acceptance gates sit under "6A. Future Commercial White-Label Service".</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-016 to 022 (WKO identity, MAPs, CER) sit under "Suitcase Inventory Snapshot".</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> The in-scope non-composition gates sit under "Composable Work Order Acceptance Gates".</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> The numbering runs 2, 3, 1, 2, 3, 4, 7, 6A, 9, 9, 8, with two headings numbered 9.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> These are extraction artifacts, but a reader scanning headings would conclude that in-scope alias maintenance is deferred.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Misleading navigation in the authoritative review cut.</p>
+  <p class="ask"><b>Question / direction for T.</b> Regenerate headings from requirement SCOPE, or add a note in the cut that headings are inherited from the master and not authoritative.</p>
+</section>
+<section class="finding clarity" id="F-30">
+  <header>
+    <p class="fid">F-30<span class="sev">CLARITY</span></p>
+    <h3>Truncated text in titles, evidence and rationale</h3>
+    <p class="cites">Cited: <code class="rid">W002-ENC-006</code> <code class="rid">W002-STOR-001.2</code> <code class="rid">W002-ENC-004.1</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> EVID-W001B-UTF8-003 in W002-ENC-006 stops mid-sentence ("...rather than merely shrinking") and runs straight into EVID-004.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> Many requirement titles are sentence fragments that continue into the body, for example W002-STOR-001.2 and most of W002-ENC-004.x and 005.x.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> The heading "Design rationale — why Help is part of the workspace" has no content.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Probably mechanical splitting during extraction. The content appears intact apart from EVID-003.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Readability, and one damaged evidence statement.</p>
+  <p class="ask"><b>Question / direction for T.</b> Repair EVID-003 and the rationale block from the master, and merge fragment titles.</p>
+</section>
+<section class="finding clarity" id="F-31">
+  <header>
+    <p class="fid">F-31<span class="sev">CLARITY</span></p>
+    <h3>Numbering gaps are not explained</h3>
+    <p class="cites">Cited: <code class="rid">W002-RCP-005</code> <code class="rid">W002-HP-ACC-008</code> <code class="rid">W002-WKO-007</code> <code class="rid">W002-ARCH-008</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> The cut skips PB-STOR-003, W002-RCP-004, W002-HP-ACC-005 to 007, W002-WKO-001 to 006 and 011, W002-WKO-ACC-001 and 002, and W002-ARCH-007, 009, 010, 012 and 013.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> These are presumably requirements that are out of scope in the master. The cut lists external references but not omitted siblings, so a reviewer cannot confirm that nothing load-bearing — such as a Receipt requirement at RCP-004 — was dropped.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> An audit trail gap.</p>
+  <p class="ask"><b>Question / direction for T.</b> Add an omitted-ID table (ID, current SCOPE, STATUS) to the cut's front matter.</p>
+</section>
+<section class="finding clarity" id="F-32">
+  <header>
+    <p class="fid">F-32<span class="sev">CLARITY</span></p>
+    <h3>Terminology drift</h3>
+    <p class="cites">Cited: <code class="rid">PB-STOR-002</code> <code class="rid">PB-STOR-006</code> <code class="rid">W002-STOR-009</code> <code class="rid">W002-STOR-010.1</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> The same concept appears as "Store Map", "Store MAP", "MAP", "Store / Artifact Map" and "Store Map/Index", and the Store Index is now vestigial (F-11).</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The MAP class now has two profiles, so "MAP" alone is ambiguous in some places.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Minor, but it matters for the LLM-readability goal in W002-STOR-014.</p>
+  <p class="ask"><b>Question / direction for T.</b> Use "Store MAP" and "WKO MAP" consistently, and "MAP" only for the class.</p>
+</section>
+<section class="finding clarity" id="F-33">
+  <header>
+    <p class="fid">F-33<span class="sev">CLARITY</span></p>
+    <h3>Some registered classes have no WASM-002 producer or contract, and unknown-class reporting is unspecified</h3>
+    <p class="cites">Cited: <code class="rid">PB-STOR-006</code> <code class="rid">PB-STOR-009</code> <code class="rid">W002-STOR-003.5</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> <code>DGN</code> is registered, but no WASM-002 requirement emits or validates it.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> <code>RCV</code> is referenced as a retention outcome, with no creation mechanics.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> PB-STOR-009 says "report" unknown classes without saying where or when.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Say whether DGN is reserved-not-emitted, like LCK.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Minor ambiguity.</p>
+  <p class="ask"><b>Question / direction for T.</b> Mark DGN as reserved-not-emitted, or define it. Define RCV together with F-14. Say whether unknown-class reporting is an INFO diagnostic, a directory annotation, or both.</p>
+</section>
+<section class="finding clarity" id="F-34">
+  <header>
+    <p class="fid">F-34<span class="sev">CLARITY</span></p>
+    <h3>Smaller underspecified points</h3>
+    <p class="cites">Cited: <code class="rid">W002-HELP-005</code> <code class="rid">W002-HELP-009</code> <code class="rid">W002-INV-005</code> <code class="rid">W002-STOR-014</code> <code class="rid">W002-STOR-012</code> <code class="rid">W002-UI-ACC-016</code> <code class="rid">W002-UI-007</code> <code class="rid">W002-HELP-006</code> <code class="rid">W002-RID-004</code> <code class="rid">W002-STOR-022.1</code></p>
+  </header>
+  <h4>What the contract says</h4>
+  <ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-HELP-005: the "explicitly permitted run-specific fields" are not listed.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-HELP-009: <code>data_sculptor_build</code> is <code>"WASM-002"</code>, which cannot tell patch builds apart.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-INV-005: the inventory "may" identify directories, which conflicts with deterministic serialization.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-014: the public documentation has no deliverable or gate.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-012: whether the UI must present the Flight Recorder is not stated.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-UI-ACC-016: "current governed context" is undefined when there are several Stores or branches.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-UI-007 against W002-HELP-001: are success and info messages (save succeeded, Suitcase validated) canonical INFO diagnostics?</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> How many HLPs per run when a run emits several diagnostics?</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-HELP-006: does interpolation and rendering live in the shared Rust core or in the browser layer?</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-RID-004: the byte form for N=0 (BOM plus <code>RID</code> plus LF) is implied but not stated.</li><li><span class="ei ei-e" title="Evidence — direct reading or full-text search of the 384 retained requirements">E</span> W002-STOR-022.1: the CER filename is 73 characters (<code>.html</code>), and the other defined governed names are 72. The path test is valid only as long as no SCR/RCV name is longer, which is worth stating as an invariant.</li></ul>
+  <h4>Why it matters</h4>
+  <ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Each is small. Together they are the difference between a contract and a strong draft.</li></ul>
+  <p class="impact"><b>Impact if frozen as written.</b> Minor.</p>
+  <p class="ask"><b>Question / direction for T.</b> Resolve inline during the next revision.</p>
+</section>
+
+<h2 id="decisions">6. Decisions requested from T</h2>
+<p>These are the questions whose answers would unblock the most findings. Each points back to its finding.</p>
+<ol class="q"><li>Work Order alias lifecycle: should a newer WKO with the same alias supersede the older row? What happens when a registered WKO file disappears? Are unregistered well-formed WKOs Runnable? (F-02)</li><li>Degraded Stores: should damage to a RID or COL block new-Store creation from the same source, and refuse with a pointer to recovery? Should recovery accept a <code>MAP "..."</code> selector, and should recovery lineage be persisted in the MAP? (F-03)</li><li>Monthly refresh: how does an analyst say "new row universe" in Work Order text? Should an N mismatch against the inherited RID be a named refusal? (F-04)</li><li>May an explicit <code>MAP</code> bring a different source into an existing Store in WASM-002? What does the per-row <code>source_filename</code> mean in this build? (F-05)</li><li>CSV input grammar: strict RFC 4180, or RFC 4180 with named deviations? What happens at EOF, with bare CR, and with one-column sources? Is comma the only delimiter? (F-06)</li><li>UTF-8 offset convention: lead byte, or offending byte? (F-07)</li><li>Is Windows-1252 conversion truly ready for WASM-002, or should it be re-scoped until its Work Order form and output bytes are frozen? (F-10)</li><li>Is the Store Index retired in favor of the Suitcase Directory? (F-11)</li><li>Should current-state selection require strictly increasing transaction UTC? (F-12)</li><li>Is single-writer a stated boundary, and must WASM-002 detect a changed base at commit? (F-13)</li><li>Should a minimum diagnostic condition catalog be frozen in the contract, ahead of the implementer's registry? (F-22)</li><li>Are test-only injection seams allowed, and how is their absence from release builds evidenced? (F-23)</li><li>Does re-opening an already-certified Suitcase need a new CER each session? (F-24)</li></ol>
+
+<h2 id="held">7. What held up under attack</h2>
+<ul class="s"><li>The commit-point discipline for Store state — SCR, complete-set validation, RID first, MAP rename last — is rigorous and testable. It is also stated in several places with the same meaning, which is rare.</li><li>The honesty boundaries are unusually well defined: missing never means false, the four boundary Booleans, INVENTORY's refusal to overclaim, run-local source binding explicitly not presented as cryptographic continuity, and the fixed HLP disclosure allowlist with no override controls.</li><li>The strict UTF-8 section (W002-ENC-004 and 005) is the most complete part of the contract. Apart from F-07, it could be handed to an independent fixture author today.</li><li>Keeping all analytical intent in Work Order text, with read-only aliases in the GUI, stays consistent across the UI requirements. The only exceptions are F-01 and F-27.</li><li>Separating class from serialization (PB-STOR-007) and names from proof (PB-STOR-012) gives a clean basis for resolving F-14.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> In Chromium, a File taken from a handle becomes unreadable once the underlying file changes. That gives the browser host a natural way to enforce W002-ENC-003.4 run-local continuity, which is worth confirming on the target browser.</li></ul>
+
+<h2 id="appendix-a">Appendix A — Prototype divergence log (informational)</h2>
+<p class="note">The prototype is non-binding, and the PRD wins. These are not findings against the contract. They are recorded because W002-UI-012 says a conflicting prototype must be revised, and several of them happen to illustrate open contract questions.</p>
+<div class="wrap"><table class="proto"><tr><th scope="row">Source resolution</th><td>It resolves <code>SOURCE</code> through a displayed alias. The contract routes on the exact filename only.</td></tr><tr><th scope="row">Diagnostics</th><td>It uses <code>DS-PTP-*</code> IDs, a <code>HELP</code> severity outside the INFO/WARNING/ERROR set, phase labels with spaces, and <code>{diagnostic_id}</code> and <code>{phase}</code> placeholders, which are not declared facts.</td></tr><tr><th scope="row">Publication</th><td>It writes WKO, WKO MAP and HLP directly under their final names, with no SCR staging and no successor-MAP validation.</td></tr><tr><th scope="row">Store MAP display</th><td>It picks the newest valid MAP across all Stores, rather than per lineage, and shows nothing on a tie. It applies partial checks and requires non-empty aliases, which the contract permits to be empty after <code>CLEAR</code>.</td></tr><tr><th scope="row">Grammar</th><td>It matches keywords case-insensitively, accepts <code>COLUMN +7</code>, and case-folds alias uniqueness (<code>toLocaleLowerCase</code>). All three are open questions in F-08 and F-15.</td></tr><tr><th scope="row">Operations</th><td>It supports MATERIALIZE only. There is no RCP, INVENTORY, RECOVER RID, UPDATE ALIASES or conversion.</td></tr><tr><th scope="row">HLP</th><td>Its HLP has no <code>ds-hlp-provenance</code> payload and no Disclosure section.</td></tr><tr><th scope="row">Themes</th><td>It has no Modern Dark / Modern Light selector (W002-UI-025).</td></tr><tr><th scope="row">Retired panels</th><td>The Branding TOML and Data Dictionary panels remain, clearly labelled out of scope.</td></tr><tr><th scope="row">Consistent with the contract</th><td>The Suitcase-first CER gate, the flat directory with display-only aliases, one editor with a derived-draft transition, the read-only execution pane, and the persistent Help pane with a voice switch and report action.</td></tr></table></div>
+
+<h2 id="appendix-b">Appendix B — Requirements cited in this review</h2>
+<p class="note">135 distinct requirement IDs are cited. Every citation was mechanically checked against the 384 IDs present in the reviewed artifact.</p>
+<p><code class="rid">PB-OPS-001</code> <code class="rid">PB-STOR-001</code> <code class="rid">PB-STOR-002</code> <code class="rid">PB-STOR-005</code> <code class="rid">PB-STOR-006</code> <code class="rid">PB-STOR-008</code> <code class="rid">PB-STOR-009</code> <code class="rid">PB-STOR-010</code> <code class="rid">PB-STOR-011</code> <code class="rid">PB-STOR-012</code> <code class="rid">PB-STOR-013</code> <code class="rid">W002-ARCH-008</code> <code class="rid">W002-ARCH-014</code> <code class="rid">W002-CONV-001</code> <code class="rid">W002-CONV-001.4</code> <code class="rid">W002-CONV-002</code> <code class="rid">W002-CONV-002.1</code> <code class="rid">W002-CONV-002.3</code> <code class="rid">W002-CONV-002.4</code> <code class="rid">W002-CONV-003.5</code> <code class="rid">W002-CONV-004</code> <code class="rid">W002-CONV-004.1</code> <code class="rid">W002-CONV-004.2</code> <code class="rid">W002-CONV-ACC-001</code> <code class="rid">W002-CONV-ACC-002</code> <code class="rid">W002-ENC-001.5</code> <code class="rid">W002-ENC-004.1</code> <code class="rid">W002-ENC-004.10</code> <code class="rid">W002-ENC-006</code> <code class="rid">W002-ENC-ACC-003</code> <code class="rid">W002-ENC-ACC-006</code> <code class="rid">W002-ENC-ACC-007</code> <code class="rid">W002-ENC-ACC-008</code> <code class="rid">W002-ENC-ACC-009</code> <code class="rid">W002-HELP-001.4</code> <code class="rid">W002-HELP-001.6</code> <code class="rid">W002-HELP-001.7</code> <code class="rid">W002-HELP-001.8</code> <code class="rid">W002-HELP-002.10</code> <code class="rid">W002-HELP-002.11</code> <code class="rid">W002-HELP-002.9</code> <code class="rid">W002-HELP-003.2</code> <code class="rid">W002-HELP-004.11</code> <code class="rid">W002-HELP-005</code> <code class="rid">W002-HELP-006</code> <code class="rid">W002-HELP-009</code> <code class="rid">W002-HELP-010</code> <code class="rid">W002-HELP-011.2</code> <code class="rid">W002-HP-ACC-003</code> <code class="rid">W002-HP-ACC-008</code> <code class="rid">W002-HP-ACC-011</code> <code class="rid">W002-HP-ACC-013</code> <code class="rid">W002-INV-002</code> <code class="rid">W002-INV-005</code> <code class="rid">W002-INV-006</code> <code class="rid">W002-MAT-001.7</code> <code class="rid">W002-MAT-002.10</code> <code class="rid">W002-MAT-002.11</code> <code class="rid">W002-MAT-002.5</code> <code class="rid">W002-MAT-002.6</code> <code class="rid">W002-MAT-002.7</code> <code class="rid">W002-MAT-002.8</code> <code class="rid">W002-MAT-003.1</code> <code class="rid">W002-MAT-003.2</code> <code class="rid">W002-MAT-003.3</code> <code class="rid">W002-MAT-ACC-002.4</code> <code class="rid">W002-MAT-ACC-003</code> <code class="rid">W002-MAT-ACC-004</code> <code class="rid">W002-MAT-ACC-005</code> <code class="rid">W002-MAT-ACC-006</code> <code class="rid">W002-RCP-005</code> <code class="rid">W002-RCP-006</code> <code class="rid">W002-RCP-007</code> <code class="rid">W002-RCP-008</code> <code class="rid">W002-RCP-010</code> <code class="rid">W002-RID-001</code> <code class="rid">W002-RID-004</code> <code class="rid">W002-RID-005</code> <code class="rid">W002-RID-006</code> <code class="rid">W002-RID-008</code> <code class="rid">W002-RID-009</code> <code class="rid">W002-STEPS-001</code> <code class="rid">W002-STEPS-001.1</code> <code class="rid">W002-STEPS-001.2</code> <code class="rid">W002-STEPS-002</code> <code class="rid">W002-STEPS-003</code> <code class="rid">W002-STEPS-010</code> <code class="rid">W002-STOR-001.2</code> <code class="rid">W002-STOR-003.5</code> <code class="rid">W002-STOR-007.3</code> <code class="rid">W002-STOR-009</code> <code class="rid">W002-STOR-010</code> <code class="rid">W002-STOR-010.1</code> <code class="rid">W002-STOR-010.3</code> <code class="rid">W002-STOR-010.4</code> <code class="rid">W002-STOR-012</code> <code class="rid">W002-STOR-014</code> <code class="rid">W002-STOR-015</code> <code class="rid">W002-STOR-016</code> <code class="rid">W002-STOR-018</code> <code class="rid">W002-STOR-018.2</code> <code class="rid">W002-STOR-018.3</code> <code class="rid">W002-STOR-018.4</code> <code class="rid">W002-STOR-019.10</code> <code class="rid">W002-STOR-019.11</code> <code class="rid">W002-STOR-019.2</code> <code class="rid">W002-STOR-019.3</code> <code class="rid">W002-STOR-019.5</code> <code class="rid">W002-STOR-019.6</code> <code class="rid">W002-STOR-020</code> <code class="rid">W002-STOR-022</code> <code class="rid">W002-STOR-022.1</code> <code class="rid">W002-STOR-022.2</code> <code class="rid">W002-UI-006</code> <code class="rid">W002-UI-007</code> <code class="rid">W002-UI-011</code> <code class="rid">W002-UI-016</code> <code class="rid">W002-UI-017</code> <code class="rid">W002-UI-019</code> <code class="rid">W002-UI-020</code> <code class="rid">W002-UI-023</code> <code class="rid">W002-UI-024</code> <code class="rid">W002-UI-ACC-007</code> <code class="rid">W002-UI-ACC-016</code> <code class="rid">W002-UI-ACC-019</code> <code class="rid">W002-WKO-007</code> <code class="rid">W002-WKO-009</code> <code class="rid">W002-WKO-012.1</code> <code class="rid">W002-WKO-012.3</code> <code class="rid">W002-WKO-012.5</code> <code class="rid">W002-WKO-012.6</code> <code class="rid">W002-WKO-013</code> <code class="rid">W002-WKO-ACC-003</code> <code class="rid">W002-WKO-ACC-006</code> <code class="rid">W002-WKO-ACC-008</code></p>
+
+<footer>
+<p>Data Sculptor WASM-002 adversarial QA review, Revision BL, pass 1. Reviewed artifact SHA-256 828C6A81B2C0A8B97546F728628059C53CC61256FAB23B142E452A8E566E025F. This review's own SHA-256 is recorded in its sidecar file.</p>
+</footer>
+</main>
+</body>
+</html>
