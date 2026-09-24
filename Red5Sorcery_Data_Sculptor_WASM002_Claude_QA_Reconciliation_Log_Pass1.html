@@ -22,9 +22,10 @@
 <div class="card"><b>Claude review</b><span class="big">Pass 1</span>Independent adversarial QA of WASM-002 Revision BL.</div>
 <div class="card"><b>Findings</b><span class="big">34 total</span>11 blocking · 15 material non-blocking · 8 clarity.</div>
 <div class="card"><b>Contract reviewed</b><span class="big">384 requirements</span>All retained requirements in the WASM-002 cut were under review.</div>
-<div class="card"><b>Current reconciliation</b><span class="big">F-02 resolved · F-03 resolved · F-04 resolved</span>F-02 WKO registry lifecycle and repair semantics are frozen. F-03 and F-04 are resolved. PRD integration not yet performed.</div>
+<div class="card"><b>Current reconciliation</b><span class="big">F-02 resolved · F-03 resolved · F-04 resolved · F-05 resolved</span>WKO registry lifecycle/repair, Store damage/recovery, existing-Store cardinality, and source-to-MAP compatibility are frozen by Council decision. PRD integration not yet performed.</div>
 </div>
 <p class="small">Claude's review identified F-03 as: “A missing or damaged RID or COL silently forks the Store, and the RID recovery base is undefined.” The review asked for explicit decisions separating degraded from invalid state and defining the recovery path.</p>
+<p class="small">F-05 is now closed by a single-source-per-Store-lineage rule: one Store MAP may contain multiple Stores, each Store lineage is identified by its <code>rid_filename</code>, and every materialized COL row within that lineage must carry the same <code>source_filename</code>. Different Store lineages in the same MAP may name different source files. Cross-source joins are deferred to a separate future join-specific artifact design.</p>
 
 <h2>2. Finding register</h2>
 <div class="wrap"><table><thead><tr><th>Finding</th><th>Severity</th><th>Claude finding title</th><th>Reconciliation state</th></tr></thead><tbody>
@@ -32,7 +33,7 @@
 <tr class="resolved"><td><a class="jump" href="#resolution-f02"><code>F-02</code></a></td><td class="sev blocking">BLOCKING</td><td><a class="jump" href="#resolution-f02">An aliased Work Order cannot be edited and re-saved, and the WKO alias registry has no retirement path</a></td><td class="state"><a class="jump" href="#resolution-f02">RESOLVED — DECISION FROZEN</a></td></tr>
 <tr class="resolved"><td><a class="jump" href="#resolution-f03"><code>F-03</code></a></td><td class="sev blocking">BLOCKING</td><td><a class="jump" href="#resolution-f03">A missing or damaged RID or COL silently forks the Store, and the RID recovery base is undefined</a></td><td class="state"><a class="jump" href="#resolution-f03">RESOLVED — DECISION FROZEN</a></td></tr>
 <tr class="resolved"><td><a class="jump" href="#resolution-f04"><code>F-04</code></a></td><td class="sev blocking">BLOCKING</td><td><a class="jump" href="#resolution-f04">A same-filename source refresh has no cardinality check against the inherited RID, and there is no way to start a new Store</a></td><td class="state"><a class="jump" href="#resolution-f04">RESOLVED — DECISION FROZEN</a></td></tr>
-<tr class="open"><td><code>F-05</code></td><td class="sev blocking">BLOCKING</td><td>The source-to-MAP compatibility rule is referenced but never defined</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
+<tr class="resolved"><td><a class="jump" href="#resolution-f05"><code>F-05</code></a></td><td class="sev blocking">BLOCKING</td><td><a class="jump" href="#resolution-f05">The source-to-MAP compatibility rule is referenced but never defined</a></td><td class="state"><a class="jump" href="#resolution-f05">RESOLVED — DECISION FROZEN</a></td></tr>
 <tr class="open"><td><code>F-06</code></td><td class="sev blocking">BLOCKING</td><td>The CSV dialect and the rules for malformed input are not frozen</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
 <tr class="open"><td><code>F-07</code></td><td class="sev blocking">BLOCKING</td><td>The meaning of the UTF-8 first-invalid offset is undefined, and the frozen error contract it points to is not in the cut</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
 <tr class="open"><td><code>F-08</code></td><td class="sev blocking">BLOCKING</td><td>The DS-STEPS lexical rules are incomplete, and the governed string-literal rules they cite are not in the cut</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
@@ -263,8 +264,112 @@ but this Help wording is not frozen. Gemini may later finalize wording, presenta
 <p>Do not rename or overwrite the existing Store's source merely to force continuation. Preserve the distinct source files visibly in the Suitcase.</p>
 </div>
 
-<h2>6. Consequences to carry into later PRD integration</h2>
+
+
+<h2 id="resolution-f05">6. F-05 — source-to-MAP compatibility and single-source Store lineages</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Decision:</b> a Store MAP may contain multiple Store lineages. Each Store lineage is identified by its governed <code>rid_filename</code> and is single-source: every materialized COL row belonging to that RID lineage records the same <code>source_filename</code>. Different Store lineages in the same MAP may have different source filenames. The Store MAP does not carry a separate <code>store_source_filename</code> field. An explicit MAP must never authorize a different source file to enter the selected Store lineage.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
+
+<h3>6.1 Multi-Store MAP / single-source Store-lineage invariant</h3>
+<div class="rulebox">
+<p>For WASM-002, one Store MAP may describe multiple Stores. Each Store lineage is distinguished by its governed <code>rid_filename</code>. Within one Store lineage, one physical analyst-owned source filename establishes the row universe and one or more materialized COL artifacts may be derived from that same source.</p>
+<ul>
+<li>Each mapped materialized COL row contains exactly one <code>source_filename</code>, identifying the physical source file from which that COL was materialized.</li>
+<li>Rows with the same <code>rid_filename</code> belong to the same Store lineage and must all carry the same <code>source_filename</code>.</li>
+<li>Rows with different <code>rid_filename</code> values represent different Store lineages and may legitimately carry different <code>source_filename</code> values.</li>
+<li>A Store lineage whose rows contain more than one <code>source_filename</code> value violates the WASM-002 single-source Store invariant.</li>
+<li>The separate <code>store_source_filename</code> field is removed from the WASM-002 Store MAP profile because the Store's source identity is already represented by the common <code>source_filename</code> across that RID lineage.</li>
+<li>The RID remains the Store's permanent row-identity spine.</li>
+</ul>
+<p>This keeps the model narrow without limiting the MAP to one Store: one MAP may describe many Stores, while each individual Store remains single-source.</p>
+</div>
+
+<h3>6.2 Detailed Store MAP examples</h3>
+<div class="notice"><b>Illustrative subset only.</b> These examples deliberately show the physical-to-human mapping fields needed to teach F-05: source filename, Store alias, RID physical filename and alias, and COL physical filename and alias. They do not freeze the final complete Store MAP column set, column order, or serialization. Governed RID, COL, and MAP filenames follow the frozen ordinary immutable form <code>__DS__CCC__YYYYMMDDTHHMMSSmmmZ__&lt;uuid-v4&gt;.&lt;extension&gt;</code>.</div>
+
+<div class="rulebox">
+<p><b>Valid example — two Stores in one MAP, each internally single-source</b></p>
+<p>Assume Store A was established first at publication UTC <code>20260924T191500000Z</code>. Store B was established later at publication UTC <code>20260924T191600000Z</code>. The later successor MAP is therefore:</p>
+<pre><code>__DS__MAP__20260924T191600000Z__7e8f9a0b-5555-4000-8000-000000000005.csv</code></pre>
+<p>An illustrative subset of that MAP's rows is:</p>
+<pre><code>source_filename,store_alias,rid_filename,rid_alias,col_filename,col_alias
+CrimeData.csv,Crime Data,__DS__RID__20260924T191500000Z__a1b2c3d4-1111-4000-8000-000000000001.csv,Crime Rows,__DS__COL__20260924T191500000Z__e5f6a7b8-2222-4000-8000-000000000002.csv,Region
+CrimeData.csv,Crime Data,__DS__RID__20260924T191500000Z__a1b2c3d4-1111-4000-8000-000000000001.csv,Crime Rows,__DS__COL__20260924T191500000Z__c9d0e1f2-3333-4000-8000-000000000003.csv,Value
+Population.csv,Population,__DS__RID__20260924T191600000Z__4a5b6c7d-4444-4000-8000-000000000004.csv,Population Rows,__DS__COL__20260924T191600000Z__8e9f0a1b-6666-4000-8000-000000000006.csv,Age
+Population.csv,Population,__DS__RID__20260924T191600000Z__4a5b6c7d-4444-4000-8000-000000000004.csv,Population Rows,__DS__COL__20260924T191600000Z__2c3d4e5f-7777-4000-8000-000000000007.csv,Population Count</code></pre>
+<p>This is valid under the F-05 rule. The two rows sharing the <code>CrimeData.csv</code> source also share one exact RID physical filename and therefore form one Store lineage. The two <code>Population.csv</code> rows share a different exact RID physical filename and form a second Store lineage. Each governed file keeps its opaque physical identity while the MAP carries the analyst-facing aliases that explain what those files mean.</p>
+<p>The example also illustrates publication identity correctly: Store A's RID and COLs share Store A's creation UTC but have distinct UUIDs. Store B's newly published RID, COLs, and the successor MAP share Store B's later publication UTC, again with distinct UUIDs. Historical Store A artifacts retain their earlier physical identities when copied forward into the successor MAP snapshot.</p>
+</div>
+
+<div class="rulebox">
+<p><b>Invalid example — one Store lineage contains mixed source filenames</b></p>
+<pre><code>source_filename,store_alias,rid_filename,rid_alias,col_filename,col_alias
+CrimeData.csv,Crime Data,__DS__RID__20260924T191500000Z__a1b2c3d4-1111-4000-8000-000000000001.csv,Crime Rows,__DS__COL__20260924T191500000Z__e5f6a7b8-2222-4000-8000-000000000002.csv,Region
+OtherData.csv,Crime Data,__DS__RID__20260924T191500000Z__a1b2c3d4-1111-4000-8000-000000000001.csv,Crime Rows,__DS__COL__20260924T191700000Z__9a0b1c2d-8888-4000-8000-000000000008.csv,Age
+Population.csv,Population,__DS__RID__20260924T191600000Z__4a5b6c7d-4444-4000-8000-000000000004.csv,Population Rows,__DS__COL__20260924T191600000Z__8e9f0a1b-6666-4000-8000-000000000006.csv,Age</code></pre>
+<p>The <code>Population</code> Store lineage is internally consistent. The <code>Crime Data</code> lineage is invalid for WASM-002 because two rows claim the same exact RID lineage while naming different physical source files: <code>CrimeData.csv</code> and <code>OtherData.csv</code>. The aliases do not cure that conflict, and equal row counts would not cure it either. A human-friendly alias is orientation metadata; it never overrides the physical Store-lineage identity or authorizes a cross-source positional attachment.</p>
+</div>
+
+<h3>6.3 Explicit MAP compatibility predicate</h3>
+<div class="rulebox">
+<p>When a Work Order explicitly names a Store MAP for materialization, Data Sculptor must validate compatibility against the Store lineage being continued before materialization begins.</p>
+<ul>
+<li>The target Store lineage is identified by its governed <code>rid_filename</code> under the Store-selection rules.</li>
+<li>The Work Order <code>SOURCE</code> filename must exactly equal the common <code>source_filename</code> carried by the materialized COL rows in that target RID lineage.</li>
+<li>Different Store lineages elsewhere in the same MAP may carry other source filenames; they do not make the MAP incompatible.</li>
+<li>If rows belonging to the target RID lineage contain inconsistent <code>source_filename</code> values, that lineage violates the Store invariant and cannot be used as a materialization base.</li>
+<li>If Work Order <code>SOURCE</code> does not exactly equal the target Store lineage's source filename, the Run refuses before materialization and before any new Store artifact is published.</li>
+<li>An explicit MAP means <b>use this governed state of this Store lineage</b>. It does not mean attach this source to a different Store lineage.</li>
+<li>Matching source identity does not bypass F-04. Existing-Store materialization must still satisfy the frozen RID-header cardinality gate: candidate logical row count <code>N</code> must equal the existing valid RID header <code>N</code> before publication may commit.</li>
+</ul>
+</div>
+
+<h3>6.4 No implicit positional join</h3>
+<div class="rulebox">
+<p>WASM-002 must never use an explicit MAP as permission to attach a different source file to an existing Store lineage by physical row position, even when the two files happen to have the same row count.</p>
+<p>Equal cardinality is not evidence of row identity. A different source filename therefore refuses against that Store lineage rather than being treated as a positional join, silent append, or alternate source for the Store.</p>
+</div>
+
+<h3>6.5 Store MAP simplification consequence</h3>
+<div class="rulebox">
+<p>The Revision BL Store MAP profile must be revised during later PRD integration so that WASM-002 no longer stores both <code>store_source_filename</code> and per-row <code>source_filename</code>.</p>
+<p>The WASM-002 direction is to retain one per-materialized-COL <code>source_filename</code> field and remove the redundant <code>store_source_filename</code> field. Store source identity is derived per RID lineage: all rows sharing one <code>rid_filename</code> must agree on <code>source_filename</code>. The MAP continues to pair opaque governed physical filenames with human-facing Store/RID/COL aliases and other frozen provenance fields; removing <code>store_source_filename</code> does not weaken that physical-to-logical mapping role.</p>
+<p>The exact final column order and full revised Store MAP schema remain an integration task for the PRD revision; this reconciliation decision freezes the semantics, not a new full serialized row example.</p>
+</div>
+
+<h3>6.6 Acceptance consequences</h3>
+<div class="rulebox">
+<ul>
+<li><b>Multiple Stores in one MAP:</b> two or more RID lineages with different source filenames are valid when each lineage is internally single-source.</li>
+<li><b>Compatible explicit MAP:</b> Work Order <code>SOURCE</code> exactly matches the common <code>source_filename</code> of the target RID lineage; the Run may proceed to the F-04 cardinality gate.</li>
+<li><b>Cardinality mismatch after source match:</b> source identity matches, but candidate <code>N</code> differs from RID-header <code>N</code>; the Run refuses under F-04 without changing the existing Store.</li>
+<li><b>Different source filename for target Store:</b> Work Order <code>SOURCE</code> differs from the target RID lineage's source filename; the Run refuses before materialization and publishes no candidate COL or successor Store state.</li>
+<li><b>Internally inconsistent Store lineage:</b> rows sharing one <code>rid_filename</code> but containing more than one <code>source_filename</code> violate the Store invariant and cannot serve as the materialization base for that Store.</li>
+<li><b>No positional-alignment escape:</b> two different sources with equal row counts still cannot be attached to the same RID lineage.</li>
+</ul>
+</div>
+
+<h3>6.7 Future join direction — proposal only, outside WASM-002</h3>
+<div class="notice"><b>Scope status:</b> FUTURE DESIGN PROPOSAL ONLY. This subsection does not add a WASM-002 requirement, artifact class, syntax form, acceptance gate, or implementation obligation.</div>
+<div class="rulebox">
+<p>When explicit joins are designed in a later build, the preferred direction is to preserve single-source Store-lineage semantics and represent cross-Store relationships through a separate governed <b>Join MAP</b> or equivalent join-specific artifact.</p>
+<p>A future join-specific artifact could record facts such as the left Store/MAP, right Store/MAP, left key, right key, join type, and the governed evidence needed to prove the relationship. The exact artifact class, filename grammar, schema, syntax, lifecycle, and acceptance rules are deliberately not frozen here.</p>
+<p>This preserves a clean boundary: a Store MAP may describe multiple single-source Store lineages; a future Join MAP would record how two governed Stores were explicitly related.</p>
+</div>
+
+<h3>6.8 Why F-05 is closed</h3>
+<div class="rulebox">
+<p>Claude's F-05 concern is resolved because the compatibility predicate is now explicit and independently testable at the Store-lineage level: the target RID lineage is internally single-source, the Work Order source must match that lineage's source filename, and matching source identity is followed by the existing F-04 cardinality gate.</p>
+<p>Different Store lineages may coexist in one MAP without being treated as joined. A Store lineage cannot become a hidden positional-join mechanism, and future cross-source joins remain a separate, deliberately designed capability.</p>
+</div>
+
+<h2>7. Consequences to carry into later PRD integration</h2>
 <div class="rulebox"><ul>
+<li>The WASM-002 Store MAP profile must be revised so the redundant <code>store_source_filename</code> field is removed and each materialized COL row carries exactly one <code>source_filename</code>.</li>
+<li>One Store MAP may contain multiple Store lineages. Store lineages are distinguished by <code>rid_filename</code>; all rows within one RID lineage must agree on <code>source_filename</code>, while different RID lineages may use different source filenames.</li>
+<li>An explicit Store MAP is compatible with a Work Order only at the target Store-lineage level: Work Order <code>SOURCE</code> must exactly match the common source filename of the target RID lineage. Other Store lineages in the same MAP may name other sources.</li>
+<li>Matching source identity does not replace the F-04 gate; candidate logical row count must still equal the valid RID-header <code>N</code> before existing-Store publication may commit.</li>
+<li>Acceptance fixtures must prove a valid multi-Store MAP, mismatched-source refusal for one target RID lineage, mixed-source invalidity within one RID lineage, and refusal of equal-row-count cross-source positional attachment.</li>
+<li>The future Join MAP direction recorded in F-05 is not part of WASM-002 and must not create a current artifact class, schema, syntax form, gate, or implementation obligation.</li>
 <li>Existing RID-recovery requirements and DS-STEPS syntax that imply RID regeneration will need to be retired or rewritten.</li>
 <li>MAP eligibility/current-state language must distinguish a DEGRADED Store from an INVALID Store rather than making both disappear from inheritance/routing.</li>
 <li>Ordinary materialization must not silently create a replacement Store merely because a current Store is DEGRADED or INVALID.</li>
@@ -289,10 +394,10 @@ but this Help wording is not frozen. Gemini may later finalize wording, presenta
 <li>Repair publishes a successor WKO MAP; predecessor WKO MAPs and all surviving WKO files remain unchanged. Help explains removed stale references and any discovered WKOs registered as deprecated.</li>
 </ul><p class="small">These are integration consequences, not edits to the official PRD in this document.</p></div>
 
-<h2 id="resolution-f02">7. F-02 — WKO registry lifecycle and repair</h2>
+<h2 id="resolution-f02">8. F-02 — WKO registry lifecycle and repair</h2>
 <div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Supersession note:</b> This CURRENT/DEPRECATED model supersedes the earlier ACTIVE/INACTIVE draft recorded during this reconciliation pass.<br><b>Closure:</b> alias reuse, missing registered WKOs, and visible valid but unregistered WKOs now have explicit deterministic handling.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 
-<h3>7.1 Immutable WKO files; lifecycle authority lives in the WKO MAP</h3>
+<h3>8.1 Immutable WKO files; lifecycle authority lives in the WKO MAP</h3>
 <div class="rulebox">
 <p>A saved WKO remains an immutable governed artifact. Editing a loaded WKO and saving the result creates a new immutable WKO identity; the older WKO file is neither overwritten nor deleted.</p>
 <p>The lifecycle distinction belongs to the WKO registry row, not to the bytes of the WKO itself. A deprecated WKO therefore retains its original <code>WORK ORDER AS</code> text and every other byte exactly as saved.</p>
@@ -301,7 +406,7 @@ but this Help wording is not frozen. Gemini may later finalize wording, presenta
 <p>The only frozen values of <code>wko_status</code> are <code>CURRENT</code> and <code>DEPRECATED</code>.</p>
 </div>
 
-<h3>7.2 Saving a new WKO with an existing non-empty alias</h3>
+<h3>8.2 Saving a new WKO with an existing non-empty alias</h3>
 <div class="rulebox">
 <p>When a save would create a new immutable WKO whose non-empty alias is already held by a <code>CURRENT</code> WKO row, Data Sculptor must not silently choose between the two and must not require the analyst to invent a different alias.</p>
 <p>Before the alias-registry commit, Data Sculptor presents the analyst with exactly two lifecycle choices:</p>
@@ -319,7 +424,7 @@ but this Help wording is not frozen. Gemini may later finalize wording, presenta
 <p>No permanent deletion is part of alias replacement.</p>
 </div>
 
-<h3>7.3 Alias-resolution invariant</h3>
+<h3>8.3 Alias-resolution invariant</h3>
 <div class="rulebox">
 <p>For any non-empty alias represented in the current WKO MAP, <b>at most one row may have <code>wko_status=CURRENT</code></b>. Any superseded rows with that same former/current alias are retained as <code>DEPRECATED</code>.</p>
 <p>When a user or governed operation resolves a WKO by human-facing alias, Data Sculptor considers the <code>CURRENT</code> row. It does not resolve by greatest filename timestamp or greatest UTC.</p>
@@ -327,7 +432,7 @@ but this Help wording is not frozen. Gemini may later finalize wording, presenta
 <p><code>DEPRECATED</code> describes registry authority for alias resolution; it does not mutate or invalidate the physical WKO artifact. Direct historical inspection may remain available, while governed Run eligibility follows the current registry and other separately frozen Run rules.</p>
 </div>
 
-<h3>7.4 Physical CSV truth</h3>
+<h3>8.4 Physical CSV truth</h3>
 <div class="rulebox">
 <p>The governed WKO MAP remains one deterministic CSV file. Example after <code>Prepare monthly crime data</code> has been edited and the analyst chose <b>Replace alias target</b>:</p>
 <pre><code>wko_status,wko_alias,wko_filename
@@ -337,7 +442,7 @@ CURRENT,Export executive report,__DS__WKO__20260922T164455006Z__C3.txt
 DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</code></pre>
 </div>
 
-<h3>7.5 Human-facing rendering</h3>
+<h3>8.5 Human-facing rendering</h3>
 <p>The UI may render the same CSV truth in two explicit sections so the analyst can see current authority and preserved history immediately.</p>
 <h4>CURRENT WORK ORDERS</h4>
 <div class="wrap"><table>
@@ -355,13 +460,13 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 </tbody></table></div>
 <p class="small">The two-section presentation is a human-facing rendering of the governed three-column CSV; it is not a second persistent registry.</p>
 
-<h3>7.6 Why this resolves the alias-lifecycle part of Claude F-02</h3>
+<h3>8.6 Why this resolves the alias-lifecycle part of Claude F-02</h3>
 <div class="rulebox">
 <p>Claude identified that Revision BL simultaneously required immutable new WKO identities for edits and unique current aliases, but supplied no retirement/supersession path. The frozen rule above supplies that path at save time: the analyst explicitly chooses whether to replace the alias target or cancel; replacement preserves the previous WKO as <code>DEPRECATED</code> history and makes the new immutable WKO the sole <code>CURRENT</code> alias target.</p>
 <p>This removes the need to invent a different human alias for every saved revision, avoids timestamp arbitration, avoids destructive overwrite/delete behavior, and keeps the current WKO MAP itself human-readable as a record of both present alias authority and superseded history.</p>
 </div>
 
-<h3>7.7 Missing registered WKO — explicit registry repair</h3>
+<h3>8.7 Missing registered WKO — explicit registry repair</h3>
 <div class="rulebox">
 <p>A WKO MAP row whose referenced physical WKO file is no longer present is a stale registry reference. Data Sculptor must not silently fall back to an older WKO MAP, reconstruct the missing WKO, or automatically promote a deprecated WKO to replace it.</p>
 <p>The frozen governed repair syntax is:</p>
@@ -370,7 +475,7 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <p>Until repair, a missing referenced WKO cannot be loaded or Run. A registry-changing transaction that requires a fully valid successor WKO MAP must not silently bypass the stale reference.</p>
 </div>
 
-<h3>7.8 Visible valid WKO absent from the registry</h3>
+<h3>8.8 Visible valid WKO absent from the registry</h3>
 <div class="rulebox">
 <p>A visible WKO that is well-formed and passes the governed WKO validity checks but is absent from the current WKO MAP is <b>unregistered</b>. It is not a governed Run target merely because its file is present.</p>
 <p><code>REPAIR WORK ORDER REGISTRY</code> also reconciles this direction:</p>
@@ -383,23 +488,23 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <p>This means newly discovered files can be brought under governance without letting their mere arrival silently displace a Work Order that the current registry already treats as authoritative.</p>
 </div>
 
-<h3>7.9 Repair publication and Help boundary</h3>
+<h3>8.9 Repair publication and Help boundary</h3>
 <div class="rulebox">
 <p>Repair is structural reconciliation, not content recovery. It publishes a successor WKO MAP only after the repaired registry satisfies its validity rules. It never rewrites a WKO, recreates a missing WKO, infers that a deprecated WKO should be current, or selects a winner by greatest UTC.</p>
 <p>Help must explain which stale rows were removed, which visible WKOs were newly registered, and which discovered alias-colliding WKOs were registered as <code>DEPRECATED</code>. The human remains free to use the ordinary load/edit/save alias-replacement workflow later if a deprecated WKO should become the new current target.</p>
 </div>
 
-<h3>7.10 Why F-02 is closed</h3>
+<h3>8.10 Why F-02 is closed</h3>
 <div class="rulebox">
 <p>F-02 now has deterministic rules for all lifecycle edges Claude raised: editing and re-saving an aliased immutable WKO, superseding alias authority without deletion, a registered WKO disappearing from the Suitcase, and a valid visible WKO appearing without a registry row.</p>
 <p>The WKO MAP remains the governed registry truth; immutable WKO files remain visible evidence; and <code>REPAIR WORK ORDER REGISTRY</code> reconciles filesystem reality without guessing away established current authority.</p>
 </div>
 
-<h2>8. Next reconciliation target</h2>
-<p>Continue Claude Pass 1 one finding at a time. <code>F-02</code>, <code>F-03</code>, and <code>F-04</code> are now resolved by frozen Council decisions. The next lifecycle blocker is <code>F-05</code>: the source-to-MAP compatibility rule is referenced but never defined. No unresolved finding is silently treated as decided in this log.</p>
+<h2>9. Next reconciliation target</h2>
+<p>Continue Claude Pass 1 one finding at a time. <code>F-02</code>, <code>F-03</code>, <code>F-04</code>, and <code>F-05</code> are now resolved by frozen Council decisions. The next blocking finding is <code>F-06</code>: the CSV dialect and the rules for malformed input are not frozen. No unresolved finding is silently treated as decided in this log.</p>
 
 
-<footer>Separate QA reconciliation artifact · Red5Sorcery Data Sculptor · WASM-002 · Claude Pass 1<br>Source review: <code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass1_2026-09-23.html</code><br>Reviewed contract identified by Claude: <code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_PRD_RevBL_2026-09-22.html</code>, SHA-256 <code>828C6A81B2C0A8B97546F728628059C53CC61256FAB23B142E452A8E566E025F</code>.<br>This log is intentionally non-normative until decisions are explicitly integrated into the official PRD.</footer>
+<footer>Separate QA reconciliation artifact · Red5Sorcery Data Sculptor · WASM-002 · Claude Pass 1<br>Source review: <code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass1.html</code><br>Reviewed contract identified by Claude: <code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_PRD_RevBL_2026-09-22.html</code>, SHA-256 <code>828C6A81B2C0A8B97546F728628059C53CC61256FAB23B142E452A8E566E025F</code>.<br>This log is intentionally non-normative until decisions are explicitly integrated into the official PRD.</footer>
 </main>
 </body>
 </html>
