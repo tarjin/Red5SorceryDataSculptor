@@ -22,7 +22,7 @@
 <div class="card"><b>Claude review</b><span class="big">Pass 1</span>Independent adversarial QA of WASM-002 Revision BL.</div>
 <div class="card"><b>Findings</b><span class="big">34 total</span>11 blocking · 15 material non-blocking · 8 clarity.</div>
 <div class="card"><b>Contract reviewed</b><span class="big">384 requirements</span>All retained requirements in the WASM-002 cut were under review.</div>
-<div class="card"><b>Current reconciliation</b><span class="big">F-02 resolved · F-03 resolved · F-04 resolved · F-05 resolved</span>WKO registry lifecycle/repair, Store damage/recovery, existing-Store cardinality, and source-to-MAP compatibility are frozen by Council decision. PRD integration not yet performed.</div>
+<div class="card"><b>Current reconciliation</b><span class="big">F-02 resolved · F-03 resolved · F-04 resolved · F-05 resolved · F-06 resolved · F-07 resolved</span>WKO registry lifecycle/repair, Store damage/recovery, existing-Store cardinality, source-to-MAP compatibility, and the WASM-002 CSV input profile are frozen by Council decision. PRD integration not yet performed.</div>
 </div>
 <p class="small">Claude's review identified F-03 as: “A missing or damaged RID or COL silently forks the Store, and the RID recovery base is undefined.” The review asked for explicit decisions separating degraded from invalid state and defining the recovery path.</p>
 <p class="small">F-05 is now closed by a single-source-per-Store-lineage rule: one Store MAP may contain multiple Stores, each Store lineage is identified by its <code>rid_filename</code>, and every materialized COL row within that lineage must carry the same <code>source_filename</code>. Different Store lineages in the same MAP may name different source files. Cross-source joins are deferred to a separate future join-specific artifact design.</p>
@@ -34,8 +34,8 @@
 <tr class="resolved"><td><a class="jump" href="#resolution-f03"><code>F-03</code></a></td><td class="sev blocking">BLOCKING</td><td><a class="jump" href="#resolution-f03">A missing or damaged RID or COL silently forks the Store, and the RID recovery base is undefined</a></td><td class="state"><a class="jump" href="#resolution-f03">RESOLVED — DECISION FROZEN</a></td></tr>
 <tr class="resolved"><td><a class="jump" href="#resolution-f04"><code>F-04</code></a></td><td class="sev blocking">BLOCKING</td><td><a class="jump" href="#resolution-f04">A same-filename source refresh has no cardinality check against the inherited RID, and there is no way to start a new Store</a></td><td class="state"><a class="jump" href="#resolution-f04">RESOLVED — DECISION FROZEN</a></td></tr>
 <tr class="resolved"><td><a class="jump" href="#resolution-f05"><code>F-05</code></a></td><td class="sev blocking">BLOCKING</td><td><a class="jump" href="#resolution-f05">The source-to-MAP compatibility rule is referenced but never defined</a></td><td class="state"><a class="jump" href="#resolution-f05">RESOLVED — DECISION FROZEN</a></td></tr>
-<tr class="open"><td><code>F-06</code></td><td class="sev blocking">BLOCKING</td><td>The CSV dialect and the rules for malformed input are not frozen</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
-<tr class="open"><td><code>F-07</code></td><td class="sev blocking">BLOCKING</td><td>The meaning of the UTF-8 first-invalid offset is undefined, and the frozen error contract it points to is not in the cut</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
+<tr class="resolved"><td><a class="jump" href="#resolution-f06"><code>F-06</code></a></td><td class="sev blocking">BLOCKING</td><td><a class="jump" href="#resolution-f06">The CSV dialect and the rules for malformed input are not frozen</a></td><td class="state"><a class="jump" href="#resolution-f06">RESOLVED — DECISION FROZEN</a></td></tr>
+<tr class="resolved"><td><a class="jump" href="#resolution-f07"><code>F-07</code></a></td><td class="sev blocking">BLOCKING</td><td><a class="jump" href="#resolution-f07">The meaning of the UTF-8 first-invalid offset is undefined, and the frozen error contract it points to is not in the cut</a></td><td class="state"><a class="jump" href="#resolution-f07">RESOLVED — DECISION FROZEN</a></td></tr>
 <tr class="open"><td><code>F-08</code></td><td class="sev blocking">BLOCKING</td><td>The DS-STEPS lexical rules are incomplete, and the governed string-literal rules they cite are not in the cut</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
 <tr class="open"><td><code>F-09</code></td><td class="sev blocking">BLOCKING</td><td>Receipt and Inventory TXT must be tested byte-for-byte, but their serialization is not specified</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
 <tr class="open"><td><code>F-10</code></td><td class="sev blocking">BLOCKING</td><td>Windows-1252 conversion has no Work Order form, output contract or class-level serialization</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
@@ -500,9 +500,87 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <p>The WKO MAP remains the governed registry truth; immutable WKO files remain visible evidence; and <code>REPAIR WORK ORDER REGISTRY</code> reconciles filesystem reality without guessing away established current authority.</p>
 </div>
 
-<h2>9. Next reconciliation target</h2>
-<p>Continue Claude Pass 1 one finding at a time. <code>F-02</code>, <code>F-03</code>, <code>F-04</code>, and <code>F-05</code> are now resolved by frozen Council decisions. The next blocking finding is <code>F-06</code>: the CSV dialect and the rules for malformed input are not frozen. No unresolved finding is silently treated as decided in this log.</p>
+<h2 id="resolution-f06">9. F-06 — frozen Council resolution</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 
+<h3>9.1 Normative WASM-002 CSV input profile</h3>
+<div class="rulebox"><p>WASM-002 uses a deliberately explicit Data Sculptor CSV profile. It is RFC 4180-inspired but is not defined merely by reference to RFC 4180 or by the behavior of any parser library. The rules below are the product contract.</p><ul>
+<li><b>Delimiter:</b> comma (<code>,</code>) is the only field delimiter. Automatic delimiter detection and semicolon/tab/other-delimiter CSV dialects are outside the WASM-002 CSV contract.</li>
+<li><b>Quoted fields:</b> double quote (<code>"</code>) is structural only when it begins a quoted field. A quote appearing inside an unquoted field, such as <code>ab"c</code>, is malformed and refuses.</li>
+<li><b>After a closing quote:</b> the next byte must be a comma, an accepted record terminator, or EOF. Characters after a closing quote, such as <code>"ab"c</code>, are malformed and refuse.</li>
+<li><b>Record terminators:</b> LF (<code>
+</code>) and CRLF (<code>
+</code>) are accepted. A bare CR is not a record terminator and refuses as malformed CSV, including CR followed by a byte other than LF.</li>
+<li><b>EOF:</b> the final record may terminate directly at EOF without a trailing LF or CRLF.</li>
+<li><b>Final line ending:</b> one accepted record terminator ending the final record does not create an additional phantom blank record. Ordinary exported CSV files ending in LF or CRLF therefore remain valid under this rule.</li>
+<li><b>One-column CSV:</b> one-column sources are valid. In a one-column source, <code>""</code> is the explicit representation of an empty field. A physically blank record remains a blank record and is refused under the existing blank-record rule.</li>
+</ul></div>
+
+<h3>9.2 UTF-8 BOM boundary</h3>
+<div class="rulebox"><ul>
+<li>An optional UTF-8 BOM with bytes <code>EF BB BF</code> is permitted only at absolute source-byte offsets 0–2, before the first CSV field.</li>
+<li>That leading BOM is an encoding signature, not CSV data. It must not become part of the first header name or first field value.</li>
+<li>A <code>U+FEFF</code> occurring anywhere else is not granted BOM semantics merely because of its value; after decoding it is ordinary input data subject to the CSV grammar and other applicable rules.</li>
+<li>After an optional leading BOM is consumed at the encoding/CSV boundary, BOM presence or absence must not otherwise change CSV parsing semantics.</li>
+<li>The physical BOM bytes remain part of the source byte stream for any absolute source-byte location accounting. The exact common offset/error semantics are frozen with the shared error contract under F-07, not duplicated here.</li>
+</ul></div>
+
+<h3>9.3 Deterministic malformed-input behavior</h3>
+<div class="rulebox"><p>Any violation of the frozen CSV profile above is a deterministic malformed-CSV refusal. Parser-library leniency must not broaden the accepted language. Streaming window boundaries must not change whether input is accepted, which malformed condition is encountered first, or the governed location reported for that condition.</p><p>F-06 freezes <em>what constitutes valid and malformed CSV</em>. The exact common diagnostic location facts and byte-offset convention are intentionally delegated to F-07 so that WASM-002 has one error-location contract rather than two competing definitions. That dependency does not leave the CSV grammar open.</p></div>
+
+<h3>9.4 Why F-06 is closed</h3>
+<div class="rulebox"><p>Claude's seven unresolved CSV cases now have deterministic answers: quote placement, post-quote characters, bare CR handling, EOF termination, final line-ending behavior, one-column empty values, and delimiter scope. The Council additionally froze UTF-8 BOM handling because the BOM sits directly at the encoding-to-CSV boundary and must never silently become analytical data.</p><p>Independent fixtures can now be authored against the accepted/refused byte forms without inheriting undocumented behavior from the Rust <code>csv</code> crate or another parser. F-07 remains responsible only for the shared error-location/offset oracle.</p></div>
+
+<h2 id="resolution-f07">10. F-07 — frozen Council resolution</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
+
+<h3>10.1 Governed UTF-8 first-invalid offset</h3>
+<div class="rulebox">
+<p>The governed UTF-8 first-invalid offset is the <b>zero-based absolute byte offset, measured from the first physical byte of the source file, of the first byte of the invalid UTF-8 sequence</b>.</p>
+<p>The offset is a property of the physical source byte stream. It is not a character index, code-point index, logical CSV position, decoded-text position, or streaming-window-relative offset.</p>
+</div>
+
+<h3>10.2 Deterministic invalid-sequence cases</h3>
+<div class="rulebox"><ul>
+<li>A lone invalid byte or lone continuation byte reports the absolute offset of that byte.</li>
+<li>An invalid multibyte sequence reports the absolute offset of its lead byte.</li>
+<li>If a sequence begins with a valid multibyte lead byte but becomes invalid when a later byte is examined, the reported offset remains the offset of that sequence's lead byte.</li>
+<li>A multibyte sequence truncated by EOF reports the absolute offset of its lead byte.</li>
+<li>If an invalid sequence spans two or more streaming windows, the result is identical to parsing the same bytes in one contiguous window. Window boundaries never reset or alter the governed offset.</li>
+</ul></div>
+
+<h3>10.3 UTF-8 BOM and absolute offsets</h3>
+<div class="rulebox">
+<p>The F-06 CSV profile permits one UTF-8 BOM, byte sequence <code>EF BB BF</code>, only at absolute offsets <code>0</code> through <code>2</code>. That leading BOM is an encoding signature and is not analytical CSV data.</p>
+<p>Nevertheless, the BOM bytes remain physical source bytes. Therefore all governed absolute byte offsets count them. For example, the first byte following a permitted UTF-8 BOM is at absolute byte offset <code>3</code>, not <code>0</code>.</p>
+<p>This preserves one literal meaning of “absolute source byte offset” regardless of whether a permitted BOM is present.</p>
+</div>
+
+<h3>10.4 Frozen diagnostic facts for UTF-8 refusal</h3>
+<div class="rulebox">
+<p>A UTF-8 validation refusal must expose, at minimum, the following deterministic facts to the governed diagnostic/Receipt/Help path:</p>
+<ul>
+<li><code>FIRST_INVALID_BYTE_OFFSET</code> — the governed zero-based absolute source-byte offset defined above;</li>
+<li><code>STOP_REASON</code> — a deterministic UTF-8 validation reason identifying why validation stopped.</li>
+</ul>
+<p>An implementation may retain or expose an offending-byte evidence window where separately required, but such a window is not the authority for the first-invalid offset. The offset rule above is authoritative.</p>
+<p>The exact human-facing wording of the diagnostic remains a Help/rendering concern; it must not change these machine-deterministic facts.</p>
+</div>
+
+<h3>10.5 Relationship to F-06</h3>
+<div class="rulebox">
+<p>F-06 freezes the CSV input grammar and states that malformed-input failures must be deterministically locatable. F-07 freezes the common absolute-source-byte convention for UTF-8 validation failures. The two rules are compatible: the optional leading UTF-8 BOM is excluded from analytical CSV content but included when counting physical source bytes.</p>
+<p>F-07 does not reopen the CSV grammar decisions frozen under F-06.</p>
+</div>
+
+<h3>10.6 Why F-07 is closed</h3>
+<div class="rulebox">
+<p>Claude identified that Revision BL required exact offsets but did not define whether an invalid multibyte sequence reports its lead byte, the later offending byte, or EOF, and did not state whether streaming-window boundaries affect the result. The frozen rules above supply one independent oracle: the first byte of the invalid sequence, counted as a zero-based absolute offset from the first physical source byte.</p>
+<p>This makes lone-byte, malformed multibyte, truncated-EOF, BOM-bearing, and cross-window fixtures deterministic without allowing the implementation library to choose the contract.</p>
+</div>
+
+<h2>11. Next reconciliation target</h2>
+<p>Continue Claude Pass 1 one finding at a time. <code>F-02</code> through <code>F-07</code> are now resolved by frozen Council decisions. The next blocking finding is <code>F-08</code>: the DS-STEPS lexical rules are incomplete, and the governed string-literal rules they cite are not in the cut. No unresolved finding is silently treated as decided in this log.</p>
 
 <footer>Separate QA reconciliation artifact · Red5Sorcery Data Sculptor · WASM-002 · Claude Pass 1<br>Source review: <code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass1.html</code><br>Reviewed contract identified by Claude: <code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_PRD_RevBL_2026-09-22.html</code>, SHA-256 <code>828C6A81B2C0A8B97546F728628059C53CC61256FAB23B142E452A8E566E025F</code>.<br>This log is intentionally non-normative until decisions are explicitly integrated into the official PRD.</footer>
 </main>
