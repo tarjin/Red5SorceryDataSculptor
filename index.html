@@ -281,7 +281,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 </style>
 </head>
 <body>
-<!-- Day 048 public-site in-progress update: Revision BL remains the reviewed WASM-002 baseline; Claude Pass 1 produced 34 findings; Council reconciliation has resolved F-02 through F-05 with 30 findings remaining. Day 047 also refined the separate future Suitcase Directory / AX design record. Day 048 is still in progress; no WASM-002 implementation or PRD freeze is claimed. -->
+<!-- Day 048 landing update: Revision BL remains the reviewed WASM-002 baseline; Claude Pass 1 produced 34 findings; Council reconciliation has resolved F-02 through F-07 with 28 findings remaining. Day 047 after-hours work expanded the separate future Suitcase Directory / AX design and read-only metadata-domain strategy. No WASM-002 implementation or PRD freeze is claimed. -->
 
 <header class="masthead">
   <div class="wrap">
@@ -339,7 +339,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <dt>Build state</dt>
         <dd>No WASM-002 production implementation has started. Claude's Pass 1 review contains 34 findings: 11 blocking, 15 material non-blocking and 8 clarity findings. The review remains public here: <a href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass1.html">Claude's WASM-002 Revision BL adversarial QA review</a>.</dd>
         <dt>Now building</dt>
-        <dd>Day 048 continues the Council reconciliation. F-02 through F-05 are resolved by frozen decisions, leaving 30 findings open. Today's flight plan is deliberately bounded: close at least one more blocking issue for WASM-002, beginning with F-06 unless evidence deliberately changes the order. The working decision record is public here: <a href="Red5Sorcery_Data_Sculptor_WASM002_Claude_QA_Reconciliation_Log_Pass1.html">Claude QA Reconciliation Log — Pass 1</a>.</dd>
+        <dd>Day 048 landed with two additional blocking findings resolved. F-02 through F-07 are now frozen Council decisions: 6 of 34 findings closed, 28 remaining. F-06 freezes the WASM-002 CSV input profile, including UTF-8 BOM handling; F-07 freezes deterministic UTF-8 first-invalid-byte semantics. Revision BL remains the reviewed baseline and has not yet been rewritten with the reconciliation decisions. The next blocking target is F-08. The working decision record is public here: <a href="Red5Sorcery_Data_Sculptor_WASM002_Claude_QA_Reconciliation_Log_Pass1.html">Claude QA Reconciliation Log — Pass 1</a>.</dd>
         <dt>Yesterday after hours</dt>
         <dd>Day 047 closed F-05 and continued the storage-model design record after hours without expanding WASM-002 scope. The Suitcase Directory / Analyst Experience work was refined as a governed DIR artifact with successor-only publication, exact self-size verification, predecessor inheritance, Work Order-driven descriptions and presentation, and read-only research-domain directions. This remains explicitly outside WASM-002 and is sequenced for a nearby follow-on build after the storage model is frozen.</dd>
         <dt>Unsettled</dt>
@@ -974,12 +974,13 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         </div>
       </li>
       <li>
-        <div class="log-day">Day 048<span class="log-date">Fri 25 Sep</span><span class="log-tag">In progress</span></div>
+        <div class="log-day">Day 048<span class="log-date">Fri 25 Sep</span><span class="log-tag">Landed</span></div>
         <div class="log-entry">
           <h3>Keep Reconciling Before We Build</h3>
-          <p>Day 048 is still underway. The Council begins from the same exact Revision BL evidence baseline and the separate reconciliation log. F-02 through F-05 are resolved by frozen decisions, leaving thirty findings open. No production implementation has started and the PRD is not frozen.</p>
-          <p class="log-after"><b>Today's flight plan</b>Continue the WASM-002 adversarial-QA reconciliation one bounded finding at a time, beginning with F-06 unless the evidence deliberately changes the order. The target is to close at least one more blocking issue without widening the build.</p>
-          <p class="log-after"><b>Status</b>This is an in-progress Day 048 entry, not an end-of-day record. It may be expanded when the day's work lands.</p>
+          <p>Day 048 landed ahead of its deliberately modest flight plan. The Council closed two more WASM-002 blockers. F-06 now defines the CSV input grammar instead of allowing parser-library defaults to become product semantics: comma-only input, strict quoting, LF/CRLF record endings, EOF rules, one-column handling, and explicit UTF-8 BOM treatment. F-07 now defines the UTF-8 first-invalid location as a zero-based absolute physical source-byte offset, with malformed and EOF-truncated multibyte sequences reporting their lead byte and streaming-window boundaries unable to change the result.</p>
+          <p class="log-after"><b>Landing state</b>F-02 through F-07 are resolved by frozen Council decisions. Six of Claude's 34 findings are closed and 28 remain. Revision BL remains the reviewed baseline; reconciliation decisions have not yet been silently integrated into the PRD. No WASM-002 production implementation is claimed.</p>
+          <p class="log-after"><b>After-hours context carried forward</b>The previous night expanded the future Suitcase Directory / AX design and the read-only metadata-domain strategy. DIR is becoming a governed orientation layer for visible project hygiene, while specialized metadata support lets Data Sculptor organize and search heterogeneous research evidence without rewriting source files. These are near-term/future V1 directions, not WASM-002 scope.</p>
+          <p class="log-after"><b>Next</b>F-08: freeze the DS-STEPS lexical and string-literal rules.</p>
         </div>
       </li>
     </ol>
