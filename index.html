@@ -281,12 +281,12 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 </style>
 </head>
 <body>
-<!-- Day 048 landing update: Revision BL remains the reviewed WASM-002 baseline; Claude Pass 1 produced 34 findings; Council reconciliation has resolved F-02 through F-07 with 28 findings remaining. Day 047 after-hours work expanded the separate future Suitcase Directory / AX design and read-only metadata-domain strategy. No WASM-002 implementation or PRD freeze is claimed. -->
+<!-- Day 049 preflight update: Revision BL remains the reviewed WASM-002 baseline; Claude Pass 1 produced 34 findings; Council reconciliation has resolved F-02 through F-07 with 28 findings remaining. Day 048 after-hours work advanced the separate future Suitcase Directory / AX architecture, WASM-003 planning, browser portability research, and proposed read-only V1 metadata-domain strategy without expanding WASM-002. Day 049 begins with F-08 as the next blocking target. No WASM-002 implementation or PRD freeze is claimed. -->
 
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 048</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 049</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -330,7 +330,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
       <a class="watch" href="Red5Sorcery_Data_Sculptor_WASM002_Claude_QA_Reconciliation_Log_Pass1.html">Open the Claude QA Reconciliation Log<span>&#8594;</span></a>
     </div>
 <div class="state">
-      <div class="state-top">Project state — Day 048, Friday 25 September 2026</div>
+      <div class="state-top">Project state — Day 049, Saturday 26 September 2026</div>
       <dl>
         <dt>Phase</dt>
         <dd>WASM-002 specification — reconciling Claude's independent adversarial QA finding by finding before any new product implementation begins.</dd>
@@ -339,11 +339,11 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         <dt>Build state</dt>
         <dd>No WASM-002 production implementation has started. Claude's Pass 1 review contains 34 findings: 11 blocking, 15 material non-blocking and 8 clarity findings. The review remains public here: <a href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass1.html">Claude's WASM-002 Revision BL adversarial QA review</a>.</dd>
         <dt>Now building</dt>
-        <dd>Day 048 landed with two additional blocking findings resolved. F-02 through F-07 are now frozen Council decisions: 6 of 34 findings closed, 28 remaining. F-06 freezes the WASM-002 CSV input profile, including UTF-8 BOM handling; F-07 freezes deterministic UTF-8 first-invalid-byte semantics. Revision BL remains the reviewed baseline and has not yet been rewritten with the reconciliation decisions. The next blocking target is F-08. The working decision record is public here: <a href="Red5Sorcery_Data_Sculptor_WASM002_Claude_QA_Reconciliation_Log_Pass1.html">Claude QA Reconciliation Log — Pass 1</a>.</dd>
+        <dd>Day 049 begins with F-02 through F-07 resolved by frozen Council decisions: 6 of 34 findings closed, 28 remaining. Today's flight plan is to resolve at least one more BLOCKING finding, beginning with F-08: the DS-STEPS lexical and string-literal rules. Revision BL remains the reviewed evidence baseline and has not yet been rewritten with the reconciliation decisions. The working decision record is public here: <a href="Red5Sorcery_Data_Sculptor_WASM002_Claude_QA_Reconciliation_Log_Pass1.html">Claude QA Reconciliation Log — Pass 1</a>.</dd>
         <dt>Yesterday after hours</dt>
-        <dd>Day 047 closed F-05 and continued the storage-model design record after hours without expanding WASM-002 scope. The Suitcase Directory / Analyst Experience work was refined as a governed DIR artifact with successor-only publication, exact self-size verification, predecessor inheritance, Work Order-driven descriptions and presentation, and read-only research-domain directions. This remains explicitly outside WASM-002 and is sequenced for a nearby follow-on build after the storage model is frozen.</dd>
+        <dd>Day 048 after-hours work advanced the separate post-WASM-002 architecture without changing WASM-002 scope. The Suitcase Directory requirements reached Rev 9 with a richer governed metadata-query grammar; WASM-003 was identified as the ordinary-metadata DIR build and a reusable predicate foundation for later filtering; browser/WASM portability research defined the publication-edge problem and a two-mode Suitcase access direction; and additional notes explored URL shortcuts, explicit read-only research-domain semantics, a universal research method, and governed derivation from specialist evidence into CSV or Stores. The file-organization standards remain V1 proposals for later implementation, not a claim that those parsers are already built.</dd>
         <dt>Unsettled</dt>
-        <dd class="open">Thirty Claude findings remain open at today's preflight. No WASM-002 approval, implementation start or PRD freeze is claimed. Revision BL stays intact as the reviewed evidence baseline while reconciliation proceeds in the separate log.</dd>
+        <dd class="open">Twenty-eight Claude findings remain open at today's preflight. No WASM-002 approval, implementation start or PRD freeze is claimed. Revision BL stays intact as the reviewed evidence baseline while reconciliation proceeds in the separate log.</dd>
         <dt>Privacy R&amp;D</dt>
         <dd>RQSM is carried openly as separate V1-BACKLOG privacy work: a lawful, user-controlled research direction for protecting sensitive digital information inside ordinary image carriers. It is not part of WASM-002 and does not alter the current analytical-core contract.</dd>
         <dt>Released</dt>
@@ -979,8 +979,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>Keep Reconciling Before We Build</h3>
           <p>Day 048 landed ahead of its deliberately modest flight plan. The Council closed two more WASM-002 blockers. F-06 now defines the CSV input grammar instead of allowing parser-library defaults to become product semantics: comma-only input, strict quoting, LF/CRLF record endings, EOF rules, one-column handling, and explicit UTF-8 BOM treatment. F-07 now defines the UTF-8 first-invalid location as a zero-based absolute physical source-byte offset, with malformed and EOF-truncated multibyte sequences reporting their lead byte and streaming-window boundaries unable to change the result.</p>
           <p class="log-after"><b>Landing state</b>F-02 through F-07 are resolved by frozen Council decisions. Six of Claude's 34 findings are closed and 28 remain. Revision BL remains the reviewed baseline; reconciliation decisions have not yet been silently integrated into the PRD. No WASM-002 production implementation is claimed.</p>
-          <p class="log-after"><b>After-hours context carried forward</b>The previous night expanded the future Suitcase Directory / AX design and the read-only metadata-domain strategy. DIR is becoming a governed orientation layer for visible project hygiene, while specialized metadata support lets Data Sculptor organize and search heterogeneous research evidence without rewriting source files. These are near-term/future V1 directions, not WASM-002 scope.</p>
+          <p class="log-after"><b>After hours</b>The separate post-WASM-002 architecture moved forward substantially. The governed Suitcase Directory requirements reached Rev 9, including Boolean metadata search and deterministic sequential SEARCH SUITCASE semantics. The roadmap now places the ordinary-metadata DIR build at WASM-003, with its predicate grammar intended as a reusable foundation for later Store filtering. Browser/WASM research isolated direct folder publication as the portability edge rather than an operating-system problem, and additional final-form notes developed URL-shortcut handling, read-only research-domain semantics, a universal research method, and governed paths from specialist evidence into CSV or Stores. The V1 file-organization standards are proposals for future implementation, not built capability, and none of this expands WASM-002.</p>
           <p class="log-after"><b>Next</b>F-08: freeze the DS-STEPS lexical and string-literal rules.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 049<span class="log-date">Sat 26 Sep</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-entry">
+          <h3>Close the Next Blocking Finding</h3>
+          <p>Day 049 begins from the exact Revision BL baseline Claude reviewed and the separate reconciliation record. F-02 through F-07 are resolved by frozen Council decisions; six of 34 findings are closed and 28 remain. The work is still specification, not implementation.</p>
+          <p class="log-after"><b>Planned flight</b>Resolve at least one more BLOCKING issue from Claude's WASM-002 Pass 1 review, beginning with F-08 and the DS-STEPS lexical and string-literal rules. Keep Revision BL intact as the reviewed baseline, record accepted decisions in the reconciliation log, and integrate them into the PRD only through an explicit later revision. No implementation, approval or freeze is assumed.</p>
         </div>
       </li>
     </ol>
