@@ -1,8 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
 <title>Data Sculptor — WASM-002 Claude QA Reconciliation Log — Pass 1</title>
 <style>
 :root{--bg:#0b111b;--panel:#111a27;--panel2:#162131;--ink:#eef3f8;--muted:#a9b7c8;--rule:#2b3a4e;--blue:#a9cae9;--red:#d66a79;--orange:#d8a45c;--green:#78c59a;--mono:Consolas,"Cascadia Mono","DejaVu Sans Mono",monospace;--sans:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;--serif:Charter,"Sitka Text",Cambria,Georgia,serif}
@@ -16,17 +17,16 @@
 <h1>WASM-002 Claude QA Reconciliation Log</h1>
 <p class="lede">Pass 1 — separate Council decision record derived from Claude's adversarial QA review. Created 23 September 2026.</p>
 <div class="notice"><b>Scope boundary.</b> This document does <em>not</em> modify, supersede, or silently rewrite the Product Backlog PRD or Revision BL. It is a separate reconciliation record for decisions made in response to Claude's review. Formal PRD integration remains a later, explicit step.</div>
-
 <h2>1. Source review</h2>
 <div class="grid">
 <div class="card"><b>Claude review</b><span class="big">Pass 1</span>Independent adversarial QA of WASM-002 Revision BL.</div>
 <div class="card"><b>Findings</b><span class="big">34 total</span>11 blocking · 15 material non-blocking · 8 clarity.</div>
 <div class="card"><b>Contract reviewed</b><span class="big">384 requirements</span>All retained requirements in the WASM-002 cut were under review.</div>
-<div class="card"><b>Current reconciliation</b><span class="big">F-01 through F-17 resolved</span>17 of 34 findings closed · 17 remain · all 11 BLOCKING findings reconciled. The stale mutable Work Order Description acceptance model is retired; WKO registry lifecycle/repair, Store damage/recovery, existing-Store cardinality, source-to-MAP compatibility, the WASM-002 CSV input profile, deterministic UTF-8 refusal offsets, DS-STEPS lexical/string-literal rules, deterministic Receipt/Inventory TXT serialization, the isolated Windows-1252-to-UTF-8 conversion contract, retirement of the redundant WASM-002 Store Index in favor of MAP truth + aliases with DIR deferred to WASM-003, strict monotonic successor-UTC publication guards, reference-bounded MAP eligibility/current-state comparison, and the frozen Windows-1252 compatibility/diagnostic-separation contract are frozen by Council decision. PRD integration not yet performed.</div>
+<div class="card"><b>Current reconciliation</b><span class="big">F-01 through F-26 resolved</span>26 of 34 findings closed · 8 remain · all 11 BLOCKING findings reconciled. The stale mutable Work Order Description acceptance model is retired; WKO registry lifecycle/repair, Store damage/recovery, existing-Store cardinality, source-to-MAP compatibility, the WASM-002 CSV input profile, deterministic UTF-8 refusal offsets, DS-STEPS lexical/string-literal rules, deterministic Receipt/Inventory TXT serialization, the isolated Windows-1252-to-UTF-8 conversion contract, retirement of the redundant WASM-002 Store Index in favor of MAP truth + aliases with DIR deferred to WASM-003, strict monotonic successor-UTC publication guards, reference-bounded MAP eligibility/current-state comparison, and the frozen Windows-1252 compatibility/diagnostic-separation contract are frozen by Council decision. PRD integration not yet performed.</div>
 </div>
+<div class="notice"><b>Day 050 high-effort sanity review.</b> After F-23 was frozen, the Council re-read today's F-13–F-23 decisions as one system against Claude's source findings. Four targeted clarifications were added without changing the closure count: F-13 now states the boundary for external mutation during an active publication; F-15 freezes exact filename/reference comparison semantics; F-20 makes Unicode counting, fallback-name collision handling, and bounded output-writer concurrency explicit; and F-22 reconciles the Help-wiring scope with F-17's required-fact contract. F-14, F-16, F-17, F-18, F-19, F-21, and F-23 remain substantively unchanged.</div>
 <p class="small">Claude's review identified F-03 as: “A missing or damaged RID or COL silently forks the Store, and the RID recovery base is undefined.” The review asked for explicit decisions separating degraded from invalid state and defining the recovery path.</p>
 <p class="small">F-05 is now closed by a single-source-per-Store-lineage rule: one Store MAP may contain multiple Stores, each Store lineage is identified by its <code>rid_filename</code>, and every materialized COL row within that lineage must carry the same <code>source_filename</code>. Different Store lineages in the same MAP may name different source files. Cross-source joins are deferred to a separate future join-specific artifact design.</p>
-
 <h2>2. Finding register</h2>
 <div class="wrap"><table><thead><tr><th>Finding</th><th>Severity</th><th>Claude finding title</th><th>Reconciliation state</th></tr></thead><tbody>
 <tr class="resolved"><td><a class="jump" href="#resolution-f01"><code>F-01</code></a></td><td class="sev blocking">BLOCKING</td><td><a class="jump" href="#resolution-f01">An acceptance gate requires a capability the contract forbids</a></td><td class="state"><a class="jump" href="#resolution-f01">RESOLVED — DECISION FROZEN</a></td></tr>
@@ -46,15 +46,15 @@
 <tr class="resolved"><td><a class="jump" href="#resolution-f15"><code>F-15</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f15">MAP eligibility can change when unrelated files appear, and the comparison rules are undefined</a></td><td class="state"><a class="jump" href="#resolution-f15">RESOLVED — DECISION FROZEN</a></td></tr>
 <tr class="resolved"><td><a class="jump" href="#resolution-f16"><code>F-16</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f16">The conversion suggestion conflicts with fixed diagnostic semantics, and the Windows-1252 mapping is not frozen</a></td><td class="state"><a class="jump" href="#resolution-f16">RESOLVED — DECISION FROZEN</a></td></tr>
 <tr class="resolved"><td><a class="jump" href="#resolution-f17"><code>F-17</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f17">The Help rendering contract is missing a coverage fallback, absent-value rendering, and a consistent notion of required facts</a></td><td class="state"><a class="jump" href="#resolution-f17">RESOLVED — DECISION FROZEN</a></td></tr>
-<tr class="open"><td><code>F-18</code></td><td class="sev material">MATERIAL</td><td>HLP provenance merges not applicable with unavailable, and absence tokens differ across artifacts</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
-<tr class="open"><td><code>F-19</code></td><td class="sev material">MATERIAL</td><td>HLP disclosure edge cases: a header can be data, and aliases are not covered by the allowlist</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
-<tr class="open"><td><code>F-20</code></td><td class="sev material">MATERIAL</td><td>Bounded memory has no stated limits, and header width and KEEP width are unlimited</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
-<tr class="open"><td><code>F-21</code></td><td class="sev material">MATERIAL</td><td>Publishing from a historical MAP silently changes what is current</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
-<tr class="open"><td><code>F-22</code></td><td class="sev material">MATERIAL</td><td>Expected diagnostics come from a registry the implementer delivers, which undercuts QA independence</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
-<tr class="open"><td><code>F-23</code></td><td class="sev material">MATERIAL</td><td>Acceptance coverage has gaps, and test seams are missing</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
-<tr class="open"><td><code>F-24</code></td><td class="sev material">MATERIAL</td><td>Session model: a new CER every session, no remembered Suitcase, no preferences, and lost drafts</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
-<tr class="open"><td><code>F-25</code></td><td class="sev material">MATERIAL</td><td>The target platform and the small-screen baseline are not defined within the cut</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
-<tr class="open"><td><code>F-26</code></td><td class="sev material">MATERIAL</td><td>Allowed SOURCE reference forms are undefined</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
+<tr class="resolved"><td><a class="jump" href="#resolution-f18"><code>F-18</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f18">HLP provenance merges not applicable with unavailable, and absence tokens differ across artifacts</a></td><td class="state"><a class="jump" href="#resolution-f18">RESOLVED — DECISION FROZEN</a></td></tr>
+<tr class="resolved"><td><a class="jump" href="#resolution-f19"><code>F-19</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f19">HLP disclosure edge cases: a header can be data, and aliases are not covered by the allowlist</a></td><td class="state"><a class="jump" href="#resolution-f19">RESOLVED — DECISION FROZEN</a></td></tr>
+<tr class="resolved"><td><a class="jump" href="#resolution-f20"><code>F-20</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f20">Bounded memory has no stated limits, and header width and KEEP width are unlimited</a></td><td class="state"><a class="jump" href="#resolution-f20">RESOLVED — DECISION FROZEN</a></td></tr>
+<tr class="resolved"><td><a class="jump" href="#resolution-f21"><code>F-21</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f21">Publishing from a historical MAP silently changes what is current</a></td><td class="state"><a class="jump" href="#resolution-f21">RESOLVED — DESIGN CLARIFIED / DECISION FROZEN</a></td></tr>
+<tr class="resolved"><td><a class="jump" href="#resolution-f22"><code>F-22</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f22">Expected diagnostics come from a registry the implementer delivers, which undercuts QA independence</a></td><td class="state"><a class="jump" href="#resolution-f22">RESOLVED — SCOPE CLARIFIED / DECISION FROZEN</a></td></tr>
+<tr class="resolved"><td><a class="jump" href="#resolution-f23"><code>F-23</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f23">Acceptance coverage has gaps, and test seams are missing</a></td><td class="state"><a class="jump" href="#resolution-f23">RESOLVED — DECISION FROZEN</a></td></tr>
+<tr class="resolved"><td><a class="jump" href="#resolution-f24"><code>F-24</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f24">Session model: a new CER every session, no remembered Suitcase, no preferences, and lost drafts</a></td><td class="state"><a class="jump" href="#resolution-f24">RESOLVED — SESSION/CER LIFECYCLE FROZEN</a></td></tr>
+<tr class="resolved"><td><a class="jump" href="#resolution-f25"><code>F-25</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f25">The target platform and the small-screen baseline are not defined within the cut</a></td><td class="state"><a class="jump" href="#resolution-f25">RESOLVED — PLATFORM / BROWSER BASELINE FROZEN</a></td></tr>
+<tr class="resolved"><td><a class="jump" href="#resolution-f26"><code>F-26</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f26">Allowed SOURCE reference forms are undefined</a></td><td class="state"><a class="jump" href="#resolution-f26">RESOLVED — SOURCE REFERENCE CONTRACT FROZEN</a></td></tr>
 <tr class="open"><td><code>F-27</code></td><td class="sev clarity">CLARITY</td><td>W002-UI-006 says editable human alias</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
 <tr class="open"><td><code>F-28</code></td><td class="sev clarity">CLARITY</td><td>Brand-Manifest wording survives in in-scope text</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
 <tr class="open"><td><code>F-29</code></td><td class="sev clarity">CLARITY</td><td>Section headings misplace in-scope requirements and are out of order</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
@@ -64,26 +64,20 @@
 <tr class="open"><td><code>F-33</code></td><td class="sev clarity">CLARITY</td><td>Some registered classes have no WASM-002 producer or contract, and unknown-class reporting is unspecified</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
 <tr class="open"><td><code>F-34</code></td><td class="sev clarity">CLARITY</td><td>Smaller underspecified points</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
 </tbody></table></div>
-
 <h2 id="resolution-f03">3. F-03 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>3.1 Exactly three Store statuses</h3>
 <div class="rulebox"><ul>
 <li><b>VALID</b> — the current governed MAP is valid, the RID is valid, and every non-RID COL binding in that MAP resolves to a valid governed artifact.</li>
 <li><b>DEGRADED</b> — the current governed MAP is valid and the RID is valid, but one or more mapped non-RID COL artifacts are missing or invalid.</li>
 <li><b>INVALID</b> — the Store's governing state cannot be trusted, including a missing or invalid RID or an untrustworthy current MAP.</li>
 </ul><p>There is no fourth <code>ABANDONED</code> Store status.</p></div>
-
 <h3>3.2 RID is the hard boundary</h3>
 <div class="rulebox"><p>If the RID is missing or invalid, the Store is <b>INVALID</b>, not DEGRADED.</p><p>An INVALID Store is terminal and non-recoverable for analytical use. Data Sculptor must not regenerate the RID, repair the Store, inherit from it, materialize into it, mutate aliases against it, or perform any other Store operation.</p><p>Read-only Help, status, Inventory, and historical/evidence inspection may explain the condition; they are not Store operations.</p></div>
-
 <h3>3.3 DEGRADED is deliberately narrow</h3>
 <div class="rulebox"><p>A DEGRADED Store still has trustworthy Store identity because both its current MAP and RID remain valid. Its only defect is that one or more non-RID COL artifacts named by the current MAP are missing or invalid.</p><p>The meaning or origin of a COL does not affect this status rule. A COL may be source-derived, calculated, a future 1/0 selection/filter column, or another future same-row column type. Store health does not need to know how the COL was built.</p></div>
-
 <h3>3.4 Operation gate for DEGRADED</h3>
 <div class="rulebox"><p><b>When a Store is DEGRADED, no Store operation is enabled except the single recovery operation <code>REPAIR MAP</code>.</b></p><p>Materialization, extension with new columns, transformations, alias mutation, other recovery operations, and ordinary analytical execution against that Store are refused until the Store returns to VALID.</p><p>Read-only Help, Inventory, and status inspection remain available to explain the condition; they are not Store operations.</p></div>
-
 <h3>3.5 Frozen DS-STEPS recovery syntax</h3>
 <p class="syntax">REPAIR MAP</p>
 <div class="rulebox"><p><code>REPAIR MAP</code> is the sole governed recovery path for a DEGRADED Store.</p><ul>
@@ -101,29 +95,23 @@
 <li>If repair cannot complete successfully, the Store remains DEGRADED.</li>
 <li>INVALID Stores cannot execute <code>REPAIR MAP</code>.</li>
 </ul></div>
-
 <h3>3.6 Why this resolves Claude's F-03 concern</h3>
 <div class="rulebox"><p>The revised model prevents a missing COL from making the Store silently disappear from routing and prevents a missing RID from triggering a quiet new Store lineage. Damage becomes an explicit Store status, and recovery requires explicit human authority through a saved Work Order.</p><p>The recovery rule also avoids committing WASM-002 to future column semantics. Data Sculptor does not need to know how a missing calculated, selection, source-derived, or future column was originally produced in order to restore the Store's MAP to truthful agreement with the governed artifacts that still exist.</p></div>
-
-
 <h2>4. Draft Technical Help text for F-03</h2>
 <div class="notice">
 <b>Status of this prose:</b> DRAFT TECHNICAL FLAVOR ONLY. The underlying Store-status and <code>REPAIR MAP</code> semantics are frozen,
 but this Help wording is not frozen. Gemini may later finalize wording, presentation, and additional Help flavors in a later milestone.
 </div>
-
 <h3>4.1 Technical Help — Store status: DEGRADED</h3>
 <div class="rulebox">
 <p><b>What happened</b></p>
 <p>Data Sculptor found that the Store's current governed MAP and RID are valid, but one or more non-RID COL artifacts referenced by the MAP are missing or invalid.</p>
 <p>The Store remains identifiable and its row identity remains trustworthy, but its current MAP no longer matches the complete set of valid governed files in the Suitcase.</p>
-
 <p><b>What Data Sculptor did</b></p>
 <p>Data Sculptor changed the Store status to <b>DEGRADED</b>.</p>
 <p>While a Store is DEGRADED, all Store operations are disabled except:</p>
 <p class="syntax">REPAIR MAP</p>
 <p>Read-only Help, Inventory, and status inspection remain available.</p>
-
 <p><b>How to fix it</b></p>
 <p>Run a saved Work Order containing:</p>
 <p class="syntax">REPAIR MAP</p>
@@ -137,7 +125,6 @@ but this Help wording is not frozen. Gemini may later finalize wording, presenta
 <li>Validate the successor MAP and all remaining governed Store artifacts.</li>
 <li>Return the Store to <b>VALID</b> if validation succeeds.</li>
 </ol>
-
 <p><b>What <code>REPAIR MAP</code> will not do</b></p>
 <ul>
 <li>Rebuild or rematerialize a missing column.</li>
@@ -148,47 +135,38 @@ but this Help wording is not frozen. Gemini may later finalize wording, presenta
 <li>Infer why a file is missing or invalid.</li>
 </ul>
 <p>Historical MAPs remain unchanged.</p>
-
 <p><b>If repair fails</b></p>
 <p>The Store remains <b>DEGRADED</b>. No other Store operation becomes available.</p>
 </div>
-
 <h3>4.2 Technical Help — Store status: INVALID</h3>
 <div class="rulebox">
 <p><b>What happened</b></p>
 <p>Data Sculptor cannot trust the Store's governing state.</p>
 <p>A Store is INVALID when its current governed MAP cannot be trusted, or when its RID is missing or invalid.</p>
 <p>Because the RID defines the Store's row-identity spine, Data Sculptor cannot safely reconstruct, substitute, or infer it.</p>
-
 <p><b>What Data Sculptor did</b></p>
 <p>Data Sculptor changed the Store status to <b>INVALID</b> and disabled all Store operations.</p>
 <p>Read-only Help, Inventory, status, and historical evidence may still be inspected.</p>
-
 <p><b>How to continue</b></p>
 <p>This Store cannot be repaired.</p>
 <p>To continue analytical work, establish a new Store from an appropriate source through a new governed Work Order.</p>
 <p><code>REPAIR MAP</code> is not available for an INVALID Store.</p>
-
 <p><b>Why Data Sculptor refuses</b></p>
 <p>Continuing with an untrustworthy MAP or RID could falsely associate columns with rows or create a new analytical lineage while presenting it as the old one.</p>
 <p><b>Data Sculptor refuses rather than guess.</b></p>
 </div>
-
 <h3>4.3 Technical Help — MAP repair completed</h3>
 <div class="rulebox">
 <p><b>Result</b></p>
 <p>The DEGRADED Store was successfully repaired.</p>
 <p>Data Sculptor published a successor MAP that removed the bindings for mapped non-RID COL artifacts that were missing or invalid. Valid COL bindings and the existing RID were preserved.</p>
 <p>The previous MAP remains unchanged as historical evidence.</p>
-
 <p><b>Store status</b></p>
 <p><code>VALID</code></p>
 <p>Normal Store operations are now available.</p>
 </div>
-
 <h2 id="resolution-f04">5. F-04 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Decision:</b> cardinality is guarded by the existing RID header, and an analyst intentionally establishes a new Store by using a distinct source filename. No <code>NEW STORE</code> syntax is added.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Decision:</b> cardinality is guarded by the existing RID header, and an analyst intentionally establishes a new Store by using a distinct source filename. No <code>NEW STORE</code> syntax is added.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>5.1 Existing-Store cardinality gate</h3>
 <div class="rulebox">
 <p>When a materialization targets an existing VALID Store, the candidate materialization must produce exactly the Store's expected row count <code>N</code> before any new Store publication may commit.</p>
@@ -202,7 +180,6 @@ but this Help wording is not frozen. Gemini may later finalize wording, presenta
 </ul>
 <p>This gate proves cardinality compatibility only. Equal row counts do not, by themselves, prove byte identity or semantic row identity. Broader source-to-Store compatibility remains separately governed by F-05.</p>
 </div>
-
 <h3>5.2 Frozen RID serialization</h3>
 <div class="rulebox">
 <p>The RID is a one-column UTF-8 CSV. Its header is structural metadata and is exactly:</p>
@@ -217,22 +194,20 @@ but this Help wording is not frozen. Gemini may later finalize wording, presenta
 <li>The governed RID artifact class/filename and MAP binding identify the artifact as a RID; the literal word <code>RID</code> is not required in the CSV header.</li>
 </ul>
 <p>Example for a five-row Store:</p>
-<p class="syntax">N=5<br>1<br>2<br>3<br>4<br>5</p>
+<p class="syntax">N=5<br/>1<br/>2<br/>3<br/>4<br/>5</p>
 </div>
-
 <h3>5.3 RID self-validation consequence</h3>
 <div class="rulebox">
 <p>A valid RID must be internally consistent with its own header: the header declares <code>N</code>, the file contains exactly <code>N</code> logical data records after that header, and those records are exactly the sequence <code>1..N</code>.</p>
 <p>For the F-04 comparison, Data Sculptor therefore does not need to scan the existing RID merely to rediscover its expected cardinality. It reads <code>N</code> from the already-valid RID header.</p>
 <p>No new Store-level MAP field is introduced solely for this F-04 check. Existing MAP row-count/provenance fields are not removed or otherwise changed by this decision.</p>
 </div>
-
 <h3>5.4 Draft Technical Help — existing Store row-count mismatch</h3>
 <div class="notice"><b>Status of this prose:</b> DRAFT TECHNICAL FLAVOR ONLY. The cardinality refusal semantics are frozen; this wording is not. Gemini may later finalize the Help catalogue and other voices.</div>
 <div class="rulebox">
 <p><b>What happened</b></p>
 <p>Data Sculptor attempted to materialize into an existing Store, but the candidate source produced a different number of logical data rows than the Store RID declares.</p>
-<p><b>Expected Store rows:</b> <code>{expected_N}</code><br><b>Candidate rows:</b> <code>{candidate_N}</code></p>
+<p><b>Expected Store rows:</b> <code>{expected_N}</code><br/><b>Candidate rows:</b> <code>{candidate_N}</code></p>
 <p><b>What Data Sculptor did</b></p>
 <p>The Run was refused before any candidate COL or successor Store MAP was published. The existing Store remains <b>VALID</b> and unchanged.</p>
 <p><b>Why Data Sculptor refuses</b></p>
@@ -241,7 +216,6 @@ but this Help wording is not frozen. Gemini may later finalize wording, presenta
 <p><b>What to do next</b></p>
 <p>If this source was meant to extend the existing Store, restore or select the source whose row universe matches the Store RID. If this source intentionally represents a new row universe, preserve it under a distinct filename and reference that filename in a new Work Order so Data Sculptor can establish a new Store and RID.</p>
 </div>
-
 <h3>5.5 Intentional new row universe / new Store routing</h3>
 <div class="rulebox">
 <p>The analyst-controlled source filename is the explicit Store-routing boundary for WASM-002.</p>
@@ -254,7 +228,6 @@ but this Help wording is not frozen. Gemini may later finalize wording, presenta
 </ul>
 <p>This is a visible, analyst-controlled workflow rather than a hidden filename trick: the distinct analyst-owned source filename is the explicit evidence of intent to establish a separate row universe.</p>
 </div>
-
 <h3>5.6 Draft Technical Help — intentional new Store after cardinality refusal</h3>
 <div class="notice"><b>Status of this prose:</b> DRAFT TECHNICAL FLAVOR ONLY. The underlying routing rule is frozen; this wording is not. Gemini may later finalize the Help catalogue and other voices.</div>
 <div class="rulebox">
@@ -263,12 +236,8 @@ but this Help wording is not frozen. Gemini may later finalize wording, presenta
 <p>Because the new source filename is not bound to the existing Store lineage, Data Sculptor will establish a new Store and generate a new RID for that row universe.</p>
 <p>Do not rename or overwrite the existing Store's source merely to force continuation. Preserve the distinct source files visibly in the Suitcase.</p>
 </div>
-
-
-
 <h2 id="resolution-f05">6. F-05 — source-to-MAP compatibility and single-source Store lineages</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Decision:</b> a Store MAP may contain multiple Store lineages. Each Store lineage is identified by its governed <code>rid_filename</code> and is single-source: every materialized COL row belonging to that RID lineage records the same <code>source_filename</code>. Different Store lineages in the same MAP may have different source filenames. The Store MAP does not carry a separate <code>store_source_filename</code> field. An explicit MAP must never authorize a different source file to enter the selected Store lineage.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Decision:</b> a Store MAP may contain multiple Store lineages. Each Store lineage is identified by its governed <code>rid_filename</code> and is single-source: every materialized COL row belonging to that RID lineage records the same <code>source_filename</code>. Different Store lineages in the same MAP may have different source filenames. The Store MAP does not carry a separate <code>store_source_filename</code> field. An explicit MAP must never authorize a different source file to enter the selected Store lineage.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>6.1 Multi-Store MAP / single-source Store-lineage invariant</h3>
 <div class="rulebox">
 <p>For WASM-002, one Store MAP may describe multiple Stores. Each Store lineage is distinguished by its governed <code>rid_filename</code>. Within one Store lineage, one physical analyst-owned source filename establishes the row universe and one or more materialized COL artifacts may be derived from that same source.</p>
@@ -282,10 +251,8 @@ but this Help wording is not frozen. Gemini may later finalize wording, presenta
 </ul>
 <p>This keeps the model narrow without limiting the MAP to one Store: one MAP may describe many Stores, while each individual Store remains single-source.</p>
 </div>
-
 <h3>6.2 Detailed Store MAP examples</h3>
 <div class="notice"><b>Illustrative subset only.</b> These examples deliberately show the physical-to-human mapping fields needed to teach F-05: source filename, Store alias, RID physical filename and alias, and COL physical filename and alias. They do not freeze the final complete Store MAP column set, column order, or serialization. Governed RID, COL, and MAP filenames follow the frozen ordinary immutable form <code>__DS__CCC__YYYYMMDDTHHMMSSmmmZ__&lt;uuid-v4&gt;.&lt;extension&gt;</code>.</div>
-
 <div class="rulebox">
 <p><b>Valid example — two Stores in one MAP, each internally single-source</b></p>
 <p>Assume Store A was established first at publication UTC <code>20260924T191500000Z</code>. Store B was established later at publication UTC <code>20260924T191600000Z</code>. The later successor MAP is therefore:</p>
@@ -299,7 +266,6 @@ Population.csv,Population,__DS__RID__20260924T191600000Z__4a5b6c7d-4444-4000-800
 <p>This is valid under the F-05 rule. The two rows sharing the <code>CrimeData.csv</code> source also share one exact RID physical filename and therefore form one Store lineage. The two <code>Population.csv</code> rows share a different exact RID physical filename and form a second Store lineage. Each governed file keeps its opaque physical identity while the MAP carries the analyst-facing aliases that explain what those files mean.</p>
 <p>The example also illustrates publication identity correctly: Store A's RID and COLs share Store A's creation UTC but have distinct UUIDs. Store B's newly published RID, COLs, and the successor MAP share Store B's later publication UTC, again with distinct UUIDs. Historical Store A artifacts retain their earlier physical identities when copied forward into the successor MAP snapshot.</p>
 </div>
-
 <div class="rulebox">
 <p><b>Invalid example — one Store lineage contains mixed source filenames</b></p>
 <pre><code>source_filename,store_alias,rid_filename,rid_alias,col_filename,col_alias
@@ -308,7 +274,6 @@ OtherData.csv,Crime Data,__DS__RID__20260924T191500000Z__a1b2c3d4-1111-4000-8000
 Population.csv,Population,__DS__RID__20260924T191600000Z__4a5b6c7d-4444-4000-8000-000000000004.csv,Population Rows,__DS__COL__20260924T191600000Z__8e9f0a1b-6666-4000-8000-000000000006.csv,Age</code></pre>
 <p>The <code>Population</code> Store lineage is internally consistent. The <code>Crime Data</code> lineage is invalid for WASM-002 because two rows claim the same exact RID lineage while naming different physical source files: <code>CrimeData.csv</code> and <code>OtherData.csv</code>. The aliases do not cure that conflict, and equal row counts would not cure it either. A human-friendly alias is orientation metadata; it never overrides the physical Store-lineage identity or authorizes a cross-source positional attachment.</p>
 </div>
-
 <h3>6.3 Explicit MAP compatibility predicate</h3>
 <div class="rulebox">
 <p>When a Work Order explicitly names a Store MAP for materialization, Data Sculptor must validate compatibility against the Store lineage being continued before materialization begins.</p>
@@ -322,20 +287,17 @@ Population.csv,Population,__DS__RID__20260924T191600000Z__4a5b6c7d-4444-4000-800
 <li>Matching source identity does not bypass F-04. Existing-Store materialization must still satisfy the frozen RID-header cardinality gate: candidate logical row count <code>N</code> must equal the existing valid RID header <code>N</code> before publication may commit.</li>
 </ul>
 </div>
-
 <h3>6.4 No implicit positional join</h3>
 <div class="rulebox">
 <p>WASM-002 must never use an explicit MAP as permission to attach a different source file to an existing Store lineage by physical row position, even when the two files happen to have the same row count.</p>
 <p>Equal cardinality is not evidence of row identity. A different source filename therefore refuses against that Store lineage rather than being treated as a positional join, silent append, or alternate source for the Store.</p>
 </div>
-
 <h3>6.5 Store MAP simplification consequence</h3>
 <div class="rulebox">
 <p>The Revision BL Store MAP profile must be revised during later PRD integration so that WASM-002 no longer stores both <code>store_source_filename</code> and per-row <code>source_filename</code>.</p>
 <p>The WASM-002 direction is to retain one per-materialized-COL <code>source_filename</code> field and remove the redundant <code>store_source_filename</code> field. Store source identity is derived per RID lineage: all rows sharing one <code>rid_filename</code> must agree on <code>source_filename</code>. The MAP continues to pair opaque governed physical filenames with human-facing Store/RID/COL aliases and other frozen provenance fields; removing <code>store_source_filename</code> does not weaken that physical-to-logical mapping role.</p>
 <p>The exact final column order and full revised Store MAP schema remain an integration task for the PRD revision; this reconciliation decision freezes the semantics, not a new full serialized row example.</p>
 </div>
-
 <h3>6.6 Acceptance consequences</h3>
 <div class="rulebox">
 <ul>
@@ -347,7 +309,6 @@ Population.csv,Population,__DS__RID__20260924T191600000Z__4a5b6c7d-4444-4000-800
 <li><b>No positional-alignment escape:</b> two different sources with equal row counts still cannot be attached to the same RID lineage.</li>
 </ul>
 </div>
-
 <h3>6.7 Future join direction — proposal only, outside WASM-002</h3>
 <div class="notice"><b>Scope status:</b> FUTURE DESIGN PROPOSAL ONLY. This subsection does not add a WASM-002 requirement, artifact class, syntax form, acceptance gate, or implementation obligation.</div>
 <div class="rulebox">
@@ -355,13 +316,11 @@ Population.csv,Population,__DS__RID__20260924T191600000Z__4a5b6c7d-4444-4000-800
 <p>A future join-specific artifact could record facts such as the left Store/MAP, right Store/MAP, left key, right key, join type, and the governed evidence needed to prove the relationship. The exact artifact class, filename grammar, schema, syntax, lifecycle, and acceptance rules are deliberately not frozen here.</p>
 <p>This preserves a clean boundary: a Store MAP may describe multiple single-source Store lineages; a future Join MAP would record how two governed Stores were explicitly related.</p>
 </div>
-
 <h3>6.8 Why F-05 is closed</h3>
 <div class="rulebox">
 <p>Claude's F-05 concern is resolved because the compatibility predicate is now explicit and independently testable at the Store-lineage level: the target RID lineage is internally single-source, the Work Order source must match that lineage's source filename, and matching source identity is followed by the existing F-04 cardinality gate.</p>
 <p>Different Store lineages may coexist in one MAP without being treated as joined. A Store lineage cannot become a hidden positional-join mechanism, and future cross-source joins remain a separate, deliberately designed capability.</p>
 </div>
-
 <h2>7. Consequences to carry into later PRD integration</h2>
 <div class="rulebox"><ul>
 <li>The WASM-002 Store MAP profile must be revised so the redundant <code>store_source_filename</code> field is removed and each materialized COL row carries exactly one <code>source_filename</code>.</li>
@@ -393,10 +352,8 @@ Population.csv,Population,__DS__RID__20260924T191600000Z__4a5b6c7d-4444-4000-800
 <li>If repair discovers multiple previously unregistered valid WKOs sharing the same non-empty alias and there is no established <code>CURRENT</code> binding, repair registers those discovered WKOs as <code>DEPRECATED</code> rather than guessing which one should become current. An unaliased valid WKO has no alias collision and may be registered as <code>CURRENT</code>.</li>
 <li>Repair publishes a successor WKO MAP; predecessor WKO MAPs and all surviving WKO files remain unchanged. Help explains removed stale references and any discovered WKOs registered as deprecated.</li>
 </ul><p class="small">These are integration consequences, not edits to the official PRD in this document.</p></div>
-
 <h2 id="resolution-f02">8. F-02 — WKO registry lifecycle and repair</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Supersession note:</b> This CURRENT/DEPRECATED model supersedes the earlier ACTIVE/INACTIVE draft recorded during this reconciliation pass.<br><b>Closure:</b> alias reuse, missing registered WKOs, and visible valid but unregistered WKOs now have explicit deterministic handling.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Supersession note:</b> This CURRENT/DEPRECATED model supersedes the earlier ACTIVE/INACTIVE draft recorded during this reconciliation pass.<br/><b>Closure:</b> alias reuse, missing registered WKOs, and visible valid but unregistered WKOs now have explicit deterministic handling.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>8.1 Immutable WKO files; lifecycle authority lives in the WKO MAP</h3>
 <div class="rulebox">
 <p>A saved WKO remains an immutable governed artifact. Editing a loaded WKO and saving the result creates a new immutable WKO identity; the older WKO file is neither overwritten nor deleted.</p>
@@ -405,7 +362,6 @@ Population.csv,Population,__DS__RID__20260924T191600000Z__4a5b6c7d-4444-4000-800
 <pre><code>wko_status,wko_alias,wko_filename</code></pre>
 <p>The only frozen values of <code>wko_status</code> are <code>CURRENT</code> and <code>DEPRECATED</code>.</p>
 </div>
-
 <h3>8.2 Saving a new WKO with an existing non-empty alias</h3>
 <div class="rulebox">
 <p>When a save would create a new immutable WKO whose non-empty alias is already held by a <code>CURRENT</code> WKO row, Data Sculptor must not silently choose between the two and must not require the analyst to invent a different alias.</p>
@@ -423,7 +379,6 @@ Population.csv,Population,__DS__RID__20260924T191600000Z__4a5b6c7d-4444-4000-800
 </ul>
 <p>No permanent deletion is part of alias replacement.</p>
 </div>
-
 <h3>8.3 Alias-resolution invariant</h3>
 <div class="rulebox">
 <p>For any non-empty alias represented in the current WKO MAP, <b>at most one row may have <code>wko_status=CURRENT</code></b>. Any superseded rows with that same former/current alias are retained as <code>DEPRECATED</code>.</p>
@@ -431,7 +386,6 @@ Population.csv,Population,__DS__RID__20260924T191600000Z__4a5b6c7d-4444-4000-800
 <p>A <code>DEPRECATED</code> WKO is historical governed evidence. Deprecation does not mean that its physical WKO file is invalid, deleted, or rewritten.</p>
 <p><code>DEPRECATED</code> describes registry authority for alias resolution; it does not mutate or invalidate the physical WKO artifact. Direct historical inspection may remain available, while governed Run eligibility follows the current registry and other separately frozen Run rules.</p>
 </div>
-
 <h3>8.4 Physical CSV truth</h3>
 <div class="rulebox">
 <p>The governed WKO MAP remains one deterministic CSV file. Example after <code>Prepare monthly crime data</code> has been edited and the analyst chose <b>Replace alias target</b>:</p>
@@ -441,7 +395,6 @@ CURRENT,Create Halifax subset,__DS__WKO__20260921T091233442Z__B7.txt
 CURRENT,Export executive report,__DS__WKO__20260922T164455006Z__C3.txt
 DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</code></pre>
 </div>
-
 <h3>8.5 Human-facing rendering</h3>
 <p>The UI may render the same CSV truth in two explicit sections so the analyst can see current authority and preserved history immediately.</p>
 <h4>CURRENT WORK ORDERS</h4>
@@ -459,13 +412,11 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <tr><td>Prepare monthly crime data</td><td><code>__DS__WKO__20260920T140501123Z__A1.txt</code></td></tr>
 </tbody></table></div>
 <p class="small">The two-section presentation is a human-facing rendering of the governed three-column CSV; it is not a second persistent registry.</p>
-
 <h3>8.6 Why this resolves the alias-lifecycle part of Claude F-02</h3>
 <div class="rulebox">
 <p>Claude identified that Revision BL simultaneously required immutable new WKO identities for edits and unique current aliases, but supplied no retirement/supersession path. The frozen rule above supplies that path at save time: the analyst explicitly chooses whether to replace the alias target or cancel; replacement preserves the previous WKO as <code>DEPRECATED</code> history and makes the new immutable WKO the sole <code>CURRENT</code> alias target.</p>
 <p>This removes the need to invent a different human alias for every saved revision, avoids timestamp arbitration, avoids destructive overwrite/delete behavior, and keeps the current WKO MAP itself human-readable as a record of both present alias authority and superseded history.</p>
 </div>
-
 <h3>8.7 Missing registered WKO — explicit registry repair</h3>
 <div class="rulebox">
 <p>A WKO MAP row whose referenced physical WKO file is no longer present is a stale registry reference. Data Sculptor must not silently fall back to an older WKO MAP, reconstruct the missing WKO, or automatically promote a deprecated WKO to replace it.</p>
@@ -474,7 +425,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <p>Repair resolves the current WKO MAP, compares its rows with the visible Suitcase, and removes every row whose referenced WKO file is missing. The affected Work Order is therefore gone from the successor registry. Surviving WKO files are not edited or deleted, and predecessor WKO MAPs remain immutable historical evidence.</p>
 <p>Until repair, a missing referenced WKO cannot be loaded or Run. A registry-changing transaction that requires a fully valid successor WKO MAP must not silently bypass the stale reference.</p>
 </div>
-
 <h3>8.8 Visible valid WKO absent from the registry</h3>
 <div class="rulebox">
 <p>A visible WKO that is well-formed and passes the governed WKO validity checks but is absent from the current WKO MAP is <b>unregistered</b>. It is not a governed Run target merely because its file is present.</p>
@@ -487,22 +437,18 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 </ul>
 <p>This means newly discovered files can be brought under governance without letting their mere arrival silently displace a Work Order that the current registry already treats as authoritative.</p>
 </div>
-
 <h3>8.9 Repair publication and Help boundary</h3>
 <div class="rulebox">
 <p>Repair is structural reconciliation, not content recovery. It publishes a successor WKO MAP only after the repaired registry satisfies its validity rules. It never rewrites a WKO, recreates a missing WKO, infers that a deprecated WKO should be current, or selects a winner by greatest UTC.</p>
 <p>Help must explain which stale rows were removed, which visible WKOs were newly registered, and which discovered alias-colliding WKOs were registered as <code>DEPRECATED</code>. The human remains free to use the ordinary load/edit/save alias-replacement workflow later if a deprecated WKO should become the new current target.</p>
 </div>
-
 <h3>8.10 Why F-02 is closed</h3>
 <div class="rulebox">
 <p>F-02 now has deterministic rules for all lifecycle edges Claude raised: editing and re-saving an aliased immutable WKO, superseding alias authority without deletion, a registered WKO disappearing from the Suitcase, and a valid visible WKO appearing without a registry row.</p>
 <p>The WKO MAP remains the governed registry truth; immutable WKO files remain visible evidence; and <code>REPAIR WORK ORDER REGISTRY</code> reconciles filesystem reality without guessing away established current authority.</p>
 </div>
-
 <h2 id="resolution-f06">9. F-06 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>9.1 Normative WASM-002 CSV input profile</h3>
 <div class="rulebox"><p>WASM-002 uses a deliberately explicit Data Sculptor CSV profile. It is RFC 4180-inspired but is not defined merely by reference to RFC 4180 or by the behavior of any parser library. The rules below are the product contract.</p><ul>
 <li><b>Delimiter:</b> comma (<code>,</code>) is the only field delimiter. Automatic delimiter detection and semicolon/tab/other-delimiter CSV dialects are outside the WASM-002 CSV contract.</li>
@@ -515,7 +461,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li><b>Final line ending:</b> one accepted record terminator ending the final record does not create an additional phantom blank record. Ordinary exported CSV files ending in LF or CRLF therefore remain valid under this rule.</li>
 <li><b>One-column CSV:</b> one-column sources are valid. In a one-column source, <code>""</code> is the explicit representation of an empty field. A physically blank record remains a blank record and is refused under the existing blank-record rule.</li>
 </ul></div>
-
 <h3>9.2 UTF-8 BOM boundary</h3>
 <div class="rulebox"><ul>
 <li>An optional UTF-8 BOM with bytes <code>EF BB BF</code> is permitted only at absolute source-byte offsets 0–2, before the first CSV field.</li>
@@ -524,22 +469,17 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>After an optional leading BOM is consumed at the encoding/CSV boundary, BOM presence or absence must not otherwise change CSV parsing semantics.</li>
 <li>The physical BOM bytes remain part of the source byte stream for any absolute source-byte location accounting. The exact common offset/error semantics are frozen with the shared error contract under F-07, not duplicated here.</li>
 </ul></div>
-
 <h3>9.3 Deterministic malformed-input behavior</h3>
 <div class="rulebox"><p>Any violation of the frozen CSV profile above is a deterministic malformed-CSV refusal. Parser-library leniency must not broaden the accepted language. Streaming window boundaries must not change whether input is accepted, which malformed condition is encountered first, or the governed location reported for that condition.</p><p>F-06 freezes <em>what constitutes valid and malformed CSV</em>. The exact common diagnostic location facts and byte-offset convention are intentionally delegated to F-07 so that WASM-002 has one error-location contract rather than two competing definitions. That dependency does not leave the CSV grammar open.</p></div>
-
 <h3>9.4 Why F-06 is closed</h3>
 <div class="rulebox"><p>Claude's seven unresolved CSV cases now have deterministic answers: quote placement, post-quote characters, bare CR handling, EOF termination, final line-ending behavior, one-column empty values, and delimiter scope. The Council additionally froze UTF-8 BOM handling because the BOM sits directly at the encoding-to-CSV boundary and must never silently become analytical data.</p><p>Independent fixtures can now be authored against the accepted/refused byte forms without inheriting undocumented behavior from the Rust <code>csv</code> crate or another parser. F-07 remains responsible only for the shared error-location/offset oracle.</p></div>
-
 <h2 id="resolution-f07">10. F-07 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>10.1 Governed UTF-8 first-invalid offset</h3>
 <div class="rulebox">
 <p>The governed UTF-8 first-invalid offset is the <b>zero-based absolute byte offset, measured from the first physical byte of the source file, of the first byte of the invalid UTF-8 sequence</b>.</p>
 <p>The offset is a property of the physical source byte stream. It is not a character index, code-point index, logical CSV position, decoded-text position, or streaming-window-relative offset.</p>
 </div>
-
 <h3>10.2 Deterministic invalid-sequence cases</h3>
 <div class="rulebox"><ul>
 <li>A lone invalid byte or lone continuation byte reports the absolute offset of that byte.</li>
@@ -548,14 +488,12 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>A multibyte sequence truncated by EOF reports the absolute offset of its lead byte.</li>
 <li>If an invalid sequence spans two or more streaming windows, the result is identical to parsing the same bytes in one contiguous window. Window boundaries never reset or alter the governed offset.</li>
 </ul></div>
-
 <h3>10.3 UTF-8 BOM and absolute offsets</h3>
 <div class="rulebox">
 <p>The F-06 CSV profile permits one UTF-8 BOM, byte sequence <code>EF BB BF</code>, only at absolute offsets <code>0</code> through <code>2</code>. That leading BOM is an encoding signature and is not analytical CSV data.</p>
 <p>Nevertheless, the BOM bytes remain physical source bytes. Therefore all governed absolute byte offsets count them. For example, the first byte following a permitted UTF-8 BOM is at absolute byte offset <code>3</code>, not <code>0</code>.</p>
 <p>This preserves one literal meaning of “absolute source byte offset” regardless of whether a permitted BOM is present.</p>
 </div>
-
 <h3>10.4 Frozen diagnostic facts for UTF-8 refusal</h3>
 <div class="rulebox">
 <p>A UTF-8 validation refusal must expose, at minimum, the following deterministic facts to the governed diagnostic/Receipt/Help path:</p>
@@ -566,22 +504,18 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <p>An implementation may retain or expose an offending-byte evidence window where separately required, but such a window is not the authority for the first-invalid offset. The offset rule above is authoritative.</p>
 <p>The exact human-facing wording of the diagnostic remains a Help/rendering concern; it must not change these machine-deterministic facts.</p>
 </div>
-
 <h3>10.5 Relationship to F-06</h3>
 <div class="rulebox">
 <p>F-06 freezes the CSV input grammar and states that malformed-input failures must be deterministically locatable. F-07 freezes the common absolute-source-byte convention for UTF-8 validation failures. The two rules are compatible: the optional leading UTF-8 BOM is excluded from analytical CSV content but included when counting physical source bytes.</p>
 <p>F-07 does not reopen the CSV grammar decisions frozen under F-06.</p>
 </div>
-
 <h3>10.6 Why F-07 is closed</h3>
 <div class="rulebox">
 <p>Claude identified that Revision BL required exact offsets but did not define whether an invalid multibyte sequence reports its lead byte, the later offending byte, or EOF, and did not state whether streaming-window boundaries affect the result. The frozen rules above supply one independent oracle: the first byte of the invalid sequence, counted as a zero-based absolute offset from the first physical source byte.</p>
 <p>This makes lone-byte, malformed multibyte, truncated-EOF, BOM-bearing, and cross-window fixtures deterministic without allowing the implementation library to choose the contract.</p>
 </div>
-
 <h2 id="resolution-f08">11. F-08 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Closure count:</b> 7 of Claude's 34 Pass 1 findings are now closed; 27 remain.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 7 of Claude's 34 Pass 1 findings are now closed; 27 remain.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>11.1 Governed string literals</h3>
 <div class="rulebox">
 <ul>
@@ -593,12 +527,10 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 </ul>
 <p>Example: a header named <code>The "official" rate</code> is written as <code>HEADER "The ""official"" rate"</code>.</p>
 </div>
-
 <h3>11.2 Keyword case</h3>
 <div class="rulebox">
 <p>DS-STEPS keywords are parsed <b>ASCII case-insensitively</b>. Canonical Data Sculptor examples and renderings use uppercase keywords. String contents, filenames, aliases, headers, and other quoted values are not altered merely because keyword matching is case-insensitive.</p>
 </div>
-
 <h3>11.3 Whitespace, blank lines, and comments</h3>
 <div class="rulebox">
 <ul>
@@ -610,12 +542,10 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>Comments remain part of the saved Work Order bytes and therefore remain part of that artifact's exact identity.</li>
 </ul>
 </div>
-
 <h3>11.4 Column ordinal numerals</h3>
 <div class="rulebox">
 <p>The <code>COLUMN n</code> selector accepts only an unsigned base-10 integer in canonical lexical form <code>[1-9][0-9]*</code>. Therefore <code>COLUMN 7</code> is valid. <code>COLUMN 07</code>, <code>COLUMN +7</code>, <code>COLUMN 0</code>, <code>COLUMN -7</code>, decimal forms, and other numeric spellings refuse.</p>
 </div>
-
 <h3>11.5 Bounded WASM-002 materialization structure</h3>
 <div class="rulebox">
 <p>For the WASM-002 materialization Work Order form, clause order is <b>enforced</b>, not merely canonical presentation. Ignoring blank lines and whole-line comments, the form contains:</p>
@@ -629,7 +559,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 </ol>
 <p>Duplicate structural clauses refuse. An empty <code>KEEP</code> refuses. After <code>MATERIALIZE</code>, only blank lines or whole-line comments may follow.</p>
 </div>
-
 <h3>11.6 Unknown syntax and operation mixing</h3>
 <div class="rulebox">
 <ul>
@@ -638,7 +567,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>Accordingly, a materialization Work Order does not acquire unrelated <code>STORE AS</code>, <code>RID AS</code>, <code>CLEAR</code>, <code>RESET</code>, or other operation clauses merely because another requirement mentions those tokens elsewhere.</li>
 </ul>
 </div>
-
 <h3>11.7 Work Order TXT byte form</h3>
 <div class="rulebox">
 <ul>
@@ -650,12 +578,10 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>Accepting CRLF does not authorize silent normalization of an existing saved Work Order. The bytes actually saved remain the immutable artifact bytes and remain identity-bearing.</li>
 </ul>
 </div>
-
 <h3>11.8 Deferred composition token</h3>
 <div class="rulebox">
 <p>For WASM-002, <code>RUN</code> is the exact recognized Work Order composition/invocation keyword that triggers the deferred-composition refusal when parsed as a construct. WASM-002 does not invent additional aliases such as <code>CALL</code>, <code>EXEC</code>, or <code>INCLUDE</code> merely to broaden that gate. If such a line is not part of another defined operation grammar, it is unknown syntax and refuses under Section 11.6.</p>
 </div>
-
 <h3>11.9 Acceptance consequences</h3>
 <div class="rulebox"><ul>
 <li>String fixtures must prove ordinary quoted values, doubled-quote inclusion, unterminated strings, physical-newline refusal inside a string, and empty-string refusal where a clause requires a non-empty value.</li>
@@ -667,16 +593,13 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>WKO byte fixtures must prove UTF-8, Data Sculptor-authored no-BOM/LF serialization, accepted LF and CRLF reads, lone-CR refusal, and no silent rewrite of accepted existing bytes.</li>
 <li>Composition fixtures must prove that parsed <code>RUN</code> triggers the deferred-composition diagnostic and that invented near-synonyms do not become composition syntax by accident.</li>
 </ul></div>
-
 <h3>11.10 Why F-08 is closed</h3>
 <div class="rulebox">
 <p>Claude's F-08 concern was that save-time validation, run-time validation, string handling, and the deferred-composition gate depended on lexical rules that Revision BL cited but did not define. The frozen rules above now supply an independent oracle for quoting, keyword case, whitespace, comments, ordinal numerals, clause order/cardinality, unknown lines, operation mixing, WKO byte form, and the exact deferred-composition token.</p>
 <p>An implementation no longer has discretion to import accidental syntax from a parser library or another language for these points. Revision BL remains the reviewed evidence baseline until the frozen decisions in this log are deliberately integrated into a later PRD revision.</p>
 </div>
-
 <h2 id="resolution-f09">12. F-09 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Closure count:</b> 8 of Claude's 34 Pass 1 findings are now closed; 26 remain.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 8 of Claude's 34 Pass 1 findings are now closed; 26 remain.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>12.1 Physical TXT byte form</h3>
 <div class="rulebox">
 <ul>
@@ -688,7 +611,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>No blank physical lines are emitted unless a later artifact grammar explicitly freezes them.</li>
 </ul>
 </div>
-
 <h3>12.2 Shared line grammar</h3>
 <div class="rulebox">
 <p>Every ordinary serialized fact uses exactly:</p>
@@ -701,7 +623,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>Key order is normative and forms part of the byte-for-byte acceptance oracle.</li>
 </ul>
 </div>
-
 <h3>12.3 Value serialization and escaping</h3>
 <div class="rulebox">
 <ul>
@@ -711,7 +632,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>CR and LF are not permitted inside a single serialized value. Each fact remains exactly one physical line.</li>
 </ul>
 </div>
-
 <h3>12.4 Frozen absence and unknown-operation tokens</h3>
 <div class="rulebox">
 <ul>
@@ -722,7 +642,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 </ul>
 <p>An unparseable Work Order therefore records <code>OPERATION: UNKNOWN_OPERATION</code>; the field is not left blank or omitted.</p>
 </div>
-
 <h3>12.5 Receipt common key envelope and order</h3>
 <div class="rulebox">
 <p>Every WASM-002 Receipt begins with the following common keys in this exact order:</p>
@@ -736,11 +655,10 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 </ol>
 <p>Operation-specific facts follow in their frozen operation order, followed by the created-artifact list defined in Section 12.6. <code>DIAGNOSTIC_ID</code> is never omitted: successful execution records <code>DIAGNOSTIC_ID: NONE</code>; a refusal records the exact governed diagnostic ID.</p>
 </div>
-
 <h3>12.6 List-valued artifact facts</h3>
 <div class="rulebox">
 <p>Created artifacts are serialized by a declared count followed by one-based, three-digit, contiguous indexed keys:</p>
-<p class="syntax">CREATED_ARTIFACT_COUNT: 3<br>CREATED_ARTIFACT_001: "__DS__RID__...csv"<br>CREATED_ARTIFACT_002: "__DS__COL__...csv"<br>CREATED_ARTIFACT_003: "__DS__MAP__...csv"</p>
+<p class="syntax">CREATED_ARTIFACT_COUNT: 3<br/>CREATED_ARTIFACT_001: "__DS__RID__...csv"<br/>CREATED_ARTIFACT_002: "__DS__COL__...csv"<br/>CREATED_ARTIFACT_003: "__DS__MAP__...csv"</p>
 <ul>
 <li>The number of indexed lines must equal <code>CREATED_ARTIFACT_COUNT</code>.</li>
 <li>Indices begin at <code>001</code>, increase by one, and contain no gaps.</li>
@@ -748,13 +666,11 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>Comma-separated filename lists, repeated unindexed keys, and continuation-line list syntax are not part of the WASM-002 contract.</li>
 </ul>
 </div>
-
 <h3>12.7 Operation tokens and F-03 consistency</h3>
 <div class="rulebox">
 <p>Where the operation is known, the Receipt uses the governed operation token. At the point F-09 was frozen, the operation tokens were <code>MATERIALIZE</code>, <code>INVENTORY</code>, <code>UPDATE_ALIASES</code>, and <code>REPAIR_MAP</code>. The F-10 resolution below subsequently freezes <code>CONVERT_WINDOWS_1252_TO_UTF_8</code> and its conversion-specific Receipt facts without reopening the shared serialization grammar frozen here.</p>
 <p><code>RECOVER_RID</code> is not a valid WASM-002 operation token. F-03 already froze that a missing or invalid RID makes the Store INVALID and that RID recovery is not permitted; <code>REPAIR MAP</code> is the sole DEGRADED Store recovery operation.</p>
 </div>
-
 <h3>12.8 UPDATE ALIASES Receipt facts</h3>
 <div class="rulebox">
 <p>The <code>UPDATE_ALIASES</code> Receipt includes, in operation-specific fact order:</p>
@@ -764,7 +680,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 </ol>
 <p>Both use the common quoted-text serialization. If execution refuses before a successor MAP exists, <code>SUCCESSOR_MAP_FILENAME: NONE</code> is recorded together with the applicable diagnostic ID.</p>
 </div>
-
 <h3>12.9 Inventory TXT grammar and deterministic ordering</h3>
 <div class="rulebox">
 <p>Inventory TXT uses the same UTF-8/no-BOM/LF physical rules and the same <code>KEY: VALUE</code> grammar. Its frozen header is:</p>
@@ -776,7 +691,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <p>The header is followed by exactly <code>FILE_COUNT</code> filename lines using one-based, three-digit, contiguous keys: <code>FILE_001</code>, <code>FILE_002</code>, and so on. Filenames use the common quoted-text serialization.</p>
 <p>Inventory ordering is exact ascending order of the physical filename's UTF-8 byte sequence. Locale-aware collation, case-folded collation, and filesystem enumeration order are not permitted as the serialization authority.</p>
 </div>
-
 <h3>12.10 Acceptance oracle and golden fixtures</h3>
 <div class="rulebox">
 <ul>
@@ -786,24 +700,20 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>F-10, reconciled below, adds the conversion operation's exact token, operation-specific Receipt facts, and golden-byte conversion/Receipt fixtures without reopening the shared serialization grammar frozen here.</li>
 </ul>
 </div>
-
 <h3>12.11 Why F-09 is closed</h3>
 <div class="rulebox">
 <p>Claude's F-09 concern was that Revision BL required byte-for-byte Receipt and Inventory testing while leaving the byte grammar partly to the implementation. The frozen rules above now define the physical text encoding, line grammar, quoting/escaping, absence vocabulary, unknown-operation token, common Receipt key order, indexed list form, UPDATE ALIASES facts, Inventory line form, and deterministic filename ordering.</p>
 <p>The acceptance obligation now has a spec-side oracle rather than merely testing whether one implementation is self-consistent. Revision BL remains the reviewed evidence baseline until these frozen decisions are deliberately integrated into a later PRD revision.</p>
 </div>
-
 <h2 id="resolution-f10">13. F-10 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Closure count:</b> 9 of Claude's 34 Pass 1 findings are now closed; 25 remain.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 9 of Claude's 34 Pass 1 findings are now closed; 25 remain.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>13.1 Scope boundary and superseded earlier direction</h3>
 <div class="rulebox">
 <p>Windows-1252-to-UTF-8 conversion remains an in-scope but <b>separate governed Work Order operation</b>. It is not silently invoked by a failed analytical Work Order, UTF-8 certification, or materialization. The analyst must explicitly authorize the conversion operation.</p>
 <p>An earlier Day 039 design note contemplated transcoding while materializing. Revision BL superseded that direction by defining conversion as a distinct operation. The F-10 decision follows Revision BL: conversion produces a governed UTF-8 derivative first; any later analytical use occurs through a separate Work Order.</p>
 </div>
-
 <h3>13.2 Canonical DS-STEPS conversion form</h3>
-<p class="syntax">SUITCASE: .<br>WORK ORDER AS "Convert legacy source to UTF-8"<br>SOURCE "legacy_source.csv"<br>CONVERT WINDOWS-1252 TO UTF-8</p>
+<p class="syntax">SUITCASE: .<br/>WORK ORDER AS "Convert legacy source to UTF-8"<br/>SOURCE "legacy_source.csv"<br/>CONVERT WINDOWS-1252 TO UTF-8</p>
 <div class="rulebox">
 <ul>
 <li><code>CONVERT WINDOWS-1252 TO UTF-8</code> is the terminal operation clause for this WASM-002 Work Order form.</li>
@@ -812,7 +722,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>The lexical, quoting, ordering, unknown-line, and one-operation-per-WKO rules frozen under F-08 apply unchanged.</li>
 </ul>
 </div>
-
 <h3>13.3 Conversion precondition and classification gate</h3>
 <div class="rulebox">
 <ol>
@@ -824,7 +733,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 </ol>
 <p>The exact full Windows-1252 mapping and its undefined-byte semantics remain part of the separate F-16 reconciliation. F-10 freezes the operation and output contract for a source that is accepted by that mapping.</p>
 </div>
-
 <h3>13.4 Conversion semantics — encoding conversion only</h3>
 <div class="rulebox">
 <p>The conversion operation performs deterministic character transcoding only. It does <b>not</b> parse, repair, normalize, or reinterpret CSV structure.</p>
@@ -839,7 +747,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 </ul>
 <p>Accordingly, “canonical UTF-8 output” means a deterministic UTF-8 encoding of the accepted source characters, not a normalization of line endings, CSV quoting, delimiters, records, headers, or fields.</p>
 </div>
-
 <h3>13.5 BOM rule</h3>
 <div class="rulebox">
 <ul>
@@ -848,14 +755,12 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>BOM interpretation therefore remains subordinate to encoding classification rather than being a blind prefix-removal rule.</li>
 </ul>
 </div>
-
 <h3>13.6 Governed CVT artifact identity</h3>
 <div class="rulebox">
 <p>A successful conversion publishes exactly one converted-source artifact with semantic class <code>CVT</code> and physical CSV serialization:</p>
 <p class="syntax">__DS__CVT__&lt;UTC&gt;__&lt;UUID&gt;.csv</p>
 <p>The three-letter class describes the artifact's role; the <code>.csv</code> extension describes its physical representation. The converted artifact receives its own governed identity and is distinct from the analyst-owned source.</p>
 </div>
-
 <h3>13.7 Bounded publication path and commit point</h3>
 <div class="rulebox">
 <ul>
@@ -868,7 +773,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>Failure before the commit point publishes no CVT artifact. Any retained failure evidence remains governed by the normal SCR/recovery/evidence rules rather than masquerading as a successful converted source.</li>
 </ul>
 </div>
-
 <h3>13.8 Relationship to later Store work</h3>
 <div class="rulebox">
 <p>Conversion does not create or mutate a Store, RID, COL, or Store MAP and performs no analytical materialization.</p>
@@ -876,7 +780,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <p class="syntax">SOURCE "__DS__CVT__20260926T190000000Z__00000000-0000-4000-8000-000000000000.csv"</p>
 <p>The CVT then enters the ordinary strict UTF-8 certification and materialization path as a governed source artifact. No automatic handoff or hidden Store registration occurs.</p>
 </div>
-
 <h3>13.9 Conversion Receipt contract</h3>
 <div class="rulebox">
 <p>F-09's shared RCP grammar applies unchanged. The exact operation token is:</p>
@@ -891,14 +794,13 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li><code>OUTPUT_FILENAME</code></li>
 </ol>
 <p>On successful conversion, the frozen values include:</p>
-<p class="syntax">SOURCE_FILENAME: "legacy_source.csv"<br>SOURCE_ENCODING: WINDOWS-1252-COMPATIBLE<br>MATERIALIZED_ENCODING: UTF-8<br>TRANSCODING: BOUNDED_STREAMING<br>SOURCE_CHANGED: NO<br>OUTPUT_FILENAME: "__DS__CVT__...csv"</p>
+<p class="syntax">SOURCE_FILENAME: "legacy_source.csv"<br/>SOURCE_ENCODING: WINDOWS-1252-COMPATIBLE<br/>MATERIALIZED_ENCODING: UTF-8<br/>TRANSCODING: BOUNDED_STREAMING<br/>SOURCE_CHANGED: NO<br/>OUTPUT_FILENAME: "__DS__CVT__...csv"</p>
 <p>On refusal before a CVT exists, <code>OUTPUT_FILENAME: NONE</code> is recorded with the applicable governed <code>DIAGNOSTIC_ID</code>. A successful conversion's created-artifact list contains the one CVT artifact.</p>
 </div>
-
 <h3>13.10 Golden-byte fixture and acceptance consequences</h3>
 <div class="rulebox">
 <p>At minimum, PRD integration must carry a byte-exact conversion fixture proving character transcoding, line-ending preservation, and BOM absence. One frozen minimal fixture is:</p>
-<p class="syntax">Windows-1252 source bytes:<br>63 61 66 E9 0D 0A<br><br>UTF-8 CVT bytes:<br>63 61 66 C3 A9 0D 0A</p>
+<p class="syntax">Windows-1252 source bytes:<br/>63 61 66 E9 0D 0A<br/><br/>UTF-8 CVT bytes:<br/>63 61 66 C3 A9 0D 0A</p>
 <p>This represents <code>café</code> followed by CRLF. The expected CVT begins immediately with <code>63</code>; no <code>EF BB BF</code> prefix is present.</p>
 <p>Acceptance for the conversion operation must also demonstrate:</p>
 <ul>
@@ -912,28 +814,23 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>golden output bytes and the golden Receipt bytes are compared byte-for-byte against contract fixtures.</li>
 </ul>
 </div>
-
 <h3>13.11 Why F-10 is closed</h3>
 <div class="rulebox">
 <p>Claude's F-10 concern was that an in-scope operation with an acceptance gate still required the implementer to invent its Work Order syntax, output serialization, BOM and line-ending behavior, publication path, and evidence contract. The frozen rules above now provide those decisions while preserving Revision BL's separation between conversion and analytical materialization.</p>
 <p>The converter now has one deliberately narrow responsibility: produce a faithful, governed UTF-8 derivative from a source accepted by the frozen Windows-1252 mapping. It does not repair CSV, normalize records, silently rewrite the analyst's file, or attach the derivative to a Store. Revision BL remains the reviewed evidence baseline until this decision is deliberately integrated into a later PRD revision.</p>
 </div>
-
 <h2 id="resolution-f11">14. F-11 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Closure count:</b> 10 of Claude's 34 Pass 1 findings are now closed; 24 remain.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 10 of Claude's 34 Pass 1 findings are now closed; 24 remain.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>14.1 Core decision — no separate Store Index artifact in WASM-002</h3>
 <div class="rulebox">
 <p>WASM-002 shall not create, publish, discover, validate, select, or maintain a separate HTML <b>Store Index</b> artifact. No Store Index artifact class is allocated for WASM-002.</p>
 <p>The separate Store Index concept is retired from the WASM-002 implementation contract rather than completed by inventing a new governed class, trigger, or serialization. The useful human-orientation intent survives through aliases in WASM-002 and through the governed Suitcase Directory (<code>DIR</code>) in WASM-003.</p>
 </div>
-
 <h3>14.2 Machine truth remains the Store MAP</h3>
 <div class="rulebox">
 <p>The Store MAP remains the authoritative machine-readable relationship between governed Store identity, RID, COL artifacts, source binding, aliases, lineage, status, hashes, and related provenance.</p>
 <p>No HTML orientation artifact may compete with, replace, or silently become a second source of Store truth in WASM-002.</p>
 </div>
-
 <h3>14.3 W002-STOR-010 is narrowed to alias orientation</h3>
 <div class="rulebox">
 <p>The WASM-002 meaning of <code>W002-STOR-010</code> is narrowed from “Store Index and aliases as human orientation” to <b>“Aliases as human orientation.”</b></p>
@@ -944,7 +841,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>The Store MAP remains the machine-truth substrate for alias binding and governed relationships.</li>
 </ul>
 </div>
-
 <h3>14.4 W002-STOR-010.1 and W002-STOR-010.2 remain in WASM-002</h3>
 <div class="rulebox">
 <ul>
@@ -952,7 +848,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li><code>W002-STOR-010.2</code> remains in force: changing a friendly alias must not change physical identity, hashes, lineage, or historical provenance.</li>
 </ul>
 </div>
-
 <h3>14.5 Store-Index-specific HTML requirements leave WASM-002</h3>
 <div class="rulebox">
 <p><code>W002-STOR-010.3</code> and <code>W002-STOR-010.4</code> are removed from the WASM-002 implementation obligation because both are specifically about the retired Store Index presentation layer.</p>
@@ -962,7 +857,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>This does not pull DIR into WASM-002. DIR remains a separate later build, currently planned as WASM-003.</li>
 </ul>
 </div>
-
 <h3>14.6 PB-STOR-002 wording cleanup</h3>
 <div class="rulebox">
 <p>The no-subfolder rule remains unchanged, but the obsolete Store Index reference is removed.</p>
@@ -971,46 +865,38 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <p>is replaced by:</p>
 <p class="syntax">open metadata, Store MAP, and human-facing aliases</p>
 </div>
-
 <h3>14.7 W002-STOR-012 preserves the invariant without Store Index</h3>
 <div class="rulebox">
 <p>The important invariant remains: current state and durable history are different truths.</p>
 <p>For WASM-002, <code>W002-STOR-012</code> is interpreted and later integrated without the Store Index reference: the current Store MAP and any other explicitly governed current-state artifacts are selected without deleting or rewriting historical artifacts. Historical fact remains preserved in durable history / Flight Recorder evidence.</p>
 </div>
-
 <h3>14.8 W002-STOR-015 freeze-item cleanup</h3>
 <div class="rulebox">
 <p>The WASM-002 storage freeze item is <b>current Store MAP selection rule</b>, not “current Store Map/Index selection rule.”</p>
 <p>The old illustrative Store Index example is removed from the WASM-002 normative integration path so that it cannot be mistaken for a required artifact or current architecture.</p>
 </div>
-
 <h3>14.9 DIR owns the future durable human-orientation surface</h3>
 <div class="rulebox">
 <p>The governed Suitcase Directory is the later human-facing project-orientation artifact. It remains deliberately outside WASM-002 and is currently sequenced as WASM-003.</p>
 <p>WASM-002 establishes the foundation DIR depends on: validated Suitcase access, governed identities, Store MAP truth, aliases, Stores, Work Orders, Receipts, Help, and visible persistence. WASM-003 may then publish durable <code>DIR</code> HTML snapshots over that already-governed foundation without redefining Store truth.</p>
 </div>
-
 <h3>14.10 Why F-11 is closed</h3>
 <div class="rulebox">
 <p>Claude's F-11 concern was that the contract made a persistent HTML Store Index mandatory while providing no registered class, generation trigger, or content contract. The implementer therefore had no conforming way to satisfy the requirement without inventing architecture.</p>
 <p>The frozen decision removes that contradiction. WASM-002 now has one machine-truth substrate for Store state—the Store MAP—plus aliases for human orientation. The richer durable HTML project-orientation role belongs to the separately governed DIR build. No additional Store Index artifact is required or permitted in WASM-002.</p>
 </div>
-
 <h2 id="resolution-f01">15. F-01 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Closure count:</b> 11 of Claude's 34 Pass 1 findings are now closed; 23 remain. All 11 BLOCKING findings are reconciled.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 11 of Claude's 34 Pass 1 findings are now closed; 23 remain. All 11 BLOCKING findings are reconciled.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>15.1 Core decision — retire the old mutable Work Order Description model</h3>
 <div class="rulebox">
 <p>The pre-Revision-BB meaning of <code>W002-UI-ACC-019</code> is retired. WASM-002 shall not expose or persist an independent mutable Work Order <b>Description</b> separate from the governed Work Order TXT.</p>
 <p>There is no standalone editable Description field for a draft or saved Work Order and no separate hidden or mutable Work Order-description store.</p>
 </div>
-
 <h3>15.2 Human-facing Work Order label</h3>
 <div class="rulebox">
 <p>The human-facing Work Order label in WASM-002 is the <code>WORK ORDER AS</code> value contained in the governed WKO TXT itself.</p>
 <p>Because that label is part of the governed WKO bytes, changing it is an edit to the Work Order artifact rather than an out-of-band metadata edit.</p>
 </div>
-
 <h3>15.3 Saved WKO immutability</h3>
 <div class="rulebox">
 <p>Editing any byte of a loaded saved Work Order—including <code>WORK ORDER AS</code>, comments, or operational instructions—creates a derived draft.</p>
@@ -1021,7 +907,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>Saving the derived draft never rewrites or renames the predecessor WKO file.</li>
 </ul>
 </div>
-
 <h3>15.4 Replacement acceptance gate for W002-UI-ACC-019</h3>
 <div class="rulebox">
 <p>The old acceptance gate is replaced by a gate proving the architecture that WASM-002 actually permits:</p>
@@ -1033,7 +918,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>the derived draft cannot Run until saved as a new WKO identity.</li>
 </ul>
 </div>
-
 <h3>15.5 Same-alias successor uses the frozen F-02 lifecycle</h3>
 <div class="rulebox">
 <p>If the derived draft is saved with the same non-empty <code>WORK ORDER AS</code> alias already held by the current predecessor WKO, the save follows the frozen F-02 lifecycle.</p>
@@ -1044,7 +928,6 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>Neither WKO file is rewritten or deleted.</li>
 </ul>
 </div>
-
 <h3>15.6 Integration consequences</h3>
 <div class="rulebox">
 <ul>
@@ -1053,28 +936,23 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>This decision does not prohibit future DIR Description metadata. DIR descriptions belong to the separately governed Suitcase Directory contract in WASM-003 and do not become hidden mutable metadata attached to WKO artifacts.</li>
 </ul>
 </div>
-
 <h3>15.7 Why F-01 is closed</h3>
 <div class="rulebox">
 <p>Claude's F-01 concern was a direct contradiction: the old acceptance gate required editing a separate Work Order Description while the later architecture forbade exactly that mutable path. The frozen decision removes the stale requirement instead of implementing prohibited machinery.</p>
 <p>WASM-002 now has one coherent rule: human Work Order labeling lives inside the immutable governed WKO TXT. Any change to that label or any other WKO byte creates a new draft and, after save, a new WKO identity under the already-frozen F-02 lifecycle.</p>
 </div>
-
 <h2 id="resolution-f12">16. F-12 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Closure count:</b> 12 of Claude's 34 Pass 1 findings are now closed; 22 remain. All 11 BLOCKING findings are reconciled.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 12 of Claude's 34 Pass 1 findings are now closed; 22 remain. All 11 BLOCKING findings are reconciled.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>16.1 Successor state requires strictly increasing UTC</h3>
 <div class="rulebox">
 <p>Every successor state MAP published by WASM-002 must carry a transaction UTC that is <b>strictly greater than</b> the exact predecessor MAP UTC.</p>
 <p>This rule applies to both Store MAP successors and WKO MAP successors. A successor whose observed UTC is equal to or earlier than its predecessor is not eligible for publication.</p>
 </div>
-
 <h3>16.2 UTC remains truthful clock observation</h3>
 <div class="rulebox">
 <p>Data Sculptor must use the actual observed host UTC. It must not synthesize, increment, round forward, or otherwise fabricate a later timestamp merely to make a publication sort after its predecessor.</p>
 <p>The canonical UTC token therefore remains evidence of observed time, not a hidden sequence number.</p>
 </div>
-
 <h3>16.3 Equal or backward clock refuses publication</h3>
 <div class="rulebox">
 <p>If the observed host UTC is less than or equal to the predecessor UTC, the state publication must refuse.</p>
@@ -1086,25 +964,21 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 </ul>
 <p>Example: if the predecessor UTC is <code>20260926T180000500Z</code>, then both <code>20260926T180000499Z</code> and <code>20260926T180000500Z</code> refuse; <code>20260926T180000501Z</code> is acceptable.</p>
 </div>
-
 <h3>16.4 Check occurs before state commit</h3>
 <div class="rulebox">
 <p>The strict-greater-than comparison is a publication precondition. A candidate may not be promoted into a successor WKO MAP or Store MAP unless its transaction UTC passes this check.</p>
 <p>A failed clock check must not alter current governed state and must not publish a successor state MAP.</p>
 </div>
-
 <h3>16.5 First MAP in a lineage</h3>
 <div class="rulebox">
 <p>The first MAP in a new lineage has no predecessor UTC to compare against and therefore uses the observed host UTC normally.</p>
 <p>The monotonic successor rule begins only when publication is explicitly creating a successor to an existing governed state.</p>
 </div>
-
 <h3>16.6 Diagnostic and Help consequences</h3>
 <div class="rulebox">
 <p>A refusal caused by a non-increasing clock must emit the canonical diagnostic condition for this boundary and expose the ordinary Help path.</p>
 <p>The diagnostic facts must include, at minimum, the predecessor UTC and the observed host UTC so the analyst can see why publication was refused. Final diagnostic-ID allocation remains governed by the diagnostic-registry work reconciled separately under Claude Pass 1.</p>
 </div>
-
 <h3>16.7 Acceptance and injected-clock fixtures</h3>
 <div class="rulebox">
 <p>Acceptance must use an injected/test clock seam sufficient to prove the rule deterministically.</p>
@@ -1116,28 +990,23 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>The emitted diagnostic facts report both predecessor UTC and observed host UTC.</li>
 </ul>
 </div>
-
 <h3>16.8 Why F-12 is closed</h3>
 <div class="rulebox">
 <p>Claude's F-12 concern was that greatest-UTC current-state selection could silently preserve stale state after a backward clock step or create a self-inflicted tie when two publications received the same millisecond UTC.</p>
 <p>The frozen rule prevents both outcomes without corrupting the meaning of UTC. Data Sculptor may publish a successor state only when the truthful observed UTC is strictly later than its predecessor. Otherwise publication refuses visibly and leaves the prior state authoritative.</p>
 </div>
-
 <h2 id="resolution-f13">17. F-13 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Closure count:</b> 13 of Claude's 34 Pass 1 findings are now closed; 21 remain. All 11 BLOCKING findings are reconciled.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 13 of Claude's 34 Pass 1 findings are now closed; 21 remain. All 11 BLOCKING findings are reconciled.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>17.1 Single-user / single-writer Suitcase model</h3>
 <div class="rulebox">
 <p>Data Sculptor is designed for <b>one user operating one user-owned Suitcase at a time</b>. WASM-002 assumes that only one Data Sculptor execution context writes governed artifacts to that Suitcase at any given time.</p>
 <p>Concurrent writers to the same Suitcase are outside the WASM-002 operating contract.</p>
 </div>
-
 <h3>17.2 User ownership remains explicit</h3>
 <div class="rulebox">
 <p>The single-writer assumption does not transfer ownership of the Suitcase to Data Sculptor. The Suitcase and its visible files remain user-owned.</p>
 <p>The user may inspect, copy, move, add, or delete files with ordinary filesystem tools. If those actions alter or damage governed state, Data Sculptor applies the separately frozen validity, degradation, invalidity, repair, refusal, and evidence rules. The single-writer contract does not require Data Sculptor to prevent external filesystem changes.</p>
 </div>
-
 <h3>17.3 No concurrent-write coordination obligation</h3>
 <div class="rulebox">
 <p>WASM-002 does not implement or promise safe simultaneous mutation of one Suitcase by multiple writers. Therefore this build has no requirement for:</p>
@@ -1150,27 +1019,23 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 </ul>
 <p>These are outside the WASM-002 contract rather than silently delegated to browser, filesystem, or host behavior.</p>
 </div>
-
 <h3>17.4 Acceptance consequence</h3>
 <div class="rulebox">
 <p>WASM-002 acceptance is evaluated under the frozen single-user / single-writer operating model. Acceptance fixtures are not required to prove correctness under simultaneous writers to the same Suitcase.</p>
 <p>The PRD integration must state this operating assumption explicitly so implementers and QA do not infer an unstated concurrency guarantee.</p>
 </div>
-
-<h3>17.5 Why F-13 is closed</h3>
+<h3>17.5 External mutation during an active governed operation</h3>
+<div class="rulebox"><p>User ownership permits ordinary filesystem changes <b>between</b> Data Sculptor operations. It does not create a concurrency guarantee while Data Sculptor is actively reading, validating, staging, or publishing governed state.</p><p>If another browser tab, process, sync client, filesystem tool, or the user mutates the same Suitcase during an active governed operation, that mutation is a concurrent external write and is outside the WASM-002 operating contract. Data Sculptor is not required to lock out or coordinate that writer.</p><p>If such a mutation becomes observable before publication commits and invalidates a governed precondition, Data Sculptor must fail/refuse safely under the All-or-Refuse Publication Discipline rather than knowingly publish from invalidated state. WASM-002 does not promise correctness for an undetectable race caused by an out-of-contract concurrent writer.</p></div>
+<h3>17.6 Why F-13 is closed</h3>
 <div class="rulebox">
 <p>Claude's F-13 concern was that the contract relied on a single-writer assumption without stating it. The Council has now made that architectural boundary explicit: one user owns and operates one Suitcase, and one Data Sculptor execution context writes governed artifacts to it at a time.</p>
 <p>F-13 therefore requires no new collaboration, locking, merge, or concurrency subsystem. It is closed by making the intended operating model explicit and testable.</p>
 </div>
-
 <h2>18. Next reconciliation target</h2>
 <p>Continue Claude Pass 1 one finding at a time. <code>F-01</code> through <code>F-13</code> are now resolved by frozen Council decisions. Thirteen of 34 findings are closed and 21 remain. <b>All 11 BLOCKING findings remain reconciled.</b> The next unresolved finding is <code>F-14</code>: publication and validity rules for non-Store artifacts are undefined. No unresolved finding is silently treated as decided in this log.</p>
-
-<footer>Separate QA reconciliation artifact · Red5Sorcery Data Sculptor · WASM-002 · Claude Pass 1<br>Source review: <code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass1.html</code><br>Reviewed contract identified by Claude: <code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_PRD_RevBL_2026-09-22.html</code>, SHA-256 <code>828C6A81B2C0A8B97546F728628059C53CC61256FAB23B142E452A8E566E025F</code>.<br>This log is intentionally non-normative until decisions are explicitly integrated into the official PRD.</footer>
-
+<footer>Separate QA reconciliation artifact · Red5Sorcery Data Sculptor · WASM-002 · Claude Pass 1<br/>Source review: <code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass1.html</code><br/>Reviewed contract identified by Claude: <code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_PRD_RevBL_2026-09-22.html</code>, SHA-256 <code>828C6A81B2C0A8B97546F728628059C53CC61256FAB23B142E452A8E566E025F</code>.<br/>This log is intentionally non-normative until decisions are explicitly integrated into the official PRD.</footer>
 <h2 id="resolution-f14">17. F-14 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Decision:</b> governed non-Store artifacts follow All-or-Refuse Publication Discipline. A candidate becomes published governed evidence only after its complete bytes and governed identity satisfy the applicable artifact contract. Validity and current authority are separate concepts.<br><b>Closure count:</b> 14 of Claude's 34 Pass 1 findings are now closed; 20 remain.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Decision:</b> governed non-Store artifacts follow All-or-Refuse Publication Discipline. A candidate becomes published governed evidence only after its complete bytes and governed identity satisfy the applicable artifact contract. Validity and current authority are separate concepts.<br/><b>Closure count:</b> 14 of Claude's 34 Pass 1 findings are now closed; 20 remain.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>17.1 All-or-Refuse Publication Discipline</h3>
 <div class="rulebox"><p>A governed non-Store artifact becomes published only after its complete artifact bytes and governed identity satisfy the applicable artifact-class contract.</p><ul>
 <li>Incomplete, interrupted, failed, or invalid candidate output is not a published governed artifact.</li>
@@ -1178,16 +1043,12 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>A failed candidate must not participate in current-state resolution, registry authority, governed Inventory truth, or later governed operations as though publication had succeeded.</li>
 <li>The presence of a reserved <code>__DS__</code>-style name alone never proves that an artifact is valid governed evidence.</li>
 </ul></div>
-
 <h3>17.2 Successor publication</h3>
 <div class="rulebox"><p>Where a governed operation publishes a successor artifact, the existing valid predecessor remains authoritative until the successor publication commits successfully. Publication never edits the predecessor in place.</p><p>If successor generation, validation, or publication fails, the predecessor remains unchanged and authoritative under its existing current-state rules.</p></div>
-
 <h3>17.3 Validity is distinct from current authority</h3>
 <div class="rulebox"><p>An artifact may remain valid governed evidence without being current. Historical predecessor artifacts remain immutable evidence after a valid successor becomes current.</p><p>Likewise, a <code>DEPRECATED</code> WKO may remain a valid physical WKO artifact; deprecation describes registry authority for alias resolution, not corruption or invalidity of the WKO bytes.</p></div>
-
 <h3>17.4 Scope across WASM-002 non-Store artifacts</h3>
 <div class="rulebox"><p>This publication discipline applies to governed non-Store artifact classes produced in WASM-002, including WKO, WKO registry MAP, Receipt, Inventory, CVT, and other in-scope governed non-Store outputs whose specific contracts are frozen elsewhere in the PRD/reconciliation.</p><p>Artifact-specific grammars and validity predicates remain authoritative for the details of each class; F-14 supplies the common publication boundary and does not replace those class-specific contracts.</p></div>
-
 <h3>17.5 Acceptance consequences</h3>
 <div class="rulebox"><ul>
 <li>Acceptance must prove that a failed or interrupted candidate cannot appear as successfully published governed evidence.</li>
@@ -1195,72 +1056,256 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <li>For successor-producing operations, acceptance must prove that the predecessor remains authoritative if successor publication fails.</li>
 <li>Acceptance must distinguish artifact validity from current authority: a historical valid predecessor may remain valid after supersession.</li>
 </ul></div>
-
 <h3>17.6 Why F-14 is closed</h3>
 <div class="rulebox"><p>Claude identified that WASM-002 specified several governed non-Store artifact classes without one explicit common boundary between candidate output and published governed evidence. The frozen All-or-Refuse rule now supplies that boundary: complete validated bytes plus valid governed identity are required before publication, failed candidates cannot masquerade as governed truth, and existing authority survives a failed successor publication.</p><p>This closes the ambiguity without introducing collaborative locking, multi-writer coordination, or a separate lifecycle system for every artifact class.</p></div>
-
 <h2 id="resolution-f15">18. F-15 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Decision:</b> MAP eligibility is reference-bounded. A MAP is evaluated from its own governed identity/content and the governed artifacts it explicitly references; unrelated Suitcase contents cannot alter its eligibility. Current-state comparison is deterministic within the applicable governed MAP class/lineage, using governed publication UTC under the F-12 strict monotonic successor-UTC guard. UUID establishes artifact identity, not temporal precedence. If the frozen rules cannot uniquely resolve current authority, Data Sculptor refuses rather than guesses.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Decision:</b> MAP eligibility is reference-bounded. A MAP is evaluated from its own governed identity/content and the governed artifacts it explicitly references; unrelated Suitcase contents cannot alter its eligibility. Current-state comparison is deterministic within the applicable governed MAP class/lineage, using governed publication UTC under the F-12 strict monotonic successor-UTC guard. UUID establishes artifact identity, not temporal precedence. If the frozen rules cannot uniquely resolve current authority, Data Sculptor refuses rather than guesses.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>18.1 Reference-bounded MAP eligibility</h3>
 <div class="rulebox"><p>Whether a governed MAP is eligible must not depend on arbitrary or unrelated files merely being present in the Suitcase.</p><ul><li>Data Sculptor evaluates the MAP itself under its applicable MAP grammar and validity rules.</li><li>It evaluates the governed artifacts that the MAP explicitly references where those references participate in the applicable validity/health contract.</li><li>An unrelated source CSV, WKO, Receipt, Inventory, CVT, older governed artifact, user-owned file, or newly appearing file does not make an otherwise eligible MAP ineligible merely by existing.</li><li>Filesystem enumeration order, file arrival order, and the total count of unrelated Suitcase files are not MAP-eligibility inputs.</li></ul></div>
-
 <h3>18.2 Referenced damage is not unrelated</h3>
 <div class="rulebox"><p>If a file explicitly referenced by a MAP is missing or invalid, that condition is governed by the artifact-specific rules already frozen elsewhere. For Store state, F-03 determines VALID, DEGRADED, or INVALID consequences. WKO registry discrepancies use the F-02 registry and repair rules.</p><p>F-15 does not create a second repair path and does not reinterpret referenced damage as an unrelated-file event.</p></div>
-
 <h3>18.3 Deterministic current-state comparison</h3>
 <div class="rulebox"><p>When more than one otherwise eligible MAP participates in current-state resolution for the same applicable governed MAP class/lineage, temporal precedence is determined by the governed publication UTC encoded in the artifact filename, subject to the strict monotonic successor-UTC publication guard frozen under F-12.</p><ul><li>Comparison is performed only among MAPs that belong to the same applicable current-state comparison domain; unrelated MAP classes or lineages do not compete merely because they coexist in the Suitcase.</li><li>UUID establishes opaque artifact identity and does not establish temporal precedence.</li><li>Filesystem modified time, creation time, directory enumeration order, discovery order, and lexical UUID order are not current-state authorities.</li><li>If the frozen rules do not yield one unique authoritative current MAP, Data Sculptor refuses the affected governed operation rather than inventing a tie-breaker.</li></ul></div>
-
 <h3>18.4 Appearance of unrelated files cannot change current authority</h3>
 <div class="rulebox"><p>Adding, copying, or otherwise causing an unrelated file to appear in the user-owned Suitcase cannot by itself change which eligible MAP is current. Current authority changes only through the governed publication/lifecycle rules applicable to that MAP class or through an explicitly governed repair/lifecycle operation already defined for the affected state.</p></div>
-
-<h3>18.5 Acceptance consequences</h3>
+<h3>18.5 Exact filename and reference comparison semantics</h3>
+<div class="rulebox"><p>WASM-002 uses <b>exact Unicode scalar-value sequence equality</b> for governed filename and Suitcase-entry reference matching after the filename/reference text has been decoded under the applicable governed text rules.</p><ul><li>No case folding is performed. <code>Data.csv</code> and <code>DATA.csv</code> are different spellings.</li><li>No Unicode normalization equivalence is performed. Two visually similar names encoded with different scalar-value sequences are different spellings.</li><li>No locale-sensitive filename comparison is used.</li><li>A governed textual reference must exactly match the visible entry name returned for the Suitcase item. Data Sculptor does not rely on a host filesystem accepting an alternate case or normalization spelling for the same physical file.</li><li>If the available Suitcase state cannot yield one unique exact match, the governed operation refuses rather than guessing.</li></ul><p>This rule deliberately favors cross-platform reproducibility over host-specific filename leniency.</p></div>
+<h3>18.6 Acceptance consequences</h3>
 <div class="rulebox"><ul><li>Acceptance must prove that adding unrelated files does not change MAP eligibility or current-state selection.</li><li>Acceptance must prove that a referenced missing/invalid artifact follows its artifact-specific health or repair rules rather than being ignored as unrelated.</li><li>Acceptance must prove deterministic comparison among eligible MAPs in the same comparison domain using governed publication UTC and the F-12 monotonic successor guard.</li><li>Acceptance must prove that UUID, filesystem timestamps, enumeration order, and discovery order do not break ties or establish current authority.</li><li>An otherwise ambiguous current-state condition must refuse rather than guess.</li></ul></div>
-
-<h3>18.6 Why F-15 is closed</h3>
+<h3>18.7 Why F-15 is closed</h3>
 <div class="rulebox"><p>Claude identified that MAP eligibility could drift as unrelated Suitcase contents changed and that the comparison authority was not explicit. The frozen rule makes eligibility reference-bounded and current-state comparison explicit: unrelated files cannot perturb governed MAP authority, relevant referenced damage follows its existing contract, and temporal precedence is governed rather than inherited from filesystem behavior.</p></div>
-
 <h2 id="resolution-f16">19. F-16 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Decision:</b> Windows-1252 compatibility is a deterministic classification separate from the governed UTF-8 diagnostic. Data Sculptor uses one frozen Windows-1252 byte-to-Unicode mapping. Undefined bytes <code>0x81</code>, <code>0x8D</code>, <code>0x8F</code>, <code>0x90</code>, and <code>0x9D</code> make the source incompatible and cause conversion refusal. A UTF-8 validation failure retains its governed UTF-8 diagnostic facts regardless of Windows-1252 compatibility. Help may separately suggest the explicit Windows-1252-to-UTF-8 conversion operation only when the complete source passes the frozen Windows-1252 compatibility assessment. Conversion is never automatic.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Decision:</b> Windows-1252 compatibility is a deterministic classification separate from the governed UTF-8 diagnostic. Data Sculptor uses one frozen Windows-1252 byte-to-Unicode mapping. Undefined bytes <code>0x81</code>, <code>0x8D</code>, <code>0x8F</code>, <code>0x90</code>, and <code>0x9D</code> make the source incompatible and cause conversion refusal. A UTF-8 validation failure retains its governed UTF-8 diagnostic facts regardless of Windows-1252 compatibility. Help may separately suggest the explicit Windows-1252-to-UTF-8 conversion operation only when the complete source passes the frozen Windows-1252 compatibility assessment. Conversion is never automatic.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>19.1 Frozen Windows-1252 compatibility mapping</h3>
 <div class="rulebox"><p>For WASM-002, Windows-1252 compatibility is defined by the frozen Windows-1252 byte-to-Unicode mapping, not by the permissive behavior of a browser, Rust crate, operating-system decoder, or replacement-character fallback.</p><ul><li>Bytes <code>0x00</code> through <code>0x7F</code> map to the corresponding Unicode code points.</li><li>Bytes <code>0xA0</code> through <code>0xFF</code> use the standard Windows-1252 mappings.</li><li>Bytes in the <code>0x80</code> through <code>0x9F</code> range use their defined Windows-1252 assignments where a mapping exists.</li><li>The five undefined Windows-1252 byte values <code>0x81</code>, <code>0x8D</code>, <code>0x8F</code>, <code>0x90</code>, and <code>0x9D</code> are not accepted as compatible input.</li><li>If any of those undefined bytes occurs anywhere in the complete source, Windows-1252 compatibility fails and the governed conversion operation refuses.</li><li>Data Sculptor must not substitute <code>U+FFFD</code>, reinterpret an undefined byte as ISO-8859-1, or otherwise guess a character value.</li></ul></div>
-
 <h3>19.2 UTF-8 diagnosis remains authoritative</h3>
 <div class="rulebox"><p>A source that fails strict UTF-8 validation remains a UTF-8 validation failure. The deterministic F-07 facts, including <code>FIRST_INVALID_BYTE_OFFSET</code> and <code>STOP_REASON</code>, remain the governed diagnostic facts for that failure.</p><p>A later Windows-1252 compatibility assessment does not replace, relabel, suppress, or mutate the UTF-8 diagnostic. Encoding compatibility and diagnostic classification are separate facts.</p></div>
-
 <h3>19.3 Help suggestion is guidance, not reclassification</h3>
 <div class="rulebox"><p>After strict UTF-8 validation fails, Data Sculptor may assess the complete source against the frozen Windows-1252 compatibility mapping solely to determine whether the explicit conversion path is available.</p><ul><li>If the complete source is Windows-1252-compatible, Help may state that the source is not valid UTF-8 but is compatible with Data Sculptor's Windows-1252 mapping and may suggest the separate governed <code>CONVERT WINDOWS-1252 TO UTF-8</code> Work Order operation.</li><li>If the complete source is not Windows-1252-compatible, Help must not present that governed conversion operation as an available remedy for that source.</li><li>The suggestion is advisory Help. It is not a different diagnostic result and does not authorize conversion.</li></ul></div>
-
 <h3>19.4 Conversion remains explicit and separate</h3>
 <div class="rulebox"><p>The F-10 operation boundary remains unchanged. A failed analytical Work Order, UTF-8 validation, or materialization never silently converts the source. Conversion occurs only through the separately saved and explicitly authorized Windows-1252-to-UTF-8 conversion Work Order.</p><p>F-16 therefore freezes the classification oracle used by the F-10 compatibility gate without reopening F-10's Work Order form, CVT artifact contract, or conversion semantics.</p></div>
-
 <h3>19.5 Acceptance consequences</h3>
 <div class="rulebox"><ul><li>Acceptance must prove the frozen mapping for representative ASCII, defined <code>0x80–0x9F</code>, and <code>0xA0–0xFF</code> byte values.</li><li>Acceptance must prove refusal for each undefined byte: <code>0x81</code>, <code>0x8D</code>, <code>0x8F</code>, <code>0x90</code>, and <code>0x9D</code>.</li><li>Acceptance must prove that no replacement-character or ISO-8859-1 fallback makes an undefined byte convertible.</li><li>Acceptance must prove that Windows-1252 compatibility does not alter the governed F-07 UTF-8 diagnostic facts.</li><li>Acceptance must prove that the conversion suggestion appears only when the complete source passes the frozen Windows-1252 compatibility assessment.</li><li>Acceptance must prove that no suggestion or compatibility result triggers automatic conversion.</li></ul></div>
-
 <h3>19.6 Why F-16 is closed</h3>
 <div class="rulebox"><p>Claude identified two ambiguities: conversion guidance could be mistaken for a change to fixed diagnostic semantics, and the Windows-1252 compatibility oracle itself was not frozen. The Council resolution separates those concerns. UTF-8 failure retains its deterministic diagnostic identity, while a separate complete-source compatibility test uses one explicit Windows-1252 mapping with five undefined bytes that refuse rather than guess.</p><p>This gives F-10 a deterministic classification gate and allows Help to suggest an explicit conversion path without changing the meaning of the original failure.</p></div>
-
 <h2 id="resolution-f17">20. F-17 — frozen Council resolution</h2>
-<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Closure count:</b> 17 of Claude's 34 Pass 1 findings are now closed; 17 remain.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
-
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 17 of Claude's 34 Pass 1 findings are now closed; 17 remain.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
 <h3>20.1 Help never manufactures diagnostic truth</h3>
 <div class="rulebox"><p><b>Diagnostics own facts. Help renders facts. Help does not manufacture facts.</b></p><p>Help presentation may explain, organize, and render governed diagnostic facts, but it must not invent, default, infer, replace, or override machine-deterministic facts merely to satisfy a Help template.</p></div>
-
 <h3>20.2 Deterministic coverage fallback</h3>
 <div class="rulebox"><p>Every governed diagnostic must have a usable Technical Help rendering path even when no diagnostic-specific Help entry has been authored.</p><ul><li>If a diagnostic-specific Technical Help entry exists, Data Sculptor may render that entry from the governed diagnostic facts.</li><li>If no diagnostic-specific entry exists, Data Sculptor renders a deterministic generic fallback that identifies the diagnostic and presents the governed facts that are available.</li><li>The generic fallback must explicitly avoid inventing a cause, interpretation, or remediation that is not established by the diagnostic contract.</li><li>An incomplete Help catalogue must therefore never produce a blank Help surface for a governed diagnostic.</li></ul></div>
-
 <h3>20.3 Required facts and optional/contextual facts</h3>
 <div class="rulebox"><p>Each governed diagnostic definition explicitly identifies the machine facts required to establish that diagnostic. Those required facts form part of the diagnostic contract.</p><ul><li>A required fact may not be silently omitted, replaced with an empty string, zero, an invented default, or a guessed value.</li><li>If the facts required to establish a particular diagnostic cannot be produced, Data Sculptor must not present that diagnostic as though its required fact contract were complete.</li><li>Facts that are optional or contextual may legitimately carry an applicable frozen absence state.</li><li>Whether a fact is required is defined by the diagnostic contract, not by whichever Help template happens to render it.</li></ul></div>
-
 <h3>20.4 Absent-value rendering</h3>
 <div class="rulebox"><p>Where absence semantics apply, Help reuses the frozen meanings already established for governed text artifacts rather than creating Help-only ambiguity:</p><ul><li><code>NONE</code> — the fact definitively has no value in this event.</li><li><code>NOT_RUN</code> — the stage or operation was not executed.</li><li><code>NOT_AVAILABLE</code> — the value should exist or may exist, but could not be obtained.</li></ul><p>Human-facing Help may render these states in natural language such as “None,” “Not run,” or “Not available,” but the presentation must preserve the underlying meaning. Absence must not silently become an empty field, zero, a generic “unknown,” or omission whose meaning cannot be distinguished.</p></div>
-
 <h3>20.5 Acceptance consequences</h3>
 <div class="rulebox"><ul><li>Acceptance must prove that every governed diagnostic can render Technical Help even when no diagnostic-specific Help entry exists.</li><li>Acceptance must prove that the generic fallback identifies the diagnostic and renders available governed facts without inventing cause or remediation.</li><li>Acceptance must prove that diagnostic-specific required facts cannot be silently omitted or defaulted.</li><li>Acceptance must distinguish required facts from optional/contextual facts independently of Help-template structure.</li><li>Acceptance must prove distinct rendering semantics for <code>NONE</code>, <code>NOT_RUN</code>, and <code>NOT_AVAILABLE</code> where those states apply.</li><li>Acceptance must prove that Help wording or flavor cannot alter the underlying governed diagnostic facts.</li></ul></div>
-
 <h3>20.6 Why F-17 is closed</h3>
 <div class="rulebox"><p>Claude identified that the Help contract could fail when catalogue coverage was incomplete, could render absent values inconsistently, and did not define whether a fact was required because of the diagnostic or merely because a template expected it. The frozen rules separate these responsibilities: diagnostics define required truth; Help renders that truth; and a deterministic fallback guarantees coverage without fabrication.</p><p>This closes the rendering-contract gap without requiring WASM-002 to author final bespoke prose for every diagnostic or Help voice.</p></div>
+<h2 id="resolution-f18">21. F-18 — shared absence-state vocabulary and HLP provenance semantics</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 18 of Claude's 34 Pass 1 findings are now closed; 16 remain.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
+<h3>21.1 One governed absence-state vocabulary</h3>
+<div class="rulebox"><p>WASM-002 uses one shared governed absence-state vocabulary wherever a present governed fact field needs to express absence:</p><ul>
+<li><code>NONE</code> — the fact is applicable and definitively has no value in this event.</li>
+<li><code>NOT_RUN</code> — the relevant stage or operation was not executed.</li>
+<li><code>NOT_AVAILABLE</code> — the fact is applicable or potentially applicable, but its value could not be obtained.</li>
+<li><code>NOT_APPLICABLE</code> — the fact does not apply to this event, diagnostic, operation, or artifact.</li>
+</ul><p>These states are semantically distinct and must not be substituted for one another.</p></div>
+<h3>21.2 HLP provenance rule</h3>
+<div class="rulebox"><p>HLP provenance must distinguish non-applicability from unavailability. If a provenance concept does not apply to the Help event, the governed value is <code>NOT_APPLICABLE</code>. If the provenance concept applies but the value cannot be obtained, the governed value is <code>NOT_AVAILABLE</code>.</p><p>HLP must not use <code>NOT_AVAILABLE</code> merely as a generic placeholder for a fact that does not apply.</p></div>
+<h3>21.3 Cross-artifact consistency</h3>
+<div class="rulebox"><p>The shared absence tokens retain the same meanings across WASM-002 governed fact-bearing artifacts and diagnostic/Help paths wherever their artifact grammars permit those fields. Artifact-specific synonyms or ambiguous alternatives such as <code>N/A</code>, <code>UNKNOWN</code>, <code>UNAVAILABLE</code>, blank values, or prose variants must not acquire competing machine meanings where the shared governed vocabulary applies.</p><p>An artifact's own frozen grammar still determines whether a field is present. F-18 does not require every artifact to serialize every possible fact. It governs the value used when a present governed field expresses one of these absence states.</p></div>
+<h3>21.4 Relationship to F-09 and F-17</h3>
+<div class="rulebox"><p>F-18 extends the shared absence vocabulary frozen under F-09 by adding <code>NOT_APPLICABLE</code>; it does not change the existing meanings of <code>NONE</code>, <code>NOT_RUN</code>, or <code>NOT_AVAILABLE</code>.</p><p>F-17 remains authoritative that diagnostics own facts and Help renders facts. Human-facing Help may translate the machine tokens into readable language, but the rendering must preserve the underlying absence state and must not manufacture a value.</p></div>
+<h3>21.5 Acceptance consequences</h3>
+<div class="rulebox"><ul>
+<li>Acceptance must explicitly distinguish <code>NOT_APPLICABLE</code> from <code>NOT_AVAILABLE</code> in HLP provenance fixtures.</li>
+<li>Acceptance must prove the distinct meanings of <code>NONE</code>, <code>NOT_RUN</code>, <code>NOT_AVAILABLE</code>, and <code>NOT_APPLICABLE</code>.</li>
+<li>Acceptance must prove that artifact-specific synonyms, ambiguous blank values, or alternate machine tokens do not replace the shared vocabulary where it applies.</li>
+<li>Acceptance must prove that human-facing Help rendering may rephrase an absence state without changing its governed machine meaning.</li>
+</ul></div>
+<h3>21.6 Why F-18 is closed</h3>
+<div class="rulebox"><p>Claude identified two related ambiguities: HLP provenance treated a fact that did not apply as though its value were merely unavailable, and different artifacts used inconsistent absence representations. The frozen vocabulary now gives those states separate meanings and applies one governed semantic model across WASM-002.</p><p>A consumer can therefore distinguish “there is no value,” “this stage did not run,” “the value could not be obtained,” and “this fact does not apply” without inferring meaning from artifact-specific blanks or synonyms.</p></div>
+<h2 id="resolution-f19">22. F-19 — local Help disclosure of relevant headers and aliases</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 19 of Claude's 34 Pass 1 findings are now closed; 15 remain.<br/><b>Decision:</b> local Help may reproduce source headers and Data Sculptor aliases when relevant to understanding the current diagnostic, operation, artifact, or corrective action. Headers and aliases do not require redaction merely because their text may contain sensitive information.<br/><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
+<h3>22.1 Analyst-visible Suitcase facts</h3>
+<div class="rulebox"><p>WASM-002 treats source headers and Data Sculptor aliases as ordinary analyst-visible Suitcase facts for Help purposes. The analyst owns and can inspect the source CSV and governed artifacts in the Suitcase; Help does not create a separate secrecy boundary around text the analyst is already authorized to work with locally.</p><p>A header may contain ordinary data-like or sensitive text. That fact does not require Data Sculptor to redact the header from local Help when reproducing it materially improves understanding of the event.</p></div>
+<h3>22.2 Relevance boundary</h3>
+<div class="rulebox"><p>Help may reproduce a header or alias when it is relevant to explaining the current diagnostic, operation, governed artifact, or corrective action. Help must not dump unrelated headers, aliases, source values, or other Suitcase content merely because those facts are locally available.</p><p>The governing question is relevance to understandable Help, not whether the text appears sensitive.</p></div>
+<h3>22.3 Headers and aliases are explicitly covered</h3>
+<div class="rulebox"><ul><li>Source header text may be rendered when needed to identify the column, selector, mismatch, or other condition being explained.</li><li>Store, RID, COL, Work Order, and other governed aliases may be rendered when relevant to identifying the affected object or explaining the action the analyst should take.</li><li>Neither category requires special redaction or a separate sensitivity classifier merely because its human-authored text may contain identifying or sensitive information.</li><li>Help must not infer that structurally interpreted text is safe for unrelated disclosure; the permission is limited to relevant local Help for the user's own Suitcase.</li></ul></div>
+<h3>22.4 Local-processing boundary</h3>
+<div class="rulebox"><p>WASM-002 Help rendering is local. Rendering Help does not transmit Suitcase facts, source headers, aliases, source values, diagnostic context, or other Suitcase content to an external service.</p><p>This local-processing boundary is what permits Help to remain specific and understandable without introducing a redaction layer between the analyst and the analyst's own data.</p></div>
+<h3>22.5 Help voices and fallback rendering</h3>
+<div class="rulebox"><p>Technical Help, later alternate Help voices, and the F-17 deterministic fallback all obey the same relevance and local-processing rules. A rendering voice may change explanation and presentation; it may not broaden the event into an unrelated disclosure of Suitcase content.</p></div>
+<h3>22.6 Acceptance consequences</h3>
+<div class="rulebox"><ul><li>A diagnostic involving a named source header must be able to render that exact header when doing so makes the explanation understandable.</li><li>A diagnostic involving a governed alias must be able to render the relevant alias.</li><li>Fixtures must prove that header or alias text is not redacted merely because it resembles sensitive information.</li><li>Fixtures must prove that unrelated headers, aliases, and source values are not dumped into Help.</li><li>Help rendering must operate without transmitting Suitcase content to an external service.</li><li>The F-17 fallback must preserve the same relevance boundary.</li></ul></div>
+<h3>22.7 Why F-19 is closed</h3>
+<div class="rulebox"><p>Claude correctly identified that the prior disclosure model did not clearly cover aliases and that a header can itself contain data-like text. The Council resolves those edge cases by making the product boundary explicit rather than by hiding useful context: the Suitcase belongs to the analyst, Help is local, and relevant headers and aliases may be shown to make Help understandable.</p><p>Data Sculptor therefore does not need a sensitivity classifier or blanket redaction rule for headers and aliases. It needs a relevance rule and a local-processing guarantee.</p></div>
+
+<h2 id="resolution-f20">23. F-20 — bounded width, operational header fallback, and KEEP maximum</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 20 of Claude's 34 Pass 1 findings are now closed; 14 remain.<br/><b>Decision:</b> WASM-002 freezes a 16,384-column V1 source-width maximum, a 1,024-Unicode-character operational column-name maximum with deterministic Excel-style ordinal fallback for oversized source headers, Receipt disclosure whenever fallback is used, and KEEP support through the full permitted 16,384-column source width. Streaming/out-of-core bounded-memory behavior remains mandatory.<br/><b>PRD state:</b> decision frozen here; canonical PRD integration remains pending.</div>
+<h3>23.1 V1 source CSV width</h3>
+<div class="rulebox"><p>A WASM-002 source CSV may contain at most <b>16,384 columns</b>. This V1 product limit deliberately aligns with the Excel A-through-XFD column range and generalizes the project's existing 16,384-column transpose safety boundary into the WASM-002 source-width contract.</p><p>A source containing more than 16,384 columns is refused clearly and deterministically before analytical publication. Data Sculptor does not silently discard, merge, or ignore excess columns.</p></div>
+<h3>23.2 Operational column-name length</h3>
+<div class="rulebox"><p>The maximum operational column-name length is <b>1,024 Unicode characters</b> after CSV parsing and decoding.</p><p>A source header of 1,024 characters or fewer is preserved as the operational column name, subject to the other frozen header/identity rules. A source header longer than 1,024 characters is <b>not truncated</b> and does <b>not</b> by itself cause the CSV to be rejected.</p></div>
+<h3>23.3 What “1,024 Unicode characters” means</h3>
+<div class="rulebox"><p>For this WASM-002 limit, one “Unicode character” means one <b>Unicode scalar value</b> in the decoded header string. The limit is therefore exactly 1,024 Unicode scalar values after successful decoding.</p><p>Data Sculptor does not normalize the header before counting and does not count user-perceived grapheme clusters. Combining marks and other independently encoded scalar values each count toward the 1,024-value limit. This makes the boundary deterministic and testable.</p></div>
+<h3>23.4 Deterministic oversized-header fallback</h3>
+<div class="rulebox"><p>When a source header exceeds 1,024 Unicode characters, Data Sculptor assigns the deterministic operational name <code>Column &lt;LETTERS&gt;</code>, where <code>&lt;LETTERS&gt;</code> is the Excel-style letter reference derived from the column's one-based physical ordinal.</p><ul><li>Column 1 → <code>Column A</code></li><li>Column 26 → <code>Column Z</code></li><li>Column 27 → <code>Column AA</code></li><li>Column 16,384 → <code>Column XFD</code></li></ul><p>The source CSV remains untouched. The oversized source header remains source evidence; Data Sculptor does not rewrite it or truncate it into a different apparent source header.</p></div>
+<h3>23.5 Receipt disclosure</h3>
+<div class="rulebox"><p>Whenever the oversized-header fallback is used during a consequential operation, the resulting Receipt must record that fallback use. At minimum it records the affected column ordinal, the assigned deterministic operational name, and that the substitution occurred because the source header exceeded the 1,024-character operational column-name limit.</p><p>The Receipt is not required to reproduce the complete oversized source header merely to document the fallback.</p></div>
+<h3>23.6 KEEP width</h3>
+<div class="rulebox"><p><code>KEEP</code> may select any number of columns from 1 through the full V1 source-width maximum of <b>16,384 columns</b>. WASM-002 imposes no smaller KEEP-specific width limit. Therefore a valid 16,384-column source may be kept in its entirety.</p></div>
+<h3>23.7 Bounded-memory and output-writer contract</h3>
+<div class="rulebox"><p>WASM-002 processing remains streaming/out-of-core. Peak working memory must not scale with source row count or total source-file size. Structural state may scale only within the frozen V1 width bounds needed to represent the header/column metadata and the requested KEEP selection; accumulated row data must not be retained in memory merely because the source is large.</p><p>Output-writer concurrency must also remain bounded independently of KEEP width, row count, and total source-file size. A maximum-width <code>KEEP</code> does not authorize one permanently open writable stream or a full-row data buffer per selected column. The implementation may use fixed-size batching, visible governed scratch/staging where otherwise permitted, repeatable multi-pass processing, or another deterministic bounded-resource strategy.</p><p>The accepted build must declare the configured upper bound for simultaneously active writable output streams in retained acceptance evidence, and test instrumentation may report the observed peak. The bound is an implementation resource limit, not an analyst-facing syntax limit.</p></div>
+<h3>23.8 Fallback-name collision handling</h3>
+<div class="rulebox"><p>Oversized-header fallback labels must not silently create ambiguous operational names. Before fallback assignment, Data Sculptor knows the set of preserved operational header names at or below the 1,024-scalar-value limit. Oversized headers are then assigned fallbacks in ascending physical column ordinal.</p><p>The preferred fallback is <code>Column &lt;LETTERS&gt;</code>. If that exact label collides with a preserved operational name or a fallback already assigned, Data Sculptor tries <code>Column &lt;LETTERS&gt; [&lt;ORDINAL&gt;]</code>. If that also collides, it appends a deterministic numeric suffix <code>-2</code>, <code>-3</code>, and so on until one unique operational label is obtained. The Receipt records the final assigned fallback label.</p><p>Column identity remains anchored to physical ordinal and the governed Store/RID/COL model; the fallback label is a deterministic human-operational name, not a replacement for ordinal identity.</p></div>
+<h3>23.9 Acceptance consequences</h3>
+<ul><li>Accept a valid source containing exactly 16,384 columns and refuse one exceeding that width deterministically.</li><li>Preserve an operational source header containing exactly 1,024 Unicode characters.</li><li>For a source header exceeding 1,024 characters, prove that Data Sculptor does not truncate or reject solely for that reason and instead assigns the correct ordinal fallback name.</li><li>Exercise fallback at representative ordinals including A, Z, AA, and XFD.</li><li>Prove that the Receipt records every fallback actually used by the operation.</li><li>Prove that KEEP can select all 16,384 columns of a maximum-width valid source.</li><li>Large-row-count acceptance fixtures must demonstrate streaming/out-of-core behavior without working memory scaling with row count or total source-file size.</li><li>Acceptance must distinguish Unicode scalar-value counting from grapheme counting and must exercise a combining-mark boundary case.</li><li>Acceptance must exercise a collision between a preferred fallback such as <code>Column A</code> and a preserved source header of the same name, proving deterministic disambiguation and Receipt disclosure.</li><li>Maximum-width KEEP acceptance must retain evidence of the configured and observed peak simultaneous writable-output-stream count, demonstrating that output-writer concurrency does not scale one-for-one with selected width.</li></ul>
+<h3>23.10 Why F-20 is closed</h3>
+<p>Claude's concern is closed because WASM-002 now has explicit finite structural width semantics rather than an undefined bounded-memory promise: source width is capped at 16,384 columns, operational column names are bounded at 1,024 Unicode characters with a deterministic non-destructive fallback, KEEP is bounded by the same maximum source width, fallback use is auditable in Receipts, and row-scale processing remains streaming/out-of-core.</p>
+<h2 id="resolution-f21">24. F-21 — single chronological MAP history; no branching</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DESIGN CLARIFICATION / DECISION FROZEN FOR WASM-002.<br/><b>Closure count:</b> 21 of Claude's 34 Pass 1 findings are now closed; 13 remain.<br/><b>Decision:</b> WASM-002 has one chronological governed MAP history and no branching MAP model. A new MAP published from an explicitly selected historical eligible MAP is simply the next governed MAP publication. If it is the latest eligible MAP, it becomes current under the ordinary current-MAP resolution rules. Earlier MAPs remain immutable historical evidence.<br/><b>PRD state:</b> decision frozen here; canonical PRD integration remains pending.</div>
+<h3>24.1 No branching MAP model</h3>
+<div class="rulebox"><p>WASM-002 does not create, track, merge, or resolve MAP branches, alternate current states, or parallel MAP lineages. Governed MAP publication remains a single chronological history.</p><p>Deriving a new MAP from an older eligible MAP does not create a branch. The derivation source and publication chronology are separate facts.</p></div>
+<h3>24.2 Historical MAPs remain usable</h3>
+<div class="rulebox"><p>An analyst may explicitly select and use a historical eligible MAP as the input state for a new governed operation. WASM-002 does not require a special historical-successor permission gate merely because the selected MAP is not currently authoritative.</p><p>Inspection of a historical MAP alone does not change current state. Current state changes only when a new eligible governed MAP is successfully published.</p></div>
+<h3>24.3 Current-state consequence</h3>
+<div class="rulebox"><p>When an operation using a historical eligible MAP successfully publishes a new eligible MAP, that artifact enters the ordinary chronological MAP history. If its governed publication UTC makes it the latest eligible MAP under the frozen current-state rules, it becomes current.</p><p>The previously current MAP is not overwritten, invalidated, or deleted. It remains immutable historical evidence alongside all earlier governed MAPs.</p></div>
+<h3>24.4 UTC publication identity remains authoritative</h3>
+<div class="rulebox"><p>Governed UTC publication identity in the MAP filename continues to determine chronology subject to the already-frozen eligibility and strict monotonic successor-UTC rules. A MAP's derivation from an older state does not create an alternate chronology or override those rules.</p></div>
+<h3>24.5 Acceptance consequences</h3>
+<ul><li>Acceptance must prove that selecting or inspecting a historical MAP does not by itself change the current MAP.</li><li>Acceptance must prove that a successful new MAP publication derived from a historical eligible MAP enters the same chronological MAP history rather than creating a branch.</li><li>If that new MAP is the latest eligible MAP, acceptance must prove that ordinary current-MAP resolution selects it as current.</li><li>Acceptance must prove that the formerly current MAP and the historical predecessor remain unchanged and available as historical evidence.</li><li>No branch identifiers, merge semantics, parallel-current-state machinery, or special historical-successor permission gate are introduced for WASM-002.</li></ul>
+<h3>24.6 Why F-21 is closed</h3>
+<p>Claude's finding assumed that publishing from a historical MAP might require branch-aware or special warning semantics. The Council confirms that the observed behavior is intentional: Data Sculptor maintains one chronological MAP publication history. A newly published eligible MAP becomes current according to the same deterministic rules regardless of whether its input state was the previously current MAP or an explicitly selected historical MAP. History remains visible and immutable; branching is deliberately out of scope.</p>
+
+<h2 id="resolution-f22">25. F-22 — Diagnostic IDs are WASM-002 Help Engine routing identifiers</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY SCOPE CLARIFICATION / DECISION FROZEN FOR WASM-002.<br/><b>Closure count:</b> 22 of Claude's 34 Pass 1 findings are now closed; 12 remain.<br/><b>Decision:</b> WASM-002 requires Diagnostic IDs so diagnostic conditions can be routed through the Help Engine. Acceptance proves the diagnostic/Help wiring, not the final semantic wording of every Diagnostic ID. Final message semantics and prose for Casual, Office Speak, and Technical Help are deferred for later refinement. Where the WASM-002 PRD specifies Help wording at all, Technical is the default voice unless explicitly stated otherwise.<br/><b>PRD state:</b> decision frozen here; canonical PRD integration remains pending.</div>
+<h3>25.1 WASM-002 scope</h3>
+<div class="rulebox"><p>For WASM-002, a Diagnostic ID is a stable routing identifier used to connect a diagnostic condition to the Help Engine. The build is required to demonstrate that an applicable diagnostic condition can emit an ID and that the Help Engine can receive and render Help through that ID.</p><p>WASM-002 does not require the Council to pre-assign and independently specify the final semantic meaning and polished prose for every Diagnostic ID before implementation.</p></div>
+<h3>25.2 What acceptance verifies</h3>
+<div class="rulebox"><ul><li>When a WASM-002 requirement calls for a diagnostic condition, the implementation emits a Diagnostic ID as required by the diagnostic/Help wiring contract.</li><li>The emitted Diagnostic ID is successfully routed through the Help Engine.</li><li>The Help Engine can render the required WASM-002 Help path, including the already-frozen deterministic fallback behavior where diagnostic-specific Help content is absent.</li><li>Acceptance does not treat the final wording or semantic polish associated with every Diagnostic ID as an independently specified oracle for this build.</li></ul></div>
+<h3>25.3 Implementation registry is permitted</h3>
+<div class="rulebox"><p>The implementation may deliver and use a diagnostic registry containing the Diagnostic IDs and their Help routing information. For WASM-002 this does not compromise QA independence, because acceptance is testing that the required diagnostic/Help plumbing works; it is not using that registry to prove that a separately normative catalogue of final diagnostic semantics is correct.</p><p>No duplicate QA-owned diagnostic registry is required for WASM-002, and the PRD does not require a new pass solely to assign a predetermined ID number and final message semantics to every possible diagnostic.</p></div>
+<h3>25.4 Help voices</h3>
+<div class="rulebox"><p>Casual, Office Speak, and Technical are Help presentation voices. Their final prose and semantic polish are not a WASM-002 acceptance deliverable. The Help Engine wiring must support the voice model, but message refinement may occur in a later build.</p><p>Where the WASM-002 PRD specifies Help wording or an example Help message at all, <b>Technical</b> is the default voice unless the requirement explicitly states otherwise.</p></div>
+<h3>25.5 Relationship to earlier Help decisions</h3>
+<div class="rulebox"><p>This resolution does not weaken the already-frozen F-17 and F-18 requirements governing diagnostic facts, fallback rendering, and absence-state semantics where those contracts are explicitly required by WASM-002. It narrows F-22 to the question Claude raised: whether every Diagnostic ID and its final semantic message must be independently pre-specified for QA. For WASM-002, they do not.</p></div>
+<h3>25.6 Help Engine wiring model</h3>
+<div class="rulebox"><p><b>One diagnostic condition → one stable Diagnostic ID → one Help entry → three explanatory voices.</b></p><p>A diagnostic condition emits one stable Diagnostic ID. That Diagnostic ID identifies one Help entry. The Help entry may provide three human-facing explanations of the same underlying condition: <b>Casual</b>, <b>Office Speak</b>, and <b>Technical</b>. The selected voice changes the explanation; it does not change the Diagnostic ID or the underlying diagnostic condition.</p><p>For WASM-002, acceptance verifies the wiring path from diagnostic condition to Diagnostic ID to Help Engine to the selected voice. Final prose and semantic polish for the three voices remain deferred. Where Help wording is specified in the WASM-002 PRD, Technical is the default voice unless explicitly stated otherwise.</p></div>
+<h3>25.7 Relationship to F-17 required facts — explicit sanity-check clarification</h3>
+<div class="rulebox"><p>F-22 does not remove F-17's structural requirement that a governed diagnostic definition identify the machine facts required to render its Help deterministically. Each Diagnostic ID carried in the implementation registry must therefore declare the required fact set, applicable absence semantics, and Help-routing information needed by the frozen Help model.</p><p>For WASM-002, acceptance verifies the <b>generic invariants</b> of that registry and representative diagnostic → ID → Help → voice paths. It does not require an independently authored semantic oracle and bespoke acceptance fixture for every registry entry or every final sentence of Help prose.</p><p>The division is therefore: F-17 governs the structure and deterministic fact contract of diagnostics; F-22 limits the depth of semantic/message acceptance required in this build.</p></div>
+<h3>25.8 Why F-22 is closed</h3>
+<p>Claude's independence concern depends on treating the implementation registry as the oracle for a normative, fully specified diagnostic-message catalogue. That is not the WASM-002 objective. The objective is to wire Diagnostic IDs through the Help Engine and prove that the plumbing works. Final Help-message semantics and voice-specific prose are intentionally deferred. The implementation registry may therefore provide the routing IDs used by this build without forcing a second independently maintained diagnostic catalogue or a full PRD renumbering exercise.</p>
+
+<h2 id="resolution-f23">26. F-23 — acceptance coverage and governed test-only seams</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 23 of Claude's 34 Pass 1 findings are now closed; 11 remain.<br/><b>Decision:</b> substantive WASM-002 behaviors that form part of acceptance must have acceptance coverage, and WASM-002 may provide deterministic test-only seams for conditions that cannot reasonably or reliably be produced through ordinary user operation. Those seams are QA infrastructure only and must not become a user-accessible alternate Data Sculptor execution path.<br/><b>PRD state:</b> decision frozen here; canonical PRD integration remains pending.</div>
+<h3>26.1 Acceptance coverage principle</h3>
+<div class="rulebox"><p>During canonical PRD integration, acceptance coverage must be added for substantive WASM-002 behaviors that are frozen but not presently exercised by an acceptance gate. Closely related behaviors may be covered by one coherent acceptance scenario; WASM-002 does not require a separate acceptance gate for every sentence or subclause merely to inflate gate count.</p><p>The acceptance suite must nevertheless provide evidence for the material behaviors Claude identified as uncovered, including the applicable <code>CLEAR</code>/<code>RESET</code> alias cases, Receipt-publication failure, governed-name collision/retry behavior, unknown-class preservation/reporting, case-variant governed names, WKO save transaction rollback, embedded Help-catalog safety/no-runtime-fetch behavior, and required Receipt facts for <code>UPDATE ALIASES</code> and INVENTORY where those contracts remain in WASM-002.</p></div>
+<h3>26.2 Deterministic test-only seams are explicitly permitted</h3>
+<div class="rulebox"><p>WASM-002 may include deterministic test-only seams for conditions that cannot reasonably or reliably be caused on demand through ordinary analyst use. Permitted seam targets include controlled clock values, controlled UUID sequences/collisions, controlled filesystem publication or rename failures, and controlled source-handle/source-substitution conditions needed to exercise frozen acceptance behavior.</p><p>A test seam exists to make an otherwise rare or nondeterministic condition reproducible for independent QA. It does not change the product contract for ordinary users.</p></div>
+<h3>26.3 Release/user boundary</h3>
+<div class="rulebox"><p>Test-seam controls must not become an alternate user-accessible Data Sculptor execution path. The release product must not expose test-only fault controls through the Data Sculptor UI, DS-STEPS, Work Orders, URL/query parameters, or another ordinary user-facing product interface.</p><p>The implementation may satisfy this boundary by compile-time exclusion, build configuration, isolated harness injection, or another demonstrably inert technique. WASM-002 freezes the behavioral boundary rather than prescribing one implementation mechanism.</p></div>
+<h3>26.4 Retained acceptance evidence</h3>
+<div class="rulebox"><ul><li>Acceptance evidence must identify which fault/test seam was used for a test case whose condition cannot be produced reliably in ordinary operation.</li><li>The same acceptance evidence must show that the release/user surface does not expose that seam as ordinary product functionality.</li><li>Fault injection must not alter the normative behavior being tested; it supplies only the controlled external condition needed to reach that behavior.</li><li>Independent QA may use the seams to repeat rare failure cases deterministically rather than relying on accidental clock movement, collision, source replacement, or filesystem failure.</li></ul></div>
+<h3>26.5 Relationship to PLDD and independent QA</h3>
+<div class="rulebox"><p>The seams are part of testability, not product scope. They allow the implementation and independent QA roles to reproduce the same exceptional conditions without adding hidden ad hoc hooks during testing. This preserves the project's separation between implementation and adversarial acceptance while keeping the analyst-facing product surface clean.</p></div>
+<h3>26.6 Why F-23 is closed</h3>
+<p>Claude identified both missing acceptance coverage and the absence of an authorized way to reproduce rare failure conditions. The Council resolves both points explicitly: material WASM-002 behavior must be acceptance-covered, and deterministic test-only seams are permitted where needed, provided they are governed QA infrastructure and are not exposed as an ordinary user execution path. The PRD therefore need not depend on luck to exercise rename failures, UUID collisions, clock movement, or controlled source substitution, and the release build need not acquire undocumented user-facing hooks.</p>
+
+<h2 id="day050-sanity-check">27. Day 050 high-effort sanity-check record</h2>
+<div class="freeze"><b>Result:</b> F-01 through F-23 remain closed. Closure count remains <b>23 of 34</b>; 11 findings remain. The sanity review did not reopen any finding. It tightened four contracts before work proceeds to F-24.</div>
+<div class="rulebox"><ul><li><b>F-13:</b> user ownership remains intact, while concurrent external mutation during an active governed operation is explicitly outside the single-writer contract; observable invalidation before commit must fail safely.</li><li><b>F-15:</b> filename/reference matching is exact Unicode scalar-value equality with no case folding, normalization equivalence, or locale-dependent comparison; ambiguous resolution refuses.</li><li><b>F-20:</b> the 1,024-header limit counts Unicode scalar values; fallback labels have deterministic collision handling; output-writer concurrency is bounded independently of KEEP width and retained as acceptance evidence.</li><li><b>F-22:</b> F-17 still governs required machine facts and deterministic Help structure; F-22 merely limits WASM-002 semantic/message acceptance to generic invariants and representative wiring paths.</li></ul><p>F-14, F-16, F-17, F-18, F-19, F-21, and F-23 were re-read and require no substantive change from today's frozen decisions. F-14's common publication rule does not silently supply missing class-specific grammars; any still-unresolved class-specific obligations remain available to later findings such as F-33 and canonical PRD integration.</p></div>
+
+
+<h2 id="resolution-f24">28. F-24 — session model, fresh CERs, singleton CER-history ZIP, and no browser-private project persistence</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 24 of Claude's 34 Pass 1 findings are now closed; 10 remain.<br/><b>Decision:</b> each successful Suitcase opening/certification publishes a fresh CER. Superseded CERs are automatically compacted into one singleton governed CER-history ZIP so certification history is preserved without filling the flat Suitcase with standalone certificate files. WASM-002 does not persist the Suitcase directory handle, project truth, UI preferences, or unsaved Work Order drafts in browser-private storage between sessions.<br/><b>PRD state:</b> decision frozen here; canonical PRD integration remains pending.</div>
+
+<h3>28.1 Fresh CER on every successful Suitcase opening</h3>
+<div class="rulebox"><p>When the analyst selects a Suitcase and Data Sculptor successfully validates/certifies it sufficiently to unlock the workspace, Data Sculptor publishes a new governed CER for that opening. A new browser/session opening is therefore intentionally evidenced by a new CER rather than reusing the previous certificate.</p><p>The newly published CER is the current standalone CER. Its governed identity is immutable after publication.</p></div>
+
+<h3>28.2 One singleton CER-history ZIP</h3>
+<div class="rulebox"><p>WASM-002 permits exactly one governed CER-history ZIP container in a Suitcase. The container is housekeeping packaging for superseded CER evidence; it is not itself the historical event being preserved.</p><ul><li>The current/newest CER remains visible as a standalone governed CER.</li><li>Every older valid CER is historical and may be compacted into the singleton CER-history ZIP.</li><li>Each archived CER retains its original governed filename and exact bytes inside the ZIP.</li><li>The ZIP shall not transform, rename, reserialize, or semantically rewrite an archived CER.</li><li>A CER governed filename shall occur at most once in the history package.</li><li>Archive entries are ordered deterministically by governed CER filename.</li></ul><p>The steady-state target after successful compaction is therefore one current standalone CER plus at most one CER-history ZIP.</p></div>
+
+<h3>28.3 Automatic compaction lifecycle</h3>
+<div class="rulebox"><p>After a fresh CER is successfully published, Data Sculptor automatically reconciles CER history. If no superseded CER exists, no history ZIP is required. If one or more superseded CERs exist, Data Sculptor constructs a replacement singleton history ZIP containing both the CERs already present in the previous history ZIP, if any, and all superseded standalone CERs that are eligible for archival.</p><p>If a prior attempt left multiple superseded standalone CERs visible, a later successful reconciliation may compact all of them in the same deterministic pass.</p></div>
+
+<h3>28.4 All-or-Refuse archival safety</h3>
+<div class="rulebox"><p>CER compaction follows the project's All-or-Refuse Publication Discipline. Data Sculptor must completely write and verify the replacement history ZIP before deleting any predecessor history ZIP or any superseded standalone CER.</p><ul><li>Verification must establish the complete expected CER entry set and confirm each archived CER's original governed filename and exact bytes.</li><li>If compaction, verification, replacement, or cleanup cannot complete safely, Data Sculptor deletes no CER evidence. Superseded CERs may remain visible as standalone files until a later successful housekeeping pass.</li><li>If the same governed CER filename is encountered with conflicting bytes, Data Sculptor refuses compaction rather than choosing, overwriting, or deduplicating by guess.</li></ul><p>A CER may therefore disappear from standalone visibility only after its exact bytes and original governed filename have been verified in the successfully published singleton history ZIP.</p></div>
+
+<h3>28.5 Singleton container is replaceable housekeeping, not immutable event evidence</h3>
+<div class="rulebox"><p>The singleton CER-history ZIP is deliberately replaceable as CER history grows. This is a narrow housekeeping exception to immutable event-artifact identity: the immutable evidence consists of the CER entries preserved inside the package, while the package is the current governed container used to keep that evidence tidy.</p><p>WASM-002 shall not create an accumulating chain of historical CER ZIP containers; there is only one current CER-history ZIP.</p></div>
+
+<h3>28.6 No remembered Suitcase handle between browser sessions</h3>
+<div class="rulebox"><p>WASM-002 does not persist the Suitcase directory handle in IndexedDB or another browser-private store between sessions. On a new session, the analyst selects the Suitcase again and grants whatever browser access is required. Data Sculptor then validates/certifies that selected Suitcase, publishes the fresh CER, and performs CER-history reconciliation automatically.</p><p>Browser-private state shall not become a second project database or a hidden dependency for understanding the Suitcase.</p></div>
+
+<h3>28.7 UI preferences do not persist in WASM-002</h3>
+<div class="rulebox"><p>Theme and Help-voice selections are session-local convenience choices in WASM-002 and reset to their canonical defaults when a new browser session begins. WASM-002 does not introduce IndexedDB, localStorage, or another browser-private persistence mechanism merely to remember those preferences.</p><p>A later build may deliberately define a preferences mechanism, but F-24 does not create one implicitly.</p></div>
+
+<h3>28.8 Unsaved Work Order drafts remain transient</h3>
+<div class="rulebox"><p>Unsaved Work Order drafts are not persistently autosaved in browser-private storage. A modified unsaved draft remains transient session state until the analyst explicitly saves it as a governed WKO.</p><p>Where the browser permits, Data Sculptor must warn before ordinary navigation, reload, or tab/window closure would discard a dirty unsaved draft. WASM-002 does not claim that such a warning can be guaranteed for browser crashes, forced process termination, operating-system failure, or power loss.</p></div>
+
+<h3>28.9 Why F-24 is closed</h3>
+<div class="rulebox"><p>Claude identified three ambiguities: repeated CER production, whether the browser may remember Suitcase/UI state, and loss of unsaved drafts. The Council deliberately keeps a fresh CER for every successful Suitcase opening, but prevents flat-directory pollution by automatically compacting superseded CERs into one safely replaceable singleton history ZIP while preserving each CER byte-for-byte. The browser remembers no Suitcase handle or UI preferences across sessions, and unsaved drafts are transient with a loss warning where the browser permits it.</p><p>The result preserves visible Suitcase truth, keeps certification history, avoids a hidden browser-side project store, and bounds CER clutter without deleting historical evidence.</p></div>
+
+<h3>28.10 Next reconciliation target</h3>
+<p><code>F-01</code> through <code>F-24</code> are now resolved by frozen Council decisions. <b>24 of 34 findings are closed; 10 remain.</b> All 11 BLOCKING findings remain reconciled. The next unresolved finding is <code>F-25</code>: the target platform and small-screen baseline are not defined within the cut.</p>
+
+<h2 id="resolution-f25">29. F-25 — canonical hardware, primary Edge host, and secondary Firefox browser</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 25 of Claude's 34 Pass 1 findings are now closed; 9 remain.<br/><b>Decision:</b> the canonical WASM-002 acceptance machine is the project's 11-inch Windows 11 Intel N100 laptop with 16 GB RAM and native 1920×1200 display. Microsoft Edge is the primary browser. Mozilla Firefox is the secondary browser. Exact browser, Windows, display-scaling, zoom, and viewport details used for formal acceptance are retained as acceptance evidence.<br/><b>PRD state:</b> decision frozen here; canonical PRD integration remains pending.</div>
+
+<h3>29.1 Canonical low-end Windows hardware baseline</h3>
+<div class="rulebox"><p>The canonical WASM-002 small-screen / low-end Windows acceptance host is the project's 11-inch Windows 11 laptop with an Intel N100 processor, 16 GB RAM, and a native 1920×1200 display.</p><p>This machine is the required reference host for the WASM-002 small-screen usability and browser-host acceptance path. Stronger machines may provide additional characterization or headroom evidence, but they do not replace the N100 reference host for this build.</p></div>
+
+<h3>29.2 Primary browser — Microsoft Edge</h3>
+<div class="rulebox"><p>Microsoft Edge is the <b>primary</b> WASM-002 browser on the canonical Windows 11 N100 host. Formal WASM-002 browser acceptance uses the current stable Microsoft Edge release installed for the acceptance run.</p><p>Edge is the canonical full browser host for the WASM-002 Direct Workspace path, including the browser filesystem capabilities needed by the build when those capabilities are exposed by the host: Suitcase selection, governed reads and writes, CER publication and CER-history compaction, Work Order save/run flows, Help rendering, Receipts/Inventory, conversion, and materialization.</p></div>
+
+<h3>29.3 Secondary browser — Mozilla Firefox</h3>
+<div class="rulebox"><p>Mozilla Firefox is the <b>secondary</b> WASM-002 browser and the required independent-engine browser characterization host. Formal secondary-browser characterization uses the current stable Firefox release installed for the acceptance run.</p><p>Firefox is exercised for the WASM/core behavior and every relevant filesystem/browser capability it actually exposes. A browser-specific API limitation — for example the absence of a Chromium-family direct-directory-write API — is recorded as a host capability difference rather than treated as an analytical failure by itself.</p><p>Firefox does not become a second analytical truth oracle merely because it is the secondary browser. Analytical correctness remains governed by the frozen engine/fixture acceptance contracts; Firefox provides required browser-host and independent-engine characterization.</p></div>
+
+<h3>29.4 Browser-version policy</h3>
+<div class="rulebox"><p>WASM-002 does not freeze a permanently aging Edge or Firefox major-version number into the product architecture. Instead, formal acceptance uses the current stable releases present at the time of that acceptance run and records their exact full version numbers with the retained acceptance evidence.</p><p>This preserves historical reproducibility: a later reader can identify exactly which Edge and Firefox builds were exercised without requiring the Product Backlog PRD to be revised merely because either browser publishes a routine stable update.</p></div>
+
+<h3>29.5 Reproducible small-screen acceptance evidence</h3>
+<div class="rulebox"><p>The retained WASM-002 browser acceptance evidence must identify, at minimum:</p><ul><li>the exact Windows 11 build;</li><li>the exact Microsoft Edge version;</li><li>the exact Mozilla Firefox version;</li><li>the native display resolution used by the N100 reference host;</li><li>Windows display scaling;</li><li>browser zoom;</li><li>the effective browser viewport used for the small-screen test.</li></ul><p>The small-screen/keyboard acceptance requirements are then evaluated against that recorded environment rather than an undefined phrase such as “supported host” or “canonical small-screen baseline.”</p></div>
+
+<h3>29.6 Scope boundary for other browsers and operating systems</h3>
+<div class="rulebox"><p>Chrome, Opera, Safari, mobile browsers, macOS, and Linux are not required WASM-002 acceptance targets merely because Data Sculptor's browser/WASM architecture may later support or characterize them. Testing those environments remains permitted, but F-25 does not make them part of the frozen WASM-002 acceptance baseline.</p><p>This is a build-scope decision, not a claim that Data Sculptor is inherently Windows-only or permanently Edge/Firefox-only.</p></div>
+
+<h3>29.7 Why F-25 is closed</h3>
+<div class="rulebox"><p>Claude's finding was that the reviewed cut invoked a supported host, canonical low-end Windows laptop, and canonical small-screen baseline without identifying them, leaving UI/browser acceptance unreproducible. The Council now identifies the concrete hardware host, fixes Microsoft Edge as primary and Mozilla Firefox as secondary, defines the role of each browser, and requires the exact runtime/display environment to be retained with acceptance evidence.</p><p>The result is reproducible without freezing transient browser major-version numbers into the long-lived product contract.</p></div>
+
+<h3>29.8 Next reconciliation target</h3>
+<p><code>F-01</code> through <code>F-25</code> are now resolved by frozen Council decisions. <b>25 of 34 findings are closed; 9 remain.</b> All 11 BLOCKING findings remain reconciled. The next unresolved finding is <code>F-26</code>: allowed <code>SOURCE</code> reference forms are undefined.</p>
+
+
+<h2 id="resolution-f26">30. F-26 — SOURCE is one exact Suitcase-root CSV filename</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br/><b>Closure count:</b> 26 of Claude's 34 Pass 1 findings are now closed; 8 remain.<br/><b>Decision:</b> WASM-002 <code>SOURCE</code> accepts exactly one physical filename in the Suitcase root. It is a filename, not a path. Analyst-owned CSV files and successfully published governed <code>CVT</code> CSV artifacts may be used as sources; other governed artifact classes and non-CSV inputs may not be used as <code>SOURCE</code> in WASM-002.<br/><b>PRD state:</b> decision frozen here; canonical PRD integration remains pending.</div>
+
+<h3>30.1 SOURCE names one root-level physical file</h3>
+<div class="rulebox"><p>The WASM-002 <code>SOURCE</code> clause contains one quoted physical filename located directly in the selected Suitcase root. It does not contain a filesystem path.</p><p>Examples:</p><p class="syntax">SOURCE "crime.csv"<br/>SOURCE "__DS__CVT__20260926T190000000Z__00000000-0000-4000-8000-000000000000.csv"</p><p>User-created subdirectories may exist in the Suitcase, but WASM-002 <code>SOURCE</code> does not address into them.</p></div>
+
+<h3>30.2 Path and traversal forms are refused</h3>
+<div class="rulebox"><p>The following forms are outside the WASM-002 <code>SOURCE</code> grammar and must refuse rather than be normalized, rewritten, searched, or guessed:</p><ul><li>forward-slash or backslash path components, such as <code>data/crime.csv</code> or <code>data\crime.csv</code>;</li><li><code>..</code> or other parent-directory traversal;</li><li>absolute paths, drive-letter paths, UNC paths, home-relative paths, or operating-system-specific path forms;</li><li>URLs, URIs, browser-private object references, or external-location references.</li></ul><p>The Suitcase boundary is therefore explicit: <code>SOURCE</code> in WASM-002 resolves only against the selected Suitcase root.</p></div>
+
+<h3>30.3 Permitted source classes</h3>
+<div class="rulebox"><p>A WASM-002 analytical source may be:</p><ul><li>an analyst-owned CSV source file located in the Suitcase root; or</li><li>a successfully published governed <code>CVT</code> artifact in the Suitcase root whose physical serialization is CSV.</li></ul><p>The already-frozen F-10 conversion contract remains authoritative for <code>CVT</code>: conversion publishes a governed UTF-8 CSV derivative, and a later Work Order may name that exact physical CVT filename as <code>SOURCE</code>. Using a CVT as source does not create an automatic Store handoff or hidden lineage registration.</p></div>
+
+<h3>30.4 Governed artifacts that are not valid SOURCE values</h3>
+<div class="rulebox"><p>WASM-002 does not allow a Store artifact or evidence artifact to become an analytical source merely because it is a visible file in the Suitcase. In particular, <code>RID</code>, <code>COL</code>, <code>MAP</code>, <code>WKO</code>, <code>RCP</code>, <code>INV</code>, <code>CER</code>, <code>HLP</code>, <code>SCR</code>, ZIP/history containers, and other governed non-<code>CVT</code> artifacts are not valid <code>SOURCE</code> targets in this build.</p><p>A <code>COL</code> therefore cannot be used as the source of another Store in WASM-002. Store-within-Store source lineage is deliberately not introduced here.</p></div>
+
+<h3>30.5 Exact filename resolution and no guessing</h3>
+<div class="rulebox"><p>The exact filename/reference-comparison semantics frozen under F-15 apply to <code>SOURCE</code>. Data Sculptor does not case-fold, Unicode-normalize, locale-fold, search nearby files, or substitute a differently spelled filename in an attempt to infer analyst intent.</p><p>If the exact governed spelling cannot be resolved unambiguously under the frozen filename rules, Data Sculptor refuses rather than choosing another physical file.</p></div>
+
+<h3>30.6 CSV filename is not proof of source validity</h3>
+<div class="rulebox"><p>A CSV filename identifies only a candidate physical source form. It is not evidence that the file is analytically valid. Before materialization or other analytical use, the selected source must still pass the ordinary WASM-002 encoding and CSV certification rules, including the frozen UTF-8 / Windows-1252 decision path and CSV grammar.</p><p>Renaming malformed, non-CSV, or otherwise uncertifiable bytes to a CSV filename does not make them a valid Data Sculptor source.</p></div>
+
+<h3>30.7 Why F-26 is closed</h3>
+<div class="rulebox"><p>Claude identified that the reviewed cut left path separators, parent traversal, absolute paths, subdirectory addressing, governed-artifact sources, and non-CSV sources to implementation choice. The Council now makes the boundary intentionally narrow: one exact root-level physical filename, only analyst-owned CSV or governed CVT CSV as permitted source classes, no path traversal, no subfolder addressing, and no Store-within-Store source reuse through COL or other governed artifacts.</p><p>This keeps WASM-002 portable, deterministic, and faithful to the flat visible Suitcase model while preserving the already-frozen ability to use a successfully converted CVT artifact in a later analytical Work Order.</p></div>
+
+<h3>30.8 Next reconciliation target</h3>
+<p><code>F-01</code> through <code>F-26</code> are now resolved by frozen Council decisions. <b>26 of 34 findings are closed; 8 remain.</b> All 11 BLOCKING findings remain reconciled. The next unresolved finding is <code>F-27</code>, the first CLARITY item in Claude Pass 1.</p>
 
 </main>
 </body>
