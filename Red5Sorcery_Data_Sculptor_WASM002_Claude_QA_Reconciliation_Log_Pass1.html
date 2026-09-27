@@ -22,7 +22,7 @@
 <div class="card"><b>Claude review</b><span class="big">Pass 1</span>Independent adversarial QA of WASM-002 Revision BL.</div>
 <div class="card"><b>Findings</b><span class="big">34 total</span>11 blocking · 15 material non-blocking · 8 clarity.</div>
 <div class="card"><b>Contract reviewed</b><span class="big">384 requirements</span>All retained requirements in the WASM-002 cut were under review.</div>
-<div class="card"><b>Current reconciliation</b><span class="big">F-01 through F-12 resolved</span>12 of 34 findings closed · 22 remain · all 11 BLOCKING findings reconciled. The stale mutable Work Order Description acceptance model is retired; WKO registry lifecycle/repair, Store damage/recovery, existing-Store cardinality, source-to-MAP compatibility, the WASM-002 CSV input profile, deterministic UTF-8 refusal offsets, DS-STEPS lexical/string-literal rules, deterministic Receipt/Inventory TXT serialization, the isolated Windows-1252-to-UTF-8 conversion contract, retirement of the redundant WASM-002 Store Index in favor of MAP truth + aliases with DIR deferred to WASM-003, and strict monotonic successor-UTC publication guards are frozen by Council decision. PRD integration not yet performed.</div>
+<div class="card"><b>Current reconciliation</b><span class="big">F-01 through F-13 resolved</span>13 of 34 findings closed · 21 remain · all 11 BLOCKING findings reconciled. The stale mutable Work Order Description acceptance model is retired; WKO registry lifecycle/repair, Store damage/recovery, existing-Store cardinality, source-to-MAP compatibility, the WASM-002 CSV input profile, deterministic UTF-8 refusal offsets, DS-STEPS lexical/string-literal rules, deterministic Receipt/Inventory TXT serialization, the isolated Windows-1252-to-UTF-8 conversion contract, retirement of the redundant WASM-002 Store Index in favor of MAP truth + aliases with DIR deferred to WASM-003, and strict monotonic successor-UTC publication guards are frozen by Council decision. PRD integration not yet performed.</div>
 </div>
 <p class="small">Claude's review identified F-03 as: “A missing or damaged RID or COL silently forks the Store, and the RID recovery base is undefined.” The review asked for explicit decisions separating degraded from invalid state and defining the recovery path.</p>
 <p class="small">F-05 is now closed by a single-source-per-Store-lineage rule: one Store MAP may contain multiple Stores, each Store lineage is identified by its <code>rid_filename</code>, and every materialized COL row within that lineage must carry the same <code>source_filename</code>. Different Store lineages in the same MAP may name different source files. Cross-source joins are deferred to a separate future join-specific artifact design.</p>
@@ -41,7 +41,7 @@
 <tr class="resolved"><td><a class="jump" href="#resolution-f10"><code>F-10</code></a></td><td class="sev blocking">BLOCKING</td><td><a class="jump" href="#resolution-f10">Windows-1252 conversion has no Work Order form, output contract or class-level serialization</a></td><td class="state"><a class="jump" href="#resolution-f10">RESOLVED — DECISION FROZEN</a></td></tr>
 <tr class="resolved"><td><a class="jump" href="#resolution-f11"><code>F-11</code></a></td><td class="sev blocking">BLOCKING</td><td><a class="jump" href="#resolution-f11">The Store Index is an in-scope obligation with no artifact class, trigger or content contract</a></td><td class="state"><a class="jump" href="#resolution-f11">RESOLVED — DECISION FROZEN</a></td></tr>
 <tr class="resolved"><td><a class="jump" href="#resolution-f12"><code>F-12</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f12">Selecting current state by the greatest UTC has no guard against clock movement</a></td><td class="state"><a class="jump" href="#resolution-f12">RESOLVED — DECISION FROZEN</a></td></tr>
-<tr class="open"><td><code>F-13</code></td><td class="sev material">MATERIAL</td><td>The single-writer assumption is not stated</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
+<tr class="resolved"><td><a class="jump" href="#resolution-f13"><code>F-13</code></a></td><td class="sev material">MATERIAL</td><td><a class="jump" href="#resolution-f13">The single-writer assumption is not stated</a></td><td class="state"><a class="jump" href="#resolution-f13">RESOLVED — DECISION FROZEN</a></td></tr>
 <tr class="open"><td><code>F-14</code></td><td class="sev material">MATERIAL</td><td>Publication and validity rules for non-Store artifacts are undefined</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
 <tr class="open"><td><code>F-15</code></td><td class="sev material">MATERIAL</td><td>MAP eligibility can change when unrelated files appear, and the comparison rules are undefined</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
 <tr class="open"><td><code>F-16</code></td><td class="sev material">MATERIAL</td><td>The conversion suggestion conflicts with fixed diagnostic semantics, and the Windows-1252 mapping is not frozen</td><td class="state">OPEN — NOT YET RECONCILED</td></tr>
@@ -1123,8 +1123,48 @@ DEPRECATED,Prepare monthly crime data,__DS__WKO__20260920T140501123Z__A1.txt</co
 <p>The frozen rule prevents both outcomes without corrupting the meaning of UTC. Data Sculptor may publish a successor state only when the truthful observed UTC is strictly later than its predecessor. Otherwise publication refuses visibly and leaves the prior state authoritative.</p>
 </div>
 
-<h2>17. Next reconciliation target</h2>
-<p>Continue Claude Pass 1 one finding at a time. <code>F-01</code> through <code>F-12</code> are now resolved by frozen Council decisions. Twelve of 34 findings are closed and 22 remain. <b>All 11 BLOCKING findings remain reconciled.</b> The next unresolved finding is <code>F-13</code>: the single-writer assumption is not stated. No unresolved finding is silently treated as decided in this log.</p>
+<h2 id="resolution-f13">17. F-13 — frozen Council resolution</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY DECISION / FROZEN FOR WASM-002.<br><b>Closure count:</b> 13 of Claude's 34 Pass 1 findings are now closed; 21 remain. All 11 BLOCKING findings are reconciled.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
+
+<h3>17.1 Single-user / single-writer Suitcase model</h3>
+<div class="rulebox">
+<p>Data Sculptor is designed for <b>one user operating one user-owned Suitcase at a time</b>. WASM-002 assumes that only one Data Sculptor execution context writes governed artifacts to that Suitcase at any given time.</p>
+<p>Concurrent writers to the same Suitcase are outside the WASM-002 operating contract.</p>
+</div>
+
+<h3>17.2 User ownership remains explicit</h3>
+<div class="rulebox">
+<p>The single-writer assumption does not transfer ownership of the Suitcase to Data Sculptor. The Suitcase and its visible files remain user-owned.</p>
+<p>The user may inspect, copy, move, add, or delete files with ordinary filesystem tools. If those actions alter or damage governed state, Data Sculptor applies the separately frozen validity, degradation, invalidity, repair, refusal, and evidence rules. The single-writer contract does not require Data Sculptor to prevent external filesystem changes.</p>
+</div>
+
+<h3>17.3 No concurrent-write coordination obligation</h3>
+<div class="rulebox">
+<p>WASM-002 does not implement or promise safe simultaneous mutation of one Suitcase by multiple writers. Therefore this build has no requirement for:</p>
+<ul>
+<li>multi-user collaborative editing;</li>
+<li>distributed or cross-process write locking;</li>
+<li>multi-writer transaction arbitration;</li>
+<li>concurrent publication merge or conflict resolution; or</li>
+<li>multi-tab or multi-instance write coordination for the same Suitcase.</li>
+</ul>
+<p>These are outside the WASM-002 contract rather than silently delegated to browser, filesystem, or host behavior.</p>
+</div>
+
+<h3>17.4 Acceptance consequence</h3>
+<div class="rulebox">
+<p>WASM-002 acceptance is evaluated under the frozen single-user / single-writer operating model. Acceptance fixtures are not required to prove correctness under simultaneous writers to the same Suitcase.</p>
+<p>The PRD integration must state this operating assumption explicitly so implementers and QA do not infer an unstated concurrency guarantee.</p>
+</div>
+
+<h3>17.5 Why F-13 is closed</h3>
+<div class="rulebox">
+<p>Claude's F-13 concern was that the contract relied on a single-writer assumption without stating it. The Council has now made that architectural boundary explicit: one user owns and operates one Suitcase, and one Data Sculptor execution context writes governed artifacts to it at a time.</p>
+<p>F-13 therefore requires no new collaboration, locking, merge, or concurrency subsystem. It is closed by making the intended operating model explicit and testable.</p>
+</div>
+
+<h2>18. Next reconciliation target</h2>
+<p>Continue Claude Pass 1 one finding at a time. <code>F-01</code> through <code>F-13</code> are now resolved by frozen Council decisions. Thirteen of 34 findings are closed and 21 remain. <b>All 11 BLOCKING findings remain reconciled.</b> The next unresolved finding is <code>F-14</code>: publication and validity rules for non-Store artifacts are undefined. No unresolved finding is silently treated as decided in this log.</p>
 
 <footer>Separate QA reconciliation artifact · Red5Sorcery Data Sculptor · WASM-002 · Claude Pass 1<br>Source review: <code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass1.html</code><br>Reviewed contract identified by Claude: <code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_PRD_RevBL_2026-09-22.html</code>, SHA-256 <code>828C6A81B2C0A8B97546F728628059C53CC61256FAB23B142E452A8E566E025F</code>.<br>This log is intentionally non-normative until decisions are explicitly integrated into the official PRD.</footer>
 </main>
