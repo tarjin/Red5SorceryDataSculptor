@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WASM-002 QA Pass 3 Erratum Check</title>
+<style>
+:root {
+  --paper:#FBFBF9; --ink:#1D2330; --muted:#586173; --rule:#D8DCE3; --panel:#F1F3F6;
+  --red5:#C8102E; --blk-bg:#FBEFF1; --mat:#8F5400; --mat-bg:#FBF3E6; --clr:#35598A; --clr-bg:#EEF3F9;
+  --serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+  --sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --mono: Consolas, "Cascadia Mono", "DejaVu Sans Mono", Menlo, monospace;
+}
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:1.02rem/1.62 var(--serif); }
+main { max-width:50rem; margin:0 auto; padding:2.5rem 1.25rem 4rem; }
+h1,h2,h3,h4 { font-family:var(--sans); line-height:1.25; }
+h1 { font-size:1.9rem; font-weight:650; margin:.2rem 0 .4rem; letter-spacing:-.01em; }
+h2 { font-size:1.3rem; font-weight:650; margin:2.8rem 0 .8rem; padding-top:1rem; border-top:2px solid var(--ink); }
+h3 { font-size:1.12rem; font-weight:620; margin:.25rem 0 .35rem; }
+h4 { font-size:.86rem; font-weight:650; color:var(--muted); margin:1rem 0 .3rem; }
+p { margin:.55rem 0; }
+code { font-family:var(--mono); font-size:.86em; background:var(--panel); padding:.05em .3em; border-radius:3px; overflow-wrap:anywhere; }
+a { color:var(--clr); }
+a:focus-visible { outline:2px solid var(--red5); outline-offset:2px; }
+.brand { font-family:var(--sans); font-weight:700; font-size:1rem; margin:0; }
+.brand .five { color:var(--red5); }
+.lede { color:var(--muted); font-size:1.05rem; margin-top:0; }
+.idtable, .index, .proto, .sumtable { width:100%; border-collapse:collapse; font-family:var(--sans); font-size:.88rem; }
+.idtable th, .idtable td, .proto th, .proto td { text-align:left; vertical-align:top; padding:.4rem .6rem .4rem 0; border-bottom:1px solid var(--rule); }
+.idtable th, .proto th { width:11rem; font-weight:600; color:var(--muted); }
+.idtable td code { font-size:.8rem; }
+.wrap { overflow-x:auto; }
+.sumtable td, .sumtable th { padding:.45rem .7rem; border:1px solid var(--rule); text-align:left; }
+.sumtable td.n { font-weight:700; font-size:1.1rem; text-align:right; width:4rem; }
+.index td { padding:.38rem .5rem; border-bottom:1px solid var(--rule); vertical-align:top; }
+.index td:first-child { white-space:nowrap; font-weight:600; }
+.index .sevcell { white-space:nowrap; font-size:.74rem; font-weight:700; }
+.index tr.blocking .sevcell { color:var(--red5); }
+.index tr.material .sevcell { color:var(--mat); }
+.index tr.clarity .sevcell { color:var(--clr); }
+.finding { margin:2rem 0; padding:1rem 1.2rem 1rem 1.2rem; border-left:5px solid; background:#fff; border-radius:0 4px 4px 0; box-shadow:0 0 0 1px var(--rule) inset; }
+.finding.blocking { border-left-color:var(--red5); }
+.finding.material { border-left-color:var(--mat); }
+.finding.clarity  { border-left-color:var(--clr); }
+.fid { font-family:var(--sans); font-weight:700; margin:0; font-size:.9rem; display:flex; gap:.7rem; align-items:baseline; flex-wrap:wrap; }
+.sev { font-size:.72rem; font-weight:700; padding:.1rem .45rem; border-radius:3px; }
+.blocking .sev { background:var(--blk-bg); color:var(--red5); }
+.material .sev { background:var(--mat-bg); color:var(--mat); }
+.clarity .sev  { background:var(--clr-bg); color:var(--clr); }
+.cites { font-family:var(--sans); font-size:.8rem; color:var(--muted); margin:.2rem 0 .4rem; }
+.rid { font-size:.76rem; margin-right:.15rem; white-space:nowrap; }
+.finding ul { margin:.2rem 0 .4rem; padding-left:1.25rem; }
+.finding li { margin:.28rem 0; }
+.finding ul.ev, .finding ul.an { list-style:none; padding-left:1.45rem; }
+.finding ul.ev > li, .finding ul.an > li { text-indent:-1.45rem; }
+.finding li.sub { list-style:circle; margin-left:1.2rem; text-indent:0 !important; }
+.ei { display:inline-block; font-family:var(--sans); font-size:.66rem; font-weight:700; width:1.15rem; height:1.15rem; line-height:1.15rem; text-align:center; border-radius:50%; margin-right:.2rem; vertical-align:.1em; text-indent:0; }
+.ei-e { background:var(--ink); color:#fff; }
+.ei-i { background:#fff; color:var(--ink); box-shadow:0 0 0 1.2px var(--ink) inset; }
+.impact { border-top:1px dashed var(--rule); padding-top:.55rem; margin-top:.7rem; }
+.ask { background:var(--panel); padding:.6rem .75rem; border-radius:4px; }
+ol.q li, ul.s li { margin:.45rem 0; }
+.note { font-size:.9rem; color:var(--muted); }
+footer { margin-top:3rem; padding-top:1rem; border-top:1px solid var(--rule); font-family:var(--sans); font-size:.8rem; color:var(--muted); }
+@media print {
+  body { font-size:10pt; }
+  main { max-width:none; padding:0; }
+  .finding { break-inside:avoid-page; box-shadow:none; border:1px solid var(--rule); border-left:5px solid; }
+  .finding.blocking { border-left-color:var(--red5); } .finding.material { border-left-color:var(--mat); } .finding.clarity { border-left-color:var(--clr); }
+  h2 { break-after:avoid; }
+  a { color:inherit; text-decoration:none; }
+}
+
+.gate{margin:1.2rem 0;padding:1rem 1.2rem;border:2px solid #2F6B45;background:#E9F2EC;border-radius:4px}
+.gate .verdict{font-family:var(--sans);font-weight:750;font-size:1.2rem;color:#2F6B45;letter-spacing:.02em;margin:0 0 .4rem}
+.boundary{background:var(--panel);border-left:4px solid var(--ink);padding:.7rem .9rem;border-radius:0 4px 4px 0}
+.disp{font-family:var(--sans);font-size:.72rem;font-weight:700;padding:.1rem .45rem;border-radius:3px;background:#E9F2EC;color:#2F6B45}
+footer p,.idtable td{overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<main>
+<p class="brand">Red<span class="five">5</span>Sorcery / Data Sculptor</p>
+<h1>WASM-002 adversarial QA review — Pass 3 erratum gate check</h1>
+<p class="lede">Short gate check of the Pass 3 erratum (P3-01, P3-02), Tuesday 29 September 2026. Findings only; no requirement text has been changed.</p>
+
+<h2 id="identity">Review identity</h2>
+<div class="wrap"><table class="idtable">
+<tr><th scope="row">Audited artifact</th><td><code>WASM002_Pass2_Reconciliation_Pass3_Erratum_20260929.html</code>, SHA-256 <code>F5C2D819C2C88FF8B231B576F1C624BB7C712EBF4F35A79E26F2043408C7EE93</code>, 79,485 bytes. It matches the supplied sidecar and the hash in T's message.</td></tr>
+<tr><th scope="row">Source review</th><td>Pass 3, SHA-256 <code>0598550B83CFB3AD37E6D810D95B58A998F0CE4D273EC5E9E91E809F51FC3461</code>, correctly cited by the erratum and its sidecar</td></tr>
+<tr><th scope="row">Record integrity</th><td>The erratum is append-only. A text diff against the previous Pass 2 log (F564FFC2…E45603) shows only the new section 10 added, with no earlier text changed.</td></tr>
+<tr><th scope="row">Baseline contract</th><td>Revision BL, SHA-256 <code>828C6A81B2C0A8B97546F728628059C53CC61256FAB23B142E452A8E566E025F</code>, unchanged</td></tr>
+<tr><th scope="row">Scope</th><td>Whether P3-01 and P3-02 are resolved, and whether the erratum introduces a new blocking contradiction with the six gate decisions, Revision BL or the Pass 1 decisions they rely on. The other Pass 3 findings (P3-03 to P3-10) were not re-audited.</td></tr>
+</table></div>
+<p class="boundary"><b>Wording boundary.</b> Nothing here describes WASM-002, Revision BL or any successor PRD as approved, frozen, implemented, built, accepted or ready for implementation. Revision BL is not reported as corrected. The favourable gate below means only that the reconciliation decisions are coherent enough to integrate into a successor PRD revision.</p>
+
+<h2 id="results">1. The two gate blockers</h2>
+<section class="finding blocking" id="P3-01"><header><p class="fid">P3-01<span class="sev">Pass 3: BLOCKING</span><span class="disp">RESOLVED</span></p><h3>The optional MAP clause is restored to MATERIALIZE</h3></header>
+<h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence">E</span> §10.1 restores <code>MAP "&lt;filename&gt;"</code> with cardinality 0..1, placed immediately after SOURCE and before KEEP. The named MAP may be current or historical but must be structurally valid and belong to exactly one lineage. SOURCE must equal the lineage's common source_filename, or the run refuses.</li><li><span class="ei ei-e" title="Evidence">E</span> When MAP is absent, P2-01 routing applies unchanged (zero / one / more than one). §10.1 names the clause as the governed exit from ambiguous routing and as the selector for historical-state materialization.</li><li><span class="ei ei-e" title="Evidence">E</span> This agrees with Revision BL W002-WKO-012.3 ("an optional MAP &quot;...&quot; supplies the exact historical/current Store-state base") and with W002-STOR-019.1 and 019.2. §10.1 also says it supersedes only the omission from §4.4.</li></ul>
+<h4>Assessment</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation">I</span> The P2-01 ambiguity exit and the §3.9 "Compatible explicit MAP" and "Different source" acceptance cases can now be written. The contradiction is gone.</li><li><span class="ei ei-i" title="Interpretation">I</span> Its position and cardinality are exact, so an independent parser can enforce it. The F-04 cardinality gate and the no-positional-join rule still apply after a MAP is selected (P2-01 §3.3).</li></ul>
+<p class="ask"><b>Residual.</b> None for the gate. See E-01 and E-02 for two integration items this raises.</p></section>
+<section class="finding blocking" id="P3-02"><header><p class="fid">P3-02<span class="sev">Pass 3: BLOCKING</span><span class="disp">RESOLVED</span></p><h3>The UTF-8 and CSV refusal facts now have fixed positions in the MATERIALIZE Receipt</h3></header>
+<h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence">E</span> §10.2 names the Receipt as the durable home. It inserts <code>UTF8_FIRST_INVALID_BYTE_OFFSET</code> and <code>UTF8_STOP_REASON</code> after STAGE1_ELAPSED_MS, and the five <code>CSV_…</code> keys after STAGE2_ELAPSED_MS. All seven are present in every MATERIALIZE Receipt and hold <code>NOT_APPLICABLE</code> when that refusal class did not occur. A worked example is given.</li><li><span class="ei ei-e" title="Evidence">E</span> §10.3 adds <code>UNDEFINED_WINDOWS_1252_BYTE_OFFSET</code> after SOURCE_ENCODING in the CONVERT table: the zero-based absolute offset of the first undefined byte, or NOT_APPLICABLE.</li><li><span class="ei ei-e" title="Evidence">E</span> §10.4 makes NOT_APPLICABLE the authoritative token for these new fields only, and leaves the wider P3-04 refusal matrix as a material obligation.</li></ul>
+<h4>Assessment</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation">I</span> The F-06 and F-07 location oracles now appear in a byte-exact artifact, so the §8.15 golden refusal fixtures can be authored. "Exactly this order" and "records these facts" no longer conflict.</li><li><span class="ei ei-i" title="Interpretation">I</span> The prefixes (UTF8_, CSV_) avoid any collision with the existing Receipt keys, and the worked example is consistent with the §7.1 definitions. A Stage 1 refusal fills the UTF-8 pair and leaves the CSV five NOT_APPLICABLE; a CSV refusal is the reverse. There is no case where both apply, because Stage 2 never runs after a Stage 1 refusal.</li><li><span class="ei ei-i" title="Interpretation">I</span> The STOP_REASON token set remains open (F-07, material), and §10.2 says so rather than inventing tokens. Likewise, the empty-file condition (P3-09) still has no CSV_REFUSAL_CONDITION value. Both were material in Pass 3 and remain so.</li></ul>
+<p class="ask"><b>Residual.</b> None for the gate. P3-04 and P3-09 carry forward as material.</p></section>
+
+<h2 id="new">2. New items from the erratum</h2>
+<p>Neither item is blocking. Both should be settled when the successor text is written.</p>
+<section class="finding clarity" id="E-01"><header><p class="fid">E-01<span class="sev">CLARITY — fix before copying into the PRD</span></p><h3>The corrected structure writes <code>KEEP:</code> with a colon; everywhere else it is bare <code>KEEP</code></h3></header>
+<h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence">E</span> §10.1's "corrected" canonical block shows <code>KEEP:</code> followed by an indented <code>...</code>.</li><li><span class="ei ei-e" title="Evidence">E</span> Revision BL W002-STEPS-001, Pass 1 log §11.5 and Pass 2 log §4.4 all use the bare keyword <code>KEEP</code>. The string <code>KEEP:</code> appears nowhere else in Revision BL or either reconciliation log. The colon is significant in DS-STEPS elsewhere (<code>SUITCASE: .</code>).</li><li><span class="ei ei-e" title="Evidence">E</span> §10.1: "This erratum supersedes only the omission of MAP from Pass 2 §4.4. It does not withdraw … the other frozen MATERIALIZE ordering/cardinality rules."</li></ul>
+<h4>Assessment</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation">I</span> The scope sentence settles the question, since the erratum cannot have changed the KEEP keyword, so this is not a contradiction. But this block is labelled "canonical" and is the one most likely to be pasted into W002-STEPS-001. If it goes in as written, every existing Work Order would refuse.</li></ul>
+<p class="ask"><b>Question / direction for T.</b> Correct the block to bare <code>KEEP</code> in the integration text, or in a one-line addendum if you want the record itself clean.</p></section>
+<section class="finding material" id="E-02"><header><p class="fid">E-02<span class="sev">MATERIAL NON-BLOCKING</span></p><h3>Materializing from an explicitly named historical MAP needs two stated rules: whether that MAP must be healthy, and whether the lineage's health gate still applies</h3></header>
+<h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence">E</span> §10.1 allows the named MAP to be "the current or a historical structurally valid Store MAP" and says it "binds the materialization run to that exact Store lineage".</li><li><span class="ei ei-e" title="Evidence">E</span> F-03 §6.3–6.5: Store status is evaluated from the lineage's current MAP, and DEGRADED refuses materialization. F-03 §6.9: Data Sculptor must not hide present damage by using an older snapshot.</li><li><span class="ei ei-e" title="Evidence">E</span> A historical MAP can still reference a COL that was later lost and removed from current state by REPAIR MAP.</li></ul>
+<h4>Assessment</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation">I</span> Read together, the rules imply that a DEGRADED or INVALID lineage still refuses even when the analyst names a clean historical MAP. That follows from the text, but it should be said outright, because "binds the run to the named MAP" invites the opposite reading.</li><li><span class="ei ei-i" title="Interpretation">I</span> The open case is a VALID lineage whose named historical MAP references a COL that no longer exists. Copying that binding forward would publish a successor that makes the Store DEGRADED on arrival, or fail publication validation, depending on how W002-STOR-019.10 is rewritten. Nothing decides which.</li></ul>
+<p class="ask"><b>Question / direction for T.</b> State that the lineage health gate applies whichever MAP is named. Then decide the historical-base case. I recommend refusing when any binding in the named base is currently missing or invalid, with Help naming the affected COLs. The same rule should cover UPDATE ALIASES from a historical MAP (F-21), which has the same exposure.</p></section>
+
+<h2 id="G">3. Gate conclusion</h2>
+<div class="gate">
+<p class="verdict">READY FOR CANONICAL PRD INTEGRATION</p>
+<p>P3-01 and P3-02 are resolved, and the erratum introduces no new blocking contradiction with the six gate decisions, Revision BL or the Pass 1 decisions checked. The reconciliation decisions are coherent enough to integrate into a successor PRD revision.</p>
+<p>This conclusion covers the decision record only. Integration still carries every material and clarity obligation listed in the Pass 2 and Pass 3 checklists (including P3-03 to P3-10 and P2-03 to P2-07), plus E-01 and E-02 above. None of them is a precondition for starting integration, but each must be settled in the successor text. The resulting successor PRD will need its own review; this gate says nothing about it.</p>
+</div>
+
+<footer><p>Data Sculptor WASM-002 adversarial QA review, Revision BL, Pass 3 erratum gate check. Audited erratum SHA-256 F5C2D819C2C88FF8B231B576F1C624BB7C712EBF4F35A79E26F2043408C7EE93. Source Pass 3 SHA-256 0598550B83CFB3AD37E6D810D95B58A998F0CE4D273EC5E9E91E809F51FC3461. This review's own SHA-256 is recorded in its sidecar file.</p></footer>
+</main>
+</body>
+</html>

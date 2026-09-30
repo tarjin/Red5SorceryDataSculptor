@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Sculptor — WASM-002 Claude QA Reconciliation Log — Pass 2</title>
+<style>
+:root{--bg:#0b111b;--panel:#111a27;--panel2:#162131;--ink:#eef3f8;--muted:#a9b7c8;--rule:#2b3a4e;--blue:#a9cae9;--red:#d66a79;--orange:#d8a45c;--green:#78c59a;--mono:Consolas,"Cascadia Mono","DejaVu Sans Mono",monospace;--sans:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;--serif:Charter,"Sitka Text",Cambria,Georgia,serif}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink)}body{font:1rem/1.62 var(--serif)}main{max-width:72rem;margin:0 auto;padding:2.6rem 1.35rem 5rem}h1,h2,h3{font-family:var(--sans);line-height:1.2}h1{font-size:2rem;margin:.2rem 0 .5rem}h2{font-size:1.28rem;margin:2.4rem 0 .8rem;padding-top:.9rem;border-top:1px solid var(--rule)}h3{font-size:1.02rem;margin:1.3rem 0 .4rem;color:var(--blue)}p{margin:.55rem 0}code{font-family:var(--mono);background:#0d1622;padding:.08em .32em;border:1px solid #25364c;border-radius:4px;color:#f4f8fb}.brand{font:700 1rem/1 var(--sans)}.brand .five{color:var(--red)}.lede{color:var(--muted);font-size:1.05rem}.notice,.warning,.freeze,.rulebox{padding:.9rem 1rem;margin:1rem 0;border-radius:6px}.notice{background:var(--panel);border-left:4px solid var(--blue)}.warning{background:#2a2113;border-left:4px solid var(--orange)}.freeze{background:#10241b;border-left:4px solid var(--green)}.rulebox{background:var(--panel2);border:1px solid var(--rule)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.8rem}.card{background:var(--panel);border:1px solid var(--rule);border-radius:7px;padding:.9rem}.card .big{display:block;font:700 1.25rem/1.2 var(--sans);margin-top:.25rem}.wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-family:var(--sans);font-size:.86rem}th,td{padding:.55rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top;text-align:left}th{color:var(--muted)}tr.resolved{background:#0f2119}.sev{font-weight:700}.blocking{color:var(--red)}.state{font-size:.78rem;font-weight:700}.resolved .state{color:var(--green)}.open .state{color:var(--orange)}.syntax{font:700 1.02rem/1.5 var(--mono);background:#080d14;border:1px solid var(--rule);padding:.7rem .9rem;border-radius:6px;display:inline-block}.small{font-size:.88rem;color:var(--muted)}ul{padding-left:1.35rem}li{margin:.3rem 0}footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--rule);font:.82rem/1.5 var(--sans);color:var(--muted)}
+@media print{:root{--bg:#fff;--panel:#f4f6f8;--panel2:#eef2f6;--ink:#111820;--muted:#55616f;--rule:#cfd6df;--blue:#35598a;--red:#a51f35;--orange:#8f5400;--green:#2d7a4f}html,body{background:#fff}main{max-width:none;padding:.5in}.card,.notice,.warning,.freeze,.rulebox{break-inside:avoid}tr{break-inside:avoid}}
+
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover, a:focus { text-decoration-thickness: 2px; }
+h2[id] { scroll-margin-top: 1rem; }
+.issue-jumps { margin: .75rem 0 1.5rem; padding: .7rem .85rem; border: 1px solid #c9c9c9; border-radius: 8px; }
+.backlink { margin: 1.3rem 0 .4rem; font-size: .9rem; }
+.backlink a { text-decoration: none; }
+.backlink a:hover, .backlink a:focus { text-decoration: underline; }
+
+</style>
+</head>
+<body>
+<main>
+<p class="brand">Red<span class="five">5</span>Sorcery / Data Sculptor</p>
+<h1>WASM-002 Claude QA Reconciliation Log — Pass 2</h1>
+<p class="lede">Council decision record responding to Claude's Pass 2 reconciliation audit. Created 29 September 2026.</p>
+
+<div class="notice"><b>Scope boundary.</b> This is a new Pass 2 reconciliation record. It does not edit the Pass 1 reconciliation log, Claude's Pass 2 audit, Revision BL, or the Product Backlog PRD. Canonical PRD integration remains blocked until the Pass 2 gate blockers are resolved and independently re-checked.</div>
+
+<h2>1. Source review and gate state</h2>
+<div class="grid">
+<div class="card"><b>Claude review</b><span class="big">Pass 2</span>Independent reconciliation audit.</div>
+<div class="card"><b>Pass 2 SHA-256</b><span class="big" style="font-size:.78rem;word-break:break-all">D87E352F0FCC9101FD3B01BAC72BD8BE25A7D821CD1FC9FF70F28556EEB39197</span></div>
+<div class="card"><b>Claude gate</b><span class="big">NOT READY</span>Not ready for canonical PRD integration.</div>
+<div class="card"><b>Gate blockers</b><span class="big">6</span><a href="#p2-01">P2-01</a>, <a href="#p2-02">P2-02</a>, <a href="#f-02-pass2">F-02</a>, <a href="#f-03-pass2">F-03</a>, <a href="#f-06-pass2">F-06</a>, <a href="#f-09-pass2">F-09</a>.</div>
+<div class="card"><b>Resolved here</b><span class="big">6 of 6</span><a href="#p2-01">P2-01</a>, <a href="#p2-02">P2-02</a>, <a href="#f-02-pass2">F-02</a>, <a href="#f-03-pass2">F-03</a>, <a href="#f-06-pass2">F-06</a>, <a href="#f-09-pass2">F-09</a>.</div>
+<div class="card"><b>Remaining</b><span class="big">0</span>All six Pass 2 gate blockers now have frozen Council decisions. Claude Pass 3 verification is still required before canonical PRD integration.</div>
+</div>
+<p class="small">Claude's sidecar records 19 CLOSED — INTEGRATION OBLIGATION, 15 PARTIALLY CLOSED, 0 REOPEN, 7 new Pass 2 findings, and the gate conclusion NOT READY FOR CANONICAL PRD INTEGRATION.</p>
+
+<h2 id="gate-register">2. Pass 2 gate-blocker register</h2>
+<div class="wrap"><table>
+<thead><tr><th>Finding</th><th>Severity</th><th>Issue</th><th>State</th></tr></thead>
+<tbody>
+<tr class="resolved"><td><a href="#p2-01" title="Jump to the P2-01 resolution"><code>P2-01</code></a></td><td class="sev blocking">BLOCKING</td><td>Multi-Store MAP model can silently remove a Store from current state and permit a duplicate lineage.</td><td class="state">RESOLVED — DECISION FROZEN</td></tr>
+<tr class="resolved"><td><a href="#p2-02" title="Jump to the P2-02 resolution"><code>P2-02</code></a></td><td class="sev blocking">BLOCKING</td><td><code>WORK ORDER AS</code> optionality and trailing-comment grammar conflict.</td><td class="state">RESOLVED — DECISION FROZEN</td></tr>
+<tr class="resolved"><td><a href="#f-02-pass2" title="Jump to the F-02 resolution"><code>F-02</code></a></td><td class="sev blocking">BLOCKING RESIDUAL</td><td>Work Order registry repair is unreachable when the registry is stale.</td><td class="state">RESOLVED — DECISION FROZEN</td></tr>
+<tr class="resolved"><td><a href="#f-03-pass2" title="Jump to the F-03 resolution"><code>F-03</code></a></td><td class="sev blocking">BLOCKING RESIDUAL</td><td><code>REPAIR MAP</code> targeting, all-COLs-broken behavior, and INVALID versus malformed-newer-MAP fallback.</td><td class="state">RESOLVED — DECISION FROZEN</td></tr>
+<tr class="resolved"><td><a href="#f-06-pass2" title="Jump to the F-06 resolution"><code>F-06</code></a></td><td class="sev blocking">BLOCKING RESIDUAL</td><td>CSV refusal-location facts and condition tokens remain undefined.</td><td class="state">RESOLVED — DECISION FROZEN</td></tr>
+<tr class="resolved"><td><a href="#f-09-pass2" title="Jump to the F-09 resolution"><code>F-09</code></a></td><td class="sev blocking">BLOCKING RESIDUAL</td><td>Receipt envelope and operation-specific key tables remain incomplete.</td><td class="state">RESOLVED — DECISION FROZEN</td></tr>
+</tbody></table></div>
+<p class="issue-jumps"><b>Jump to resolution:</b> <a href="#p2-01">P2-01</a> · <a href="#p2-02">P2-02</a> · <a href="#f-02-pass2">F-02</a> · <a href="#f-03-pass2">F-03</a> · <a href="#f-06-pass2">F-06</a> · <a href="#f-09-pass2">F-09</a></p>
+
+<h2 id="p2-01">3. P2-01 — one Store lineage per Store MAP file</h2>
+<div class="freeze"><b>Resolution state:</b> RESOLVED BY COUNCIL DECISION / FROZEN FOR WASM-002.<br><b>Decision:</b> the Pass 1 F-05 clause allowing multiple Store lineages inside one Store MAP file is withdrawn and superseded. For WASM-002, each Store MAP file represents exactly one Store lineage.<br><b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.</div>
+
+<h3>3.1 Claude's failure case</h3>
+<div class="rulebox"><p>Claude showed that the Pass 1 multi-Store MAP decision created a silent Store-disappearance path. If a current shared MAP contains Store A and Store B, and a later operation publishes a successor from an older historical MAP containing only Store A, the new shared MAP can become current without Store B. A routine materialization of Store B's source can then establish another Store B with a new RID. That recreates the silent-fork class of failure F-03 was intended to eliminate.</p></div>
+
+<h3>3.2 Frozen Store-to-MAP cardinality</h3>
+<div class="rulebox"><p><b>One Store MAP file represents exactly one Store lineage.</b></p><ul>
+<li>A Store lineage is permanently identified by one exact governed <code>rid_filename</code>.</li>
+<li>Every row in one valid Store MAP belongs to that same lineage and therefore carries that same exact <code>rid_filename</code>.</li>
+<li>Every materialized COL row in that Store MAP carries one common exact <code>source_filename</code>.</li>
+<li>A valid Store MAP must not contain rows for a second <code>rid_filename</code>.</li>
+<li>A valid Store MAP must not mix source filenames within the Store lineage.</li>
+<li>Different Stores in the same Suitcase use different Store MAP files.</li>
+<li>A Store MAP may still contain many rows because one Store may have many governed COL bindings. One Store per MAP does not mean one row per MAP.</li>
+</ul></div>
+
+<h3>3.3 Single-source compatibility remains frozen</h3>
+<div class="rulebox"><ul>
+<li>The redundant <code>store_source_filename</code> field remains unnecessary for the intended WASM-002 Store MAP profile.</li>
+<li>The Store source identity is the one common exact <code>source_filename</code> carried by the Store's materialized COL rows.</li>
+<li>An explicitly named Store MAP identifies and authorizes continuation of only that Store lineage.</li>
+<li>Work Order <code>SOURCE</code> must exactly equal the Store MAP's common <code>source_filename</code> before materialization may continue.</li>
+<li>Matching source identity does not bypass the F-04 existing-Store cardinality gate.</li>
+<li>Equal row count never authorizes a different source file to enter the Store lineage.</li>
+<li>WASM-002 therefore has no implicit positional-join escape.</li>
+</ul></div>
+
+<h3>3.4 Current state is per Store lineage</h3>
+<div class="rulebox"><p><b>Each Store lineage has its own chronological history of immutable Store MAP snapshots.</b></p>
+<p class="syntax">Store A: A1 → A2 → A3<br>Store B: B1 → B2</p>
+<ul>
+<li>Publishing A3 may change the current governed state of Store A.</li>
+<li>Publishing A3 does not add, remove, supersede, invalidate, or alter B2.</li>
+<li>Current-state selection for one Store is performed only among eligible Store MAPs belonging to that Store's exact <code>rid_filename</code> lineage.</li>
+<li>There is no Suitcase-wide current Store MAP carrying every Store.</li>
+<li>Independent Store histories coexist in the same flat Suitcase.</li>
+</ul></div>
+
+<h3>3.5 Historical MAP use is lineage-local</h3>
+<div class="rulebox"><ul>
+<li>An analyst may explicitly select an eligible historical Store MAP for Store A as input state for a later governed operation on Store A.</li>
+<li>A successor produced from historical Store A state remains in Store A's chronological MAP history.</li>
+<li>If that successor becomes Store A's latest eligible MAP under the ordinary chronology rules, it becomes Store A's current state.</li>
+<li>The operation has no effect on Store B or any other Store lineage.</li>
+</ul></div>
+
+<h3>3.6 Automatic SOURCE routing</h3>
+<div class="rulebox"><ul>
+<li>If no eligible Store lineage matches the exact Work Order <code>SOURCE</code> filename, materialization may establish a new Store and new RID under the separately frozen Store-creation rules.</li>
+<li>If exactly one eligible Store lineage matches, Data Sculptor uses that lineage's current eligible Store MAP as the inheritance base.</li>
+<li>If more than one distinct Store lineage is eligible for the same exact source filename, automatic routing refuses rather than guessing.</li>
+<li>The analyst must explicitly identify the intended valid Store MAP when source filename alone is ambiguous.</li>
+</ul></div>
+
+<h3>3.7 Future joins remain outside WASM-002</h3>
+<div class="rulebox"><p>Cross-Store relationships are not encoded by putting several Store lineages into one Store MAP. A future join-specific artifact, such as a Join MAP or equivalent, remains a proposal outside WASM-002. Its class, schema, syntax, lifecycle, and acceptance rules are not frozen here.</p><p><b>Store MAPs describe individual Stores; future join-specific artifacts describe explicit relationships among Stores.</b></p></div>
+
+<h3>3.8 Superseded Pass 1 F-05 text</h3>
+<div class="warning"><p>The Pass 1 F-05 statement <code>one Store MAP may describe multiple Stores</code> is explicitly superseded. Any Pass 1 example, acceptance consequence, integration note, or explanation requiring several <code>rid_filename</code> lineages in one Store MAP is no longer authoritative for WASM-002.</p></div>
+<p>The following F-05 decisions remain authoritative unless separately changed later: one source per Store lineage; exact Work Order SOURCE-to-Store source compatibility; removal of redundant <code>store_source_filename</code>; the F-04 cardinality gate after source compatibility; refusal of cross-source positional attachment; and future explicit joins remaining outside WASM-002.</p>
+
+<h3>3.9 Acceptance consequences</h3>
+<div class="rulebox"><ul>
+<li><b>One-lineage invariant:</b> a Store MAP containing two distinct <code>rid_filename</code> values is invalid for WASM-002.</li>
+<li><b>Single-source invariant:</b> rows in one Store MAP that disagree on <code>source_filename</code> are invalid.</li>
+<li><b>Independent histories:</b> publishing a successor MAP for Store A must leave Store B's current-state resolution unchanged.</li>
+<li><b>Historical A successor:</b> publishing from historical Store A state must not remove or change Store B state.</li>
+<li><b>Compatible explicit MAP:</b> SOURCE matches the Store MAP source; execution may proceed to F-04 cardinality checking.</li>
+<li><b>Different source:</b> SOURCE differs; the Run refuses before materialization.</li>
+<li><b>No positional escape:</b> different sources with equal row counts still cannot enter the same RID lineage.</li>
+</ul></div>
+
+<h3>3.10 Integration consequences</h3>
+<div class="rulebox"><ul>
+<li>Reconcile <code>W002-STOR-010.1</code>, <code>W002-STOR-019.1</code>, <code>W002-STOR-019.2</code>, <code>W002-STOR-019.9</code>, <code>W002-WKO-012.3</code>, and <code>W002-UI-ACC-016</code> with one Store lineage per Store MAP.</li>
+<li>Rewrite Pass 1 F-05 integration notes and examples so one Store MAP never contains multiple Store lineages.</li>
+<li>Remove the Pass 1 acceptance fixture requiring multiple Stores in one MAP.</li>
+<li>Retain the single-source compatibility predicate and no-positional-join gates.</li>
+<li>Define current Store MAP as current within one exact Store lineage, never as one Suitcase-wide Store-state artifact.</li>
+<li>Keep future cross-Store Join MAP design outside WASM-002.</li>
+</ul></div>
+
+<h3>3.11 Explicit non-closures</h3>
+<div class="notice"><p>P2-01 does not resolve the remaining F-03 questions. It does not yet define how <code>REPAIR MAP</code> selects a target Store, what happens when every mapped COL is broken, the final resolution of INVALID versus malformed-newer-MAP fallback, or the final complete Store MAP column set and serialization. Those remain separate Pass 2 reconciliation work.</p></div>
+
+
+<p class="backlink"><a href="#gate-register">↑ Back to gate-blocker register</a></p>
+
+<h2 id="p2-02">4. P2-02 — mandatory Work Order aliases; trailing comments retained</h2>
+<div class="freeze">
+<b>Resolution state:</b> RESOLVED BY COUNCIL DECISION / FROZEN FOR WASM-002.<br>
+<b>Decision:</b> every saved or executable WASM-002 Work Order must contain exactly one <code>WORK ORDER AS "&lt;alias&gt;"</code> clause, and trailing <code>#</code> comments remain permitted outside double-quoted strings.<br>
+<b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.
+</div>
+
+<h3>4.1 Mandatory Work Order alias</h3>
+<div class="rulebox">
+<ul>
+<li>Every saved or executable WASM-002 Work Order must contain exactly one <code>WORK ORDER AS "&lt;alias&gt;"</code> clause.</li>
+<li>The decoded alias must be non-empty.</li>
+<li>An unaliased WKO is not valid for WASM-002.</li>
+<li>The alias is governed human-facing orientation and WKO-registry metadata only.</li>
+<li>The immutable governed WKO filename/UUID remains the physical Work Order identity and execution identity.</li>
+<li>Alias text does not alter analytical semantics.</li>
+<li>Revision BL requirements and acceptance fixtures that permit, require, or illustrate a saved/executable WKO without <code>WORK ORDER AS</code> are superseded by this decision.</li>
+<li>Pass 1 F-02 language that relies on a valid unaliased WKO is likewise superseded and must be removed during integration.</li>
+</ul>
+</div>
+
+<h3>4.2 Alias lifecycle remains governed by F-02</h3>
+<div class="rulebox">
+<p>Mandatory aliases do not make alias strings permanent or globally unique forever.</p>
+<ul>
+<li>A current alias may be deliberately replaced under the frozen F-02 lifecycle.</li>
+<li>Replacing an alias target creates a new immutable WKO and a successor WKO MAP.</li>
+<li>The prior WKO remains immutable historical evidence and becomes <code>DEPRECATED</code> in registry authority when the replacement commits.</li>
+<li>At most one current WKO may hold a given non-empty alias in the current WKO MAP.</li>
+</ul>
+</div>
+
+<h3>4.3 Trailing comments are part of the WASM-002 lexical contract</h3>
+<div class="rulebox">
+<p>Outside a double-quoted string, the first <code>#</code> on a physical line begins a comment that continues through that line's LF terminator.</p>
+<ul>
+<li>Whole-line comments are permitted.</li>
+<li>Trailing comments are permitted.</li>
+<li>A <code>#</code> inside a double-quoted string is ordinary string content and does not begin a comment.</li>
+<li>Comment text has no execution semantics and is ignored after lexical recognition.</li>
+<li>Comments remain part of the exact saved immutable WKO bytes.</li>
+<li>Changing, adding, or removing only a comment therefore requires saving a new immutable WKO identity even when analytical semantics are unchanged.</li>
+<li>WASM-002 defines no block-comment syntax.</li>
+</ul>
+</div>
+
+<h3>4.4 Materialization structure remains strict</h3>
+<div class="rulebox">
+<p>Ignoring blank lines and comments after lexical recognition, the WASM-002 materialization Work Order form contains, in enforced order:</p>
+<ol>
+<li>exactly one <code>SUITCASE: .</code> clause;</li>
+<li>exactly one <code>WORK ORDER AS "&lt;alias&gt;"</code> clause;</li>
+<li>exactly one <code>SOURCE "..."</code> clause;</li>
+<li>exactly one <code>KEEP</code> clause;</li>
+<li>one or more valid selector lines belonging to that <code>KEEP</code> block; and</li>
+<li>exactly one terminal <code>MATERIALIZE</code> clause.</li>
+</ol>
+<p>Duplicate structural clauses refuse. An empty <code>KEEP</code> refuses. After <code>MATERIALIZE</code>, only blank lines or comments may follow. A trailing comment on the physical <code>MATERIALIZE</code> line is permitted because the comment is removed from the semantic token stream.</p>
+</div>
+
+<h3>4.5 Scope across WASM-002 operations</h3>
+<div class="rulebox">
+<p>The mandatory alias rule applies to every saved or executable WASM-002 Work Order operation, not only materialization. Operation-specific grammar still requires separate structure tables during integration, but none of those forms may omit <code>WORK ORDER AS</code>.</p>
+<p>Examples include governed Work Orders for <code>INVENTORY</code>, <code>UPDATE ALIASES</code>, <code>REPAIR MAP</code>, <code>REPAIR WORK ORDER REGISTRY</code>, and <code>CONVERT</code>.</p>
+</div>
+
+<h3>4.6 Supersession boundary</h3>
+<div class="warning">
+<p>The following prior rules are superseded:</p>
+<ul>
+<li>Revision BL's rule that <code>WORK ORDER AS</code> is optional.</li>
+<li>Revision BL acceptance language requiring a valid saved WKO without <code>WORK ORDER AS</code>.</li>
+<li>Pass 1 F-02 logic that registers an unaliased valid WKO as <code>CURRENT</code>.</li>
+<li>Pass 1 F-08's statement that inline/trailing comments are not part of the WASM-002 lexical contract.</li>
+</ul>
+<p>Revision BL's original trailing-comment semantics are retained and become the controlling WASM-002 rule.</p>
+</div>
+
+<h3>4.7 Acceptance consequences</h3>
+<div class="rulebox">
+<ul>
+<li><b>Alias mandatory:</b> a saved/executable WKO without <code>WORK ORDER AS</code> refuses validation.</li>
+<li><b>Empty alias:</b> <code>WORK ORDER AS ""</code> refuses.</li>
+<li><b>Exactly one alias:</b> duplicate <code>WORK ORDER AS</code> clauses refuse.</li>
+<li><b>Trailing comment:</b> a valid clause followed by <code># comment</code> parses identically to the same clause without the comment.</li>
+<li><b>Whole-line comment:</b> a physical line whose first non-whitespace character is <code>#</code> has no execution semantics.</li>
+<li><b>Quoted hash:</b> <code>#</code> inside a double-quoted string remains string content.</li>
+<li><b>Identity:</b> changing only comment bytes or alias bytes requires a new immutable WKO physical identity.</li>
+</ul>
+</div>
+
+<h3>4.8 Integration consequences</h3>
+<div class="rulebox">
+<ul>
+<li>Rewrite <code>W002-STEPS-001.1</code> so <code>WORK ORDER AS</code> is mandatory, exactly once, and non-empty.</li>
+<li>Preserve the trailing-comment semantics of <code>W002-STEPS-001.2</code>.</li>
+<li>Rewrite <code>W002-MAT-ACC-002.3</code> to remove the unaliased-WKO fixture and instead prove refusal of a missing alias.</li>
+<li>Retain and align <code>W002-MAT-ACC-002.4</code> with whole-line and trailing-comment acceptance.</li>
+<li>Remove F-02 reconciliation clauses that treat an unaliased valid WKO as a special registry case.</li>
+<li>During the separate F-08 integration work, every operation-specific structure table must include exactly one mandatory <code>WORK ORDER AS</code> clause.</li>
+</ul>
+</div>
+
+<h3>4.9 Explicit non-closures</h3>
+<div class="notice">
+<p>P2-02 resolves the Pass 2 gate contradiction over alias optionality and trailing comments. It does not by itself complete the remaining material F-08 integration work: structure tables for the non-materialization operations, the exact <code>RUN</code> trigger, and token-separation rules still need to be frozen no later than canonical PRD integration.</p>
+</div>
+
+
+<p class="backlink"><a href="#gate-register">↑ Back to gate-blocker register</a></p>
+
+<h2 id="f-02-pass2">5. F-02 — reachable Work Order registry repair and closed WKO lifecycle residuals</h2>
+<div class="freeze">
+<b>Resolution state:</b> RESOLVED BY COUNCIL DECISION / FROZEN FOR WASM-002.<br>
+<b>Decision:</b> WASM-002 keeps the rule that ordinary Work Orders must be saved before Run, but adds one narrowly bounded bootstrap exception: when the current WKO registry is itself in a repair-required state, a valid saved WKO whose sole operation is <code>REPAIR WORK ORDER REGISTRY</code> may Run by exact physical WKO filename even though that repair WKO is not yet registered in the current WKO MAP.<br>
+<b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.
+</div>
+
+<h3>5.1 Repair-bootstrap Work Order form</h3>
+<div class="rulebox">
+<p>The repair-bootstrap Work Order is still an ordinary visible immutable WKO TXT artifact. It is not an ungoverned browser action and it is not an unsaved draft.</p>
+<pre><code>SUITCASE: .
+WORK ORDER AS "Repair Work Order Registry"
+REPAIR WORK ORDER REGISTRY</code></pre>
+<ul>
+<li>The mandatory-alias rule frozen under P2-02 applies: the repair WKO must contain exactly one non-empty <code>WORK ORDER AS</code>.</li>
+<li>The repair WKO is saved under the normal governed WKO filename grammar <code>__DS__WKO__YYYYMMDDTHHMMSSmmmZ__&lt;uuid-v4&gt;.txt</code>.</li>
+<li>The repair WKO remains immutable after save.</li>
+<li>An unsaved draft can never Run.</li>
+</ul>
+</div>
+
+<h3>5.2 Narrow bootstrap exception</h3>
+<div class="rulebox">
+<p>When the current WKO MAP contains a stale registry reference or is otherwise in the specifically defined registry-repair-required state, the saved repair-only WKO may Run by its exact physical WKO filename even though it is not yet represented in the current WKO MAP.</p>
+<ul>
+<li>The exception applies only when the WKO contains exactly the governed registry-repair operation and no second operation.</li>
+<li>No unregistered <code>MATERIALIZE</code>, <code>INVENTORY</code>, <code>UPDATE ALIASES</code>, <code>REPAIR MAP</code>, <code>CONVERT</code>, or other WKO gains Run eligibility from this exception.</li>
+<li>The exception does not grant alias-based Run authority. The repair WKO is invoked by exact physical WKO filename.</li>
+<li>The exception ends once registry repair successfully publishes the successor WKO MAP.</li>
+</ul>
+<p>This is the sole bypass of ordinary current-registry membership for WASM-002 Run eligibility.</p>
+</div>
+
+<h3>5.3 Save behavior while the registry is stale</h3>
+<div class="rulebox">
+<ol>
+<li>Data Sculptor validates the repair-only draft under the governed WKO structural-validity rules.</li>
+<li>It saves the WKO as a new immutable governed WKO TXT artifact.</li>
+<li>Because the registry is already stale, Save does not claim that the repair WKO has been successfully registered or that a normal successor WKO MAP was committed.</li>
+<li>The newly saved repair WKO remains visibly unregistered and is eligible only for the bounded bootstrap repair Run by exact physical filename.</li>
+<li>The repair Run itself performs registry reconciliation and, on success, publishes the successor WKO MAP.</li>
+</ol>
+<p>Save therefore does not silently perform the repair operation and does not represent a stale registry as healthy.</p>
+</div>
+
+<h3>5.4 Registry reconciliation semantics</h3>
+<div class="rulebox">
+<p><code>REPAIR WORK ORDER REGISTRY</code> reconciles the current WKO MAP against visible WKO artifacts in the Suitcase.</p>
+<ul>
+<li>Every current-registry row whose referenced physical WKO file is missing is removed from the successor WKO MAP.</li>
+<li>A missing WKO is never reconstructed, inferred, copied from history, or replaced automatically by a deprecated WKO.</li>
+<li>Visible valid WKOs absent from the current WKO MAP are discovered and considered for registration.</li>
+<li>If no surviving <code>CURRENT</code> row owns a discovered WKO's alias, that discovered WKO is registered as <code>CURRENT</code>.</li>
+<li>If a surviving <code>CURRENT</code> row already owns that alias, the discovered WKO is registered as <code>DEPRECATED</code>; existing current authority is not silently displaced.</li>
+<li>If two or more previously unregistered valid WKOs share the same alias and no surviving current owner exists, all such discovered WKOs are registered as <code>DEPRECATED</code>; Data Sculptor does not choose a winner by UTC, filename, UUID, directory order, or discovery order.</li>
+<li>The repair WKO itself participates in discovery and registration like any other visible valid WKO after the repair run succeeds.</li>
+<li>Predecessor WKO MAPs and surviving WKO files remain immutable historical evidence.</li>
+</ul>
+</div>
+
+<h3>5.5 Governed WKO structural-validity predicate</h3>
+<div class="rulebox">
+<p>A visible WKO is structurally valid for registry purposes only when all of the following hold:</p>
+<ul>
+<li>it is a regular root-level Suitcase file;</li>
+<li>its physical filename conforms exactly to the governed WKO filename grammar;</li>
+<li>its bytes are valid UTF-8;</li>
+<li>LF and CRLF physical line endings are accepted; a lone CR line ending refuses;</li>
+<li>its content parses completely under exactly one defined WASM-002 Work Order operation grammar;</li>
+<li>it contains exactly one mandatory non-empty <code>WORK ORDER AS</code> clause;</li>
+<li>its required common and operation-specific structural clauses are present in their governed order/cardinality;</li>
+<li>unknown syntax or prohibited operation mixing causes invalidity/refusal.</li>
+</ul>
+<p><b>Structural validity is not runtime success.</b> A structurally valid WKO remains a valid governed artifact even when a runtime precondition is currently false, such as a referenced source file being absent. Runtime preconditions are checked at Run.</p>
+</div>
+
+<h3>5.6 WKO MAP profile and deterministic serialization</h3>
+<div class="rulebox">
+<p>The Pass 1 three-column lifecycle model remains the intended WKO MAP profile:</p>
+<pre><code>wko_status,wko_alias,wko_filename</code></pre>
+<ul>
+<li>UTF-8 without BOM.</li>
+<li>LF record termination.</li>
+<li><code>wko_status</code> uses exactly <code>CURRENT</code> or <code>DEPRECATED</code>.</li>
+<li>Because P2-02 makes aliases mandatory, every valid WKO MAP row carries a non-empty <code>wko_alias</code>.</li>
+<li><code>wko_filename</code> is the exact governed physical WKO filename.</li>
+<li>Rows are serialized in ascending UTF-8 byte order of <code>wko_filename</code>.</li>
+<li>Duplicate <code>wko_filename</code> rows are invalid.</li>
+<li>For any exact alias, at most one row in the current WKO MAP may carry <code>wko_status=CURRENT</code>.</li>
+<li>Standard governed CSV quoting applies.</li>
+</ul>
+</div>
+
+<h3>5.7 DEPRECATED Work Order Run eligibility</h3>
+<div class="rulebox">
+<p>A <code>DEPRECATED</code> WKO remains a valid immutable governed historical artifact. Deprecation changes alias authority, not physical validity.</p>
+<ul>
+<li>Run by human-facing alias resolves only to the sole <code>CURRENT</code> WKO for that alias.</li>
+<li>A registered <code>CURRENT</code> WKO may Run by exact physical WKO filename, subject to ordinary runtime preconditions.</li>
+<li>A registered <code>DEPRECATED</code> WKO may also Run by exact physical WKO filename, subject to ordinary runtime preconditions. This supports deliberate historical reproduction.</li>
+<li>An unregistered WKO may not Run merely because its file is visible, except for the single bounded registry-repair bootstrap rule in Section 5.2.</li>
+</ul>
+</div>
+
+<h3>5.8 Receipt operation identity</h3>
+<div class="rulebox">
+<p>The canonical Receipt operation token for this governed operation is:</p>
+<p class="syntax">OPERATION: REPAIR_WORK_ORDER_REGISTRY</p>
+<p>F-09 remains responsible for freezing the complete Receipt envelope and operation-specific key order. This decision freezes only the canonical operation identity needed to remove the F-02 ambiguity.</p>
+</div>
+
+<h3>5.9 Acceptance consequences</h3>
+<div class="rulebox">
+<ul>
+<li><b>Deadlock escape:</b> with a stale current WKO MAP, a newly saved structurally valid repair-only WKO can Run by exact filename and successfully publish a repaired successor registry.</li>
+<li><b>No broad bypass:</b> a newly saved unregistered WKO for any other operation remains ineligible to Run.</li>
+<li><b>Missing reference:</b> repair removes a stale registry row but does not recreate the missing WKO or promote an older WKO automatically.</li>
+<li><b>Discovered alias, no owner:</b> one discovered valid WKO with an otherwise unowned alias becomes <code>CURRENT</code>.</li>
+<li><b>Discovered alias collision:</b> a discovered WKO whose alias is already owned by a surviving <code>CURRENT</code> row becomes <code>DEPRECATED</code>.</li>
+<li><b>Several discovered WKOs, no owner:</b> all become <code>DEPRECATED</code>; no winner is inferred.</li>
+<li><b>Mandatory alias:</b> no unaliased WKO can be structurally valid.</li>
+<li><b>Deterministic MAP:</b> repaired successor rows are sorted by ascending UTF-8 byte order of exact <code>wko_filename</code>.</li>
+<li><b>Historical Run:</b> a registered <code>DEPRECATED</code> WKO can be invoked by exact physical filename but not by alias.</li>
+<li><b>Receipt identity:</b> a registry-repair Receipt uses <code>REPAIR_WORK_ORDER_REGISTRY</code> as its operation token.</li>
+</ul>
+</div>
+
+<h3>5.10 Supersession and integration consequences</h3>
+<div class="warning">
+<ul>
+<li>Pass 1 language that permits an unaliased valid WKO is superseded by P2-02 and must be removed.</li>
+<li>Revision BL's two-column WKO MAP profile must be replaced by the frozen three-column <code>wko_status,wko_alias,wko_filename</code> lifecycle profile.</li>
+<li><code>W002-STOR-018.2</code> must retain deterministic ordering by ascending UTF-8 byte order of <code>wko_filename</code>, adapted to the three-column profile.</li>
+<li><code>W002-STOR-018.3</code> must state the bounded repair-bootstrap save exception without implying successful ordinary registry registration before repair.</li>
+<li><code>W002-STOR-018.4</code> and Run rules must distinguish alias authority from exact-filename historical execution.</li>
+<li>The WKO validity predicate above must be integrated as normative contract text or an equivalent exact requirement.</li>
+<li>F-09 must incorporate the <code>REPAIR_WORK_ORDER_REGISTRY</code> Receipt operation and its full key table.</li>
+</ul>
+</div>
+
+<h3>5.11 Explicit non-closures</h3>
+<div class="notice">
+<p>This F-02 decision closes the Pass 2 gate blocker and its named residuals: repair reachability, DEPRECATED Run eligibility, WKO structural validity, WKO MAP row order, and the missing registry-repair operation token. It does not freeze the complete F-09 Receipt grammar or all non-materialization DS-STEPS operation structure tables; those remain separate integration/reconciliation obligations.</p>
+</div>
+
+
+<p class="backlink"><a href="#gate-register">↑ Back to gate-blocker register</a></p>
+
+<h2 id="f-03-pass2">6. F-03 — deterministic Store repair targeting and Store-health authority</h2>
+<div class="freeze">
+<b>Resolution state:</b> RESOLVED BY COUNCIL DECISION / FROZEN FOR WASM-002.<br>
+<b>Decision:</b> <code>REPAIR MAP</code> requires an exact current Store MAP target; Store health is evaluated from the current structurally valid Store MAP rather than persisted as mutable state; malformed newer MAPs fall back to the greatest earlier structurally valid MAP in the same lineage; and repair refuses if removing broken COL bindings would leave zero COL mappings.<br>
+<b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.
+</div>
+
+<h3>6.1 Separate MAP structural validity from Store health</h3>
+<div class="rulebox">
+<p>WASM-002 distinguishes two questions that must not be conflated:</p>
+<ol>
+<li><b>Is the Store MAP itself structurally valid?</b></li>
+<li><b>What is the health of the Store described by the current structurally valid Store MAP?</b></li>
+</ol>
+<p>A Store MAP remains part of governed Store history when its own bytes, schema, lineage facts, and deterministic structural rules are valid, even if a RID or COL artifact referenced by that MAP later becomes missing or invalid.</p>
+<p>Referenced-artifact damage therefore does not make the current Store MAP disappear from lineage authority and does not by itself trigger fallback to an older MAP.</p>
+</div>
+
+<h3>6.2 Current Store MAP selection</h3>
+<div class="rulebox">
+<ul>
+<li>Current-state selection is performed independently within one exact Store lineage under the P2-01 one-Store-per-Store-MAP model.</li>
+<li>Only structurally valid Store MAP artifacts participate in current-state selection.</li>
+<li>Among structurally valid Store MAPs in that lineage, the ordinary frozen chronology rules determine current state.</li>
+<li>A structurally malformed newer MAP is never current.</li>
+<li>If a newer canonical MAP artifact is structurally malformed, Data Sculptor uses the greatest earlier structurally valid Store MAP in that same lineage, if one exists, and reports the malformed newer artifact through Help/evidence surfaces.</li>
+<li>This fallback applies to structural MAP invalidity only. It does not apply merely because a valid current MAP references a damaged RID or COL.</li>
+</ul>
+</div>
+
+<h3>6.3 Exactly three evaluated Store statuses</h3>
+<div class="rulebox">
+<p>Store status is evaluated from the current structurally valid Store MAP and the presently visible governed artifacts it references:</p>
+<ul>
+<li><b>VALID</b> — current Store MAP structurally valid; referenced RID valid; every mapped non-RID COL valid.</li>
+<li><b>DEGRADED</b> — current Store MAP structurally valid; referenced RID valid; one or more mapped non-RID COL artifacts missing or invalid.</li>
+<li><b>INVALID</b> — current Store MAP structurally valid, but its referenced RID is missing or invalid.</li>
+</ul>
+<p>There is no fourth <code>ABANDONED</code> status.</p>
+</div>
+
+<h3>6.4 Status is evaluated, not persisted</h3>
+<div class="rulebox">
+<p><code>VALID</code>, <code>DEGRADED</code>, and <code>INVALID</code> are evaluated Store states. WASM-002 does not write a mutable persisted Store-status flag.</p>
+<ul>
+<li>“INVALID is terminal” is superseded by the more precise rule: <b>while a Store evaluates INVALID, Data Sculptor exposes no governed Store-recovery operation for that Store.</b></li>
+<li>Data Sculptor never regenerates, substitutes, or infers a replacement RID.</li>
+<li>If the exact original governed RID artifact is externally restored byte-for-byte under its original physical identity and validates again, the Store may evaluate VALID or DEGRADED on the next inspection.</li>
+<li>Such re-evaluation is not RID recovery by Data Sculptor; it is the consequence of the same governed artifact becoming valid/present again.</li>
+</ul>
+</div>
+
+<h3>6.5 DEGRADED operation gate remains strict</h3>
+<div class="rulebox">
+<p>When a Store evaluates <b>DEGRADED</b>, <code>REPAIR MAP</code> remains the only enabled Store operation.</p>
+<ul>
+<li>Materialization into that Store is refused.</li>
+<li>Extension with new columns is refused.</li>
+<li>Alias mutation is refused.</li>
+<li>Transformations and other Store mutations are refused.</li>
+<li>Read-only Help, Inventory, status, and evidence inspection remain available.</li>
+</ul>
+</div>
+
+<h3>6.6 REPAIR MAP target selection</h3>
+<div class="rulebox">
+<p>A WASM-002 registry-repair Work Order is not target-free. It must identify the exact current Store MAP:</p>
+<pre><code>SUITCASE: .
+WORK ORDER AS "Repair Crime Store"
+MAP "__DS__MAP__YYYYMMDDTHHMMSSmmmZ__&lt;uuid-v4&gt;.csv"
+REPAIR MAP</code></pre>
+<ul>
+<li>Exactly one <code>MAP "&lt;filename&gt;"</code> clause is mandatory for <code>REPAIR MAP</code>.</li>
+<li>The MAP value is the exact physical filename of one structurally valid Store MAP.</li>
+<li>The named Store MAP must be the current Store MAP for its lineage at Run time.</li>
+<li>The target Store must currently evaluate <code>DEGRADED</code>.</li>
+<li>A historical Store MAP refuses for <code>REPAIR MAP</code>.</li>
+<li>A WKO MAP, missing MAP, malformed MAP, ambiguous equal-latest current state, or MAP from another unsupported profile refuses.</li>
+<li>No <code>SOURCE</code>, Store alias, RID alias, or COL list is supplied by the analyst for the repair operation.</li>
+</ul>
+<p>The analyst selects the Store by exact current Store MAP identity. Data Sculptor determines which non-RID COL bindings are broken.</p>
+</div>
+
+<h3>6.7 REPAIR MAP semantics</h3>
+<div class="rulebox">
+<p>After target validation, Data Sculptor:</p>
+<ol>
+<li>confirms that the named MAP is the current structurally valid MAP for exactly one Store lineage;</li>
+<li>confirms that the referenced RID is valid;</li>
+<li>identifies each mapped non-RID COL artifact that is currently missing or invalid;</li>
+<li>preserves every valid COL binding unchanged;</li>
+<li>removes exactly the broken COL bindings from the successor Store MAP candidate;</li>
+<li>preserves the exact Store lineage RID identity and remaining Store/RID metadata;</li>
+<li>validates the complete successor MAP candidate before publication;</li>
+<li>publishes the successor MAP only if all repair gates succeed.</li>
+</ol>
+<p><code>REPAIR MAP</code> does not read or regenerate the source CSV, does not rematerialize a lost COL, does not regenerate the RID, and does not edit the predecessor MAP in place.</p>
+</div>
+
+<h3>6.8 All-COLs-broken case</h3>
+<div class="rulebox">
+<p>If removing all broken COL bindings would leave the successor Store MAP with zero COL mapping rows, <code>REPAIR MAP</code> must refuse.</p>
+<ul>
+<li>No zero-COL Store MAP is introduced in WASM-002.</li>
+<li>No special Store-anchor row is added to the Store MAP schema.</li>
+<li>No successor MAP is published.</li>
+<li>The Store remains <code>DEGRADED</code>.</li>
+<li>The Store lineage remains visible and anchored by its existing current structurally valid MAP and RID.</li>
+<li>Data Sculptor does not silently erase the lineage, create a replacement Store, or generate a new RID.</li>
+</ul>
+<p>Help must explain that structural MAP repair cannot remove every mapped column. If an exact original valid COL artifact is restored externally, status may be re-evaluated and repair may later succeed if at least one valid COL binding remains.</p>
+</div>
+
+<h3>6.9 INVALID versus malformed-newer-MAP fallback</h3>
+<div class="rulebox">
+<p>The following distinction is controlling:</p>
+<ul>
+<li><b>Malformed newer MAP:</b> the MAP itself is structurally invalid, so it never becomes current; use the greatest earlier structurally valid Store MAP in the lineage if one exists.</li>
+<li><b>Current valid MAP + missing/invalid COL:</b> keep that MAP as current; Store evaluates <code>DEGRADED</code>.</li>
+<li><b>Current valid MAP + missing/invalid RID:</b> keep that MAP as current; Store evaluates <code>INVALID</code>.</li>
+</ul>
+<p>Data Sculptor must not hide present-day damage by silently falling back to an older Store snapshot whose referenced artifacts happen to remain intact.</p>
+</div>
+
+<h3>6.10 Ordinary materialization must not fork damaged Stores</h3>
+<div class="rulebox">
+<ul>
+<li>If exact <code>SOURCE</code> routing identifies a Store lineage whose current status is <code>DEGRADED</code>, ordinary materialization refuses and directs the analyst to <code>REPAIR MAP</code>.</li>
+<li>If exact <code>SOURCE</code> routing identifies a Store lineage whose current status is <code>INVALID</code>, ordinary materialization refuses. WASM-002 provides no RID-recovery path.</li>
+<li>Neither condition permits Data Sculptor to treat the source as unseen and establish a replacement Store with a new RID.</li>
+</ul>
+</div>
+
+<h3>6.11 Acceptance consequences</h3>
+<div class="rulebox">
+<ul>
+<li><b>Target required:</b> <code>REPAIR MAP</code> without exactly one current Store MAP target refuses.</li>
+<li><b>Historical target:</b> a structurally valid but non-current historical Store MAP refuses for repair.</li>
+<li><b>Wrong profile:</b> a WKO MAP supplied as repair target refuses.</li>
+<li><b>DEGRADED repair:</b> one or more broken COL bindings are removed while every valid binding and the exact RID identity are preserved.</li>
+<li><b>All COLs broken:</b> repair refuses, publishes no successor MAP, and the Store remains DEGRADED.</li>
+<li><b>Malformed newest MAP:</b> current-state resolution falls back to the greatest earlier structurally valid MAP in the same lineage and reports the malformed artifact.</li>
+<li><b>Missing COL in current valid MAP:</b> no fallback; Store is DEGRADED.</li>
+<li><b>Missing RID in current valid MAP:</b> no fallback; Store is INVALID.</li>
+<li><b>Exact original RID restored externally:</b> status is re-evaluated without Data Sculptor creating a replacement RID.</li>
+<li><b>No silent fork:</b> neither DEGRADED nor INVALID allows ordinary materialization to create a replacement Store for the same routed lineage.</li>
+</ul>
+</div>
+
+<h3>6.12 Integration consequences</h3>
+<div class="warning">
+<ul>
+<li>Rewrite <code>W002-STOR-019.10</code> and related eligibility text so MAP structural validity is distinct from present health of referenced RID/COL artifacts.</li>
+<li>Preserve malformed-newer-MAP fallback only for structurally malformed MAP artifacts.</li>
+<li>Integrate the three evaluated Store statuses without adding a persisted mutable status field.</li>
+<li>Replace “INVALID is terminal” wording with “while INVALID, no governed Store-recovery operation is available.”</li>
+<li>Retire all WASM-002 RID regeneration/recovery clauses already identified by Pass 1 F-03.</li>
+<li>Freeze the <code>REPAIR MAP</code> structure table with mandatory exact current <code>MAP</code> target and no <code>SOURCE</code>/alias/COL selector clauses.</li>
+<li>Add the explicit all-COLs-broken refusal gate and acceptance fixture.</li>
+<li>Ensure Store routing never interprets damage as absence of lineage and never establishes a replacement RID for the same routed Store.</li>
+</ul>
+</div>
+
+<h3>6.13 Explicit non-closure</h3>
+<div class="notice">
+<p>This decision closes the Pass 2 blocking F-03 questions. The separate P2-04 material issue remains: the exact validation depth used to classify a RID or COL artifact as “valid” or “invalid” must still be frozen no later than canonical PRD integration.</p>
+</div>
+
+
+<p class="backlink"><a href="#gate-register">↑ Back to gate-blocker register</a></p>
+
+<h2 id="f-06-pass2">7. F-06 — deterministic CSV refusal condition and location oracle</h2>
+<div class="freeze">
+<b>Resolution state:</b> RESOLVED BY COUNCIL DECISION / FROZEN FOR WASM-002.<br>
+<b>Decision:</b> every structural malformed-CSV refusal records one canonical refusal condition plus a deterministic absolute source location expressed as source byte offset, physical line, logical record, and field ordinal. Bare CR refuses only outside quoted fields; EOF inside an open quoted field explicitly refuses; and semicolon/tab-delimited files are not malformed merely for lacking commas.<br>
+<b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.
+</div>
+
+<h3>7.1 Canonical malformed-CSV refusal facts</h3>
+<div class="rulebox">
+<p>Every structural CSV refusal records these governed facts:</p>
+<pre><code>REFUSAL_CONDITION
+SOURCE_BYTE_OFFSET
+PHYSICAL_LINE
+LOGICAL_RECORD
+FIELD_ORDINAL</code></pre>
+<ul>
+<li><code>SOURCE_BYTE_OFFSET</code> is the zero-based absolute byte offset from the first physical byte of the source file. A leading UTF-8 BOM, when present, occupies offsets 0–2 and therefore counts in subsequent absolute byte locations.</li>
+<li><code>PHYSICAL_LINE</code> is one-based and equals one plus the number of LF bytes strictly before the governed refusal location. LF bytes inside quoted multiline fields still increment physical-line count.</li>
+<li><code>LOGICAL_RECORD</code> is one-based CSV logical-record ordinal and includes the header as logical record 1. The first data record is therefore logical record 2.</li>
+<li><code>FIELD_ORDINAL</code> is the one-based field position within that logical record.</li>
+</ul>
+<p>These facts describe the same first structural refusal regardless of permitted streaming-window size or boundary placement.</p>
+</div>
+
+<h3>7.2 Canonical REFUSAL_CONDITION tokens</h3>
+<div class="rulebox">
+<p>For the WASM-002 CSV grammar, the canonical structural malformed-CSV condition tokens are exactly:</p>
+<pre><code>UNEXPECTED_QUOTE_IN_UNQUOTED_FIELD
+INVALID_BYTE_AFTER_CLOSING_QUOTE
+BARE_CR_OUTSIDE_QUOTED_FIELD
+EOF_INSIDE_QUOTED_FIELD
+BLANK_LOGICAL_RECORD
+TOO_FEW_FIELDS
+TOO_MANY_FIELDS</code></pre>
+<p>Parser-library names, host exceptions, crate-specific error enums, or localized descriptions must not replace these governed tokens.</p>
+</div>
+
+<h3>7.3 Governed location for each condition</h3>
+<div class="rulebox">
+<table>
+<thead><tr><th>Condition</th><th>Governed refusal location</th></tr></thead>
+<tbody>
+<tr><td><code>UNEXPECTED_QUOTE_IN_UNQUOTED_FIELD</code></td><td>Offset of the offending <code>"</code> byte.</td></tr>
+<tr><td><code>INVALID_BYTE_AFTER_CLOSING_QUOTE</code></td><td>Offset of the first prohibited byte after the closing quote.</td></tr>
+<tr><td><code>BARE_CR_OUTSIDE_QUOTED_FIELD</code></td><td>Offset of the CR byte itself.</td></tr>
+<tr><td><code>EOF_INSIDE_QUOTED_FIELD</code></td><td>One-past-end offset, equal to the physical source byte length.</td></tr>
+<tr><td><code>BLANK_LOGICAL_RECORD</code></td><td>First byte of the record terminator that proves the blank record: LF for LF termination; CR for CRLF termination.</td></tr>
+<tr><td><code>TOO_FEW_FIELDS</code></td><td>First byte of the record terminator that closes the short record; at EOF, one-past-end offset equal to source byte length.</td></tr>
+<tr><td><code>TOO_MANY_FIELDS</code></td><td>The comma delimiter that begins the first field beyond the expected header width.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>7.4 Field ordinal at ragged-record refusal</h3>
+<div class="rulebox">
+<ul>
+<li>For <code>TOO_FEW_FIELDS</code>, <code>FIELD_ORDINAL</code> is the first missing field ordinal: expected-width position immediately after the last field actually present.</li>
+<li>For <code>TOO_MANY_FIELDS</code>, <code>FIELD_ORDINAL</code> is the first extra field ordinal: header-width + 1.</li>
+<li>For quote/CR/EOF structural conditions, <code>FIELD_ORDINAL</code> is the current field ordinal in which the malformed condition is established.</li>
+<li>For <code>BLANK_LOGICAL_RECORD</code>, <code>FIELD_ORDINAL</code> is 1.</li>
+</ul>
+</div>
+
+<h3>7.5 Bare CR scope is explicitly unquoted-only</h3>
+<div class="rulebox">
+<p>A bare CR outside a quoted field is malformed CSV and refuses with <code>BARE_CR_OUTSIDE_QUOTED_FIELD</code>.</p>
+<ul>
+<li>CR inside a valid quoted field is ordinary field content.</li>
+<li>LF inside a valid quoted field is ordinary field content.</li>
+<li>CRLF inside a valid quoted field is ordinary field content.</li>
+<li>Outside quoted fields, CRLF is one accepted logical-record terminator and LF is one accepted logical-record terminator.</li>
+<li>Outside quoted fields, a CR not immediately followed by LF is malformed.</li>
+</ul>
+</div>
+
+<h3>7.6 EOF while quoted is explicit refusal</h3>
+<div class="rulebox">
+<p>If EOF is reached while the parser remains inside an open quoted field, the source refuses with <code>EOF_INSIDE_QUOTED_FIELD</code>.</p>
+<p>Data Sculptor must not synthesize a closing quote, truncate the field, reinterpret prior bytes as unquoted content, or otherwise repair the source.</p>
+</div>
+
+<h3>7.7 First-condition precedence</h3>
+<div class="rulebox">
+<p>Stage 2 evaluates structural CSV input in absolute source-byte order and reports the earliest refusal condition that becomes deterministically established.</p>
+<ul>
+<li>CSV grammar errors take precedence over later row-shape errors.</li>
+<li><code>BLANK_LOGICAL_RECORD</code> takes precedence over <code>TOO_FEW_FIELDS</code> for a physically blank logical record.</li>
+<li><code>BARE_CR_OUTSIDE_QUOTED_FIELD</code> takes precedence over <code>INVALID_BYTE_AFTER_CLOSING_QUOTE</code> when the post-quote offending byte is a CR that is not followed by LF.</li>
+<li>At EOF while still inside a quoted field, <code>EOF_INSIDE_QUOTED_FIELD</code> takes precedence over field-count evaluation.</li>
+</ul>
+<p>No implementation may choose a different error merely because of parser buffering, window boundaries, library behavior, or host platform.</p>
+</div>
+
+<h3>7.8 Window invariance</h3>
+<div class="rulebox">
+<p>For the same certified source bytes, changing the permitted Stage 2 input-window size or boundary placement must not change:</p>
+<ul>
+<li>whether the source is accepted or refused;</li>
+<li>the first <code>REFUSAL_CONDITION</code>;</li>
+<li><code>SOURCE_BYTE_OFFSET</code>;</li>
+<li><code>PHYSICAL_LINE</code>;</li>
+<li><code>LOGICAL_RECORD</code>;</li>
+<li><code>FIELD_ORDINAL</code>.</li>
+</ul>
+<p>Acceptance fixtures must force boundaries around commas, opening and closing quotes, doubled-quote pairs, CR/LF pairs, quoted multiline content, empty fields, and already-certified multibyte UTF-8 sequences.</p>
+</div>
+
+<h3>7.9 Semicolon/tab-delimited input is not malformed merely for using another delimiter</h3>
+<div class="rulebox">
+<p>Comma remains the only WASM-002 field delimiter. Automatic delimiter detection is outside the WASM-002 CSV contract.</p>
+<p>A file whose rows contain semicolons, tabs, or other non-comma separators may still be valid under the comma-only grammar as a one-column CSV. Data Sculptor must not invent a malformed-CSV refusal merely because another application would treat those bytes as delimiters.</p>
+<p>When a requested <code>HEADER</code> cannot be resolved, Help may explain that WASM-002 uses comma as the CSV delimiter and that semicolon/tab exports may therefore be interpreted as one field per row.</p>
+</div>
+
+<h3>7.10 Interaction with UTF-8 diagnostics</h3>
+<div class="rulebox">
+<p>The F-06 refusal oracle governs structural CSV failures after the source has passed the applicable encoding-certification boundary.</p>
+<p>Invalid UTF-8 remains governed by the separately frozen UTF-8 diagnostic contract. Its zero-based absolute source-byte orientation is intentionally aligned with <code>SOURCE_BYTE_OFFSET</code> so WASM-002 does not have competing byte-coordinate systems.</p>
+</div>
+
+<h3>7.11 Acceptance consequences</h3>
+<div class="rulebox">
+<ul>
+<li>An unexpected quote in an unquoted field reports the quote byte and <code>UNEXPECTED_QUOTE_IN_UNQUOTED_FIELD</code>.</li>
+<li>A prohibited byte after a closing quote reports that byte and <code>INVALID_BYTE_AFTER_CLOSING_QUOTE</code>.</li>
+<li>A bare CR outside quoted content reports the CR byte and <code>BARE_CR_OUTSIDE_QUOTED_FIELD</code>.</li>
+<li>CR/LF/CRLF inside quoted values remain field content and do not trigger the bare-CR rule.</li>
+<li>EOF in an open quoted field reports the one-past-end source offset and <code>EOF_INSIDE_QUOTED_FIELD</code>.</li>
+<li>A blank logical record reports <code>BLANK_LOGICAL_RECORD</code>, not <code>TOO_FEW_FIELDS</code>.</li>
+<li>A short record reports the terminator/EOF location and first missing field ordinal.</li>
+<li>A wide record reports the delimiter opening the first extra field and that extra field ordinal.</li>
+<li>All refusal facts remain identical across permitted source-window sizes and boundary placements.</li>
+<li>A semicolon-separated file is not refused solely because it uses semicolons; Help may explain comma-only interpretation when header selection fails.</li>
+</ul>
+</div>
+
+<h3>7.12 Integration consequences</h3>
+<div class="warning">
+<ul>
+<li>Rewrite the normative CSV input-profile requirement to scope bare-CR refusal explicitly to unquoted context.</li>
+<li>Add <code>EOF_INSIDE_QUOTED_FIELD</code> explicitly to malformed-input behavior.</li>
+<li>Integrate the five governed refusal facts and seven exact condition tokens above.</li>
+<li>Extend <code>W002-MAT-003.2</code> and <code>W002-MAT-ACC-003</code> so condition and all location facts are window-invariant.</li>
+<li>Extend malformed-input acceptance fixtures to cover exact byte, physical-line, logical-record, and field-ordinal oracles.</li>
+<li>Retain comma-only parsing and do not add automatic delimiter detection.</li>
+<li>Allow Help for unresolved headers to mention delimiter mismatch without turning that explanation into a parser refusal condition.</li>
+</ul>
+</div>
+
+<h3>7.13 Explicit non-closures</h3>
+<div class="notice">
+<p>This decision closes the Pass 2 blocking F-06 residual. It does not complete the separate F-07 material integration obligation to enumerate all non-CSV STOP_REASON tokens or map Receipt keys to lowercase diagnostic-fact names.</p>
+</div>
+
+
+<p class="backlink"><a href="#gate-register">↑ Back to gate-blocker register</a></p>
+
+<h2 id="f-09-pass2">8. F-09 — complete Receipt/Inventory byte contract and operation key tables</h2>
+<div class="freeze">
+<b>Resolution state:</b> RESOLVED BY COUNCIL DECISION / FROZEN FOR WASM-002.<br>
+<b>Decision:</b> restore the complete Revision BL Receipt core rather than retire its execution facts; retain and precisely define <code>RECEIPT_UTC</code>; make indexed keys three-digit minimum width with no maximum width; freeze exact operation-specific key tables for all six executable WASM-002 operations; restore complete Inventory metadata; and add a canonical oversized-header fallback-disclosure form.<br>
+<b>PRD state:</b> NOT YET INTEGRATED. Revision BL remains the reviewed baseline.<br>
+<b>QA gate state:</b> all six Pass 2 gate blockers now have Council-frozen decisions, but Claude Pass 3 verification is still required before canonical PRD integration.
+</div>
+
+<h3>8.1 Shared RCP physical byte form remains controlling</h3>
+<div class="rulebox">
+<ul>
+<li>RCP TXT is UTF-8 without BOM.</li>
+<li>Line endings are LF only.</li>
+<li>Every artifact ends with exactly one final LF.</li>
+<li>No serialized line carries trailing spaces.</li>
+<li>No blank physical lines are emitted unless a later frozen artifact grammar explicitly requires them.</li>
+<li>Every ordinary fact is serialized as <code>KEY: VALUE</code>, using one ASCII colon followed by exactly one ASCII space.</li>
+<li>Fixed machine tokens and non-negative decimal integers are unquoted.</li>
+<li>Filenames, aliases, headers, and other free text are double-quoted UTF-8 strings; a literal <code>"</code> is doubled inside the quoted value.</li>
+<li>CR and LF are not permitted inside one serialized value.</li>
+</ul>
+</div>
+
+<h3>8.2 Frozen Receipt common envelope</h3>
+<div class="rulebox">
+<p>Every canonical WASM-002 Receipt begins with the following keys in exactly this order:</p>
+<ol>
+<li><code>RECEIPT_VERSION</code></li>
+<li><code>RECEIPT_FILENAME</code></li>
+<li><code>RECEIPT_UTC</code></li>
+<li><code>WORK_ORDER_FILENAME</code></li>
+<li><code>OPERATION</code></li>
+<li><code>RUN_STARTED_UTC</code></li>
+<li><code>RUN_FINISHED_UTC</code></li>
+<li><code>RESULT</code></li>
+<li><code>DIAGNOSTIC_ID</code></li>
+<li><code>IDENTITY_COLLISION_RETRIES</code></li>
+</ol>
+<p><code>RECEIPT_FILENAME</code> is the exact physical governed RCP filename. <code>RECEIPT_UTC</code> is exactly the canonical UTC timestamp embedded in that filename. It is the Receipt artifact's own identity/publication timestamp and does not replace <code>RUN_STARTED_UTC</code> or <code>RUN_FINISHED_UTC</code>.</p>
+<p><code>IDENTITY_COLLISION_RETRIES</code> is always present and is <code>0</code> when no governed filename-allocation retry occurred.</p>
+</div>
+
+<h3>8.3 Common absence/result rules</h3>
+<div class="rulebox">
+<ul>
+<li><code>RESULT</code> uses at minimum <code>SUCCESS</code> or <code>REFUSED</code>.</li>
+<li><code>DIAGNOSTIC_ID: NONE</code> is used for an ordinary successful run.</li>
+<li><code>NONE</code> means the fact definitively has no value in the event.</li>
+<li><code>NOT_RUN</code> means the stage/operation was not executed.</li>
+<li><code>NOT_AVAILABLE</code> means the fact may or should exist but was unavailable.</li>
+<li><code>UNKNOWN_OPERATION</code> remains the operation token when parsing/validation fails before a governed operation can be identified.</li>
+<li>A refusal Receipt never fabricates downstream stage facts or publication identities.</li>
+</ul>
+</div>
+
+<h3>8.4 Indexed-key rule has three-digit minimum width and no maximum width</h3>
+<div class="rulebox">
+<p>Every governed indexed key suffix is one-based decimal with a minimum width of three digits and no maximum width:</p>
+<pre><code>001
+002
+...
+999
+1000
+1001
+...
+16386</code></pre>
+<ul>
+<li>Indices begin at 1 and increase contiguously with no gaps.</li>
+<li>Indices 1 through 999 are left-padded with ASCII zeroes to three digits.</li>
+<li>Index 1000 and above uses its ordinary full ungrouped decimal form; no truncation, wrap, reset, or upper digit-count limit is permitted.</li>
+<li>The rule applies uniformly to <code>CREATED_ARTIFACT_...</code>, <code>FILE_...</code>, published-COL lists, repair lists, registry-repair lists, fallback-disclosure lists, and any other governed indexed RCP/INV sequence.</li>
+</ul>
+</div>
+
+<h3>8.5 Common created-artifact tail</h3>
+<div class="rulebox">
+<p>After all operation-specific facts and operation-specific indexed lists, every Receipt ends with:</p>
+<pre><code>CREATED_ARTIFACT_COUNT: &lt;N&gt;
+CREATED_ARTIFACT_001: "..."
+...
+CREATED_ARTIFACT_N: "..."</code></pre>
+<ul>
+<li>The list contains exact physical governed filenames successfully published by the run, excluding the Receipt itself.</li>
+<li>The number of lines equals <code>CREATED_ARTIFACT_COUNT</code>.</li>
+<li>When the count is zero, no <code>CREATED_ARTIFACT_...</code> lines appear.</li>
+<li>A filename allocated for a candidate, retained scratch evidence, or a failed partial write is not listed as a successfully created artifact unless its class-specific publication contract says it was successfully published.</li>
+</ul>
+</div>
+
+<h3>8.6 Governed operation tokens</h3>
+<div class="rulebox">
+<p>The six executable WASM-002 operation tokens covered by this Receipt contract are:</p>
+<pre><code>MATERIALIZE
+INVENTORY
+UPDATE_ALIASES
+REPAIR_MAP
+REPAIR_WORK_ORDER_REGISTRY
+CONVERT_WINDOWS_1252_TO_UTF_8</code></pre>
+<p><code>RECOVER_RID</code> is not a valid WASM-002 operation token.</p>
+</div>
+
+<h3>8.7 MATERIALIZE Receipt key table</h3>
+<div class="rulebox">
+<p>After the common envelope, a <code>MATERIALIZE</code> Receipt serializes these operation-specific facts in exactly this order:</p>
+<ol>
+<li><code>SOURCE_FILENAME</code></li>
+<li><code>BASE_MAP_FILENAME</code></li>
+<li><code>RID_FILENAME</code></li>
+<li><code>RID_ACTION</code></li>
+<li><code>STAGE1_UTF8_OUTCOME</code></li>
+<li><code>CERTIFIED_SOURCE_BYTE_COUNT</code></li>
+<li><code>STAGE1_ELAPSED_MS</code></li>
+<li><code>STAGE2_LOGICAL_ROW_COUNT</code></li>
+<li><code>STAGE2_ELAPSED_MS</code></li>
+<li><code>REQUESTED_COLUMN_COUNT</code></li>
+<li><code>RESOLVED_COLUMN_COUNT</code></li>
+<li><code>PUBLISHED_COL_COUNT</code></li>
+<li>zero or more <code>PUBLISHED_COL_...</code> lines</li>
+<li><code>SUCCESSOR_MAP_FILENAME</code></li>
+<li><code>OPERATIONAL_NAME_FALLBACK_COUNT</code></li>
+<li>zero or more fallback-record triplets defined in §8.8</li>
+</ol>
+<ul>
+<li><code>BASE_MAP_FILENAME: NONE</code> denotes a newly established Store with no predecessor Store MAP.</li>
+<li><code>RID_ACTION</code> uses <code>CREATED</code>, <code>REUSED</code>, or the applicable absence/not-run token on refusal.</li>
+<li><code>STAGE1_UTF8_OUTCOME</code> uses the governed Stage 1 outcome token, with <code>NOT_RUN</code> where Stage 1 did not execute.</li>
+<li>Elapsed times are non-negative whole milliseconds encoded as ungrouped ASCII base-10 integers when known.</li>
+<li><code>PUBLISHED_COL_...</code> entries are exact physical COL filenames in resolved KEEP order.</li>
+<li><code>SUCCESSOR_MAP_FILENAME</code> is the exact published successor MAP on success or the applicable absence token on refusal.</li>
+</ul>
+<p>For a successful Store-establishing materialization, the common created-artifact list is ordered RID first, then newly published COLs in resolved KEEP order, then successor MAP. For a successful existing-Store materialization, the inherited RID is not newly created; the list contains newly published COLs in resolved KEEP order followed by the successor MAP.</p>
+</div>
+
+<h3>8.8 Oversized-header fallback disclosure</h3>
+<div class="rulebox">
+<p>Whenever the F-20 operational-name fallback is actually used by MATERIALIZE, the Receipt records one indexed triplet per affected source column:</p>
+<pre><code>OPERATIONAL_NAME_FALLBACK_COUNT: 2
+OPERATIONAL_NAME_FALLBACK_001_COLUMN_ORDINAL: 7
+OPERATIONAL_NAME_FALLBACK_001_ASSIGNED_NAME: "Column G"
+OPERATIONAL_NAME_FALLBACK_001_REASON: SOURCE_HEADER_EXCEEDS_1024_SCALARS</code></pre>
+<ul>
+<li>Fallback records are ordered by ascending physical source-column ordinal.</li>
+<li><code>..._COLUMN_ORDINAL</code> is the one-based physical source-column ordinal.</li>
+<li><code>..._ASSIGNED_NAME</code> is the exact final deterministic operational name after any collision disambiguation.</li>
+<li><code>..._REASON</code> is exactly <code>SOURCE_HEADER_EXCEEDS_1024_SCALARS</code>.</li>
+<li>The complete oversized source header is not reproduced merely to document the fallback.</li>
+</ul>
+</div>
+
+<h3>8.9 INVENTORY Receipt key table</h3>
+<div class="rulebox">
+<p>After the common envelope, an <code>INVENTORY</code> Receipt contains:</p>
+<ol>
+<li><code>INVENTORY_FILENAME</code></li>
+<li><code>INVENTORY_ENTRY_COUNT</code></li>
+</ol>
+<p>On success, <code>INVENTORY_FILENAME</code> is the exact physical INV artifact identity and the common created-artifact list contains that INV filename. On refusal before INV publication, the filename uses the applicable absence token and no uncommitted candidate is claimed as published.</p>
+</div>
+
+<h3>8.10 INV artifact byte contract</h3>
+<div class="rulebox">
+<p>The INV artifact uses the shared UTF-8/no-BOM/LF and <code>KEY: VALUE</code> rules. Its exact header order is:</p>
+<ol>
+<li><code>INVENTORY_VERSION</code></li>
+<li><code>INVENTORY_UTC</code></li>
+<li><code>WORK_ORDER_FILENAME</code></li>
+<li><code>SUITCASE_DECLARATION</code></li>
+<li><code>FILE_COUNT</code></li>
+</ol>
+<p>For WASM-002 the Suitcase declaration is serialized as:</p>
+<pre><code>SUITCASE_DECLARATION: "."</code></pre>
+<p>Each regular-file entry then contributes exactly three keys:</p>
+<pre><code>FILE_001_FILENAME: "example.csv"
+FILE_001_BYTE_LENGTH: 12345
+FILE_001_LAST_MODIFIED_UTC: 20260929T120000000Z</code></pre>
+<ul>
+<li>Entries are ordered by ascending exact physical filename UTF-8 byte sequence.</li>
+<li><code>FILE_n_FILENAME</code> is the exact visible filename.</li>
+<li><code>FILE_n_BYTE_LENGTH</code> is the exact non-negative byte length reported by the host file object.</li>
+<li><code>FILE_n_LAST_MODIFIED_UTC</code> is the host/browser-reported last-modified value in canonical UTC millisecond form when usable; otherwise <code>NOT_AVAILABLE</code>.</li>
+<li>The current INV artifact describes the pre-publication Suitcase snapshot and therefore excludes itself; any older INV already present at snapshot time is listed normally.</li>
+<li>No blank lines appear between entries in the actual artifact.</li>
+</ul>
+</div>
+
+<h3>8.11 UPDATE_ALIASES Receipt key table</h3>
+<div class="rulebox">
+<p>The previously frozen operation-specific facts remain, in exactly this order:</p>
+<ol>
+<li><code>BASE_MAP_FILENAME</code></li>
+<li><code>SUCCESSOR_MAP_FILENAME</code></li>
+</ol>
+<p>If no successor MAP is successfully published, <code>SUCCESSOR_MAP_FILENAME</code> uses the applicable absence token.</p>
+</div>
+
+<h3>8.12 REPAIR_MAP Receipt key table</h3>
+<div class="rulebox">
+<p>After the common envelope, a <code>REPAIR_MAP</code> Receipt serializes:</p>
+<ol>
+<li><code>TARGET_MAP_FILENAME</code></li>
+<li><code>RID_FILENAME</code></li>
+<li><code>BROKEN_COL_COUNT</code></li>
+<li>zero or more <code>BROKEN_COL_..._FILENAME</code> lines</li>
+<li><code>RETAINED_COL_COUNT</code></li>
+<li><code>SUCCESSOR_MAP_FILENAME</code></li>
+</ol>
+<ul>
+<li>Broken COL filenames are serialized in ascending exact UTF-8 filename-byte order.</li>
+<li><code>RETAINED_COL_COUNT</code> is the number of valid mapped non-RID COL bindings preserved in the candidate/resulting Store state.</li>
+<li>On the all-COLs-broken refusal frozen under F-03, <code>SUCCESSOR_MAP_FILENAME: NONE</code>; no zero-COL successor MAP is claimed.</li>
+</ul>
+</div>
+
+<h3>8.13 REPAIR_WORK_ORDER_REGISTRY Receipt key table</h3>
+<div class="rulebox">
+<p>The exact operation token is <code>REPAIR_WORK_ORDER_REGISTRY</code>. Its operation-specific facts are:</p>
+<ol>
+<li><code>BASE_WKO_MAP_FILENAME</code></li>
+<li><code>REMOVED_STALE_ROW_COUNT</code></li>
+<li>zero or more <code>REMOVED_STALE_WKO_..._FILENAME</code> lines</li>
+<li><code>REGISTERED_CURRENT_COUNT</code></li>
+<li>zero or more <code>REGISTERED_CURRENT_WKO_..._FILENAME</code> lines</li>
+<li><code>REGISTERED_DEPRECATED_COUNT</code></li>
+<li>zero or more <code>REGISTERED_DEPRECATED_WKO_..._FILENAME</code> lines</li>
+<li><code>SUCCESSOR_WKO_MAP_FILENAME</code></li>
+</ol>
+<ul>
+<li>Each filename list is independently sorted by ascending exact UTF-8 filename bytes.</li>
+<li>If the bootstrap repair WKO is newly discovered and registered, it is represented in the appropriate registered list according to the F-02 reconciliation rules.</li>
+<li>A refused registry repair never claims a successor WKO MAP that was not successfully published.</li>
+</ul>
+</div>
+
+<h3>8.14 CONVERT_WINDOWS_1252_TO_UTF_8 Receipt key table</h3>
+<div class="rulebox">
+<p>The F-10 conversion contract remains unchanged. After the common envelope, conversion serializes:</p>
+<ol>
+<li><code>SOURCE_FILENAME</code></li>
+<li><code>SOURCE_ENCODING</code></li>
+<li><code>MATERIALIZED_ENCODING</code></li>
+<li><code>TRANSCODING</code></li>
+<li><code>SOURCE_CHANGED</code></li>
+<li><code>OUTPUT_FILENAME</code></li>
+</ol>
+<p>The governed operation token remains:</p>
+<pre><code>CONVERT_WINDOWS_1252_TO_UTF_8</code></pre>
+</div>
+
+<h3>8.15 Golden byte fixtures are mandatory for all executable WASM-002 operations</h3>
+<div class="rulebox">
+<p>Canonical PRD integration must provide byte-exact golden Receipt fixtures sufficient to prove serialization for all six executable operations:</p>
+<ul>
+<li><code>MATERIALIZE</code></li>
+<li><code>INVENTORY</code></li>
+<li><code>UPDATE_ALIASES</code></li>
+<li><code>REPAIR_MAP</code></li>
+<li><code>REPAIR_WORK_ORDER_REGISTRY</code></li>
+<li><code>CONVERT_WINDOWS_1252_TO_UTF_8</code></li>
+</ul>
+<p>Fixtures must cover successful execution and any refusal form needed to exercise absence/not-run semantics for that operation. Canonical integration must also carry at least one byte-exact INV artifact fixture.</p>
+<p>Acceptance compares emitted bytes directly, including UTF-8/no-BOM, LF placement, final LF, key spelling, key order, quoting, doubled-quote escaping, absence tokens, decimal formatting, index width, and deterministic list ordering.</p>
+</div>
+
+<h3>8.16 Acceptance consequences</h3>
+<div class="rulebox">
+<ul>
+<li>Every RCP proves the exact RCP filename, RCP filename UTC, WKO lineage, run start/finish UTCs, result, diagnostic identity, and collision retry count.</li>
+<li>A forced UUID/name collision increments <code>IDENTITY_COLLISION_RETRIES</code> without mutating the pre-existing artifact.</li>
+<li>A maximum-width 16,384-column Store-establishing materialization can serialize all 16,386 created artifacts without index overflow.</li>
+<li>MATERIALIZE Receipts preserve COL publication order independently from the all-artifact tail.</li>
+<li>Inventory records exact filename, byte length and last-modified metadata for each regular file, plus generating WKO and Suitcase declaration.</li>
+<li>REPAIR_MAP and registry-repair Receipts expose deterministic repair evidence rather than relying only on transient Help text.</li>
+<li>Oversized-header fallback is auditable without copying the oversized original header into the Receipt.</li>
+<li>Receipt publication never converts candidate allocation into a false successful-publication claim.</li>
+</ul>
+</div>
+
+<h3>8.17 Integration consequences</h3>
+<div class="warning">
+<ul>
+<li>Rewrite <code>W002-RCP-005</code> through <code>W002-RCP-008</code> around the complete common envelope and exact operation key tables above.</li>
+<li>Preserve the Revision BL requirements for <code>RECEIPT_FILENAME</code>, <code>RUN_STARTED_UTC</code>, <code>RUN_FINISHED_UTC</code>, and <code>IDENTITY_COLLISION_RETRIES</code>; they are not retired.</li>
+<li>Integrate <code>RECEIPT_UTC</code> as the exact UTC token embedded in the physical RCP filename.</li>
+<li>Replace every fixed-three-digit maximum rule with the minimum-three-digit/no-maximum indexing rule.</li>
+<li>Rewrite <code>W002-INV-006</code> and related INV requirements with the exact header and three-key per-file entry structure.</li>
+<li>Retire Revision BL RID-recovery Receipt material previously identified under F-03; it is not one of the six executable operation tables.</li>
+<li>Integrate the exact <code>REPAIR_WORK_ORDER_REGISTRY</code> operation token already frozen under F-02.</li>
+<li>Add byte-exact golden fixtures for all six operations and the INV artifact itself.</li>
+</ul>
+</div>
+
+<h3>8.18 Pass 2 gate status after Council reconciliation</h3>
+<div class="notice">
+<p><b>All six Claude Pass 2 gate blockers now have Council-frozen reconciliation decisions:</b> P2-01, P2-02, F-02, F-03, F-06, and F-09.</p>
+<p>This does <b>not</b> change Claude's Pass 2 gate verdict retroactively. The reviewed Revision BL remains unchanged, DRAFT / UNDER REVIEW / NOT FROZEN, and canonical PRD integration has not been performed.</p>
+<p>The next governance step is a focused <b>Claude Pass 3</b> on these six items and the resulting reconciliation text. Only after that verification clears the gate may Red5Sorcery proceed to canonical successor-PRD integration.</p>
+</div>
+
+<p class="backlink"><a href="#gate-register">↑ Back to gate-blocker register</a></p>
+
+<h2>9. Next governance step</h2>
+<div class="warning"><b>PASS 3 REQUIRED:</b> send Claude the updated Pass 2 reconciliation decisions for P2-01, P2-02, F-02, F-03, F-06 and F-09. Do not integrate Revision BL into a successor canonical PRD until Claude rechecks these six gate items.</div>
+
+
+
+
+
+
+<footer><p>Red5Sorcery Data Sculptor — WASM-002 Claude QA Reconciliation Log — Pass 2. Separate Council decision record. Canonical PRD integration remains pending.</p></footer>
+
+<h2 id="pass3-erratum">10. Pass 3 erratum — P3-01 and P3-02</h2>
+<div class="freeze">
+<b>Erratum state:</b> APPROVED BY T / COUNCIL DECISION FROZEN FOR WASM-002.<br>
+<b>Purpose:</b> resolve the two blocking contradictions identified by Claude Pass 3 without performing canonical PRD integration.<br>
+<b>Pass 3 source:</b> <code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass3_2026-09-29.html</code>, SHA-256 <code>0598550B83CFB3AD37E6D810D95B58A998F0CE4D273EC5E9E91E809F51FC3461</code>.<br>
+<b>Gate state:</b> Claude's Pass 3 verdict remains <code>NOT READY FOR CANONICAL PRD INTEGRATION</code> until Claude checks this erratum. Revision BL remains unchanged / DRAFT / UNDER REVIEW / NOT FROZEN.
+</div>
+
+<h3 id="p3-01-erratum">10.1 P3-01 — restore the optional MAP clause to MATERIALIZE</h3>
+<div class="rulebox">
+<p>The canonical WASM-002 MATERIALIZE Work Order structure is corrected to:</p>
+<pre><code>SUITCASE: .
+WORK ORDER AS "&lt;alias&gt;"
+SOURCE "&lt;filename&gt;"
+[MAP "&lt;exact Store MAP filename&gt;"]
+KEEP:
+  ...
+MATERIALIZE</code></pre>
+<ul>
+<li><code>MAP "&lt;filename&gt;"</code> is optional with cardinality <b>0..1</b>.</li>
+<li>If present, the MAP clause occurs <b>immediately after SOURCE and before KEEP</b>.</li>
+<li>The MAP value names one exact physical governed Store MAP filename.</li>
+<li>The named MAP may be the current or a historical <b>structurally valid</b> Store MAP for exactly one Store lineage.</li>
+<li>The named MAP binds the materialization run to that exact Store lineage.</li>
+<li>The Work Order's exact <code>SOURCE</code> filename must equal the lineage's common <code>source_filename</code>; otherwise the run refuses.</li>
+<li>If MAP is absent, P2-01 automatic exact-source routing applies: zero matching lineages may establish a new Store, one matching lineage routes to that Store, and more than one matching lineage refuses and requires explicit MAP selection.</li>
+<li>This clause is the governed exit for ambiguous exact-source routing and the governed selector for eligible historical Store-state materialization.</li>
+</ul>
+<p>This erratum supersedes only the omission of MAP from Pass 2 §4.4. It does not withdraw the mandatory <code>WORK ORDER AS</code> rule, trailing-comment rule, or the other frozen MATERIALIZE ordering/cardinality rules.</p>
+</div>
+
+<h3 id="p3-02-erratum">10.2 P3-02 — durable UTF-8/CSV refusal facts in MATERIALIZE Receipts</h3>
+<div class="rulebox">
+<p>The canonical RCP is the durable serialized home for the governed UTF-8 and CSV refusal facts used by MATERIALIZE.</p>
+<p>In the exact MATERIALIZE Receipt key order frozen under F-09 §8.7, insert these two keys <b>immediately after <code>STAGE1_ELAPSED_MS</code></b>:</p>
+<pre><code>UTF8_FIRST_INVALID_BYTE_OFFSET
+UTF8_STOP_REASON</code></pre>
+<p>Then insert these five keys <b>immediately after <code>STAGE2_ELAPSED_MS</code></b>:</p>
+<pre><code>CSV_REFUSAL_CONDITION
+CSV_SOURCE_BYTE_OFFSET
+CSV_PHYSICAL_LINE
+CSV_LOGICAL_RECORD
+CSV_FIELD_ORDINAL</code></pre>
+<ul>
+<li>These seven keys occupy their frozen positions in every canonical MATERIALIZE Receipt.</li>
+<li>When the applicable refusal occurred and the fact is known, the governed value is serialized.</li>
+<li>When that refusal class did not occur, the value is exactly <code>NOT_APPLICABLE</code>.</li>
+<li><code>UTF8_FIRST_INVALID_BYTE_OFFSET</code> carries the F-07 zero-based absolute first-invalid source-byte offset.</li>
+<li><code>UTF8_STOP_REASON</code> carries the governed F-07 stop-reason token. The complete STOP_REASON token set remains a material integration obligation and is not invented by this erratum.</li>
+<li>The five <code>CSV_...</code> keys carry the exact F-06 refusal condition and location oracle.</li>
+<li>Receipt field names are intentionally prefixed to distinguish the durable RCP serialization from diagnostic-fact key naming in other surfaces.</li>
+</ul>
+<p>Example — malformed CSV after successful UTF-8 certification:</p>
+<pre><code>UTF8_FIRST_INVALID_BYTE_OFFSET: NOT_APPLICABLE
+UTF8_STOP_REASON: NOT_APPLICABLE
+CSV_REFUSAL_CONDITION: BARE_CR_OUTSIDE_QUOTED_FIELD
+CSV_SOURCE_BYTE_OFFSET: 1842
+CSV_PHYSICAL_LINE: 27
+CSV_LOGICAL_RECORD: 24
+CSV_FIELD_ORDINAL: 6</code></pre>
+<p>For a Stage 1 UTF-8 refusal, the two UTF-8 keys are populated and all five CSV keys are <code>NOT_APPLICABLE</code>.</p>
+</div>
+
+<h3>10.3 CONVERT refusal offset</h3>
+<div class="rulebox">
+<p>The <code>CONVERT_WINDOWS_1252_TO_UTF_8</code> Receipt table is amended by inserting the following key <b>immediately after <code>SOURCE_ENCODING</code></b>:</p>
+<pre><code>UNDEFINED_WINDOWS_1252_BYTE_OFFSET</code></pre>
+<ul>
+<li>It is the zero-based absolute source-byte offset of the first undefined Windows-1252 byte encountered under the frozen compatibility mapping.</li>
+<li>If no undefined Windows-1252 byte caused refusal, the value is <code>NOT_APPLICABLE</code>.</li>
+<li>This does not change the frozen Windows-1252 mapping or the explicit separate conversion-operation boundary.</li>
+</ul>
+</div>
+
+<h3>10.4 NOT_APPLICABLE use in this erratum</h3>
+<div class="rulebox">
+<p><code>NOT_APPLICABLE</code> is the authoritative absence token for the new fixed-position refusal fields when the corresponding refusal class or condition does not apply to the run. This erratum does not attempt the broader P3-04 refusal-matrix cleanup, which remains an integration-stage material obligation.</p>
+</div>
+
+<h3>10.5 Gate consequence</h3>
+<div class="notice">
+<p>P3-01 and P3-02 now have explicit Council-frozen answers. No canonical successor PRD text has been produced or integrated.</p>
+<p><b>Next step:</b> send this erratum to Claude for the short gate check requested in Pass 3. If Claude confirms that these two contradictions are resolved without introducing a new blocking contradiction, the gate may move to <code>READY FOR CANONICAL PRD INTEGRATION</code>.</p>
+</div>
+<p class="backlink"><a href="#gate-register">↑ Back to gate-blocker register</a></p>
+
+</main>
+</body>
+</html>

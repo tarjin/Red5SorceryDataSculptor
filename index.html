@@ -281,12 +281,12 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 </style>
 </head>
 <body>
-<!-- Day 052 preflight update: Day 051 closed the remaining eight findings from Claude Pass 1, bringing the WASM-002 reconciliation to 34 of 34 findings resolved. Revision BL remains the exact reviewed baseline: 778 recorded requirements, 384 scoped to WASM-002, DRAFT / UNDER REVIEW / NOT FROZEN. Accepted decisions remain in the separate reconciliation log and have not yet been integrated into the canonical PRD. After Hours broadened the post-WASM-002 product direction around the Suitcase, DIR, RQSM, professional personas and handoff without expanding WASM-002 scope. Day 052 sends Revision BL, Claude's original Pass 1 review and the completed 34/34 reconciliation back to Claude for a second-pass adversarial review, then addresses that feedback before any PRD integration, approval, freeze or implementation claim. -->
+<!-- Day 053 preflight update: Day 052 completed the staged adversarial review of the WASM-002 reconciliation record. Claude Pass 2 audited the 34 Pass 1 decisions and returned NOT READY FOR CANONICAL PRD INTEGRATION, identifying six gate blockers and seven new Pass 2 findings. The Council resolved all six gate blockers in a separate Pass 2 reconciliation record. Claude Pass 3 then cross-checked those decisions and found two new blocking contradictions, P3-01 and P3-02; the Council resolved both in an append-only erratum. Claude's short erratum gate check returned READY FOR CANONICAL PRD INTEGRATION, with no new blocking findings. Revision BL remains unchanged at 778 recorded requirements, 384 scoped to WASM-002, DRAFT / UNDER REVIEW / NOT FROZEN. Canonical successor PRD integration has not yet been performed and no WASM-002 implementation is claimed. Day 053 begins controlled canonical PRD integration: carry the reviewed decisions and all remaining material/clarity obligations into a successor revision, preserve the review trail, then return the integrated successor PRD to adversarial review before any freeze or implementation claim. -->
 
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 052</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 053</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -329,23 +329,48 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
       <span class="cta-label">WASM-002 QA reconciliation — Council decision record</span>
       <a class="watch" href="Red5Sorcery_Data_Sculptor_WASM002_Claude_QA_Reconciliation_Log_Pass1.html">Open the Claude QA Reconciliation Log<span>&#8594;</span></a>
     </div>
+
+    <div class="hero-cta">
+      <span class="cta-label">WASM-002 independent adversarial QA — Claude Pass 2</span>
+      <a class="watch" href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass2_2026-09-29.html">Read Claude's Pass 2 Findings<span>&#8594;</span></a>
+    </div>
+
+    <div class="hero-cta">
+      <span class="cta-label">WASM-002 QA reconciliation — Pass 2 Council decisions</span>
+      <a class="watch" href="WASM002_Pass2_Reconciliation_20260929.html">Open the Pass 2 Reconciliation<span>&#8594;</span></a>
+    </div>
+
+    <div class="hero-cta">
+      <span class="cta-label">WASM-002 independent adversarial QA — Claude Pass 3</span>
+      <a class="watch" href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass3_2026-09-29.html">Read Claude's Pass 3 Findings<span>&#8594;</span></a>
+    </div>
+
+    <div class="hero-cta">
+      <span class="cta-label">WASM-002 QA reconciliation — Pass 3 erratum</span>
+      <a class="watch" href="WASM002_Pass2_Reconciliation_Pass3_Erratum_20260929.html">Open the Pass 3 Reconciliation<span>&#8594;</span></a>
+    </div>
+
+    <div class="hero-cta">
+      <span class="cta-label">WASM-002 QA gate — Pass 3 erratum check</span>
+      <a class="watch" href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass3_Erratum_Check_2026-09-29.html">Read the READY Gate Check<span>&#8594;</span></a>
+    </div>
 <div class="state">
-      <div class="state-top">Project state — Day 052, Tuesday 29 September 2026</div>
+      <div class="state-top">Project state — Day 053, Wednesday 30 September 2026</div>
       <dl>
         <dt>Phase</dt>
-        <dd>WASM-002 specification — Pass 1 reconciliation is complete and the reviewed evidence package is moving into Claude's second-pass adversarial review before any canonical PRD integration.</dd>
+        <dd>WASM-002 specification — the staged Pass 1 / Pass 2 / Pass 3 reconciliation trail has cleared the decision-record gate. Day 053 begins controlled canonical PRD integration, not implementation.</dd>
         <dt>Contract</dt>
-        <dd>Revision BL of the <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">official HTML Product Backlog PRD</a> remains the exact reviewed baseline: 778 recorded requirements, 384 scoped to WASM-002, DRAFT / UNDER REVIEW / NOT FROZEN. All 34 Pass 1 findings now have reconciled Council decisions in the separate decision record; Revision BL itself has not yet been rewritten with them.</dd>
+        <dd>Revision BL of the <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">official HTML Product Backlog PRD</a> remains the exact reviewed baseline: 778 recorded requirements, 384 scoped to WASM-002, DRAFT / UNDER REVIEW / NOT FROZEN. The reviewed decisions remain in separate append-only QA and reconciliation artifacts until they are deliberately integrated into a successor PRD revision.</dd>
         <dt>Build state</dt>
-        <dd>No WASM-002 production implementation has started. Claude's Pass 1 review contained 34 findings — 11 blocking, 15 material non-blocking and 8 clarity — and all 34 are now reconciled. The original review remains public here: <a href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass1.html">Claude's WASM-002 Revision BL adversarial QA review</a>. The completed Council decision record is here: <a href="Red5Sorcery_Data_Sculptor_WASM002_Claude_QA_Reconciliation_Log_Pass1.html">Claude QA Reconciliation Log — Pass 1</a>.</dd>
+        <dd>No WASM-002 production implementation has started. Pass 2 returned NOT READY FOR CANONICAL PRD INTEGRATION and identified six gate blockers. The Council resolved all six; Pass 3 then found two cross-decision blockers, P3-01 and P3-02. Both were resolved in an append-only erratum, and Claude's short erratum gate check returned <strong>READY FOR CANONICAL PRD INTEGRATION</strong> with no new blocking findings.</dd>
         <dt>Now building</dt>
-        <dd>Day 052 sends Revision BL, Claude's original Pass 1 review and the completed 34-of-34 reconciliation back to Claude for a second-pass adversarial review. Any new feedback will be addressed one bounded issue at a time before the accepted reconciliation is integrated into a later PRD revision. No implementation, approval or freeze is assumed.</dd>
+        <dd>Day 053 is the integration flight: carry the frozen reconciliation decisions into a successor canonical PRD, explicitly settle the remaining Pass 2 and Pass 3 material/clarity obligations — including E-01 and E-02 from the final gate check — preserve the full review lineage, and prepare the integrated successor for another adversarial review before any approval, freeze or implementation claim.</dd>
         <dt>Yesterday</dt>
-        <dd>Day 051 closed the remaining eight Pass 1 findings, taking the reconciliation from 26 of 34 to 34 of 34. The result is a completed decision record, not a silent rewrite of the reviewed contract: Revision BL remains intact as evidence, and canonical PRD integration has not yet been performed.</dd>
+        <dd>Day 052 put the reconciliation itself under adversarial review. Pass 2 audited the 34 Pass 1 decisions and found 19 closed with integration obligations, 15 partially closed, zero reopened, and seven new findings; six issues blocked integration. After the Council resolved those six, Pass 3 verified the gate items and exposed two contradictions between otherwise sound decisions. A short erratum repaired both. Claude's final erratum check moved the decision record to READY FOR CANONICAL PRD INTEGRATION.</dd>
         <dt>Yesterday after hours</dt>
-        <dd>After Hours widened the post-WASM-002 product record without enlarging WASM-002 itself. Final-form work examined a Word/PDF save failure mode, clarified Data Sculptor's relationship to DuckDB, advanced RQSM toward two separated carrier bundles and a distinct commercial/white-label boundary, gave DIR two governed descriptive layers — Primary Description and Secondary Description — and developed the Suitcase around eight professional personas plus a concise product definition: organize, analyze, and hand off serious knowledge work locally. The current WASM-002-to-V1 release-family roadmap remains a planning artifact rather than shipped capability.</dd>
+        <dd>A working note opened a new research thread on the Red5Sorcery AI Council itself: one accountable human working through ordinary chat with specialized AI roles, adversarial separation, persistent artifacts and explicit human final authority. Data Sculptor is the longitudinal case study; the Council method is the research object. This is method/research work and does not alter WASM-002 scope.</dd>
         <dt>Unsettled</dt>
-        <dd class="open">Claude Pass 2 has not yet been completed, and the 34 reconciled decisions have not yet been integrated into a new canonical PRD revision. Revision BL remains DRAFT / UNDER REVIEW / NOT FROZEN. No WASM-002 approval, implementation start or freeze is claimed.</dd>
+        <dd class="open">The successor PRD has not yet been produced or reviewed. Material and clarity obligations from Pass 2 and Pass 3 still have to be resolved during integration. Revision BL remains DRAFT / UNDER REVIEW / NOT FROZEN. READY applies only to canonical PRD integration of the decision record; it is not an implementation, acceptance or freeze verdict.</dd>
         <dt>Privacy R&amp;D</dt>
         <dd>RQSM remains optional and outside WASM-002. Current design work keeps it architecturally isolated from the open Data Sculptor core, advances controlled separation through multiple carrier bundles, and preserves a separate licensing boundary for commercial and white-label use.</dd>
         <dt>Released</dt>
@@ -1016,11 +1041,22 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         </div>
       </li>
       <li>
-        <div class="log-day">Day 052<span class="log-date">Tue 29 Sep</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-day">Day 052<span class="log-date">Tue 29 Sep</span><span class="log-tag">Landed</span></div>
         <div class="log-entry">
-          <h3>Put the Reconciliation Back Under Adversarial Review</h3>
-          <p>Day 052 opens with the Pass 1 reconciliation complete: 34 of 34 findings resolved, including all 11 blocking findings. Revision BL remains unchanged as the exact baseline Claude originally reviewed, while the separate reconciliation log records the Council's accepted responses.</p>
-          <p class="log-after"><b>Planned flight</b>Send the reviewed baseline, Claude's original Pass 1 findings and the complete 34-of-34 reconciliation to Claude for a second-pass review. Address any resulting feedback one bounded issue at a time. Only after that review is satisfied should the accepted decisions be integrated deliberately into a later canonical PRD revision. No implementation, approval or freeze is assumed.</p>
+          <h3>The Gate Moved</h3>
+          <p>Day 052 attacked the reconciliation instead of rushing it into the PRD. Claude's Pass 2 re-read the 34 Pass 1 decisions against Revision BL and returned NOT READY FOR CANONICAL PRD INTEGRATION: 19 findings were closed with integration obligations, 15 were partially closed, none were reopened, and seven new Pass 2 findings were raised. Six issues blocked the gate. The Council resolved all six in a separate Pass 2 reconciliation record, including one Store lineage per Store MAP, reachable WKO-registry repair, a clean split between MAP structural validity and Store health, deterministic CSV refusal coordinates, and complete Receipt/Inventory byte contracts.</p>
+          <p class="log-after"><b>Pass 3</b>Claude then attacked the six gate decisions together. It found no reopened Pass 1 issue, but exposed two new blocking contradictions: P3-01, where the explicit MAP escape route required by routing had been omitted from the materialization grammar; and P3-02, where frozen UTF-8/CSV refusal facts had no fixed home in the MATERIALIZE Receipt. Both were resolved in an append-only erratum.</p>
+          <p class="log-after"><b>Landing state</b>Claude's short erratum gate check resolved P3-01 and P3-02 with no new blocking contradiction and returned <strong>READY FOR CANONICAL PRD INTEGRATION</strong>. Revision BL remains unchanged, DRAFT / UNDER REVIEW / NOT FROZEN; the successor PRD has not yet been integrated; no WASM-002 implementation is claimed. E-01 (clarity) and E-02 (material non-blocking), plus the carried Pass 2 / Pass 3 material-and-clarity checklist, remain integration obligations.</p>
+          <p class="log-after"><b>After hours</b>A working note began documenting the AI Council itself as a research object: one accountable human, specialized AI roles, adversarial separation, persistent artifacts and ordinary chat as the coordination medium. Data Sculptor remains the longitudinal case study.</p>
+          <p class="log-after"><b>Next</b>Begin controlled canonical PRD integration, settle the carried obligations explicitly, preserve the review trail, and submit the integrated successor PRD to another adversarial review before implementation.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 053<span class="log-date">Wed 30 Sep</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-entry">
+          <h3>Integrate the Reviewed Decisions Into the Canonical PRD</h3>
+          <p>Day 053 begins from a decision record that Claude's Pass 3 erratum gate check marked READY FOR CANONICAL PRD INTEGRATION. Revision BL is still the untouched reviewed baseline. Today's work is to produce the successor canonical PRD deliberately rather than collapse the review trail into a silent rewrite.</p>
+          <p class="log-after"><b>Planned flight</b>Carry the accepted Pass 1, Pass 2 and Pass 3 decisions into the successor WASM-002 PRD; resolve the remaining material and clarity obligations, including E-01 and E-02; preserve exact lineage back to Revision BL and the append-only reconciliation artifacts; then prepare the integrated successor for another independent adversarial review. No implementation, approval or freeze is assumed.</p>
         </div>
       </li>
     </ol>

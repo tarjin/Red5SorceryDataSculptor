@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WASM-002 QA Pass 3</title>
+<style>
+:root {
+  --paper:#FBFBF9; --ink:#1D2330; --muted:#586173; --rule:#D8DCE3; --panel:#F1F3F6;
+  --red5:#C8102E; --blk-bg:#FBEFF1; --mat:#8F5400; --mat-bg:#FBF3E6; --clr:#35598A; --clr-bg:#EEF3F9;
+  --serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+  --sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --mono: Consolas, "Cascadia Mono", "DejaVu Sans Mono", Menlo, monospace;
+}
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:1.02rem/1.62 var(--serif); }
+main { max-width:50rem; margin:0 auto; padding:2.5rem 1.25rem 4rem; }
+h1,h2,h3,h4 { font-family:var(--sans); line-height:1.25; }
+h1 { font-size:1.9rem; font-weight:650; margin:.2rem 0 .4rem; letter-spacing:-.01em; }
+h2 { font-size:1.3rem; font-weight:650; margin:2.8rem 0 .8rem; padding-top:1rem; border-top:2px solid var(--ink); }
+h3 { font-size:1.12rem; font-weight:620; margin:.25rem 0 .35rem; }
+h4 { font-size:.86rem; font-weight:650; color:var(--muted); margin:1rem 0 .3rem; }
+p { margin:.55rem 0; }
+code { font-family:var(--mono); font-size:.86em; background:var(--panel); padding:.05em .3em; border-radius:3px; overflow-wrap:anywhere; }
+a { color:var(--clr); }
+a:focus-visible { outline:2px solid var(--red5); outline-offset:2px; }
+.brand { font-family:var(--sans); font-weight:700; font-size:1rem; margin:0; }
+.brand .five { color:var(--red5); }
+.lede { color:var(--muted); font-size:1.05rem; margin-top:0; }
+.idtable, .index, .proto, .sumtable { width:100%; border-collapse:collapse; font-family:var(--sans); font-size:.88rem; }
+.idtable th, .idtable td, .proto th, .proto td { text-align:left; vertical-align:top; padding:.4rem .6rem .4rem 0; border-bottom:1px solid var(--rule); }
+.idtable th, .proto th { width:11rem; font-weight:600; color:var(--muted); }
+.idtable td code { font-size:.8rem; }
+.wrap { overflow-x:auto; }
+.sumtable td, .sumtable th { padding:.45rem .7rem; border:1px solid var(--rule); text-align:left; }
+.sumtable td.n { font-weight:700; font-size:1.1rem; text-align:right; width:4rem; }
+.index td { padding:.38rem .5rem; border-bottom:1px solid var(--rule); vertical-align:top; }
+.index td:first-child { white-space:nowrap; font-weight:600; }
+.index .sevcell { white-space:nowrap; font-size:.74rem; font-weight:700; }
+.index tr.blocking .sevcell { color:var(--red5); }
+.index tr.material .sevcell { color:var(--mat); }
+.index tr.clarity .sevcell { color:var(--clr); }
+.finding { margin:2rem 0; padding:1rem 1.2rem 1rem 1.2rem; border-left:5px solid; background:#fff; border-radius:0 4px 4px 0; box-shadow:0 0 0 1px var(--rule) inset; }
+.finding.blocking { border-left-color:var(--red5); }
+.finding.material { border-left-color:var(--mat); }
+.finding.clarity  { border-left-color:var(--clr); }
+.fid { font-family:var(--sans); font-weight:700; margin:0; font-size:.9rem; display:flex; gap:.7rem; align-items:baseline; flex-wrap:wrap; }
+.sev { font-size:.72rem; font-weight:700; padding:.1rem .45rem; border-radius:3px; }
+.blocking .sev { background:var(--blk-bg); color:var(--red5); }
+.material .sev { background:var(--mat-bg); color:var(--mat); }
+.clarity .sev  { background:var(--clr-bg); color:var(--clr); }
+.cites { font-family:var(--sans); font-size:.8rem; color:var(--muted); margin:.2rem 0 .4rem; }
+.rid { font-size:.76rem; margin-right:.15rem; white-space:nowrap; }
+.finding ul { margin:.2rem 0 .4rem; padding-left:1.25rem; }
+.finding li { margin:.28rem 0; }
+.finding ul.ev, .finding ul.an { list-style:none; padding-left:1.45rem; }
+.finding ul.ev > li, .finding ul.an > li { text-indent:-1.45rem; }
+.finding li.sub { list-style:circle; margin-left:1.2rem; text-indent:0 !important; }
+.ei { display:inline-block; font-family:var(--sans); font-size:.66rem; font-weight:700; width:1.15rem; height:1.15rem; line-height:1.15rem; text-align:center; border-radius:50%; margin-right:.2rem; vertical-align:.1em; text-indent:0; }
+.ei-e { background:var(--ink); color:#fff; }
+.ei-i { background:#fff; color:var(--ink); box-shadow:0 0 0 1.2px var(--ink) inset; }
+.impact { border-top:1px dashed var(--rule); padding-top:.55rem; margin-top:.7rem; }
+.ask { background:var(--panel); padding:.6rem .75rem; border-radius:4px; }
+ol.q li, ul.s li { margin:.45rem 0; }
+.note { font-size:.9rem; color:var(--muted); }
+footer { margin-top:3rem; padding-top:1rem; border-top:1px solid var(--rule); font-family:var(--sans); font-size:.8rem; color:var(--muted); }
+@media print {
+  body { font-size:10pt; }
+  main { max-width:none; padding:0; }
+  .finding { break-inside:avoid-page; box-shadow:none; border:1px solid var(--rule); border-left:5px solid; }
+  .finding.blocking { border-left-color:var(--red5); } .finding.material { border-left-color:var(--mat); } .finding.clarity { border-left-color:var(--clr); }
+  h2 { break-after:avoid; }
+  a { color:inherit; text-decoration:none; }
+}
+
+.disp { font-family:var(--sans); font-size:.72rem; font-weight:700; padding:.1rem .45rem; border-radius:3px; white-space:nowrap; }
+.disp.ci { background:#E9F2EC; color:#2F6B45; }
+.disp.pc { background:var(--mat-bg); color:var(--mat); }
+.disp.ro { background:var(--blk-bg); color:var(--red5); }
+.index th { text-align:left; font-family:var(--sans); font-size:.8rem; color:var(--muted); padding:.38rem .5rem; border-bottom:2px solid var(--ink); }
+.index .dcell { width:9.5rem; font-family:var(--sans); font-size:.74rem; font-weight:700; }
+.index .dcell.ci { color:#2F6B45; } .index .dcell.pc { color:var(--mat); }
+.index .sevcell { white-space:normal !important; width:7.5rem; }
+.index td.reason { font-family:var(--serif); font-size:.95rem; }
+dl.rec { margin:.4rem 0 0; }
+dl.rec dt { font-family:var(--sans); font-size:.8rem; font-weight:650; color:var(--muted); margin-top:.75rem; }
+dl.rec dd { margin:.15rem 0 0; }
+dl.rec dd ul { margin:.1rem 0; padding-left:1.25rem; }
+.gate { margin:1.2rem 0; padding:1rem 1.2rem; border:2px solid var(--red5); background:var(--blk-bg); border-radius:4px; }
+.gate .verdict { font-family:var(--sans); font-weight:750; font-size:1.2rem; color:var(--red5); letter-spacing:.02em; margin:0 0 .4rem; }
+.boundary { background:var(--panel); border-left:4px solid var(--ink); padding:.7rem .9rem; border-radius:0 4px 4px 0; }
+ul.check { padding-left:1.25rem; } ul.check li { margin:.4rem 0; }
+.integ th { width:12rem; }
+footer p, .idtable td { overflow-wrap:anywhere; }
+@media (max-width:40rem) { .index td.reason { min-width:12rem; } }
+</style>
+</head>
+<body>
+<main>
+<p class="brand">Red<span class="five">5</span>Sorcery / Data Sculptor</p>
+<h1>WASM-002 adversarial QA review — Pass 3 gate verification</h1>
+<p class="lede">Pass 3 — focused verification of the six Pass 2 gate items, Tuesday 29 September 2026. Findings only; no requirement text has been changed.</p>
+
+<h2 id="identity">Review identity</h2>
+<div class="wrap"><table class="idtable">
+<tr><th scope="row">Audited decisions</th><td>Pass 2 reconciliation log, SHA-256 <code>F564FFC263F9A236F6996BD06D9CFC691CC8F9482D21B8A41E2347F26EE45603</code></td></tr>
+<tr><th scope="row">Scope</th><td>P2-01, P2-02, F-02, F-03, F-06 and F-09, plus how these six decisions interact with each other, with Revision BL and with the Pass 1 decisions they rely on</td></tr>
+<tr><th scope="row">Baseline contract</th><td>Revision BL review cut, SHA-256 <code>828C6A81B2C0A8B97546F728628059C53CC61256FAB23B142E452A8E566E025F</code>, unchanged</td></tr>
+<tr><th scope="row">Prior passes</th><td>Pass 1 <code>7BCD850A…F58A67C</code>; Pass 2 <code>D87E352F…EEB39197</code></td></tr>
+<tr><th scope="row">Reviewer</th><td>Claude, independent adversarial QA (no implementation seen)</td></tr>
+<tr><th scope="row">Record discipline</th><td>Append-only. Passes 1 and 2 are not edited.</td></tr>
+</table></div>
+
+<h2 id="method">Method and conventions</h2>
+<p>Each of the six decisions was read in full and attacked on its own terms. The attack asked whether an implementer with no permission to fill gaps could build and test from the text. Each decision was then checked against the other five, against the Revision BL requirements it relies on or supersedes, and against the Pass 1 decisions it inherits. "RESOLVED — DECISION FROZEN" labels were not taken as evidence. Requirement IDs were checked mechanically against the 384 IDs in the cut.</p>
+<p>Section numbers (§) refer to the Pass 2 reconciliation log unless marked "Pass 1 log". Dispositions and severity follow the Pass 2 instructions and scale. In section C, <span class="ei ei-e">E</span> marks evidence and <span class="ei ei-i">I</span> marks interpretation.</p>
+<p class="boundary"><b>Wording boundary.</b> Nothing in this report describes WASM-002, Revision BL or any successor PRD as approved, frozen, implemented, built, accepted or ready for implementation. Revision BL is not reported as corrected. A favourable gate would mean only that the reconciliation decisions are coherent enough to integrate into a successor PRD revision.</p>
+
+<h2 id="summary">Summary</h2>
+<div class="wrap"><table class="sumtable">
+<tr><th scope="row">Gate items CLOSED - INTEGRATION OBLIGATION</th><td class="n">2</td></tr>
+<tr><th scope="row">Gate items PARTIALLY CLOSED</th><td class="n">4</td></tr>
+<tr><th scope="row">Gate items REOPEN</th><td class="n">0</td></tr>
+<tr><th scope="row">New Pass 3 findings</th><td class="n">10</td></tr>
+</table></div>
+<p>This is good work. Every question Pass 2 asked has a real answer, and the reasoning is sound: one lineage per Store MAP, splitting MAP validity from Store health, the narrow registry-repair bootstrap, and the exact CSV location oracle. Nothing needs reopening, and every blocking residual from Pass 2 is closed on its own terms.</p>
+<p>Checked against each other, two of the decisions collide. P2-02 re-freezes the materialization grammar without the MAP clause that P2-01 now relies on (P3-01). F-06 freezes refusal facts that the F-09 Receipt table has no place for (P3-02). Each is a small decision — a line or a few keys — but until it is made, two frozen texts contradict each other. Of the 10 new findings, 2 are blocking, 7 are material and 1 is clarity.</p>
+<p>The gate conclusion (section F) is <b>NOT READY FOR CANONICAL PRD INTEGRATION</b>, on P3-01 and P3-02 only.</p>
+
+<h2 id="A">A. Package integrity</h2>
+<p>All inputs were hashed. The sidecar matches, the source chain from Revision BL through Pass 1, the Pass 1 log and Pass 2 to this record is intact, and the audit proceeded.</p>
+<div class="wrap"><table class="idtable integ"><tr><th scope="row">Pass 2 reconciliation log (audited)</th><td><code>WASM002_Pass2_Reconciliation_20260929.html</code><br><code>F564FFC263F9A236F6996BD06D9CFC691CC8F9482D21B8A41E2347F26EE45603</code><br>Matches the supplied sidecar (73,497 bytes). The sidecar names the file <code>Red5Sorcery_Data_Sculptor_WASM002_Claude_QA_Reconciliation_Log_Pass2_20260929.html</code>; the upload name differs, and content is identified by hash.</td></tr><tr><th scope="row">Pass 2 reconciliation sidecar</th><td><code>WASM002_Pass2_Reconciliation_20260929.sha256.txt</code><br>States source QA Pass 2 SHA-256 D87E352F…EEB39197, which is my Pass 2 report. States Revision BL unchanged and PRD integration not performed.</td></tr><tr><th scope="row">My Pass 2 audit (source)</th><td><code>Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass2_2026-09-29.html</code><br><code>D87E352F0FCC9101FD3B01BAC72BD8BE25A7D821CD1FC9FF70F28556EEB39197</code><br>Matches my Pass 2 sidecar. The log accurately restates its counts (19 / 15 / 0 / 7) and gate.</td></tr><tr><th scope="row">Pass 1 reconciliation log</th><td><code>Red5Sorcery_Data_Sculptor_WASM002_Claude_QA_Reconciliation_Log_Pass1.html</code><br><code>9A73DB717BE09D3ED92B3F0F775EEB09A214000049341FE435B7EC6DFA9255B7</code><br>Unchanged since Pass 2. Used to check what earlier decisions froze.</td></tr><tr><th scope="row">Revision BL review cut</th><td><code>WASM-002_ADVERSARIAL_QA_PRD.html</code><br><code>828C6A81B2C0A8B97546F728628059C53CC61256FAB23B142E452A8E566E025F</code><br>Unchanged. 384 requirements. All cited IDs in this report were checked against it.</td></tr></table></div>
+
+<h2 id="B">B. The six gate items</h2>
+<div class="wrap"><table class="index">
+<thead><tr><th scope="col">Item</th><th scope="col">Pass 2 severity</th><th scope="col">Pass 3 disposition</th><th scope="col">Residual</th></tr></thead>
+<tbody><tr class="blocking"><td><a href="#P2-01">P2-01</a></td><td class="sevcell">BLOCKING</td><td class="dcell ci">CLOSED - INTEGRATION OBLIGATION</td><td class="reason">None of its own. Its reachability depends on P3-01.</td></tr><tr class="blocking"><td><a href="#P2-02">P2-02</a></td><td class="sevcell">BLOCKING</td><td class="dcell ci">CLOSED - INTEGRATION OBLIGATION</td><td class="reason">None of its own. Fix P3-01 in the same §4.4 text.</td></tr><tr class="blocking"><td><a href="#F-02">F-02</a></td><td class="sevcell">BLOCKING</td><td class="dcell pc">PARTIALLY CLOSED</td><td class="reason">MATERIAL: P3-03. The blocking residual is closed.</td></tr><tr class="blocking"><td><a href="#F-03">F-03</a></td><td class="sevcell">BLOCKING</td><td class="dcell pc">PARTIALLY CLOSED</td><td class="reason">MATERIAL: P3-05, P3-06, P3-07; P2-04 remains open. The blocking questions are closed.</td></tr><tr class="blocking"><td><a href="#F-06">F-06</a></td><td class="sevcell">BLOCKING</td><td class="dcell pc">PARTIALLY CLOSED</td><td class="reason">BLOCKING through P3-02. MATERIAL: P3-09.</td></tr><tr class="blocking"><td><a href="#F-09">F-09</a></td><td class="sevcell">BLOCKING</td><td class="dcell pc">PARTIALLY CLOSED</td><td class="reason">BLOCKING through P3-02. MATERIAL: P3-04.</td></tr></tbody></table></div>
+<section class="finding blocking" id="P2-01">
+  <header><p class="fid">P2-01<span class="sev">Pass 2: BLOCKING</span><span class="disp ci">CLOSED - INTEGRATION OBLIGATION</span></p></header>
+  <dl class="rec">
+    <dt>Issue carried into Pass 3</dt><dd>The multi-Store MAP clause added under F-05 let an alias update from an older MAP drop another Store from current state, so the next routine run would fork it.</dd>
+    <dt>What the Council decided</dt><dd>One Store MAP file holds exactly one Store lineage (one rid_filename, one source_filename). Current state is chosen per lineage. Historical-base operations affect only their own lineage. Exact-source routing: none → new Store; one → that lineage; more than one → refuse and require an explicit MAP (§3).</dd>
+    <dt>What holds under attack</dt><dd><ul><li>The disappearance path is gone. Store B's state now lives only in Store B's own MAP history, so nothing published for Store A can remove it (§3.4–3.5). The Pass 2 scenario fails at its first step.</li><li>The single-source predicate, the F-04 cardinality gate and the no-positional-join rule carry over unchanged (§3.3). The Join MAP boundary is clean (§3.7).</li><li>This matches Revision BL's own schema. W002-STOR-019.6 and 019.9 already require every row to repeat one rid_filename, so the withdrawn clause was the anomaly.</li></ul></dd>
+    <dt>What does not yet hold</dt><dd><ul><li>The ambiguity exit in §3.6 and historical-base materialization in §3.5 need a MAP clause in the materialization Work Order. §4.4 does not provide one. See <a href="#P3-01">P3-01</a>.</li><li>The routing word "eligible" in §3.6 must cover DEGRADED and INVALID lineages, and a lineage whose every MAP is damaged is not covered. See <a href="#P3-07">P3-07</a>.</li></ul></dd>
+    <dt>Revision BL requirements affected</dt><dd>W002-STOR-010.1, W002-STOR-019.1, W002-STOR-019.2, W002-STOR-019.9, W002-WKO-012.3, W002-UI-ACC-016</dd>
+    <dt>Integration consequence</dt><dd>As listed in §3.10. Also remove store_source_filename, which is still in W002-STOR-019.2 (routing), 019.6, 019.8, 019.9, 019.12, W002-MAT-ACC-002.1, W002-WKO-012.6, W002-STEPS-008 and W002-UI-ACC-017.</dd>
+    <dt>Residual</dt><dd>None of its own. Its reachability depends on P3-01.</dd>
+  </dl>
+</section><section class="finding blocking" id="P2-02">
+  <header><p class="fid">P2-02<span class="sev">Pass 2: BLOCKING</span><span class="disp ci">CLOSED - INTEGRATION OBLIGATION</span></p></header>
+  <dl class="rec">
+    <dt>Issue carried into Pass 3</dt><dd>The F-08 grammar made WORK ORDER AS mandatory and dropped trailing comments, contradicting Revision BL and F-02 without saying so.</dd>
+    <dt>What the Council decided</dt><dd>WORK ORDER AS is mandatory, appears exactly once, is non-empty, and applies to every operation. Revision BL's trailing-comment rule is retained. The superseded text is listed (§4).</dd>
+    <dt>What holds under attack</dt><dd><ul><li>Both questions now have explicit decisions with named supersessions (§4.6), which is what Pass 2 asked for.</li><li>The comment rules match W002-STEPS-001.2 exactly: first # outside quotes, # inside quotes is content, and comment bytes are part of WKO identity (§4.3). The canonical W002-STEPS-001 example is valid again.</li><li>A mandatory alias fits the three-column WKO MAP and removes the empty-alias special case from registry repair.</li></ul></dd>
+    <dt>What does not yet hold</dt><dd><ul><li>§4.4 re-freezes the materialization structure without the optional MAP clause that Revision BL W002-WKO-012.3 provides and P2-01 depends on. The defect is in this text, but it is not the P2-02 question, so it is reported as <a href="#P3-01">P3-01</a>.</li></ul></dd>
+    <dt>Revision BL requirements affected</dt><dd>W002-STEPS-001, W002-STEPS-001.1, W002-STEPS-001.2, W002-STOR-018.2, W002-MAT-ACC-002.3, W002-MAT-ACC-002.4</dd>
+    <dt>Integration consequence</dt><dd>§4.8 lists the core rewrites. The optional-alias wording also survives in W002-STOR-018 ("optional immutable Work Order content"), 018.2 ("the empty string when no alias is declared"), 018.3 ("its optional Work Order alias"), W002-STEPS-001 ("the optional immutable human-facing WKO alias"), W002-UI-023 ("optional WORK ORDER AS") and the canonical INVENTORY form in W002-INV-001, which has no alias.</dd>
+    <dt>Residual</dt><dd>None of its own. Fix P3-01 in the same §4.4 text.</dd>
+  </dl>
+</section><section class="finding blocking" id="F-02">
+  <header><p class="fid">F-02<span class="sev">Pass 2: BLOCKING</span><span class="disp pc">PARTIALLY CLOSED</span></p></header>
+  <dl class="rec">
+    <dt>Issue carried into Pass 3</dt><dd>Pass 2 residual: registry repair could not be reached when the registry was stale. Material residuals: DEPRECATED Run eligibility, WKO validity predicate, WKO MAP row order, and the missing operation token.</dd>
+    <dt>What the Council decided</dt><dd>Bounded bootstrap: while the registry is repair-required, a saved repair-only WKO may Run by exact filename without being registered. The decision also defines the discovery rules, a structural-validity predicate, the three-column WKO MAP serialization, DEPRECATED Run by exact filename only, and the REPAIR_WORK_ORDER_REGISTRY token (§5).</dd>
+    <dt>What holds under attack</dt><dd><ul><li>The bootstrap is narrow and honest. It needs a visible, saved, immutable repair-only WKO; it runs by exact filename; no other operation gains eligibility; and Save does not pretend the registry is healthy (§5.2–5.3). The Pass 2 deadlock is broken.</li><li>All four material residuals are answered: DEPRECATED runs by exact filename only (§5.7); structural validity is separate from runtime success (§5.5); rows sort by wko_filename (§5.6); and the token exists (§5.8). F-14's missing WKO predicate is answered by §5.5 as well.</li><li>Discovery keeps the no-winner-by-time principle (§5.4).</li></ul></dd>
+    <dt>What does not yet hold</dt><dd><ul><li>Nothing defines when the registry counts as repair-required. Revision BL's rule for choosing the current WKO MAP would make a stale MAP non-current and silently revert alias authority. See <a href="#P3-03">P3-03</a>.</li><li>§5.5 requires a WKO to parse under "exactly one defined operation grammar", but the INVENTORY, UPDATE ALIASES and CONVERT structures are still unfrozen (F-08 material). Until they are, registry repair cannot classify copied-in WKOs of those kinds.</li></ul></dd>
+    <dt>Revision BL requirements affected</dt><dd>W002-STOR-018.2, W002-STOR-018.3, W002-STOR-018.4, W002-UI-023</dd>
+    <dt>Integration consequence</dt><dd>As listed in §5.10, plus the W002-STOR-018.4 current-selection rewrite from P3-03.</dd>
+    <dt>Residual</dt><dd>MATERIAL: P3-03. The blocking residual is closed.</dd>
+  </dl>
+</section><section class="finding blocking" id="F-03">
+  <header><p class="fid">F-03<span class="sev">Pass 2: BLOCKING</span><span class="disp pc">PARTIALLY CLOSED</span></p></header>
+  <dl class="rec">
+    <dt>Issue carried into Pass 3</dt><dd>Pass 2 residuals: REPAIR MAP had no target, repairing a Store whose every COL was broken would erase it, and "untrustworthy MAP means INVALID" conflicted with the malformed-newer-MAP fallback.</dd>
+    <dt>What the Council decided</dt><dd>MAP structural validity is separate from Store health. Only structurally valid MAPs compete for current state, and malformed newer MAPs fall back. VALID, DEGRADED and INVALID are evaluated, not persisted. REPAIR MAP names the exact current MAP, and it refuses when the Store is not DEGRADED or when repair would leave zero COLs. Damaged lineages route to refusal, never to re-creation (§6).</dd>
+    <dt>What holds under attack</dt><dd><ul><li>The validity/health split (§6.1) removes the INVALID-versus-fallback conflict. §6.9's three cases form a usable oracle, and "don't fall back to hide present damage" is the right principle.</li><li>REPAIR MAP now has an exact target. The target must be current and DEGRADED; historical and wrong-profile targets refuse; and Data Sculptor, not the analyst, decides which bindings are broken (§6.6–6.7).</li><li>The all-COLs-broken case refuses without inventing an anchor row (§6.8). Status is evaluated rather than stored (§6.4). Routing treats damage as refusal, not absence (§6.10).</li></ul></dd>
+    <dt>What does not yet hold</dt><dd><ul><li>An INVALID Store, or a DEGRADED Store with every COL broken, blocks its source filename indefinitely, and Help is not given the exit. See <a href="#P3-05">P3-05</a>.</li><li>"Exact original restored byte-for-byte" cannot be checked from what the MAP records. Validation depth (P2-04) now determines REPAIR MAP output. See <a href="#P3-06">P3-06</a>.</li><li>A lineage whose only MAP is damaged becomes invisible to routing and forks. See <a href="#P3-07">P3-07</a>.</li></ul></dd>
+    <dt>Revision BL requirements affected</dt><dd>W002-STOR-019.10, W002-STOR-019.11, W002-RID-009, W002-RID-010, W002-STEPS-010, W002-RCP-011</dd>
+    <dt>Integration consequence</dt><dd>As listed in §6.12.</dd>
+    <dt>Residual</dt><dd>MATERIAL: P3-05, P3-06, P3-07; P2-04 remains open. The blocking questions are closed.</dd>
+  </dl>
+</section><section class="finding blocking" id="F-06">
+  <header><p class="fid">F-06<span class="sev">Pass 2: BLOCKING</span><span class="disp pc">PARTIALLY CLOSED</span></p></header>
+  <dl class="rec">
+    <dt>Issue carried into Pass 3</dt><dd>Pass 2 residual: CSV refusal-location facts and condition tokens were undefined, and the bare-CR rule was not scoped to unquoted context.</dd>
+    <dt>What the Council decided</dt><dd>Five governed facts and seven condition tokens, each with a location rule, a field-ordinal rule, first-condition precedence and window invariance. Bare CR refuses only outside quotes. EOF inside quotes refuses explicitly. Semicolon and tab files are not refused merely for their delimiter (§7).</dd>
+    <dt>What holds under attack</dt><dd><ul><li>The location oracle is exact. Offsets are absolute and include the BOM, physical lines count LFs, logical records include the header, and field ordinals are fixed for each condition (§7.1–7.4). I worked the edge cases: blank CRLF record, short last record with no terminator, doubled quotes, a CR straight after a closing quote, and a quote after leading whitespace. Each has one answer.</li><li>Precedence follows source-byte order, with the right tie rules (§7.7). Byte coordinates line up with F-07 (§7.10).</li></ul></dd>
+    <dt>What does not yet hold</dt><dd><ul><li>The facts are frozen, but no artifact is named to record them, and the MATERIALIZE Receipt table excludes them. See <a href="#P3-02">P3-02</a>.</li><li>None of the "exactly seven" tokens covers a source with no header record. See <a href="#P3-09">P3-09</a>.</li></ul></dd>
+    <dt>Revision BL requirements affected</dt><dd>W002-MAT-003.2, W002-MAT-ACC-003, W002-MAT-001.7</dd>
+    <dt>Integration consequence</dt><dd>As listed in §7.12, plus the P3-09 token.</dd>
+    <dt>Residual</dt><dd>BLOCKING through P3-02. MATERIAL: P3-09.</dd>
+  </dl>
+</section><section class="finding blocking" id="F-09">
+  <header><p class="fid">F-09<span class="sev">Pass 2: BLOCKING</span><span class="disp pc">PARTIALLY CLOSED</span></p></header>
+  <dl class="rec">
+    <dt>Issue carried into Pass 3</dt><dd>Pass 2 residual: the six-key envelope dropped Revision BL's core Receipt facts, MATERIALIZE, INVENTORY and REPAIR_MAP had no key tables, Inventory lacked per-file fields, and three-digit indices overflowed.</dd>
+    <dt>What the Council decided</dt><dd>The Revision BL core is restored and RECEIPT_UTC is defined. There are key tables for all six operations, a three-key Inventory entry, indices with a three-digit minimum and no maximum, a concrete fallback disclosure, and mandatory byte-exact fixtures (§8).</dd>
+    <dt>What holds under attack</dt><dd><ul><li>The envelope now matches Revision BL W002-RCP-006 plus RECEIPT_UTC, which is defined exactly (§8.2). The Pass 2 conflict is gone.</li><li>Every executable operation has a table. Inventory carries all three W002-INV-003 fields plus the generating WKO and the Suitcase declaration (§8.10). Fallback disclosure is concrete (§8.8). Golden fixtures are required for all six operations and for INV (§8.15).</li><li>I checked the arithmetic behind the no-maximum index rule: a 16,384-column Store-establishing run creates RID + 16,384 COLs + MAP = 16,386 artifacts, as §8.4 and §8.16 state.</li></ul></dd>
+    <dt>What does not yet hold</dt><dd><ul><li>The MATERIALIZE key order is frozen as exact and has no slot for the F-06 and F-07 refusal facts. See <a href="#P3-02">P3-02</a>.</li><li>Refusal serialization still turns on "the applicable absence token". RESULT is an open set, UNKNOWN_OPERATION has no form, NOT_APPLICABLE is missing from §8.3, and some key names are given only by ellipsis. See <a href="#P3-04">P3-04</a>.</li></ul></dd>
+    <dt>Revision BL requirements affected</dt><dd>W002-RCP-005, W002-RCP-006, W002-RCP-007, W002-RCP-008, W002-RCP-011, W002-INV-003, W002-INV-006</dd>
+    <dt>Integration consequence</dt><dd>As listed in §8.17. W002-RCP-008 also still names RECOVER RID.</dd>
+    <dt>Residual</dt><dd>BLOCKING through P3-02. MATERIAL: P3-04.</dd>
+  </dl>
+</section>
+
+<h2 id="C">C. New Pass 3 findings</h2>
+<div class="wrap"><table class="index">
+<thead><tr><th scope="col">ID</th><th scope="col">Severity</th><th scope="col">Finding</th></tr></thead>
+<tbody><tr class="blocking"><td><a href="#P3-01">P3-01</a></td><td class="sevcell">BLOCKING</td><td>The frozen materialization structure has no MAP clause, so the explicit-MAP path P2-01 depends on cannot be written</td></tr><tr class="blocking"><td><a href="#P3-02">P3-02</a></td><td class="sevcell">BLOCKING</td><td>The UTF-8 and CSV refusal facts have no place in the MATERIALIZE Receipt, whose key order is frozen as exact</td></tr><tr class="material"><td><a href="#P3-03">P3-03</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>The rule for choosing the current WKO MAP does not separate structural validity from missing referenced files, so the repair-required state has no defined trigger</td></tr><tr class="material"><td><a href="#P3-04">P3-04</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>Refusal Receipts still depend on judgment: "the applicable absence token", an open RESULT set, and no form for UNKNOWN_OPERATION</td></tr><tr class="material"><td><a href="#P3-05">P3-05</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>An INVALID Store, or a DEGRADED Store with every COL broken, blocks its source filename indefinitely, and Help is not given the exit</td></tr><tr class="material"><td><a href="#P3-06">P3-06</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>"Exact original restored byte-for-byte" cannot be checked, and P2-04 validation depth now determines REPAIR MAP output</td></tr><tr class="material"><td><a href="#P3-07">P3-07</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>If every Store MAP in a lineage is structurally damaged, routing no longer sees the Store and forks it, and "eligible" means two things</td></tr><tr class="material"><td><a href="#P3-08">P3-08</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>A Windows-1252 source cannot continue its Store across a refresh, because every conversion produces a new CVT filename</td></tr><tr class="material"><td><a href="#P3-09">P3-09</a></td><td class="sevcell">MATERIAL NON-BLOCKING</td><td>The "exactly seven" CSV condition tokens do not cover a source with no header record</td></tr><tr class="clarity"><td><a href="#P3-10">P3-10</a></td><td class="sevcell">CLARITY</td><td>Small wording and consistency items</td></tr></tbody></table></div>
+<section class="finding blocking" id="P3-01">
+  <header>
+    <p class="fid">P3-01<span class="sev">BLOCKING</span></p>
+    <h3>The frozen materialization structure has no MAP clause, so the explicit-MAP path P2-01 depends on cannot be written</h3>
+    <p class="cites">Pass 2 log sections: §3.5, §3.6, §3.9, §3.10, §4.4, §4.6 (and Pass 1 log §11.5, §11.6)</p>
+    <p class="cites">Revision BL: <code class="rid">W002-WKO-012.3</code> <code class="rid">W002-STOR-019.1</code> <code class="rid">W002-STOR-019.2</code></p>
+  </header>
+  <h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> P2-02 §4.4 fixes the materialization form "in enforced order": SUITCASE, WORK ORDER AS, SOURCE, KEEP, selectors, MATERIALIZE. There is no MAP clause. Under Pass 1 log §11.6, any line not valid in the selected operation grammar refuses.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> P2-01 §3.6: when more than one lineage matches the SOURCE filename, routing refuses and "the analyst must explicitly identify the intended valid Store MAP". §3.9 has a "Compatible explicit MAP" acceptance case. §3.5 lets historical Store A state be the input to "a later governed operation".</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> Revision BL W002-WKO-012.3: "For materialization, SOURCE "..." remains mandatory and an optional MAP "..." supplies the exact historical/current Store-state base." W002-STOR-019.1 and 019.2 rely on the same clause ("The analyst must explicitly select one valid MAP").</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> P2-02 §4.6 lists the Revision BL rules it supersedes. The W002-WKO-012.3 materialization clause is not among them, and P2-01 §3.10 asks to "reconcile" W002-WKO-012.3, not retire it.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> The omission began in Pass 1 log §11.5, which lists the same six clauses. I missed it in Pass 2. P2-01 has now made it load-bearing.</li></ul>
+  <h4>Why it matters</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Two frozen decisions in the same record disagree. Under §4.4, a materialization Work Order containing <code>MAP "..."</code> refuses as unknown syntax. Under P2-01, that clause is the only way out of an ambiguous route and the only way to materialize from historical Store state.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Integrated as written, an analyst whose Suitcase holds two lineages for crime.csv, for example after copying files in from another Suitcase, can never materialize crime.csv again. Routing refuses, and no valid Work Order can name the MAP.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The §3.9 "Compatible explicit MAP" and "Different source" acceptance cases cannot be written.</li></ul>
+  <p class="impact"><b>Impact if integrated as written.</b> A routine routing refusal becomes a dead end, and an independent grammar test of §4.4 fails Revision BL's own canonical selector.</p>
+  <p class="ask"><b>Question / direction for T.</b> Add the clause to §4.4 with a frozen position and cardinality. For example: at most one <code>MAP "&lt;filename&gt;"</code> clause, immediately after SOURCE and before KEEP, binding the run to that Store lineage under P2-01 §3.3. If explicit MAP in materialization is instead being withdrawn, retire it from W002-WKO-012.3, W002-STOR-019.1 and 019.2 and give §3.6 a different exit. I recommend the first option. It is one line.</p>
+</section><section class="finding blocking" id="P3-02">
+  <header>
+    <p class="fid">P3-02<span class="sev">BLOCKING</span></p>
+    <h3>The UTF-8 and CSV refusal facts have no place in the MATERIALIZE Receipt, whose key order is frozen as exact</h3>
+    <p class="cites">Pass 2 log sections: §7.1, §7.11, §8.7, §8.14, §8.15 (and Pass 1 log §10.4, §19.1)</p>
+    <p class="cites">Revision BL: <code class="rid">W002-RCP-007</code></p>
+  </header>
+  <h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> F-09 §8.7: a MATERIALIZE Receipt serializes "these operation-specific facts in exactly this order". The list has STAGE1_UTF8_OUTCOME and the Stage 2 counts, but no location or reason fact.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> F-06 §7.1: "Every structural CSV refusal records these governed facts": REFUSAL_CONDITION, SOURCE_BYTE_OFFSET, PHYSICAL_LINE, LOGICAL_RECORD, FIELD_ORDINAL. It does not say which artifact records them.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> Pass 1 log §10.4: FIRST_INVALID_BYTE_OFFSET and STOP_REASON must be exposed "to the governed diagnostic/Receipt/Help path".</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> DGN is reserved-not-emitted (Pass 1 F-33), and HLP is written on a Help event. Revision BL W002-RCP-007: a refusal Receipt "records only facts that actually became known before refusal".</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> F-09 §8.15 requires byte-exact golden Receipts for the refusal forms of every operation.</li></ul>
+  <h4>Why it matters</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The two most common MATERIALIZE refusals, invalid UTF-8 and malformed CSV, are exactly where F-06 and F-07 froze location oracles. As written, those oracles have no durable serialized home: the Receipt table excludes them, and no other emitted artifact is named.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> An implementer must either break "exactly this order" or keep the facts only in on-screen Help. Either is an invention, and the golden refusal fixtures that §8.15 demands cannot be authored until someone decides.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The same gap exists on a smaller scale in CONVERT. A refusal for an undefined Windows-1252 byte (Pass 1 log §19.1) records no offset in the §8.14 table.</li></ul>
+  <p class="impact"><b>Impact if integrated as written.</b> F-06's blocking residual, usable location facts, is closed on paper but not in any artifact a tester can compare bytes against.</p>
+  <p class="ask"><b>Question / direction for T.</b> Decide where the facts live. I recommend adding them to the MATERIALIZE table: the two F-07 facts after STAGE1_ELAPSED_MS, and the five F-06 facts after STAGE2_ELAPSED_MS, each carrying NOT_APPLICABLE when that refusal did not occur. Prefixed names such as <code>CSV_SOURCE_BYTE_OFFSET</code> keep them unambiguous. If they are meant to live only in Help or HLP, say so and name the artifact and field names. Settle the CONVERT undefined-byte offset at the same time.</p>
+</section><section class="finding material" id="P3-03">
+  <header>
+    <p class="fid">P3-03<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>The rule for choosing the current WKO MAP does not separate structural validity from missing referenced files, so the repair-required state has no defined trigger</h3>
+    <p class="cites">Pass 2 log sections: §5.2, §5.10, §6.1, §6.2 (and Pass 1 log §8.7)</p>
+    <p class="cites">Revision BL: <code class="rid">W002-STOR-018.3</code> <code class="rid">W002-STOR-018.4</code> <code class="rid">W002-UI-023</code></p>
+  </header>
+  <h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> F-02 §5.2: the bootstrap applies "When the current WKO MAP contains a stale registry reference or is otherwise in the specifically defined registry-repair-required state". The "otherwise" state is not defined in this record, the Pass 1 log or Revision BL.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> Revision BL W002-STOR-018.4: "Among valid WKO MAP artifacts, the one with the greatest canonical UTC millisecond timestamp is the current WKO alias registry." W002-STOR-018.3 validates a WKO MAP "against the exact WKO-MAP schema and referenced visible WKO files".</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> Pass 1 log §8.7: "Data Sculptor must not silently fall back to an older WKO MAP".</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> F-03 §6.1–6.2 makes exactly this split for Store MAPs. The F-02 integration consequences for W002-STOR-018.4 (§5.10) do not mention it.</li></ul>
+  <h4>Why it matters</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Read literally, Revision BL makes a WKO MAP with a missing referenced WKO invalid, so the older WKO MAP becomes current. The stale state is then never current, the bootstrap never triggers, and alias authority silently reverts. If MAP2 moved "Crime" from W1 to W2, deleting any unrelated registered WKO makes MAP1 current, and "Crime" resolves to W1 again. Pass 1 forbids this outcome but gives no mechanism.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> A structurally malformed newest WKO MAP is not addressed. Nothing says whether it falls back, as a Store MAP would, or makes the registry repair-required, or whether registry repair can run against it.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The intent can be read from Pass 1 §8.7 and F-03, which is why this is material rather than blocking. It must still be written into the integrated text.</li></ul>
+  <p class="impact"><b>Impact if integrated as written.</b> A literal integration silently rolls back Work Order alias authority, which is the failure the registry exists to prevent.</p>
+  <p class="ask"><b>Question / direction for T.</b> Mirror F-03 for WKO MAPs. Choose the current WKO MAP by structural validity only. A structurally valid current WKO MAP with a missing referenced WKO stays current and is repair-required. A structurally malformed newer WKO MAP never becomes current and is reported. Replace "or is otherwise in the specifically defined…" with that definition, or delete it.</p>
+</section><section class="finding material" id="P3-04">
+  <header>
+    <p class="fid">P3-04<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>Refusal Receipts still depend on judgment: "the applicable absence token", an open RESULT set, and no form for UNKNOWN_OPERATION</h3>
+    <p class="cites">Pass 2 log sections: §8.3, §8.6, §8.7, §8.9, §8.11, §8.12, §8.13 (and Pass 1 log §21.4)</p>
+    <p class="cites">Revision BL: <code class="rid">W002-RCP-006</code> <code class="rid">W002-RCP-007</code></p>
+  </header>
+  <h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> §8.7: RID_ACTION uses "CREATED, REUSED, or the applicable absence/not-run token on refusal". SUCCESSOR_MAP_FILENAME uses "the applicable absence token". §8.9 and §8.11 say the same. Only §8.12 fixes a token (NONE) for a named refusal.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> §8.3 lists NONE, NOT_RUN and NOT_AVAILABLE. Pass 1 F-18 (§21.4) added NOT_APPLICABLE to the same shared vocabulary, and §8.3 omits it.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> §8.3: "RESULT uses at minimum SUCCESS or REFUSED". That is an open set, inherited from W002-RCP-006.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> §8.3 keeps OPERATION: UNKNOWN_OPERATION, but tables exist only for the six tokens in §8.6. Nothing says what follows the envelope in that case.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> Some key names are given only by ellipsis. §8.7 has "PUBLISHED_COL_... lines", while §8.12 and §8.13 have BROKEN_COL_..._FILENAME and REMOVED_STALE_WKO_..._FILENAME. It is not stated whether published COLs are PUBLISHED_COL_001 or PUBLISHED_COL_001_FILENAME.</li></ul>
+  <h4>Why it matters</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> For a MATERIALIZE refused at the F-04 cardinality gate, is RID_ACTION NONE, NOT_RUN or NOT_AVAILABLE? Two careful implementers can differ, and each would pass a golden fixture written to match their own choice.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The §8.15 fixtures close this only if the integrated PRD itself carries a fixture for every refusal stage of every operation, not one refusal per operation.</li></ul>
+  <p class="impact"><b>Impact if integrated as written.</b> The byte-exact oracle is incomplete exactly where refusals happen.</p>
+  <p class="ask"><b>Question / direction for T.</b> For each operation, add a small matrix of refusal stage (parse, validation, Stage 1, Stage 2, gate, publication) by key, giving the token. Close RESULT to an exact set. State the UNKNOWN_OPERATION form, presumably the envelope followed by <code>CREATED_ARTIFACT_COUNT: 0</code>. Spell every indexed key in full.</p>
+</section><section class="finding material" id="P3-05">
+  <header>
+    <p class="fid">P3-05<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>An INVALID Store, or a DEGRADED Store with every COL broken, blocks its source filename indefinitely, and Help is not given the exit</h3>
+    <p class="cites">Pass 2 log sections: §6.4, §6.8, §6.10</p>
+    <p class="cites">Revision BL: — (no Revision BL text; the defect is in the reconciliation decisions)</p>
+  </header>
+  <h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> F-03 §6.8: repair refuses when every COL is broken, and the Store "remains DEGRADED". §6.4: while a Store is INVALID, no governed recovery exists.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> §6.10: when routing identifies a DEGRADED or INVALID lineage, materialization refuses, and the source is never treated as unseen.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> The §6.8 Help duty covers only external restoration of an exact original COL.</li></ul>
+  <h4>Why it matters</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The honesty rule is right. The consequence is that crime.csv can never be materialized again in that Suitcase while that lineage's MAPs remain. A likely case is a one-column Store whose single COL was deleted to save space.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> The only exits are the analyst's own file actions. They can rename the source, which begins a new Store under a new filename, or move the damaged lineage's MAP files out of the Suitcase so routing no longer finds it. Neither exit is stated, so Help will either say nothing useful or an implementer will invent advice.</li></ul>
+  <p class="impact"><b>Impact if integrated as written.</b> A recoverable situation looks like a permanent lock to a non-programmer analyst.</p>
+  <p class="ask"><b>Question / direction for T.</b> Freeze the Help content for both states. It should name the blocked lineage and state the analyst-owned exits and what each one does: restore the exact artifacts; rename the source to begin a new Store; or retire the lineage by moving its MAPs out. No new operation is needed.</p>
+</section><section class="finding material" id="P3-06">
+  <header>
+    <p class="fid">P3-06<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>"Exact original restored byte-for-byte" cannot be checked, and P2-04 validation depth now determines REPAIR MAP output</h3>
+    <p class="cites">Pass 2 log sections: §3.11, §6.4, §6.7, §6.8, §6.13</p>
+    <p class="cites">Revision BL: <code class="rid">W002-STOR-019.6</code></p>
+  </header>
+  <h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> §6.4: if the exact original RID "is externally restored byte-for-byte under its original physical identity and validates again", the Store may evaluate VALID or DEGRADED. §6.8 says the same for COLs.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> The Store MAP schema (W002-STOR-019.6) records filenames only: no byte length, row count or digest. P2-01 §3.11 and F-05 leave the final column set open.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> §6.7: REPAIR MAP removes exactly the COLs that are "currently missing or invalid". §6.13 leaves the validation depth (P2-04) open.</li></ul>
+  <h4>Why it matters</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Data Sculptor can check only that a file with the right name is present and passes validation. Any valid RID placed under the original name makes the Store evaluate VALID again, even one with a different N. The text promises more than the system can verify.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> REPAIR MAP's successor bytes depend on which COLs count as invalid. Until P2-04 fixes validation depth, two implementations can publish different successor MAPs from the same Suitcase, and the REPAIR_MAP golden fixture has no single right answer.</li></ul>
+  <p class="impact"><b>Impact if integrated as written.</b> Status can report a substituted Store as VALID, and one gate operation's output is not yet determined.</p>
+  <p class="ask"><b>Question / direction for T.</b> Either record per-artifact evidence in the Store MAP so status can prove identity (for example RID N, plus byte length or SHA-256 for the RID and each COL), or reword §6.4 and §6.8 to "a file under the original name that passes the governed checks" and accept the boundary. Close P2-04 no later than integration, with REPAIR MAP fixtures for each validation tier.</p>
+</section><section class="finding material" id="P3-07">
+  <header>
+    <p class="fid">P3-07<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>If every Store MAP in a lineage is structurally damaged, routing no longer sees the Store and forks it, and "eligible" means two things</h3>
+    <p class="cites">Pass 2 log sections: §3.6, §6.2, §6.10, §6.11</p>
+    <p class="cites">Revision BL: <code class="rid">W002-STOR-019.10</code></p>
+  </header>
+  <h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> F-03 §6.2: only structurally valid Store MAPs take part in current-state selection. The lineage of a malformed MAP cannot necessarily be read.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> P2-01 §3.6: "If no eligible Store lineage matches … materialization may establish a new Store and new RID."</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> F-03 §6.11: "No silent fork: neither DEGRADED nor INVALID allows ordinary materialization to create a replacement Store for the same routed lineage."</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> P2-01 §3.6 routes over "eligible" lineages, while F-03 §6.10 requires routing to find DEGRADED and INVALID lineages. Revision BL W002-STOR-019.10 still ties eligibility to referenced RID and COL validity.</li></ul>
+  <h4>Why it matters</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Every new Store starts with one MAP. If that MAP is truncated or corrupted, no structurally valid MAP is left. Routing finds nothing, and the next run establishes a second Store with a new RID while the original RID and COLs sit orphaned. That is the Pass 1 F-03 failure, now limited to a narrower cause.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> If "eligible" in §3.6 is integrated with its Revision BL meaning, a DEGRADED or INVALID lineage is ineligible, so §3.6 would establish a new Store. That is exactly the fork §6.10 forbids. The two sections need one agreed term.</li></ul>
+  <p class="impact"><b>Impact if integrated as written.</b> The unconditional no-silent-fork promise does not hold for the one-MAP case.</p>
+  <p class="ask"><b>Question / direction for T.</b> (1) Route over every lineage that has at least one structurally valid Store MAP, regardless of health, and use that term in §3.6. (2) Decide the all-MAPs-damaged boundary. Either refuse to establish a new Store while any structurally malformed MAP-class artifact is present, with Help naming it, or accept the boundary explicitly and require Help to report malformed MAP artifacts whenever a new Store is established. The first is safer; the second is cheaper.</p>
+</section><section class="finding material" id="P3-08">
+  <header>
+    <p class="fid">P3-08<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>A Windows-1252 source cannot continue its Store across a refresh, because every conversion produces a new CVT filename</h3>
+    <p class="cites">Pass 2 log sections: §3.3, §3.6 (and Pass 1 log §13)</p>
+    <p class="cites">Revision BL: — (no Revision BL text; the defect is in the reconciliation decisions)</p>
+  </header>
+  <h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> P2-01 §3.3 and §3.6: a Store's source identity is its exact source_filename, and a Work Order's SOURCE must equal it.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> Pass 1 F-10 (§13): conversion publishes a new governed CVT named <code>__DS__CVT__&lt;UTC&gt;__&lt;uuid&gt;.csv</code>. F-26 allows SOURCE to be a CVT.</li></ul>
+  <h4>Why it matters</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> A legacy export converted each month gets a new CVT name each month. Each month's materialization therefore establishes a new Store and a new RID, with no refusal or warning. For a same-named UTF-8 CSV, F-04 governs refresh continuity; for a Windows-1252 source it never applies.</li><li><span class="ei ei-i" title="Interpretation — contestable">I</span> This may be intended, since a CVT is a different source artifact. It isn't stated, though, and to an analyst it will look like the fork the design prevents everywhere else.</li></ul>
+  <p class="impact"><b>Impact if integrated as written.</b> Legacy-encoded sources get weaker lineage continuity than UTF-8 sources, without anyone saying so.</p>
+  <p class="ask"><b>Question / direction for T.</b> Either state that CVT sources always begin a new Store, and have Help say so at conversion and at materialization, or let a CVT carry its original source filename as the Store's source identity. The second is a larger change. I would take the first for WASM-002.</p>
+</section><section class="finding material" id="P3-09">
+  <header>
+    <p class="fid">P3-09<span class="sev">MATERIAL NON-BLOCKING</span></p>
+    <h3>The "exactly seven" CSV condition tokens do not cover a source with no header record</h3>
+    <p class="cites">Pass 2 log sections: §7.2, §7.3</p>
+    <p class="cites">Revision BL: <code class="rid">W002-MAT-001.7</code></p>
+  </header>
+  <h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> F-06 §7.2: the canonical structural malformed-CSV condition tokens "are exactly" seven.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> Revision BL W002-MAT-001.7: "a source with no valid header record refuses."</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> A zero-byte file, or a file containing only a UTF-8 BOM (EF BB BF), passes Stage 1 and contains no logical record, so none of the seven conditions is ever established. A file whose first record is blank is already covered by BLANK_LOGICAL_RECORD.</li></ul>
+  <h4>Why it matters</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> An implementer must invent an eighth token or misuse one of the seven, and the location rules in §7.3 have no row for this case.</li></ul>
+  <p class="impact"><b>Impact if integrated as written.</b> A predictable fixture, the empty file, has no oracle.</p>
+  <p class="ask"><b>Question / direction for T.</b> Add one token (for example NO_HEADER_RECORD). Its location is offset = source byte length (0 or 3), PHYSICAL_LINE 1, LOGICAL_RECORD 1, FIELD_ORDINAL 1. Add a fixture for each of the two byte forms.</p>
+</section><section class="finding clarity" id="P3-10">
+  <header>
+    <p class="fid">P3-10<span class="sev">CLARITY</span></p>
+    <h3>Small wording and consistency items</h3>
+    <p class="cites">Pass 2 log sections: §4.1, §5.4, §6.6, §7.9, §8.10</p>
+    <p class="cites">Revision BL: <code class="rid">W002-INV-006</code></p>
+  </header>
+  <h4>Evidence</h4><ul class="ev"><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> F-03 §6.6 opens "A WASM-002 registry-repair Work Order is not target-free", but it means REPAIR MAP. "Registry repair" is F-02's term for the Work Order registry.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> F-06 §7.9: a semicolon export with quoted fields (<code>"a";"b"</code>) refuses as INVALID_BYTE_AFTER_CLOSING_QUOTE, not at header resolution. The delimiter hint in Help therefore never appears for the most common European-locale export. Allow the hint for that condition when the offending byte is <code>;</code> or TAB.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> P2-02 §4.1 says the alias must be "non-empty". It does not say whether a whitespace-only alias is valid.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> F-09 §8.10: INVENTORY_UTC is not tied to the INV filename's UTC, as RECEIPT_UTC is to the RCP filename. The INV header has no counterpart to RECEIPT_FILENAME. "When usable" for last-modified has no test.</li><li><span class="ei ei-e" title="Evidence — direct reading of a reconciliation log or the 384 retained requirements">E</span> F-02 §5.4: "The repair WKO itself participates in discovery … after the repair run succeeds." It is discovered during the run, and its registration appears in the successor MAP.</li></ul>
+  <h4>Why it matters</h4><ul class="an"><li><span class="ei ei-i" title="Interpretation — contestable">I</span> Each is cheap to fix during integration. None changes a decision.</li></ul>
+  <p class="impact"><b>Impact if integrated as written.</b> Minor misreadings during integration.</p>
+  <p class="ask"><b>Question / direction for T.</b> Correct them in the integrated text.</p>
+</section>
+
+<h2 id="D">D. Effect on other open items</h2>
+<p>This pass did not re-audit the other findings. The six decisions do change some of them:</p>
+<div class="wrap"><table class="index"><thead><tr><th scope="col">Item</th><th scope="col">Effect</th></tr></thead><tbody><tr><td>F-05</td><td class="reason">Its blocking dependency on P2-01 is lifted. Still open (material): the Store MAP column set. Removing store_source_filename touches nine requirements; see P2-01.</td></tr><tr><td>F-07</td><td class="reason">Still open (material): the STOP_REASON and STAGE1_UTF8_OUTCOME token sets. Where the facts are serialized is now P3-02.</td></tr><tr><td>F-08</td><td class="reason">The blocking dependency moves from P2-02 to P3-01. REPAIR MAP (§6.6) and REPAIR WORK ORDER REGISTRY (§5.1) now have forms. INVENTORY, UPDATE ALIASES and CONVERT structures, the RUN trigger and token separation remain material. F-02 §5.5 now depends on them.</td></tr><tr><td>F-10</td><td class="reason">The conversion Receipt table is carried over unchanged (§8.14). The undefined-byte refusal offset is noted under P3-02.</td></tr><tr><td>F-14</td><td class="reason">The WKO validity predicate is now supplied by F-02 §5.5. SCR naming, attribution and the CER path remain open.</td></tr><tr><td>F-18 / P2-05</td><td class="reason">Still open. §8.3 now omits NOT_APPLICABLE (P3-04).</td></tr><tr><td>P2-03</td><td class="reason">Per-lineage history (§3.4) makes "predecessor" definable as the lineage's current MAP, but the text doesn't say so. A future-dated MAP still locks its lineage (or the WKO registry) with no governed exit.</td></tr><tr><td>P2-04</td><td class="reason">Still open, and now load-bearing for REPAIR MAP output (P3-06).</td></tr><tr><td>P2-06</td><td class="reason">Still open. P2-01 rewrites W002-STOR-010.1, but the Pass 1 log §14 citations still need an erratum.</td></tr><tr><td>P2-07</td><td class="reason">Partly addressed. This record came with a SHA-256 sidecar. The Pass 1 log erratum is still pending.</td></tr><tr><td>All other Pass 1 findings</td><td class="reason">Unchanged from Pass 2.</td></tr></tbody></table></div>
+
+<h2 id="E">E. Integration checklist additions</h2>
+<p>These add to the Pass 2 checklist; they do not replace it.</p>
+<h3>Resolve before integration (blocking)</h3><ul class="check"><li>P3-01: add an optional <code>MAP "&lt;filename&gt;"</code> clause to the P2-02 §4.4 materialization structure, with frozen position and cardinality. Otherwise retire explicit MAP from W002-WKO-012.3, W002-STOR-019.1 and 019.2 and give P2-01 §3.6 another exit.</li><li>P3-02: name where the F-06 and F-07 refusal facts are serialized. If it is the MATERIALIZE Receipt, add the keys to the §8.7 order with absence tokens. Settle the CONVERT undefined-byte offset at the same time.</li></ul><h3>Decide no later than integration (material)</h3><ul class="check"><li>P3-03: choose the current WKO MAP by structural validity; define repair-required; define behavior for a malformed newest WKO MAP.</li><li>P3-04: per-operation refusal-stage × key token matrix; closed RESULT set; UNKNOWN_OPERATION form; NOT_APPLICABLE in §8.3; indexed key names spelled in full.</li><li>P3-05: Help content and analyst-owned exits for INVALID and all-COLs-broken DEGRADED Stores.</li><li>P3-06: record artifact evidence in the Store MAP, or reword the restoration rules; close P2-04 with tiered REPAIR MAP fixtures.</li><li>P3-07: one routing term covering all lineages with a structurally valid MAP; decide the all-MAPs-damaged boundary.</li><li>P3-08: state CVT lineage behavior and its Help.</li><li>P3-09: add the no-header-record condition token, its location, and fixtures.</li><li>Carried from Pass 2: F-05 Store MAP column set; F-07 token sets; F-08 remaining operation structures, RUN trigger and token separation; P2-03, P2-04, P2-05, P2-06; all other material residuals in the Pass 2 checklist.</li></ul><h3>Revision BL sweep for mandatory aliases (P2-02)</h3><ul class="check"><li>W002-STOR-018, W002-STOR-018.2, W002-STOR-018.3, W002-STEPS-001, W002-STEPS-001.1, W002-UI-023, W002-MAT-ACC-002.3, and the canonical INVENTORY form in W002-INV-001.</li></ul><h3>Revision BL sweep for store_source_filename (P2-01 / F-05)</h3><ul class="check"><li>W002-STOR-019.2 (routing by store_source_filename becomes the lineage's common source_filename), W002-STOR-019.6, 019.8, 019.9, 019.12, W002-MAT-ACC-002.1, W002-WKO-012.6, W002-STEPS-008, W002-UI-ACC-017.</li></ul><h3>Other Revision BL rewrites introduced by the six decisions</h3><ul class="check"><li>W002-STOR-018.4 and W002-UI-023 ("newest valid WKO MAP") to structural validity (P3-03).</li><li>W002-STOR-019.10 to structural validity only (F-03 §6.12). W002-RCP-008 drops RECOVER RID. W002-RCP-006 closes RESULT.</li><li>W002-INV-006 to the §8.10 byte form; W002-MAT-003.2 and W002-MAT-ACC-003 to the five-fact window invariance.</li></ul>
+
+<h2 id="F">F. Gate conclusion</h2>
+<div class="gate">
+<p class="verdict">NOT READY FOR CANONICAL PRD INTEGRATION</p>
+<p>Two contradictions between the frozen decisions must be resolved first:</p>
+<ol class="q"><li><b><a href="#P3-01">P3-01</a></b> — add the MAP clause to the materialization structure (or retire explicit MAP and give P2-01 another exit).</li><li><b><a href="#P3-02">P3-02</a></b> — say where the UTF-8 and CSV refusal facts are serialized, and put them in the MATERIALIZE key order if that is the Receipt.</li></ol>
+<p>Nothing else stands in the way. P3-03 to P3-10 and the carried material items can be settled no later than integration. A full Pass 4 is not needed for P3-01 and P3-02: an erratum to the Pass 2 reconciliation log covering the two items can be checked in one short sitting. If it resolves both without introducing a new contradiction, the gate can move to READY FOR CANONICAL PRD INTEGRATION.</p>
+</div>
+
+<footer>
+<p>Data Sculptor WASM-002 adversarial QA review, Revision BL, pass 3 (gate verification). Audited reconciliation log SHA-256 F564FFC263F9A236F6996BD06D9CFC691CC8F9482D21B8A41E2347F26EE45603. Reviewed artifact SHA-256 828C6A81B2C0A8B97546F728628059C53CC61256FAB23B142E452A8E566E025F. This review's own SHA-256 is recorded in its sidecar file.</p>
+</footer>
+</main>
+</body>
+</html>
