@@ -281,7 +281,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 </style>
 </head>
 <body>
-<!-- Day 053 preflight update: Day 052 completed the staged adversarial review of the WASM-002 reconciliation record. Claude Pass 2 audited the 34 Pass 1 decisions and returned NOT READY FOR CANONICAL PRD INTEGRATION, identifying six gate blockers and seven new Pass 2 findings. The Council resolved all six gate blockers in a separate Pass 2 reconciliation record. Claude Pass 3 then cross-checked those decisions and found two new blocking contradictions, P3-01 and P3-02; the Council resolved both in an append-only erratum. Claude's short erratum gate check returned READY FOR CANONICAL PRD INTEGRATION, with no new blocking findings. Revision BL remains unchanged at 778 recorded requirements, 384 scoped to WASM-002, DRAFT / UNDER REVIEW / NOT FROZEN. Canonical successor PRD integration has not yet been performed and no WASM-002 implementation is claimed. Day 053 begins controlled canonical PRD integration: carry the reviewed decisions and all remaining material/clarity obligations into a successor revision, preserve the review trail, then return the integrated successor PRD to adversarial review before any freeze or implementation claim. -->
+<!-- Day 053 landing update: Day 052 completed the staged adversarial review of the WASM-002 reconciliation record and moved the gate to READY FOR CANONICAL PRD INTEGRATION. Day 053 did not perform that integration. Instead, the flight changed to product backlog grooming: several candidate ideas were explored, refined, rejected or repositioned before they could enter a successor PRD. Revision BL remains unchanged at 778 recorded requirements, 384 scoped to WASM-002, DRAFT / UNDER REVIEW / NOT FROZEN. The main outcomes were rejection of the governed Codebook/Base62 storage model, acceptance of PROFILE COLUMN as a read-only inspection concept, clearer TEXT / NUMERIC / DATE interpretation modes, a first-class governed cleaning family for WASM-002.x, explicit ASCII-safe and case-normalization concepts, and a sharper boundary between cleaning and later shaping through DS-STEPS, DS-SQL and DS-Pipe. No canonical PRD integration or WASM-002 implementation is claimed. -->
 
 <header class="masthead">
   <div class="wrap">
@@ -358,19 +358,19 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
       <div class="state-top">Project state — Day 053, Wednesday 30 September 2026</div>
       <dl>
         <dt>Phase</dt>
-        <dd>WASM-002 specification — the staged Pass 1 / Pass 2 / Pass 3 reconciliation trail has cleared the decision-record gate. Day 053 begins controlled canonical PRD integration, not implementation.</dd>
+        <dd>WASM-002 specification — the staged Pass 1 / Pass 2 / Pass 3 reconciliation trail has cleared the decision-record gate. Day 053 became product backlog grooming rather than canonical PRD integration.</dd>
         <dt>Contract</dt>
         <dd>Revision BL of the <a href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">official HTML Product Backlog PRD</a> remains the exact reviewed baseline: 778 recorded requirements, 384 scoped to WASM-002, DRAFT / UNDER REVIEW / NOT FROZEN. The reviewed decisions remain in separate append-only QA and reconciliation artifacts until they are deliberately integrated into a successor PRD revision.</dd>
         <dt>Build state</dt>
         <dd>No WASM-002 production implementation has started. Pass 2 returned NOT READY FOR CANONICAL PRD INTEGRATION and identified six gate blockers. The Council resolved all six; Pass 3 then found two cross-decision blockers, P3-01 and P3-02. Both were resolved in an append-only erratum, and Claude's short erratum gate check returned <strong>READY FOR CANONICAL PRD INTEGRATION</strong> with no new blocking findings.</dd>
         <dt>Now building</dt>
-        <dd>Day 053 is the integration flight: carry the frozen reconciliation decisions into a successor canonical PRD, explicitly settle the remaining Pass 2 and Pass 3 material/clarity obligations — including E-01 and E-02 from the final gate check — preserve the full review lineage, and prepare the integrated successor for another adversarial review before any approval, freeze or implementation claim.</dd>
+        <dd>Day 053 was used to groom the product backlog before integration: test candidate ideas against the architecture, keep useful concepts, reject unnecessary complexity, and clarify what belongs in WASM-002.x versus later shaping work.</dd>
         <dt>Yesterday</dt>
         <dd>Day 052 put the reconciliation itself under adversarial review. Pass 2 audited the 34 Pass 1 decisions and found 19 closed with integration obligations, 15 partially closed, zero reopened, and seven new findings; six issues blocked integration. After the Council resolved those six, Pass 3 verified the gate items and exposed two contradictions between otherwise sound decisions. A short erratum repaired both. Claude's final erratum check moved the decision record to READY FOR CANONICAL PRD INTEGRATION.</dd>
         <dt>Yesterday after hours</dt>
         <dd>A working note opened a new research thread on the Red5Sorcery AI Council itself: one accountable human working through ordinary chat with specialized AI roles, adversarial separation, persistent artifacts and explicit human final authority. Data Sculptor is the longitudinal case study; the Council method is the research object. This is method/research work and does not alter WASM-002 scope.</dd>
         <dt>Unsettled</dt>
-        <dd class="open">The successor PRD has not yet been produced or reviewed. Material and clarity obligations from Pass 2 and Pass 3 still have to be resolved during integration. Revision BL remains DRAFT / UNDER REVIEW / NOT FROZEN. READY applies only to canonical PRD integration of the decision record; it is not an implementation, acceptance or freeze verdict.</dd>
+        <dd class="open">The successor PRD has not yet been produced or reviewed. Revision BL remains DRAFT / UNDER REVIEW / NOT FROZEN. Day 053 backlog-grooming decisions still require deliberate canonical integration and later adversarial review before any approval, freeze or implementation claim.</dd>
         <dt>Privacy R&amp;D</dt>
         <dd>RQSM remains optional and outside WASM-002. Current design work keeps it architecturally isolated from the open Data Sculptor core, advances controlled separation through multiple carrier bundles, and preserves a separate licensing boundary for commercial and white-label use.</dd>
         <dt>Released</dt>
@@ -1052,11 +1052,11 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         </div>
       </li>
       <li>
-        <div class="log-day">Day 053<span class="log-date">Wed 30 Sep</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-day">Day 053<span class="log-date">Wed 30 Sep</span><span class="log-tag">Landed</span></div>
         <div class="log-entry">
-          <h3>Integrate the Reviewed Decisions Into the Canonical PRD</h3>
-          <p>Day 053 begins from a decision record that Claude's Pass 3 erratum gate check marked READY FOR CANONICAL PRD INTEGRATION. Revision BL is still the untouched reviewed baseline. Today's work is to produce the successor canonical PRD deliberately rather than collapse the review trail into a silent rewrite.</p>
-          <p class="log-after"><b>Planned flight</b>Carry the accepted Pass 1, Pass 2 and Pass 3 decisions into the successor WASM-002 PRD; resolve the remaining material and clarity obligations, including E-01 and E-02; preserve exact lineage back to Revision BL and the append-only reconciliation artifacts; then prepare the integrated successor for another independent adversarial review. No implementation, approval or freeze is assumed.</p>
+          <h3>The Backlog Got Better</h3>
+          <p>The planned PRD-integration flight changed course into product backlog grooming. A governed Codebook/Base62 storage idea was explored and then rejected as too much product complexity without demonstrated benefit. The useful residue became PROFILE COLUMN: a read-only inspection surface with explicit TEXT, NUMERIC and DATE interpretations, plus clearer first-class cleaning concepts for whitespace, dates, ASCII-safe output, standardization and Store-wide case operations.</p>
+          <p class="log-after"><b>Landing state</b>The cleaning-versus-shaping boundary is now sharper: cleaning changes governed values through explicit successor-producing Work Orders; DS-STEPS, DS-SQL and DS-Pipe remain for derived analytical shaping. The new cleaning family is positioned in WASM-002.x before later shaping work. Revision BL remains unchanged and no canonical PRD integration or implementation is claimed.</p>
         </div>
       </li>
     </ol>
