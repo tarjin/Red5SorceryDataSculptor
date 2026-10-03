@@ -805,6 +805,23 @@
     }
   
 
+
+
+    /* selected colleague recommendations */
+    .recommendations { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .recommendation-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 28px; }
+    .recommendation-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 26px; display: flex; flex-direction: column; min-height: 220px; }
+    .recommendation-card .quote-mark { color: var(--accent); font-family: Georgia, serif; font-size: 3.1rem; line-height: .7; margin-bottom: 16px; }
+    .recommendation-card blockquote { margin: 0; font-family: Georgia, serif; font-size: clamp(1.35rem, 2.2vw, 1.8rem); line-height: 1.22; letter-spacing: -.018em; color: var(--ink); }
+    .recommendation-card footer { margin-top: auto; padding-top: 22px; color: var(--muted); font-size: 12px; }
+    .recommendation-card footer strong { display: block; color: var(--ink); font-size: 13px; margin-bottom: 3px; }
+    .recommendation-note { margin-top: 18px; display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); }
+    .recommendation-note p { margin: 0; max-width: 760px; color: var(--muted); font-size: 13px; }
+    .recommendation-note a { white-space: nowrap; color: var(--accent-deep); font-weight: 850; text-decoration: none; font-size: 13px; }
+    @media (max-width: 980px) { .recommendation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 680px) { .recommendation-grid { grid-template-columns: 1fr; } .recommendation-card { min-height: 0; } }
+    @media print { .recommendation-card, .recommendation-note { break-inside: avoid; box-shadow: none; } }
+
     /* 2026-10 refinement: stronger first-read hierarchy and progressive disclosure */
     .hero-copy { display: grid; gap: 11px; }
     .hero-copy-second { color: var(--copy-ink); }
@@ -839,6 +856,7 @@
 <a href="#product-record">Products</a>
 <a href="#research-practice">Research</a>
 <a href="#experience">Experience</a>
+<a href="#recommendations">Recommendations</a>
 <a href="#selected-work">Selected work</a>
 <a class="nav-cta" href="Tarjin_Rahman_Master_Resume.pdf">Download résumé</a>
 </nav>
@@ -935,6 +953,11 @@
 <h3>ACDSee Pro for Mac v1</h3>
 <p>0→1 product definition through launch, including EXIF/IPTC metadata search and organization, Batch Develop processing for photographers’ image transformations, and a public beta of more than 10,000 users.</p>
 </article>
+<article class="product-record-item contributed">
+<div class="status">Shipped · product contribution</div>
+<h3>ACDSee Pro 2 for Mac</h3>
+<p>Worked on the shipped v2 release and launch, continuing the Mac product line after v1 with expanded photo-management and processing capabilities.</p>
+</article>
 <article class="product-record-item lead">
 <div class="status">Shipped · regulated delivery</div>
 <h3>Siren v4</h3>
@@ -962,7 +985,7 @@
 <div class="wrap metric-grid">
 <div class="metric"><strong>20+</strong><span>years across software, UX, research, product &amp; analytics</span></div>
 <div class="metric"><strong>6+</strong><span>years in formal Product Manager / Product Lead roles</span></div>
-<div class="metric"><strong>10</strong><span>products contributed to, shipped, or building — across software serving millions of users</span></div>
+<div class="metric"><strong>11</strong><span>products contributed to, shipped, or building — across software serving millions of users</span></div>
 <div class="metric"><strong>9+</strong><span>user communities served — diagramming professionals, enterprise knowledge workers, office workers, PDF/document users, professional photographers and enthusiasts, SharePoint IT administrators, EMS paramedics and analysts, privacy-conscious users, and data analysts &amp; consultants</span></div>
 </div>
 </div>
@@ -1019,7 +1042,7 @@
 <article class="research-card">
 <div class="research-number">09</div>
 <h3>Paper &amp; interactive prototyping</h3>
-<p>Used low-fidelity paper prototypes and higher-fidelity interactive prototypes to make design alternatives tangible before implementation. During my Adobe years, I built interactive prototypes in Macromedia Director for research and design evaluation.</p>
+<p>Used low-fidelity paper prototypes and higher-fidelity interactive prototypes to make design alternatives tangible before implementation. During my Adobe years, I built interactive prototypes in Macromedia Director, including a rapid simulation of the proposed Adobe–Google Toolbar distribution experience for a focused usability study under tight commercial deadlines.</p>
 </article>
 <article class="research-card">
 <div class="research-number">10</div>
@@ -1066,7 +1089,7 @@
 <div class="release-lane-head">
 <div class="type">Research, design &amp; feature contribution</div>
 <h3>Products and shipped releases I helped shape</h3>
-<p>These are products where my contribution was research, design guidance, workflow modernization, or selected features—not end-to-end product ownership. Visio 2003, Acrobat 8 / Reader 8, and ACDSee Pro 3 were shipped releases I directly supported; SharePoint is included as product research, and Acrobat 9 as early pre-release research, rather than releases I claim to have owned or shipped.</p>
+<p>These are products where my contribution was research, design guidance, workflow modernization, selected features, or launch support—not always end-to-end ownership. Visio 2003, Acrobat 8 / Reader 8, ACDSee Pro 3, and ACDSee Pro 2 for Mac were shipped releases I directly supported; SharePoint is included as product research, and Acrobat 9 as early pre-release research, rather than releases I claim to have owned or shipped.</p>
 </div>
 <ol class="release-list">
 <li class="release-item">
@@ -1124,6 +1147,14 @@
 <h4>ACDSee Pro for Mac v1</h4>
 <div class="release-role">0→1 Product Manager / Product Owner · metadata workflows · Batch Develop</div>
 <p>Led product definition through launch, including workflow design, prioritization, release readiness, EXIF/IPTC metadata search and organization, and Batch Develop processing for applying photographers’ transformations across groups of images. Helped lead a public beta of more than 10,000 users.</p>
+</div>
+</li>
+<li class="release-item">
+<div class="release-index">V2</div>
+<div>
+<h4>ACDSee Pro 2 for Mac</h4>
+<div class="release-role">Shipped release · product contribution · launch support</div>
+<p>Worked on the second major Mac release and its launch, continuing the product line I had helped establish with v1. I describe this as a shipped product contribution rather than claiming sole ownership of the release.</p>
 </div>
 </li>
 <li class="release-item">
@@ -1301,6 +1332,7 @@
 <ul>
 <li>0→1 Product Manager / Product Owner for <strong>ACDSee Pro for Mac v1</strong>; owned product definition, workflow design, prioritization, release readiness, and launch coordination, including <strong>EXIF/IPTC metadata search and organization</strong> and <strong>Batch Develop</strong> processing for photographers’ image transformations.</li>
 <li>Helped lead a public beta of more than 10,000 users, incorporating research, market evidence, customer feedback, and technical constraints into product decisions and commercial-release readiness.</li>
+<li>Continued work on the Mac product line through <strong>ACDSee Pro 2 for Mac</strong>, a shipped 2012 release, contributing to product development and launch after the original 0→1 v1 release.</li>
 <li>In my first major ACD Systems product challenge, engineering was preparing to adopt Microsoft’s Ribbon UI paradigm for <strong>ACDSee Pro 3 for Windows</strong>. I challenged that choice, developed paper prototypes and mockups for a modal, workflow-based interface closer to Lightroom, and presented the alternative to the executive team and the wider company. The company adopted the new direction.</li>
 <li>Contributed selected Windows features, including <strong>Quick Search</strong> for metadata-rich photo libraries, and carried the workflow lessons from the Pro 3 redesign into the 0→1 Mac product.</li>
 <li>Designed and conducted a <strong>Net Promoter Score (NPS)</strong> survey with actual ACDSee Windows users to understand why they would — or would not — recommend the product, using the findings to clarify customer value, friction, and product priorities.</li>
@@ -1316,7 +1348,7 @@
 <li>Worked on Adobe's <strong>Global Market Research</strong> team supporting <strong>Adobe Acrobat 8 and Adobe Reader 8</strong>, with my contribution focused primarily on helping product and marketing teams refine <strong>messaging, positioning, and customer understanding</strong> from surveys and user studies.</li>
 <li>Synthesized qualitative and quantitative evidence into clear findings about customer needs, perceptions, usage, and language, translating research into recommendations for cross-functional teams.</li>
 <li>Contributed <strong>early research for Acrobat 9</strong> before leaving Adobe in 2008, without claiming ownership of the eventual release.</li>
-<li>Created and evaluated prototypes as part of selected research and design exploration, including interactive prototypes built in <strong>Macromedia Director</strong> during my Adobe years.</li>
+<li>Supported the high-profile <strong>Adobe–Google Toolbar distribution initiative</strong> under tight deadlines by building an interactive <strong>Macromedia Director</strong> prototype that simulated the proposed user experience, then creating testing scripts and supporting a focused end-user usability study before deployment.</li>
 <li>Worked with external research vendors, including <strong>Harris Interactive</strong> and specialized user research consultants, coordinating studies and translating findings into product and messaging recommendations.</li>
 </ul>
 </div>
@@ -1333,6 +1365,54 @@
 </ul>
 </div>
 </article>
+</div>
+</div>
+</section>
+
+<section class="recommendations" id="recommendations">
+<div class="wrap">
+<div class="section-head">
+<div class="section-label">What colleagues said</div>
+<div>
+<h2 class="section-title">Third-party evidence from people who worked with me.</h2>
+<p class="section-intro">I have 18 LinkedIn recommendations from 2007–2013, written by managers, peers, researchers, engineers, QA specialists, designers, and business partners. I selected six excerpts that reinforce different parts of my professional story: research depth, scientific product judgment, user-centred delivery, cross-functional execution, and how I work with people.</p>
+</div>
+</div>
+<div class="recommendation-grid">
+<article class="recommendation-card">
+<div class="quote-mark" aria-hidden="true">“</div>
+<blockquote>“Tarjin approaches product management decisions from a scientific perspective, which is rooted on his background in usability.”</blockquote>
+<footer><strong>Gen Lambert</strong>Managed me directly · 2010</footer>
+</article>
+<article class="recommendation-card">
+<div class="quote-mark" aria-hidden="true">“</div>
+<blockquote>“Tarjin is a versatile and talented researcher who has both delivered qualitative user research as well as quantitative market research projects while working in Global Market Research.”</blockquote>
+<footer><strong>Quynh Nguyen</strong>Senior colleague at Adobe · 2008</footer>
+</article>
+<article class="recommendation-card">
+<div class="quote-mark" aria-hidden="true">“</div>
+<blockquote>“Tarjin is an excellent Product Manager, and it's a pleasure to work with Tarjin at ACD Systems.”</blockquote>
+<footer><strong>Simon Tipler</strong>Product-management teammate · 2011</footer>
+</article>
+<article class="recommendation-card">
+<div class="quote-mark" aria-hidden="true">“</div>
+<blockquote>“I worked closely with Tarjin on ACDSee Pro (Mac) project for more than 4 years. He was very detail-oriented and enthusiastic about gathering user feedback, providing a good user experience…”</blockquote>
+<footer><strong>Nataliia Makova</strong>Reported to me · 2012</footer>
+</article>
+<article class="recommendation-card">
+<div class="quote-mark" aria-hidden="true">“</div>
+<blockquote>“I worked with Tarjin under tight deadlines on the high profile Adobe-Google Toolbar distribution deal. Tarjin was quick to understand my goals, develop prototypes and testing scripts for end user testing…”</blockquote>
+<footer><strong>John Lin</strong>Cross-functional Adobe colleague · 2007</footer>
+</article>
+<article class="recommendation-card">
+<div class="quote-mark" aria-hidden="true">“</div>
+<blockquote>“It's rare to find someone so down-to-earth, yet so thorough in his work… this man brings a crystal sharp mind that's ready to roll.”</blockquote>
+<footer><strong>Julia Flook</strong>Cross-functional colleague · 2011</footer>
+</article>
+</div>
+<div class="recommendation-note">
+<p><strong>Selected from 18.</strong> These are short excerpts; LinkedIn retains the original recommendations, dates, relationship context, and complete wording.</p>
+<a href="https://www.linkedin.com/in/red5sorcery/details/recommendations/" rel="noopener" target="_blank">View all 18 recommendations on LinkedIn ↗</a>
 </div>
 </div>
 </section>
