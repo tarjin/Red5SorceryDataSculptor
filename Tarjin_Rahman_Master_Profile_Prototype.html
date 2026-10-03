@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Tarjin Rahman — product leader, research professional, and founder building AI-assisted software after a career spanning Microsoft, Adobe, ACD Systems, regulated healthcare, analytics, and research." name="description"/>
+<title>Tarjin Rahman — Product Leadership, Research &amp; AI-Assisted Software Development</title>
+<script>
+    (() => {
+      try {
+        const saved = localStorage.getItem('tarjin-resume-theme');
+        const theme = (saved === 'light' || saved === 'dark')
+          ? saved
+          : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.dataset.theme = theme;
+      } catch (_) {
+        document.documentElement.dataset.theme = 'light';
+      }
+    })();
+  </script>
+<style>
+    :root {
+      --ink: #17181b;
+      --muted: #64676e;
+      --paper: #f7f4ee;
+      --surface: #fffdfa;
+      --surface-2: #efe9df;
+      --line: #d9d2c7;
+      --accent: #b5262f;
+      --accent-deep: #7f1820;
+      --accent-soft: #f5dfdf;
+      --night: #17191f;
+      --night-2: #232630;
+      --cream: #fffaf0;
+      --shadow: 0 18px 50px rgba(30, 24, 20, .10);
+      --radius-lg: 26px;
+      --radius-md: 18px;
+      --radius-sm: 11px;
+      --max: 1180px;
+      --topbar-bg: rgba(247,244,238,.88);
+      --nav-ink: #34363b;
+      --kicker-ink: #3d4047;
+      --copy-ink: #4e5158;
+      --role-ink: #45484f;
+      --methods-bg: #ece6dc;
+      --methods-border: #ddd5ca;
+      --method-card-bg: rgba(255,255,255,.55);
+      --method-card-border: #ddd4c8;
+      --method-copy: #555961;
+      color-scheme: light;
+    }
+
+    html[data-theme="dark"] {
+      --ink: #f3efe8;
+      --muted: #aaa8a4;
+      --paper: #111216;
+      --surface: #1a1c21;
+      --surface-2: #23262d;
+      --line: #353841;
+      --accent: #df5963;
+      --accent-deep: #ff9aa2;
+      --accent-soft: #352126;
+      --night: #0c0d10;
+      --night-2: #17191f;
+      --cream: #fff8ec;
+      --shadow: 0 18px 50px rgba(0,0,0,.28);
+      --topbar-bg: rgba(17,18,22,.88);
+      --nav-ink: #d5d2cc;
+      --kicker-ink: #d6d3cd;
+      --copy-ink: #bbb8b2;
+      --role-ink: #c7c4be;
+      --methods-bg: #15171b;
+      --methods-border: #2f3239;
+      --method-card-bg: rgba(255,255,255,.035);
+      --method-card-border: #33363d;
+      --method-copy: #b7b4ae;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.58;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 3px solid #e6a3a8; outline-offset: 3px; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(18px);
+      background: var(--topbar-bg);
+      border-bottom: 1px solid rgba(217,210,199,.8);
+    }
+    .topbar-inner {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+    .mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: linear-gradient(145deg, var(--accent), var(--accent-deep));
+      box-shadow: 0 8px 20px rgba(181,38,47,.25);
+      font-family: Georgia, serif;
+      font-weight: 800;
+    }
+    nav { display: flex; gap: 22px; align-items: center; font-size: 14px; font-weight: 650; }
+    nav a { text-decoration: none; color: var(--nav-ink); }
+    nav a:hover { color: var(--accent); }
+    .nav-cta {
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: white !important;
+    }
+    .top-actions { display: flex; align-items: center; gap: 14px; }
+    .theme-switch {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      box-shadow: 0 4px 14px rgba(0,0,0,.05);
+    }
+    .theme-option {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      min-height: 32px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background .18s ease, color .18s ease, transform .18s ease;
+    }
+    .theme-option:hover { color: var(--ink); }
+    .theme-option[aria-pressed="true"] {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .theme-option:active { transform: scale(.97); }
+
+    .hero {
+      padding: 74px 0 38px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(300px, .55fr);
+      gap: 54px;
+      align-items: end;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-deep);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .055em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.9rem, 8vw, 7.2rem);
+      line-height: .89;
+      letter-spacing: -.055em;
+      margin: 22px 0 18px;
+      max-width: 900px;
+    }
+    .kicker {
+      font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+      line-height: 1.38;
+      color: var(--kicker-ink);
+      font-weight: 650;
+      max-width: 870px;
+    }
+    .hero-copy {
+      margin-top: 24px;
+      font-size: 1.02rem;
+      max-width: 850px;
+      color: var(--copy-ink);
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 0 17px;
+      border-radius: 12px;
+      font-weight: 780;
+      font-size: 14px;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 10px 24px rgba(181,38,47,.22); }
+    .btn.dark { background: var(--ink); border-color: var(--ink); color: white; }
+    .btn:hover { transform: translateY(-1px); }
+
+    .contact-card {
+      background: var(--night);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+    .contact-card::after {
+      content: "";
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      right: -70px;
+      bottom: -70px;
+      background: radial-gradient(circle, rgba(181,38,47,.6), rgba(181,38,47,0) 68%);
+    }
+    .contact-card h2 { margin: 0 0 4px; font-size: 17px; }
+    .contact-card p { margin: 0 0 22px; color: #b9bcc5; font-size: 14px; }
+    .contact-row { border-top: 1px solid #353943; padding: 14px 0; position: relative; z-index: 2; }
+    .contact-row small { display: block; color: #898e9c; font-size: 11px; text-transform: uppercase; letter-spacing: .09em; font-weight: 800; }
+    .contact-row a, .contact-row span { color: #f8f8f8; text-decoration: none; font-size: 14px; font-weight: 650; }
+
+    .metrics {
+      padding: 22px 0 78px;
+    }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .metric { padding: 25px 26px; border-right: 1px solid var(--line); }
+    .metric:last-child { border-right: 0; }
+    .metric strong { display: block; font-family: Georgia, serif; font-size: 2.5rem; line-height: 1; letter-spacing: -.03em; }
+    .metric span { display: block; margin-top: 7px; color: var(--muted); font-size: 13px; font-weight: 650; }
+
+    section { padding: 80px 0; }
+    .section-head {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 36px;
+      align-items: start;
+      margin-bottom: 34px;
+    }
+    .section-label { color: var(--accent); font-size: 12px; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
+    .section-title { margin: 0; font-family: Georgia, serif; font-size: clamp(2.2rem, 4.5vw, 4.2rem); line-height: 1; letter-spacing: -.045em; }
+    .section-intro { margin: 14px 0 0; color: var(--muted); max-width: 800px; font-size: 1.02rem; }
+
+    .featured { background: var(--night); color: var(--cream); }
+    .featured .section-intro { color: #b9bcc5; }
+    .project-grid { display: grid; grid-template-columns: 1.2fr .8fr .8fr; gap: 18px; }
+    .project-card {
+      border: 1px solid #353944;
+      background: linear-gradient(160deg, var(--night-2), #1c1f26);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card.primary-project { background: linear-gradient(145deg, #2b2024, #1b1d24); }
+    .project-card::after {
+      content: "";
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      position: absolute;
+      top: -110px;
+      right: -75px;
+      border: 36px solid rgba(181,38,47,.16);
+    }
+    .project-tag { font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: #d97b82; }
+    .project-card h3 { margin: 18px 0 10px; font-family: Georgia, serif; font-size: 2rem; line-height: 1.05; letter-spacing: -.03em; }
+    .project-card p { color: #c4c7ce; font-size: 14px; }
+    .project-link { margin-top: auto; color: white; text-decoration: none; font-weight: 800; font-size: 14px; }
+    .project-link span { color: #d97b82; }
+
+    .ai-panel {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+    .ai-statement {
+      padding: 34px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+    .ai-statement blockquote {
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: clamp(1.7rem, 3vw, 2.65rem);
+      line-height: 1.14;
+      letter-spacing: -.035em;
+    }
+    .ai-statement p { margin: 22px 0 0; color: var(--muted); }
+    .ai-flow {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .flow-step { background: var(--surface-2); border-radius: var(--radius-sm); padding: 18px; border: 1px solid var(--line); }
+    .flow-step b { display: block; font-size: 13px; }
+    .flow-step span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+
+    .timeline { position: relative; }
+    .role {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 36px;
+      padding: 29px 0;
+      border-top: 1px solid var(--line);
+    }
+    .role:last-child { border-bottom: 1px solid var(--line); }
+    .role-meta { color: var(--muted); font-size: 13px; }
+    .role-meta strong { display: block; color: var(--ink); font-size: 14px; }
+    .role h3 { margin: 0; font-size: 1.25rem; letter-spacing: -.015em; }
+    .company { color: var(--accent-deep); font-weight: 780; margin-top: 2px; }
+    .role ul { margin: 13px 0 0; padding-left: 18px; color: var(--role-ink); }
+    .role li { margin: 8px 0; }
+
+
+
+    .product-record {
+      padding: 10px 0 34px;
+    }
+    .product-record-shell {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .product-record-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      padding: 26px 28px 22px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, var(--surface), var(--surface-2));
+    }
+    .product-record-head small {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--accent-deep);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .product-record-head h2 {
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: clamp(1.8rem, 3vw, 2.65rem);
+      line-height: 1.03;
+      letter-spacing: -.035em;
+    }
+    .product-record-head p {
+      margin: 8px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .product-record-key {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 7px;
+      max-width: 310px;
+    }
+    .product-key {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .product-key.shipped { color: var(--accent-deep); background: var(--accent-soft); }
+    .product-key.building { color: var(--ink); background: var(--surface-2); }
+    .product-record-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .product-record-item {
+      min-height: 150px;
+      padding: 20px 22px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .product-record-item:nth-child(3n) { border-right: 0; }
+    .product-record-item:nth-last-child(-n+3) { border-bottom: 0; }
+    .product-record-item .status {
+      display: inline-flex;
+      margin-bottom: 10px;
+      color: var(--accent-deep);
+      font-size: 9px;
+      font-weight: 950;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    .product-record-item.contributed .status { color: var(--muted); }
+    .product-record-item.building .status { color: var(--ink); }
+    .product-record-item h3 {
+      margin: 0;
+      font-size: 1.02rem;
+      line-height: 1.18;
+      letter-spacing: -.018em;
+    }
+    .product-record-item p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .product-record-item.lead {
+      background: linear-gradient(145deg, color-mix(in srgb, var(--accent-soft) 62%, var(--surface)), var(--surface));
+    }
+    .product-record-more {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      padding: 17px 22px;
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .product-record-more strong { color: var(--ink); }
+    .product-record-more a { color: var(--accent-deep); font-weight: 850; text-decoration: none; white-space: nowrap; }
+
+    .product-history {
+      background:
+        radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 26%),
+        var(--surface);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .arc-line {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .arc-step {
+      position: relative;
+      min-height: 150px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+    }
+    .arc-step::before {
+      content: "";
+      display: block;
+      width: 34px;
+      height: 4px;
+      margin-bottom: 18px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+    .arc-step small {
+      display: block;
+      color: var(--accent-deep);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .arc-step h3 {
+      margin: 7px 0 8px;
+      font-family: Georgia, serif;
+      font-size: 1.35rem;
+      line-height: 1.08;
+      letter-spacing: -.025em;
+    }
+    .arc-step p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    .release-groups {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .release-lane {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(30,24,20,.05);
+    }
+    .release-lane.lead {
+      border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+      box-shadow: 0 16px 38px color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+    .release-lane-head {
+      padding: 22px 24px 18px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-2);
+    }
+    .release-lane.lead .release-lane-head {
+      background: linear-gradient(135deg, var(--accent-soft), var(--surface));
+    }
+    .release-lane-head .type {
+      color: var(--accent-deep);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .release-lane-head h3 {
+      margin: 7px 0 6px;
+      font-family: Georgia, serif;
+      font-size: 1.7rem;
+      line-height: 1.05;
+      letter-spacing: -.03em;
+    }
+    .release-lane-head p { margin: 0; color: var(--muted); font-size: 13px; }
+    .release-list { list-style: none; padding: 0; margin: 0; }
+    .release-item {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 14px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    .release-item:last-child { border-bottom: 0; }
+    .release-index {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--surface-2);
+      color: var(--accent-deep);
+      font-family: Georgia, serif;
+      font-weight: 800;
+      font-size: 15px;
+    }
+    .release-lane.lead .release-index { background: var(--accent-soft); }
+    .release-item h4 { margin: 0; font-size: 1rem; letter-spacing: -.015em; }
+    .release-item .release-role {
+      margin: 3px 0 7px;
+      color: var(--accent-deep);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: .035em;
+      text-transform: uppercase;
+    }
+    .release-item p { margin: 0; color: var(--muted); font-size: 12.5px; }
+    .release-note {
+      margin-top: 18px;
+      padding: 18px 20px;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .release-note strong { color: var(--ink); }
+
+    .strengths-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
+    .pill {
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .pill.ai { color: var(--accent-deep); background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+
+    .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .work-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 26px;
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+    }
+    .work-card .type { font-size: 11px; font-weight: 900; color: var(--accent); letter-spacing: .1em; text-transform: uppercase; }
+    .work-card h3 { margin: 12px 0 8px; font-family: Georgia, serif; font-size: 1.45rem; line-height: 1.1; }
+    .work-card p { margin: 0; color: var(--muted); font-size: 13px; }
+    .work-card .links { margin-top: auto; padding-top: 18px; display: flex; gap: 14px; flex-wrap: wrap; }
+    .work-card a { color: var(--accent-deep); font-weight: 800; text-decoration: none; font-size: 13px; }
+
+    .education-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .edu-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 24px; }
+    .edu-card h3 { margin: 0; font-size: 1rem; }
+    .edu-card p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
+
+    .research-practice {
+      background: var(--surface);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .research-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      min-height: 180px;
+    }
+
+    .research-card .research-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--accent);
+      font: 700 0.72rem/1 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: .08em;
+      margin-bottom: 18px;
+    }
+
+    .research-card h3 {
+      margin: 0 0 9px;
+      font: 700 1.02rem/1.2 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+    }
+
+    .research-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .91rem;
+      line-height: 1.58;
+    }
+
+    .research-note {
+      margin-top: 18px;
+      padding: 20px 22px;
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
+      border-radius: 18px;
+      background: var(--accent-soft);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    .research-note strong { color: var(--accent); }
+
+    .methods {
+      background: var(--methods-bg);
+      border-top: 1px solid var(--methods-border);
+      border-bottom: 1px solid var(--methods-border);
+    }
+    .method-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .method-card { padding: 24px; background: var(--method-card-bg); border: 1px solid var(--method-card-border); border-radius: var(--radius-md); }
+    .method-card h3 { margin: 0 0 10px; font-size: 1rem; }
+    .method-card p { margin: 0; color: var(--method-copy); font-size: 13px; }
+
+    footer {
+      padding: 60px 0 48px;
+      background: var(--night);
+      color: white;
+    }
+    .footer-grid { display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: end; }
+    footer h2 { margin: 0; font-family: Georgia, serif; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: -.04em; }
+    footer p { color: #aeb2bd; max-width: 650px; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 10px; }
+    .footer-links a { color: white; text-decoration: none; border: 1px solid #393d47; padding: 9px 12px; border-radius: 10px; font-size: 13px; font-weight: 750; }
+    .fineprint { margin-top: 38px; padding-top: 18px; border-top: 1px solid #30333c; color: #777d89; font-size: 11px; display: flex; justify-content: space-between; gap: 18px; }
+
+    html[data-theme="dark"] .contact-card { background: #0b0c0f; }
+    html[data-theme="dark"] .contact-row { border-color: #2a2d34; }
+    html[data-theme="dark"] .contact-card p { color: #aaaeb8; }
+    html[data-theme="dark"] .contact-row small { color: #7f8591; }
+    html[data-theme="dark"] .featured { background: #0b0c0f; }
+    html[data-theme="dark"] .project-card { border-color: #31343c; background: linear-gradient(160deg, #191b21, #121419); }
+    html[data-theme="dark"] .project-card.primary-project { background: linear-gradient(145deg, #2c1b20, #121419); }
+    html[data-theme="dark"] .project-card p,
+    html[data-theme="dark"] .featured .section-intro { color: #b9bcc5; }
+    html[data-theme="dark"] .flow-step,
+    html[data-theme="dark"] .pill,
+    html[data-theme="dark"] .work-card,
+    html[data-theme="dark"] .edu-card,
+    html[data-theme="dark"] .ai-statement { border-color: var(--line); }
+    html[data-theme="dark"] .release-lane,
+    html[data-theme="dark"] .arc-step { box-shadow: none; }
+    html[data-theme="dark"] .release-lane.lead { box-shadow: 0 16px 38px rgba(0,0,0,.18); }
+
+    html[data-theme="dark"] .btn.dark,
+    html[data-theme="dark"] .nav-cta { background: #f3efe8; border-color: #f3efe8; color: #17181b !important; }
+    html[data-theme="dark"] footer { background: #090a0c; }
+
+    @media (max-width: 900px) {
+      nav a:not(.nav-cta) { display: none; }
+      .top-actions { gap: 8px; }
+      .theme-option { padding: 0 9px; }
+      .hero-grid, .ai-panel, .section-head, .role { grid-template-columns: 1fr; }
+      .hero-grid { gap: 28px; }
+      .metric-grid { grid-template-columns: repeat(2, 1fr); }
+      .metric:nth-child(2) { border-right: 0; }
+      .metric:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .project-grid { grid-template-columns: 1fr; }
+      .arc-line, .release-groups { grid-template-columns: 1fr; }
+      .product-record-head { grid-template-columns: 1fr; align-items: start; }
+      .product-record-key { justify-content: flex-start; max-width: none; }
+      .product-record-grid { grid-template-columns: repeat(2, 1fr); }
+      .research-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .product-record-item:nth-child(3n) { border-right: 1px solid var(--line); }
+      .product-record-item:nth-child(2n) { border-right: 0; }
+      .product-record-item:nth-last-child(-n+3) { border-bottom: 1px solid var(--line); }
+      .product-record-item:nth-last-child(-n+1) { border-bottom: 0; }
+      .project-card { min-height: 260px; }
+      .work-grid, .education-grid, .method-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 580px) {
+      .wrap { width: min(calc(100% - 24px), var(--max)); }
+      .topbar-inner { gap: 10px; }
+      .brand span:last-child { display: none; }
+      nav .nav-cta { padding: 8px 11px; font-size: 12px; }
+      .theme-option { font-size: 11px; padding: 0 8px; }
+      .hero { padding-top: 42px; }
+      h1 { font-size: 3.5rem; }
+      .metric { padding: 20px 16px; }
+      .metric strong { font-size: 2rem; }
+      section { padding: 60px 0; }
+      .ai-flow { grid-template-columns: 1fr; }
+      .release-item { grid-template-columns: 38px 1fr; padding: 18px; }
+      .product-record-grid { grid-template-columns: 1fr; }
+      .research-grid { grid-template-columns: 1fr; }
+      .product-record-item, .product-record-item:nth-child(2n), .product-record-item:nth-child(3n) { border-right: 0; border-bottom: 1px solid var(--line); min-height: 0; }
+      .product-record-item:last-child { border-bottom: 0; }
+      .product-record-more { align-items: flex-start; flex-direction: column; gap: 8px; }
+      .fineprint { flex-direction: column; }
+    }
+
+    @media print {
+      .topbar, .hero-actions, .contact-card, .featured, footer { display: none !important; }
+      html { color-scheme: light; }
+      body { background: white; color: #17181b; }
+      section, .hero { padding: 24px 0; }
+      .wrap { width: 100%; }
+      .role, .work-card, .edu-card, .method-card, .ai-statement, .release-lane, .arc-step, .product-record-shell, .product-record-item, .research-card, .research-note { break-inside: avoid; box-shadow: none; }
+    }
+  
+
+    /* 2026-10 refinement: stronger first-read hierarchy and progressive disclosure */
+    .hero-copy { display: grid; gap: 11px; }
+    .hero-copy-second { color: var(--copy-ink); }
+    .proof-strip { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; }
+    .proof-strip span { display: inline-flex; align-items: center; min-height: 32px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px; background: color-mix(in srgb, var(--surface) 78%, transparent); color: var(--ink); font-size: 11px; font-weight: 800; letter-spacing: .01em; }
+    .research-method-list { display: flex; flex-wrap: wrap; gap: 9px; margin: 26px 0 18px; }
+    .research-method-list span { padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); font-size: 12px; font-weight: 760; }
+    .deep-dive { margin-top: 18px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); overflow: hidden; }
+    .deep-dive > summary { list-style: none; cursor: pointer; position: relative; padding: 18px 54px 18px 20px; color: var(--ink); font-weight: 850; font-size: 13px; letter-spacing: .005em; user-select: none; }
+    .deep-dive > summary::-webkit-details-marker { display: none; }
+    .deep-dive > summary::after { content: '+'; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; display: grid; place-items: center; border-radius: 999px; background: var(--surface-2); color: var(--accent-deep); font-size: 19px; line-height: 1; }
+    .deep-dive[open] > summary { border-bottom: 1px solid var(--line); }
+    .deep-dive[open] > summary::after { content: '–'; }
+    .deep-dive > .research-grid { margin: 0; padding: 18px; }
+    .deep-dive > .research-note { margin: 0 18px 18px; }
+    .product-history-details > .release-groups { padding: 18px; }
+    .deep-dive-bridge { max-width: 850px; margin: -6px 0 0; color: var(--muted); font-size: 13px; }
+    html[data-theme="dark"] .proof-strip span, html[data-theme="dark"] .research-method-list span, html[data-theme="dark"] .deep-dive { background: var(--surface); }
+    @media (max-width: 760px) { .proof-strip { gap: 6px; } .proof-strip span { font-size: 10px; } .research-method-list span { font-size: 11px; } .deep-dive > summary { padding-right: 48px; } }
+    @media print { .proof-strip span { border-color: #c8c8c8; } details.deep-dive > summary { display: none !important; } details.deep-dive > *:not(summary) { display: block !important; } }
+</style>
+</head>
+<body>
+<header class="topbar">
+<div class="wrap topbar-inner">
+<a aria-label="Tarjin Rahman home" class="brand" href="#top">
+<span class="mark">T</span>
+<span>Tarjin Rahman</span>
+</a>
+<div class="top-actions">
+<nav aria-label="Primary navigation">
+<a href="#product-record">Products</a>
+<a href="#research-practice">Research</a>
+<a href="#experience">Experience</a>
+<a href="#selected-work">Selected work</a>
+<a class="nav-cta" href="Tarjin_Rahman_Master_Resume.pdf">Download résumé</a>
+</nav>
+<div aria-label="Colour theme" class="theme-switch" role="group">
+<button aria-pressed="false" class="theme-option" data-theme-choice="light" title="Use light theme" type="button">☀ Light</button>
+<button aria-pressed="false" class="theme-option" data-theme-choice="dark" title="Use dark theme" type="button">☾ Dark</button>
+</div>
+</div>
+</div>
+</header>
+<main id="top">
+<section class="hero">
+<div class="wrap hero-grid">
+<div>
+<span class="eyebrow">More about me</span>
+<h1>Tarjin<br/>Rahman</h1>
+<div class="kicker">Product Owner · Product Manager · Research Professional · AI-Assisted Software Builder</div>
+<p class="hero-copy"><span>Product leader and research professional with more than two decades across software, UX, product, analytics, and regulated technology. I began in hands-on usability research at Microsoft, joined Adobe's Global Market Research team for Acrobat and Reader, moved into product ownership at ACD Systems, and led requirements work for a certified EMS product at Medusa.</span><span class="hero-copy-second">Today I build and ship local-first browser software at Red5Sorcery, using AI extensively across requirements, implementation support, adversarial QA, documentation, and release acceptance.</span></p><div aria-label="Career highlights at a glance" class="proof-strip"><span>Microsoft UX + Adobe Global Market Research</span><span>ACDSee Pro for Mac v1 · 0→1</span><span>Siren v4 · NEMSIS 3.4.0</span><span>Founder · Rust / WASM products</span></div>
+<div class="hero-actions">
+<a class="btn primary" href="#product-record">See my product record ↓</a>
+<a class="btn dark" href="https://www.linkedin.com/in/red5sorcery" rel="noopener" target="_blank">LinkedIn ↗</a>
+<a class="btn" href="mailto:tarjin@gmail.com">Email me</a>
+</div>
+</div>
+<aside aria-label="Professional profile details" class="contact-card">
+<h2>Professional profile</h2>
+<p>Halifax, Nova Scotia · Canada</p>
+<div class="contact-row">
+<small>Current role</small>
+<span>Founder &amp; Product Lead, Red5Sorcery Books &amp; Media</span>
+</div>
+<div class="contact-row">
+<small>Current product</small>
+<a href="https://red5sorcerydatasculptor.com" rel="noopener" target="_blank">Red5Sorcery Data Sculptor ↗</a>
+</div>
+<div class="contact-row">
+<small>Focus</small>
+<span>Product · UX · Requirements · AI · Analytics</span>
+</div>
+<div class="contact-row">
+<small>Career arc</small>
+<span>Research → Product ownership → Founder-led delivery</span>
+</div>
+<div class="contact-row">
+<small>Contact</small>
+<a href="mailto:tarjin@gmail.com">tarjin@gmail.com</a>
+</div>
+</aside>
+</div>
+</section>
+<section aria-labelledby="product-record-title" class="product-record" id="product-record">
+<div class="wrap">
+<div class="product-record-shell">
+<div class="product-record-head">
+<div>
+<small>Product record</small>
+<h2 id="product-record-title">Products I shipped, led, and helped shape.</h2>
+<p>The ownership level changed across my career, so I make that distinction explicit. This is the product list at a glance; the detailed history below explains exactly what I contributed to each.</p>
+</div>
+<div aria-label="Product contribution key" class="product-record-key">
+<span class="product-key shipped">Shipped / led</span>
+<span class="product-key">Contributed</span>
+<span class="product-key building">Building now</span>
+</div>
+</div>
+<div class="product-record-grid">
+<article class="product-record-item contributed">
+<div class="status">Shipped · research contribution</div>
+<h3>Microsoft Office Visio 2003</h3>
+<p>Began at Microsoft in the Business Tools Division UX (BTDUX), conducting usability research and design evaluation for the Calendar, Timeline, and Organization Chart feature areas supporting the shipped release.</p>
+</article>
+<article class="product-record-item contributed">
+<div class="status">Product research contribution</div>
+<h3>SharePoint Portal Server</h3>
+<p>Later moved to Microsoft's Office Design Group, conducting usability testing for Search, My Sites, List Management, and the IT administration/deployment console before leaving for Adobe in 2005.</p>
+</article>
+<article class="product-record-item contributed">
+<div class="status">Shipped · research contribution</div>
+<h3>Adobe Acrobat 8</h3>
+<p>Global Market Research contribution using surveys and user studies to help shape customer understanding, product messaging, and market positioning for the shipped Acrobat 8 release.</p>
+</article>
+<article class="product-record-item contributed">
+<div class="status">Shipped · research contribution</div>
+<h3>Adobe Reader 8</h3>
+<p>Global Market Research contribution using survey and user-study evidence to inform messaging, positioning, and customer understanding for the shipped Reader 8 release.</p>
+</article>
+<article class="product-record-item contributed">
+<div class="status">Early research contribution</div>
+<h3>Adobe Acrobat 9</h3>
+<p>Contributed early research for the next Acrobat generation before leaving Adobe in 2008; this is research contribution, not release ownership.</p>
+</article>
+<article class="product-record-item contributed">
+<div class="status">Shipped · product contribution</div>
+<h3>ACDSee Pro 3 for Windows</h3>
+<p>Challenged a planned Microsoft Ribbon-style direction and won support for a modal, workflow-based redesign closer to Lightroom—using paper prototypes, mockups, and company-wide presentations to make the case.</p>
+</article>
+<article class="product-record-item lead">
+<div class="status">Shipped · 0→1 product lead</div>
+<h3>ACDSee Pro for Mac v1</h3>
+<p>0→1 product definition through launch, including EXIF/IPTC metadata search and organization, Batch Develop processing for photographers’ image transformations, and a public beta of more than 10,000 users.</p>
+</article>
+<article class="product-record-item lead">
+<div class="status">Shipped · regulated delivery</div>
+<h3>Siren v4</h3>
+<p>Product and requirements leadership through release and successful NEMSIS v3.4.0 certification.</p>
+</article>
+<article class="product-record-item lead">
+<div class="status">Shipped · founder / product lead</div>
+<h3>CloakYourSecrets.com</h3>
+<p>Offline browser privacy software conceived and shipped with Rust and WebAssembly.</p>
+</article>
+<article class="product-record-item lead building">
+<div class="status">Building now · founder / product lead</div>
+<h3>Red5Sorcery Data Sculptor</h3>
+<p>Local-first browser software for private, explainable data analysis; I own end-to-end product definition and acceptance.</p>
+</article>
+</div>
+<div class="product-record-more">
+<span><strong>Career progression:</strong> research contribution → feature/workflow contribution → 0→1 product ownership → regulated delivery → founder-level accountability.</span>
+<a href="#product-history">Read the detailed product history ↓</a>
+</div>
+</div>
+</div>
+</section>
+<div class="metrics">
+<div class="wrap metric-grid">
+<div class="metric"><strong>20+</strong><span>years across software, UX, research, product &amp; analytics</span></div>
+<div class="metric"><strong>6+</strong><span>years in formal Product Manager / Product Lead roles</span></div>
+<div class="metric"><strong>10</strong><span>products contributed to, shipped, or building — across software serving millions of users</span></div>
+<div class="metric"><strong>9+</strong><span>user communities served — diagramming professionals, enterprise knowledge workers, office workers, PDF/document users, professional photographers and enthusiasts, SharePoint IT administrators, EMS paramedics and analysts, privacy-conscious users, and data analysts &amp; consultants</span></div>
+</div>
+</div>
+<section class="research-practice" id="research-practice">
+<div class="wrap">
+<div class="section-head">
+<div class="section-label">User research practice</div>
+<div>
+<h2 class="section-title">A broad research toolkit — from the usability lab to the user’s workplace.</h2>
+<p class="section-intro">Before product ownership became the centre of my work, I spent years in hands-on UX research at Microsoft and then Global Market Research at Adobe, backed by formal experimental research in Human Factors. The toolkit ranged from controlled interface studies and prototyping to field research, messaging studies, and large-sample market research, and I also taught research techniques directly to development teams.</p>
+</div>
+</div>
+<div aria-label="Research methods at a glance" class="research-method-list"><span>Lab usability testing</span><span>Benchmarking &amp; A/B testing</span><span>Cognitive walkthroughs</span><span>Pluralistic cognitive walkthroughs</span><span>Contextual &amp; field research</span><span>Focus groups</span><span>Surveys &amp; large-sample market research</span><span>Net Promoter Score research</span><span>Paper &amp; interactive prototyping</span><span>Experimental Human Factors research</span><span>Research workshops for development teams</span></div><details class="deep-dive research-details"><summary>Explore the full research toolkit · 11 methods</summary><div class="research-grid">
+<article class="research-card">
+<div class="research-number">01</div>
+<h3>Lab usability testing</h3>
+<p>Traditional moderated usability studies, including think-aloud / talk-aloud protocols while participants completed realistic tasks.</p>
+</article>
+<article class="research-card">
+<div class="research-number">02</div>
+<h3>Benchmarking &amp; A/B testing</h3>
+<p>Controlled comparative interface testing and benchmarking used to evaluate competing designs and interaction approaches.</p>
+</article>
+<article class="research-card">
+<div class="research-number">03</div>
+<h3>Cognitive walkthroughs</h3>
+<p>Structured cognitive walkthroughs used to evaluate proposed workflows, features, interactions, and specifications before implementation.</p>
+</article>
+<article class="research-card">
+<div class="research-number">04</div>
+<h3>Pluralistic cognitive walkthroughs</h3>
+<p>Collaborative walkthroughs that brought multiple perspectives into the evaluation of interface concepts and task flows.</p>
+</article>
+<article class="research-card">
+<div class="research-number">05</div>
+<h3>Contextual &amp; field research</h3>
+<p>Site visits, contextual inquiry, and ethnographic research focused on understanding real work practices in the environments where they occurred.</p>
+</article>
+<article class="research-card">
+<div class="research-number">06</div>
+<h3>Focus groups</h3>
+<p>Moderated group research used to explore user needs, reactions, expectations, terminology, and emerging product questions.</p>
+</article>
+<article class="research-card">
+<div class="research-number">07</div>
+<h3>Surveys &amp; large-sample market research</h3>
+<p>Quantitative survey research conducted with large-sample market research vendors, including Harris Interactive, alongside specialized user-research consultants.</p>
+</article>
+<article class="research-card">
+<div class="research-number">08</div>
+<h3>Net Promoter Score research</h3>
+<p>At ACD Systems, designed and conducted Net Promoter Score (NPS) survey research with actual ACDSee Windows users to understand why they would — or would not — recommend the product, turning recommendation drivers and detractors into product evidence.</p>
+</article>
+<article class="research-card">
+<div class="research-number">09</div>
+<h3>Paper &amp; interactive prototyping</h3>
+<p>Used low-fidelity paper prototypes and higher-fidelity interactive prototypes to make design alternatives tangible before implementation. During my Adobe years, I built interactive prototypes in Macromedia Director for research and design evaluation.</p>
+</article>
+<article class="research-card">
+<div class="research-number">10</div>
+<h3>Experimental Human Factors research</h3>
+<p>My academic research included controlled experimental interface testing published in <em>Human Factors</em>: <a href="https://doi.org/10.1518/001872099779577264" rel="noopener" target="_blank">“Designing an Interface to Optimize Reading with Small Display Windows” ↗</a>.</p>
+</article>
+<article class="research-card">
+<div class="research-number">11</div>
+<h3>Research workshops for development teams</h3>
+<p>At Microsoft, delivered workshops to the SharePoint development team on using cognitive walkthroughs while designing features and writing specifications.</p>
+</article>
+</div><div class="research-note"><strong>The through-line:</strong> research was never an isolated deliverable. The point was to make product decisions better — by observing users, testing assumptions, exposing workflow friction, and giving designers, developers, and product teams evidence they could act on.</div></details>
+
+</div>
+</section>
+<section class="product-history" id="product-history">
+<div class="wrap">
+<div class="section-head">
+<div class="section-label">Product history</div>
+<div>
+<h2 class="section-title">From studying software to owning what ships.</h2>
+<p class="section-intro">I started by observing how people used complex software and turning that evidence into design guidance. Over time, the responsibility moved closer to the product itself: research, then feature and workflow decisions, then release ownership, regulated certification, and now founder-led delivery.</p>
+</div>
+</div>
+<div aria-label="Career progression" class="arc-line">
+<article class="arc-step">
+<small>01 · Research</small>
+<h3>Understand the real workflow.</h3>
+<p>Microsoft and Adobe taught me to start with observed behaviour, controlled research, and the difference between what users say and what they actually do.</p>
+</article>
+<article class="arc-step">
+<small>02 · Product ownership</small>
+<h3>Turn evidence into a release.</h3>
+<p>At ACD Systems and Medusa, I moved into prioritization, workflow design, requirements, validation, launch readiness, and externally governed product delivery.</p>
+</article>
+<article class="arc-step">
+<small>03 · Founder-led delivery</small>
+<h3>Own the whole decision chain.</h3>
+<p>At Red5Sorcery I define the product, use AI deeply in implementation and QA workflows, accept or refuse releases, publish the documentation, and ship.</p>
+</article>
+</div>
+<p class="deep-dive-bridge">The progression is visible above. The expandable record below separates research contribution, feature/workflow contribution, 0→1 ownership, regulated delivery, and founder-level accountability.</p><details class="deep-dive product-history-details"><summary>Explore the detailed product-by-product history</summary><div class="release-groups">
+<article class="release-lane">
+<div class="release-lane-head">
+<div class="type">Research, design &amp; feature contribution</div>
+<h3>Products and shipped releases I helped shape</h3>
+<p>These are products where my contribution was research, design guidance, workflow modernization, or selected features—not end-to-end product ownership. Visio 2003, Acrobat 8 / Reader 8, and ACDSee Pro 3 were shipped releases I directly supported; SharePoint is included as product research, and Acrobat 9 as early pre-release research, rather than releases I claim to have owned or shipped.</p>
+</div>
+<ol class="release-list">
+<li class="release-item">
+<div class="release-index">M</div>
+<div>
+<h4>Microsoft Office Visio 2003</h4>
+<div class="release-role">Usability &amp; design research · Calendar · Timeline · Organization Chart</div>
+<p>Began at Microsoft in the Business Tools Division UX (BTDUX), conducting usability research and design evaluation for Visio 2003 feature areas including Calendar, Timeline, and Organization Chart. Findings informed interaction and design decisions in the shipped product.</p>
+</div>
+</li>
+<li class="release-item">
+<div class="release-index">A</div>
+<div>
+<h4>Adobe Acrobat 8 &amp; Reader 8</h4>
+<div class="release-role">Global Market Research · messaging · positioning · surveys &amp; user studies</div>
+<p>Worked on Adobe's Global Market Research team, synthesizing survey and user-study evidence to help Acrobat and Reader teams understand customers and refine product messaging and market positioning for the shipped v8 releases.</p>
+</div>
+</li>
+<li class="release-item">
+<div class="release-index">A9</div>
+<div>
+<h4>Adobe Acrobat 9</h4>
+<div class="release-role">Early pre-release research contribution</div>
+<p>Contributed early research for the next Acrobat generation before leaving Adobe in 2008. I describe this as upstream research contribution rather than ownership of the eventual release.</p>
+</div>
+</li>
+<li class="release-item">
+<div class="release-index">3</div>
+<div>
+<h4>ACDSee Pro 3 for Windows</h4>
+<div class="release-role">GUI modernization · product-direction challenge · selected features</div>
+<p>Early in my ACD Systems role, engineering was preparing to follow Microsoft’s Ribbon UI paradigm. I challenged that direction and proposed a modal, workflow-based interface closer to Lightroom. I created paper prototypes and mockups, presented the case to the executive team and the wider company, and the direction was adopted. I also contributed selected features, including Quick Search for metadata-rich photo libraries.</p>
+</div>
+</li>
+<li class="release-item">
+<div class="release-index">S</div>
+<div>
+<h4>SharePoint Portal Server</h4>
+<div class="release-role">Usability research</div>
+<p>Moved from the Business Tools Division UX (BTDUX) into Microsoft's Office Design Group, where I tested SharePoint Portal Server Search, My Sites, List Management, and the IT administration/deployment console. This extended my research from end-user collaboration experiences into deployment and administration workflows. I left for Adobe in 2005, so I describe this as product research rather than a release I owned.</p>
+</div>
+</li>
+</ol>
+</article>
+<article class="release-lane lead">
+<div class="release-lane-head">
+<div class="type">Product leadership &amp; delivery</div>
+<h3>Products I led toward release</h3>
+<p>This is where my role moved from influencing decisions to owning product definition, requirements, release readiness, certification, or founder-level acceptance.</p>
+</div>
+<ol class="release-list">
+<li class="release-item">
+<div class="release-index">0→1</div>
+<div>
+<h4>ACDSee Pro for Mac v1</h4>
+<div class="release-role">0→1 Product Manager / Product Owner · metadata workflows · Batch Develop</div>
+<p>Led product definition through launch, including workflow design, prioritization, release readiness, EXIF/IPTC metadata search and organization, and Batch Develop processing for applying photographers’ transformations across groups of images. Helped lead a public beta of more than 10,000 users.</p>
+</div>
+</li>
+<li class="release-item">
+<div class="release-index">V4</div>
+<div>
+<h4>Siren v4</h4>
+<div class="release-role">Regulated requirements · NEMSIS v3.4.0 certification</div>
+<p>Led product and business requirements analysis through release and successful NEMSIS v3.4.0 certification, translating EMS field workflows and the national data standard into specifications, validation rules, and implementation decisions.</p>
+</div>
+</li>
+<li class="release-item">
+<div class="release-index">CY</div>
+<div>
+<h4>CloakYourSecrets.com</h4>
+<div class="release-role">Founder · Product lead · Shipped</div>
+<p>Conceived and shipped an offline browser privacy application built with Rust and WebAssembly, owning the path from concept through validation, release, documentation, and publication.</p>
+</div>
+</li>
+<li class="release-item">
+<div class="release-index">DS</div>
+<div>
+<h4>Red5Sorcery Data Sculptor</h4>
+<div class="release-role">Founder · Product lead · Now building</div>
+<p>Own end-to-end product definition, workflow design, requirements, acceptance criteria, implementation decisions, QA evidence, documentation, and iterative release acceptance for a local-first data-analysis workbench.</p>
+</div>
+</li>
+</ol>
+</article>
+</div></details>
+<div class="release-note"><strong>The distinction matters:</strong> I do not present every product I touched as a product I owned. The arc is from research contributions on major shipped software, to formal product ownership, to regulated delivery, to founder-level accountability for what ships.</div>
+</div>
+</section>
+<section class="featured" id="current">
+<div class="wrap">
+<div class="section-head">
+<div class="section-label">Current work</div>
+<div>
+<h2 class="section-title">Building products, publishing the thinking behind them.</h2>
+<p class="section-intro">Red5Sorcery Books &amp; Media publishes technical books, source code, and software focused on privacy, data analysis, and practical technology, alongside separate games and entertainment projects. It is also where the full arc of my career comes together: research, product definition, implementation evidence, QA, documentation, and release accountability.</p>
+</div>
+</div>
+<div class="project-grid">
+<article class="project-card primary-project">
+<div class="project-tag">Now building</div>
+<h3>Red5Sorcery<br/>Data Sculptor</h3>
+<p>A local-first browser application for private, explainable data analysis. I own product definition, workflow design, requirements, acceptance criteria, implementation decisions, QA evidence, documentation, and iterative release acceptance.</p>
+<a class="project-link" href="https://red5sorcerydatasculptor.com" rel="noopener" target="_blank">Visit Red5SorceryDataSculptor.com <span>↗</span></a>
+</article>
+<article class="project-card">
+<div class="project-tag">Shipped product</div>
+<h3>CloakYourSecrets.com</h3>
+<p>Offline browser privacy software built with Rust and WebAssembly. Conceived and shipped from product concept through implementation, validation, release, documentation, and publication.</p>
+<a class="project-link" href="https://cloakyoursecrets.com" rel="noopener" target="_blank">Visit CloakYourSecrets.com <span>↗</span></a>
+</article>
+<article class="project-card">
+<div class="project-tag">Publishing</div>
+<h3>Books, code &amp; product evidence</h3>
+<p>Publishing technical work that makes product decisions, source code, privacy ideas, and data-analysis practices inspectable rather than mysterious.</p>
+<a class="project-link" href="#selected-work">Explore selected work <span>↓</span></a>
+</article>
+</div>
+</div>
+</section>
+<section id="ai">
+<div class="wrap">
+<div class="section-head">
+<div class="section-label">AI in practice</div>
+<div>
+<h2 class="section-title">Daily AI use for complex software development and documentation.</h2>
+<p class="section-intro">I work extensively with ChatGPT, Claude, and Gemini inside a structured, human-led product-development process. AI contributes across the lifecycle; final product decisions and acceptance remain mine.</p>
+</div>
+</div>
+<div class="ai-panel">
+<div class="ai-statement">
+<blockquote>AI is embedded in the work — requirements, implementation support, critique, QA, documentation, evaluation, and verification.</blockquote>
+<p>The value is not simply using multiple models. It is assigning clear responsibilities, preserving decision evidence, reconciling competing input, and keeping one accountable human responsible for the product.</p>
+</div>
+<div aria-label="AI-assisted development workflow" class="ai-flow">
+<div class="flow-step"><b>1. Problem &amp; workflow analysis</b><span>Frame the user problem, operational constraints and intended outcome.</span></div>
+<div class="flow-step"><b>2. Requirements &amp; architecture support</b><span>Develop requirements, contracts, edge cases and implementation options.</span></div>
+<div class="flow-step"><b>3. Implementation support</b><span>Use AI to support development while maintaining product-level control.</span></div>
+<div class="flow-step"><b>4. Adversarial QA</b><span>Separate critique from authorship to expose contradictions and failure modes.</span></div>
+<div class="flow-step"><b>5. Documentation</b><span>Create explainable records of decisions, product behavior and user guidance.</span></div>
+<div class="flow-step"><b>6. Human acceptance</b><span>Reconcile evidence, make the final decision, and accept or refuse the release.</span></div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="wrap">
+<div class="section-head">
+<div class="section-label">Core strengths</div>
+<div>
+<h2 class="section-title">Product judgment grounded in research and evidence.</h2>
+</div>
+</div>
+<div class="strengths-wrap">
+<span class="pill">Product Ownership &amp; Prioritization</span>
+<span class="pill">Product Management</span>
+<span class="pill ai">AI-Assisted Complex Software Development &amp; Documentation</span>
+<span class="pill">Business Analysis &amp; Requirements</span>
+<span class="pill">Operational Workflow Analysis</span>
+<span class="pill">Process Improvement</span>
+<span class="pill">User Experience &amp; Usability</span>
+<span class="pill">Acceptance Testing &amp; Validation</span>
+<span class="pill">Stakeholder Facilitation &amp; Alignment</span>
+<span class="pill">Cross-Functional Delivery</span>
+<span class="pill">Roadmaps &amp; Backlogs</span>
+<span class="pill">Agile / Scrum</span>
+<span class="pill">Data Quality &amp; Analytics</span>
+<span class="pill">Documentation &amp; Decision Traceability</span>
+</div>
+</div>
+</section>
+<section id="experience">
+<div class="wrap">
+<div class="section-head">
+<div class="section-label">Experience</div>
+<div>
+<h2 class="section-title">A career across product, UX, research, analytics and regulated technology.</h2>
+<p class="section-intro">Across the roles, the pattern is consistent: study the workflow, make the ambiguity explicit, turn evidence into decisions, and leave a product or analysis that people can actually use and explain.</p>
+</div>
+</div>
+<div class="timeline">
+<article class="role">
+<div class="role-meta"><strong>Feb 2025 — Present</strong>Halifax, NS</div>
+<div>
+<h3>Founder &amp; Product Lead</h3>
+<div class="company">Red5Sorcery Books &amp; Media</div>
+<ul>
+<li>Founded Red5Sorcery to publish technical books, source code, and software focused on privacy, data analysis, and practical technology, alongside separate games and entertainment projects.</li>
+<li>Lead product development end-to-end: problem framing, workflow analysis, requirements, prioritization, acceptance criteria, implementation decisions, QA evidence, documentation, release acceptance, and publication.</li>
+<li>Use AI extensively through a structured multi-model workflow spanning requirements analysis, architecture support, implementation, adversarial QA, documentation, evaluation, and verification.</li>
+<li>Conceived and shipped CloakYourSecrets.com with Rust and WebAssembly; currently building Red5Sorcery Data Sculptor.</li>
+</ul>
+</div>
+</article>
+<article class="role">
+<div class="role-meta"><strong>Jun 2018 — Oct 2026</strong>Halifax, NS</div>
+<div>
+<h3>Research &amp; Statistics Officer</h3>
+<div class="company">Nova Scotia Government, Department of Justice</div>
+<ul>
+<li>Analyzed complex administrative and program data to support strategic and operational decisions, translating stakeholder questions, source limitations, and incomplete evidence into rigorous analyses and documented methods.</li>
+<li>Supported dashboards and open-data publishing with emphasis on data quality, validation, reproducibility, documentation, and clear interpretation in a regulated public-sector environment.</li>
+</ul>
+</div>
+</article>
+<article class="role">
+<div class="role-meta"><strong>Nov 2013 — Jun 2017</strong>Halifax, NS</div>
+<div>
+<h3>Product Analyst</h3>
+<div class="company">Medusa Medical Technologies Inc.</div>
+<ul>
+<li>Led product and business requirements analysis for <strong>Siren v4</strong> through release and successful <strong>NEMSIS v3.4.0 certification</strong>, translating complex EMS field workflows and the national data standard into product specifications, data definitions, validation rules, and implementation decisions.</li>
+<li>Worked across paramedic workflows, domain experts, customer and stakeholder needs, and engineering constraints to clarify ambiguous requirements and support reliable delivery in a regulated healthcare environment.</li>
+</ul>
+</div>
+</article>
+<article class="role">
+<div class="role-meta"><strong>Jan 2013 — May 2013</strong>Montreal, QC</div>
+<div>
+<h3>Product Manager</h3>
+<div class="company">Radialpoint SafeCare Inc.</div>
+<ul>
+<li>Helped establish product-management practices, Agile roles, backlog planning, delivery routines, and cross-functional working agreements for a newly formed product team during an early Scrum transition.</li>
+</ul>
+</div>
+</article>
+<article class="role">
+<div class="role-meta"><strong>Apr 2008 — Sep 2012</strong>Victoria, BC</div>
+<div>
+<h3>Product Manager / Product Owner</h3>
+<div class="company">ACD Systems International Inc.</div>
+<ul>
+<li>0→1 Product Manager / Product Owner for <strong>ACDSee Pro for Mac v1</strong>; owned product definition, workflow design, prioritization, release readiness, and launch coordination, including <strong>EXIF/IPTC metadata search and organization</strong> and <strong>Batch Develop</strong> processing for photographers’ image transformations.</li>
+<li>Helped lead a public beta of more than 10,000 users, incorporating research, market evidence, customer feedback, and technical constraints into product decisions and commercial-release readiness.</li>
+<li>In my first major ACD Systems product challenge, engineering was preparing to adopt Microsoft’s Ribbon UI paradigm for <strong>ACDSee Pro 3 for Windows</strong>. I challenged that choice, developed paper prototypes and mockups for a modal, workflow-based interface closer to Lightroom, and presented the alternative to the executive team and the wider company. The company adopted the new direction.</li>
+<li>Contributed selected Windows features, including <strong>Quick Search</strong> for metadata-rich photo libraries, and carried the workflow lessons from the Pro 3 redesign into the 0→1 Mac product.</li>
+<li>Designed and conducted a <strong>Net Promoter Score (NPS)</strong> survey with actual ACDSee Windows users to understand why they would — or would not — recommend the product, using the findings to clarify customer value, friction, and product priorities.</li>
+</ul>
+</div>
+</article>
+<article class="role">
+<div class="role-meta"><strong>Feb 2005 — Mar 2008</strong>San Jose, CA</div>
+<div>
+<h3>User Research Analyst / Specialist</h3>
+<div class="company">Adobe Systems Inc. · Global Market Research</div>
+<ul>
+<li>Worked on Adobe's <strong>Global Market Research</strong> team supporting <strong>Adobe Acrobat 8 and Adobe Reader 8</strong>, with my contribution focused primarily on helping product and marketing teams refine <strong>messaging, positioning, and customer understanding</strong> from surveys and user studies.</li>
+<li>Synthesized qualitative and quantitative evidence into clear findings about customer needs, perceptions, usage, and language, translating research into recommendations for cross-functional teams.</li>
+<li>Contributed <strong>early research for Acrobat 9</strong> before leaving Adobe in 2008, without claiming ownership of the eventual release.</li>
+<li>Created and evaluated prototypes as part of selected research and design exploration, including interactive prototypes built in <strong>Macromedia Director</strong> during my Adobe years.</li>
+<li>Worked with external research vendors, including <strong>Harris Interactive</strong> and specialized user research consultants, coordinating studies and translating findings into product and messaging recommendations.</li>
+</ul>
+</div>
+</article>
+<article class="role">
+<div class="role-meta"><strong>Oct 2001 — Jan 2005</strong>Redmond, WA</div>
+<div>
+<h3>Design Researcher / Usability Engineer</h3>
+<div class="company">Microsoft Corporation</div>
+<ul>
+<li>Began at Microsoft in the <strong>Business Tools Division UX (BTDUX)</strong>, conducting usability research and design evaluation for <strong>Microsoft Office Visio 2003</strong>, including the <strong>Calendar, Timeline, and Organization Chart</strong> feature areas, and translating observed user behavior into actionable product and design guidance for the shipped release.</li>
+<li>Later moved to Microsoft's <strong>Office Design Group</strong>, where I conducted usability testing for <strong>SharePoint Portal Server</strong> Search, My Sites, List Management, and the <strong>IT administration/deployment console</strong>, covering both end-user and administrator workflows before leaving Microsoft for Adobe in 2005.</li>
+<li>Delivered user-research workshops to the SharePoint development team on applying <strong>cognitive walkthroughs</strong> while designing features and writing specifications.</li>
+</ul>
+</div>
+</article>
+</div>
+</div>
+</section>
+<section id="selected-work">
+<div class="wrap">
+<div class="section-head">
+<div class="section-label">Selected work</div>
+<div>
+<h2 class="section-title">Books, product documentation, media and academic research.</h2>
+</div>
+</div>
+<div class="work-grid">
+<article class="work-card">
+<div class="type">Book · Work in progress</div>
+<h3>The Decision to Build</h3>
+<p>Documents the product-development practices, architecture decisions, and human-AI collaboration behind Red5Sorcery Data Sculptor.</p>
+</article>
+<article class="work-card">
+<div class="type">Book + source code · 2026</div>
+<h3>Secrets &amp; Source Code</h3>
+<p>Published by Red5Sorcery Books &amp; Media.</p>
+<div class="links">
+<a href="https://www.blurb.ca/b/12832959-secrets-and-source-code" rel="noopener" target="_blank">Print edition ↗</a>
+<a href="https://www.etsy.com/ca/listing/4503918729/secrets-source-code-digital-book-bundle" rel="noopener" target="_blank">Digital bundle ↗</a>
+</div>
+</article>
+<article class="work-card">
+<div class="type">Daily media series</div>
+<h3>The Product Management Diary</h3>
+<p>Daily series documenting product decisions, technical trade-offs, QA, communication, and the ongoing development of Data Sculptor.</p>
+<div class="links">
+<a href="https://youtube.com/playlist?list=PLf_Lc_UV7evQ&amp;si=y4V0ns5M42iaBKvQ" rel="noopener" target="_blank">YouTube playlist ↗</a>
+</div>
+</article>
+<article class="work-card">
+<div class="type">Human Factors · 1999 · Experimental interface research</div>
+<h3>Designing an Interface to Optimize Reading with Small Display Windows</h3>
+<p>Rahman, T., &amp; Muter, P. <em>Human Factors</em>, 41(1), 106–117. Controlled experimental research on interface design and reading performance—part of the formal research foundation I later brought into commercial product work.</p>
+<div class="links"><a href="https://doi.org/10.1518/001872099779577264" rel="noopener" target="_blank">DOI ↗</a></div>
+</article>
+<article class="work-card">
+<div class="type">Information Processing &amp; Management · 2002</div>
+<h3>Gender Differences in Collaborative Web Searching Behavior: An Elementary School Study</h3>
+<p>Large, A., Beheshti, J., &amp; Rahman, T. 38(3), 427–443.</p>
+<div class="links"><a href="https://doi.org/10.1016/S0306-4573(01)00034-6" rel="noopener" target="_blank">DOI ↗</a></div>
+</article>
+<article class="work-card">
+<div class="type">JASIST · 2002</div>
+<h3>Design Criteria for Children’s Web Portals: The Users Speak Out</h3>
+<p>Large, A., Beheshti, J., &amp; Rahman, T. 53(2), 79–94.</p>
+<div class="links"><a href="https://doi.org/10.1002/asi.10012" rel="noopener" target="_blank">DOI ↗</a></div>
+</article>
+</div>
+</div>
+</section>
+<section>
+<div class="wrap">
+<div class="section-head">
+<div class="section-label">Education</div>
+<div><h2 class="section-title">Research training beneath the product work.</h2></div>
+</div>
+<div class="education-grid">
+<div class="edu-card"><h3>Master of Library &amp; Information Studies (MLIS)</h3><p>McGill University</p></div>
+<div class="edu-card"><h3>MA, Human Development &amp; Applied Psychology</h3><p>University of Toronto · HCI / applied cognitive science; formal experimental design and controlled interface testing</p></div>
+<div class="edu-card"><h3>BSc (Honours), Psychology · Minor in Mathematics</h3><p>Dalhousie University</p></div>
+<div class="edu-card"><h3>Professional Scrum Master I (PSM I)</h3><p>Scrum.org · 2017</p></div>
+</div>
+</div>
+</section>
+<section class="methods">
+<div class="wrap">
+<div class="section-head">
+<div class="section-label">Tools &amp; methods</div>
+<div><h2 class="section-title">Broad enough to connect product decisions to implementation evidence.</h2></div>
+</div>
+<div class="method-grid">
+<div class="method-card"><h3>Product &amp; business systems</h3><p>Product ownership, strategy, roadmaps, backlog prioritization, business and workflow analysis, requirements, user stories, acceptance criteria, process improvement, interaction and workflow design, release planning, QA collaboration, Agile/Scrum, Jira, Confluence, SharePoint, technical documentation.</p></div>
+<div class="method-card"><h3>Technical &amp; AI</h3><p>Rust, WebAssembly, Sycamore, GitHub; ChatGPT, Claude, Gemini; structured multi-model workflows for research synthesis, requirements, critique, implementation support, QA, documentation, evaluation, and verification.</p></div>
+<div class="method-card"><h3>Research &amp; analytics</h3><p>Lab usability testing, think-aloud protocols, benchmarking and A/B testing, cognitive and pluralistic cognitive walkthroughs, contextual inquiry, ethnographic field research, focus groups, paper prototyping, interactive prototyping (including Macromedia Director), Net Promoter Score (NPS) research, large-sample surveys, formal experimental design and Human Factors research, analytical decision-making, data quality and validation, Microsoft Excel, Tableau, working familiarity with SQL and Power Query/M, open-data publishing.</p></div>
+</div>
+</div>
+</section>
+</main>
+<footer>
+<div class="wrap">
+<div class="footer-grid">
+<div>
+<h2>Thanks for wanting to know more.</h2>
+<p>This page is the fuller professional record behind my tailored two-page résumés. If a role or project looks like a good fit, the easiest way to reach me is by email or LinkedIn.</p>
+<div class="footer-links">
+<a href="mailto:tarjin@gmail.com">Email</a>
+<a href="https://www.linkedin.com/in/red5sorcery" rel="noopener" target="_blank">LinkedIn ↗</a>
+<a href="https://red5sorcerydatasculptor.com" rel="noopener" target="_blank">Data Sculptor ↗</a>
+<a href="Tarjin_Rahman_Master_Resume.pdf">Download résumé</a>
+</div>
+</div>
+</div>
+<div class="fineprint"><span>Tarjin Rahman · Halifax, Nova Scotia</span><span>Master professional profile · October 2026</span></div>
+</div>
+</footer>
+<script>
+    (() => {
+      const storageKey = 'tarjin-resume-theme';
+      const root = document.documentElement;
+      const controls = [...document.querySelectorAll('[data-theme-choice]')];
+
+      function readSavedTheme() {
+        try {
+          const saved = localStorage.getItem(storageKey);
+          return saved === 'light' || saved === 'dark' ? saved : null;
+        } catch (_) {
+          return null;
+        }
+      }
+
+      function preferredTheme() {
+        return readSavedTheme() || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      }
+
+      function applyTheme(theme, save = false) {
+        root.dataset.theme = theme;
+        controls.forEach((button) => {
+          button.setAttribute('aria-pressed', String(button.dataset.themeChoice === theme));
+        });
+        if (save) {
+          try { localStorage.setItem(storageKey, theme); } catch (_) {}
+        }
+      }
+
+      applyTheme(root.dataset.theme || preferredTheme());
+
+      controls.forEach((button) => {
+        button.addEventListener('click', () => applyTheme(button.dataset.themeChoice, true));
+      });
+
+      const media = window.matchMedia('(prefers-color-scheme: dark)');
+      media.addEventListener?.('change', (event) => {
+        if (!readSavedTheme()) applyTheme(event.matches ? 'dark' : 'light');
+      });
+    })();
+  
+
+    // Open progressive-disclosure sections when their section is targeted by a deliberate deep link.
+    document.querySelectorAll('a[href="#product-history"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        var d = document.querySelector('#product-history .product-history-details');
+        if (d) d.open = true;
+      });
+    });
+</script>
+</body>
+</html>
