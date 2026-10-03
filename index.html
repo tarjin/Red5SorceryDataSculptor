@@ -264,6 +264,20 @@ tbody td{padding:0;border-bottom:1px solid var(--rule)}
 .closed .watch:hover{background:var(--paper);color:var(--ink)}
 .closed .watch:focus-visible{outline-color:var(--paper)}
 .hero-cta{margin-top:clamp(26px,3vw,34px)}
+.founder-callout{
+  margin-top:clamp(26px,3vw,34px);
+  padding:clamp(18px,2.5vw,26px);
+  border:1px solid var(--rule-strong);border-left:4px solid var(--source);
+  background:var(--paper-2);display:grid;gap:16px 28px;align-items:center;
+}
+@media(min-width:760px){.founder-callout{grid-template-columns:1fr auto}}
+.founder-kicker{
+  display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--source);margin-bottom:7px;
+}
+.founder-callout p{font-size:16.5px;line-height:1.5;max-width:58ch;margin:0}
+.founder-callout .watch{white-space:nowrap;background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.founder-callout .watch:hover{background:transparent;color:var(--ink)}
 .cta-label{
   display:block;font-family:var(--mono);font-size:11px;letter-spacing:.13em;
   text-transform:uppercase;color:var(--ink-soft);margin-bottom:11px;
@@ -299,6 +313,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     <p class="tagline">Data work you can explain.</p>
     <p class="hero-lede">For the person who receives a CSV — small enough to open in Excel, or far too large for it — and has to turn it into an answer somebody else can trust.</p>
     <p class="promise"><span>Free.</span><span>Fast.</span><span>Private.</span><span>Pretty.</span></p>
+
+    <aside class="founder-callout" aria-label="About the founder and product lead">
+      <div>
+        <span class="founder-kicker">Founder &amp; product lead</span>
+        <p><strong>Meet Tarjin Rahman.</strong> Explore the product leadership, user research, shipped software, publications, and AI-assisted development experience behind Data Sculptor.</p>
+      </div>
+      <a class="watch" href="Tarjin_Rahman_Master_Profile_Prototype.html">More about Tarjin Rahman<span>&#8594;</span></a>
+    </aside>
 
     <div class="hero-cta">
       <span class="cta-label">Podcast — running now</span>
