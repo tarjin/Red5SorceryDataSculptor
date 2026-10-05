@@ -295,12 +295,12 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 </style>
 </head>
 <body>
-<!-- Day 057 update: Day 055 began controlled canonical WASM-002 PRD integration. Revision BL remains the immutable reviewed baseline; Revision BM is the working full-master successor and has been integrated through P3-06, with P3-07 next. Day 055 After Hours captured five research/design notes on codebooks versus encoding, document understanding boundaries, Docling, the AI Council as a second set of eyes, and an Excel/Canvas critique. Day 056 became a WASM-003 DIR product-design day: user-defined metadata fields, a read-only DIR browser surface, Work-Order-governed search/ZIP/metadata changes, a DIR-first WASM-003 sequence with RQSM later, and a broader framing around the context deficit in professional file work. Day 056 After Hours tightened the field limits and ZIP collision rules, compared self-hosting with artifact sovereignty, brought DS-STEPS and DS-SQL requirements work forward around one authoritative Rust Analytical Engine, and opened the Analytical Languages Course with relational thinking and Store semantics. Day 057 opens from the MusicBrainz work completed overnight and this morning: a pinned MusicBrainz snapshot is being reconstructed locally in PostgreSQL and prepared as UTF-8 CSV source material for a real analytical corpus that can drive SQL learning, DS-STEPS / DS-SQL requirements, later DS-Pipe requirements within V1, Help Engine examples, QA and portfolio evidence. The second Day 057 flight objective is to return to Revision BM integration at P3-07. No WASM-002 production implementation or V1 grammar freeze is claimed. -->
+<!-- Day 058 update: Day 057 converted the MusicBrainz setup into a landed analytical corpus checkpoint on the baseline N100 machine. PostgreSQL imported all 177/177 core tables with zero errors; 12/12 selected source-table row counts matched the raw dump; and 12 source-shaped UTF-8 CSV candidates were exported, including recording.csv at roughly 4.5 GB and track.csv at roughly 7.7 GB. The corpus exposed a collection-scale orientation problem and produced the accepted CAT requirements note: MAP continues to govern one Store locally; CAT orients across many MAP-governed Stores; DIR explains the collection visibly. Day 057 After Hours produced 13 design, architecture, teaching, communication, career-context, and RQSM notes, including the high-end professional-kitchen soul metaphor, the three-tier Help translation model, post-V1 MusicBrainz teaching and playlist-generator plans, the Council kitchen-role mapping, deferred architectural questions, and a governed local-browser RQSM cloaking workflow with two separated carrier bundles. Day 058 returns to the controlled WASM-002 Revision BM consolidation at P3-07. Revision BL remains the immutable reviewed baseline; BM remains DRAFT / UNDER REVIEW / NOT FROZEN. No WASM-002 production implementation or V1 grammar freeze is claimed. -->
 
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 057</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 058</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -377,26 +377,26 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
       <a class="watch" href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass3_Erratum_Check_2026-09-29.html">Read the READY Gate Check<span>&#8594;</span></a>
     </div>
 <div class="state">
-      <div class="state-top">Project state — Day 057, Sunday 4 October 2026</div>
+      <div class="state-top">Project state — Day 058, Monday 5 October 2026</div>
       <dl>
         <dt>Phase</dt>
-        <dd>Two-track specification and corpus work: continue the real-music analytical corpus that will exercise the future V1 language contracts, and resume controlled WASM-002 canonical PRD integration.</dd>
+        <dd>Controlled WASM-002 PRD consolidation. The MusicBrainz corpus checkpoint from Day 057 is landed; today's work returns the specification to the centre.</dd>
         <dt>WASM-002 contract</dt>
-        <dd>Revision BL remains the exact reviewed baseline at 778 recorded requirements, 384 scoped to WASM-002. Revision BM is the working full-master successor. Accepted QA decisions have been integrated through <strong>P3-06</strong>; <strong>P3-07 is next</strong>. BM remains DRAFT / UNDER REVIEW / NOT FROZEN.</dd>
-        <dt>Music corpus</dt>
-        <dd>A pinned MusicBrainz snapshot is being reconstructed locally in PostgreSQL and prepared for publication as selected UTF-8 CSV source tables. The purpose is not a synthetic demo: the corpus is intended to become a real analytical laboratory for SQL learning, DS-STEPS and DS-SQL requirements, later DS-Pipe requirements within V1, Help Engine teaching, QA and reproducible demonstrations.</dd>
-        <dt>Build state</dt>
-        <dd>No WASM-002 production implementation has started. The MusicBrainz PostgreSQL environment and schema have been established and a canary load proved, but the bulk import and UTF-8 CSV export were deliberately left at a clean checkpoint rather than being claimed complete.</dd>
+        <dd>Revision BL remains the exact reviewed baseline at 778 recorded requirements, 384 scoped to WASM-002. Revision BM is the working full-master successor. Accepted QA decisions have been integrated through <strong>P3-06</strong>; <strong>P3-07 is the resume point</strong>. BM remains DRAFT / UNDER REVIEW / NOT FROZEN.</dd>
+        <dt>Day 057 corpus checkpoint</dt>
+        <dd>The pinned MusicBrainz snapshot was reconstructed locally in PostgreSQL on the baseline N100 machine. The import completed at <strong>177/177 core tables with zero errors</strong>; <strong>12/12 selected source-table row counts</strong> matched the raw dump; and <strong>12 source-shaped UTF-8 CSV candidates</strong> were exported. The largest candidates are approximately 4.5 GB for <code>recording.csv</code> and 7.7 GB for <code>track.csv</code>.</dd>
+        <dt>Day 057 design result</dt>
+        <dd>The 177-table corpus exposed a collection-scale orientation problem. The accepted CAT requirements note adds one governed corpus-level catalog across many independently MAP-governed Stores without weakening the one-Store-per-MAP rule: <strong>MAP governs locally; CAT orients globally; DIR explains visibly.</strong></dd>
         <dt>Now building</dt>
-        <dd>Day 057 continues the MusicBrainz dataset path toward a governed candidate CSV corpus while using the real relational problems it exposes — identity, joins, nulls, dates, ordering, grouping and ambiguity — as requirements evidence for one shared Rust Analytical Engine underneath DS-STEPS, DS-SQL and eventually DS-Pipe. The flight also returns to Revision BM at P3-07.</dd>
-        <dt>Day 056</dt>
-        <dd>DIR moved from a file listing toward a governed metadata and discovery layer over untouched files: user-defined fields, visible field/value structure, Boolean search, optional ZIP packaging, and a strict read-only GUI boundary. Consequential search, packaging and metadata changes remain Work-Order driven and produce governed outputs and Receipts. The first WASM-003 release now prioritises DIR; RQSM remains in the family but later.</dd>
-        <dt>Day 056 after hours</dt>
-        <dd>The DIR field model was bounded more precisely, artifact sovereignty was separated from merely self-hosting software, and the analytical-language work was pulled forward as requirements work. DS-STEPS and DS-SQL are being treated as human-facing mappings into one authoritative Rust Analytical Engine; DS-Pipe joins the same architecture later in V1 rather than becoming a separate engine.</dd>
+        <dd>Day 058 consolidates the WASM-002 PRD from the controlled Revision BM checkpoint. The job is to resume at P3-07, integrate accepted decisions deliberately — including the Day 057 CAT requirements where they belong — keep the integration trail explicit, and avoid turning accepted design notes into implementation by implication.</dd>
+        <dt>Day 057 after hours</dt>
+        <dd>Thirteen notes extended the day. They established the high-end professional kitchen as Data Sculptor's soul metaphor; mapped T, Spock, Gemini and Claude to complementary kitchen roles; defined one-runtime-truth / three-tier Help translation; developed the public-site communication strategy; parked refusal and Receipt questions for later reconciliation; framed a post-V1 MusicBrainz tutorial before a later free playlist-generator experiment; and refined RQSM as a governed, local-browser cloaking workflow that publishes two carrier bundles for genuinely separate storage.</dd>
+        <dt>Build state</dt>
+        <dd>No WASM-002 production implementation has started. The current work is specification consolidation and evidence-building, not a release claim.</dd>
         <dt>Unsettled</dt>
-        <dd class="open">Revision BM integration is incomplete and still requires further QA before any freeze. MusicBrainz bulk ingestion, exporter comparison and the final CSV manifest are also unfinished. Surface-language syntax shown in the course material remains proposal until Council review and T acceptance.</dd>
+        <dd class="open">Revision BM integration is incomplete and still requires further QA before any freeze. The CAT requirements now need canonical placement during consolidation. Surface-language syntax remains proposal until Council review and T acceptance.</dd>
         <dt>Privacy R&amp;D</dt>
-        <dd>RQSM remains technically and legally isolated from the open Data Sculptor core. The current WASM-003 direction is DIR first, with RQSM moved to a later dot release rather than forced into the first DIR build.</dd>
+        <dd>RQSM remains an advanced optional capability with separate licensing. Its Day 057b workflow keeps cloaking and recovery local in Rust/WASM and treats separation of the two resulting carrier bundles as part of the security model; it does not displace the current WASM-002 consolidation priority.</dd>
         <dt>Released</dt>
         <dd>Nothing. There is no V1 build to download.</dd>
       </dl>
@@ -1112,12 +1112,21 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         </div>
       </li>
       <li>
-        <div class="log-day">Day 057<span class="log-date">Sun 4 Oct</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-day">Day 057<span class="log-date">Sun 4 Oct</span><span class="log-tag">Landed</span></div>
         <div class="log-entry">
-          <h3>Build the Real Dataset, Then Return to the Contract</h3>
-          <p>The day opens from an overnight and morning MusicBrainz session on the baseline N100 machine. A pinned MusicBrainz core snapshot was downloaded, checksum-verified, extracted and matched against the current relational schema; PostgreSQL 18 now hosts the schema locally and a real canary table proved the dump can be loaded. The long bulk import and UTF-8 CSV publication were deliberately left at a clean checkpoint.</p>
-          <p class="log-after"><b>Planned flight — analytical languages</b>Continue turning MusicBrainz into the project's prime real-world analytical corpus: selected relational tables published as inspectable UTF-8 CSV source material, then reduced and shaped through Data Sculptor. Use the actual problems in that corpus to create requirements and examples for the shared Rust Analytical Engine, DS-STEPS and DS-SQL, and eventually DS-Pipe before V1 launch. Surface syntax remains proposal until it is reviewed and accepted.</p>
-          <p class="log-after"><b>Planned flight — WASM-002</b>Return to the controlled Revision BM integration where Day 055 stopped. Resume with P3-07, keep Revision BL untouched as evidence, keep the integration log current, and continue one bounded QA decision at a time before any freeze or implementation claim.</p>
+          <h3>MusicBrainz Becomes a Real Analytical Corpus</h3>
+          <p>The MusicBrainz crash test moved from setup to a landed data checkpoint. On the baseline N100 machine, the pinned snapshot was reconstructed in PostgreSQL under WSL2: all 177 core tables imported with zero errors, row counts for all 12 selected source tables matched the raw dump, and those 12 tables were exported as source-shaped UTF-8 CSV candidates. The largest outputs were roughly 4.5 GB for <code>recording.csv</code> and 7.7 GB for <code>track.csv</code>. The corpus is now concrete evidence for future relational-language requirements, Help, QA and teaching rather than a toy example.</p>
+          <p class="log-after"><b>Architecture discovered by scale</b>A 177-table corpus made one-Store-per-MAP correct but insufficient for orientation. The accepted CAT requirements add a single governed collection-level catalog that indexes Stores, their MAPs and the CSV files those MAPs govern, while leaving MAP authoritative for each Store. The existing read-only directory window is reused for discovery; WASM-003 DIR later supplies human-readable descriptions. The shorthand is deliberate: MAP governs locally; CAT orients globally; DIR explains visibly.</p>
+          <p class="log-after"><b>After hours — 13 notes</b>The evening ranged widely but stayed tied to product structure. The high-end professional kitchen became Data Sculptor's soul metaphor: mise en place for explicit preparation, Work Orders as tickets, Receipts as the expediter's pass, refusal as a safety standard, PRETTY as professional plating, and documentation as clean-as-you-go evidence. The Council roles mapped naturally onto that kitchen, with Claude as the health inspector; the Help Engine gained a Casual / Office / Technical translation model over one canonical runtime truth; and unresolved refusal and Receipt-schema questions were explicitly parked rather than smuggled into the contract.</p>
+          <p class="log-after"><b>After hours — teaching, communication and RQSM</b>The MusicBrainz work became a post-V1 teaching roadmap: first a guided course using the real Data Sculptor UI and the 12-file teaching corpus, then later a free form-driven playlist generator that maps directly into the same canonical semantics underneath DS-STEPS, DS-SQL and DS-Pipe. A public-site strategy was drafted around selling the product first and revealing the kitchen metaphor immediately after. RQSM was also tightened as a local Rust/WASM cloaking workflow: a payload ZIP plus PNG-carrier ZIP, a 35% capacity rule, a 100 MB payload limit, governed execution, and two separate carrier ZIP outputs intended for genuinely separate storage.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 058<span class="log-date">Mon 5 Oct</span><span class="log-tag">In flight</span></div>
+        <div class="log-entry">
+          <h3>Consolidate the WASM-002 Contract</h3>
+          <p>Today's flight has one centre of gravity: return to the controlled Revision BM integration and make the WASM-002 PRD coherent. Revision BL stays untouched as the reviewed baseline. Work resumes at P3-07, with each accepted decision placed deliberately, the integration trail kept visible, and the Day 057 CAT requirements reconciled into the correct canonical sections rather than appended as an orphan idea.</p>
+          <p class="log-after"><b>Flight plan</b>Consolidate first, then review. No production implementation, no grammar freeze and no speculative widening of scope are implied by today's work. The target is a cleaner successor PRD whose requirements, decisions and evidence agree with one another and are ready for the next adversarial QA pass.</p>
         </div>
       </li>
     </ol>
