@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WASM-002 BM H-04 Integration Review</title>
+<style>
+:root {
+  --paper:#FBFBF9; --ink:#1D2330; --muted:#586173; --rule:#D8DCE3; --panel:#F1F3F6;
+  --red5:#C8102E; --blk-bg:#FBEFF1; --mat:#8F5400; --mat-bg:#FBF3E6; --clr:#35598A; --clr-bg:#EEF3F9;
+  --serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+  --sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --mono: Consolas, "Cascadia Mono", "DejaVu Sans Mono", Menlo, monospace;
+}
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:1.02rem/1.62 var(--serif); }
+main { max-width:50rem; margin:0 auto; padding:2.5rem 1.25rem 4rem; }
+h1,h2,h3,h4 { font-family:var(--sans); line-height:1.25; }
+h1 { font-size:1.9rem; font-weight:650; margin:.2rem 0 .4rem; letter-spacing:-.01em; }
+h2 { font-size:1.3rem; font-weight:650; margin:2.8rem 0 .8rem; padding-top:1rem; border-top:2px solid var(--ink); }
+h3 { font-size:1.12rem; font-weight:620; margin:.25rem 0 .35rem; }
+h4 { font-size:.86rem; font-weight:650; color:var(--muted); margin:1rem 0 .3rem; }
+p { margin:.55rem 0; }
+code { font-family:var(--mono); font-size:.86em; background:var(--panel); padding:.05em .3em; border-radius:3px; overflow-wrap:anywhere; }
+a { color:var(--clr); }
+a:focus-visible { outline:2px solid var(--red5); outline-offset:2px; }
+.brand { font-family:var(--sans); font-weight:700; font-size:1rem; margin:0; }
+.brand .five { color:var(--red5); }
+.lede { color:var(--muted); font-size:1.05rem; margin-top:0; }
+.idtable, .index, .proto, .sumtable { width:100%; border-collapse:collapse; font-family:var(--sans); font-size:.88rem; }
+.idtable th, .idtable td, .proto th, .proto td { text-align:left; vertical-align:top; padding:.4rem .6rem .4rem 0; border-bottom:1px solid var(--rule); }
+.idtable th, .proto th { width:11rem; font-weight:600; color:var(--muted); }
+.idtable td code { font-size:.8rem; }
+.wrap { overflow-x:auto; }
+.sumtable td, .sumtable th { padding:.45rem .7rem; border:1px solid var(--rule); text-align:left; }
+.sumtable td.n { font-weight:700; font-size:1.1rem; text-align:right; width:4rem; }
+.index td { padding:.38rem .5rem; border-bottom:1px solid var(--rule); vertical-align:top; }
+.index td:first-child { white-space:nowrap; font-weight:600; }
+.index .sevcell { white-space:nowrap; font-size:.74rem; font-weight:700; }
+.index tr.blocking .sevcell { color:var(--red5); }
+.index tr.material .sevcell { color:var(--mat); }
+.index tr.clarity .sevcell { color:var(--clr); }
+.finding { margin:2rem 0; padding:1rem 1.2rem 1rem 1.2rem; border-left:5px solid; background:#fff; border-radius:0 4px 4px 0; box-shadow:0 0 0 1px var(--rule) inset; }
+.finding.blocking { border-left-color:var(--red5); }
+.finding.material { border-left-color:var(--mat); }
+.finding.clarity  { border-left-color:var(--clr); }
+.fid { font-family:var(--sans); font-weight:700; margin:0; font-size:.9rem; display:flex; gap:.7rem; align-items:baseline; flex-wrap:wrap; }
+.sev { font-size:.72rem; font-weight:700; padding:.1rem .45rem; border-radius:3px; }
+.blocking .sev { background:var(--blk-bg); color:var(--red5); }
+.material .sev { background:var(--mat-bg); color:var(--mat); }
+.clarity .sev  { background:var(--clr-bg); color:var(--clr); }
+.cites { font-family:var(--sans); font-size:.8rem; color:var(--muted); margin:.2rem 0 .4rem; }
+.rid { font-size:.76rem; margin-right:.15rem; white-space:nowrap; }
+.finding ul { margin:.2rem 0 .4rem; padding-left:1.25rem; }
+.finding li { margin:.28rem 0; }
+.finding ul.ev, .finding ul.an { list-style:none; padding-left:1.45rem; }
+.finding ul.ev > li, .finding ul.an > li { text-indent:-1.45rem; }
+.finding li.sub { list-style:circle; margin-left:1.2rem; text-indent:0 !important; }
+.ei { display:inline-block; font-family:var(--sans); font-size:.66rem; font-weight:700; width:1.15rem; height:1.15rem; line-height:1.15rem; text-align:center; border-radius:50%; margin-right:.2rem; vertical-align:.1em; text-indent:0; }
+.ei-e { background:var(--ink); color:#fff; }
+.ei-i { background:#fff; color:var(--ink); box-shadow:0 0 0 1.2px var(--ink) inset; }
+.impact { border-top:1px dashed var(--rule); padding-top:.55rem; margin-top:.7rem; }
+.ask { background:var(--panel); padding:.6rem .75rem; border-radius:4px; }
+ol.q li, ul.s li { margin:.45rem 0; }
+.note { font-size:.9rem; color:var(--muted); }
+footer { margin-top:3rem; padding-top:1rem; border-top:1px solid var(--rule); font-family:var(--sans); font-size:.8rem; color:var(--muted); }
+@media print {
+  body { font-size:10pt; }
+  main { max-width:none; padding:0; }
+  .finding { break-inside:avoid-page; box-shadow:none; border:1px solid var(--rule); border-left:5px solid; }
+  .finding.blocking { border-left-color:var(--red5); } .finding.material { border-left-color:var(--mat); } .finding.clarity { border-left-color:var(--clr); }
+  h2 { break-after:avoid; }
+  a { color:inherit; text-decoration:none; }
+}
+
+.gate{margin:1.2rem 0;padding:1rem 1.2rem;border:2px solid #2F6B45;background:#E9F2EC;border-radius:4px}
+.gate .verdict{font-family:var(--sans);font-weight:750;font-size:1.2rem;color:#2F6B45;letter-spacing:.02em;margin:0 0 .4rem}
+.boundary{background:var(--panel);border-left:4px solid var(--ink);padding:.7rem .9rem;border-radius:0 4px 4px 0}
+.disp{font-family:var(--sans);font-size:.72rem;font-weight:700;padding:.1rem .45rem;border-radius:3px;background:#E9F2EC;color:#2F6B45}
+footer p,.idtable td{overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<main>
+<p class="brand">Red<span class="five">5</span>Sorcery / Data Sculptor</p>
+<h1>WASM-002 adversarial QA review — Revision BM Day 060 H-04 integration faithfulness</h1>
+<p class="lede">Independent review of the Day 060 H-04 Claude final handoff, Wednesday 7 October 2026. Findings only; no requirement text, fixture or supporting record has been changed.</p>
+
+<h2 id="identity">Review identity</h2>
+<div class="wrap"><table class="idtable">
+<tr><th scope="row">Primary target</th><td><code>Red5Sorcery_Data_Sculptor_Product_Backlog_PRD_Revision_BM_Day060_H04.html</code>, SHA-256 <code>E8B41617DABC648482253111E8D3984B9151DFD56BEBA490904AE41ABAE5D79B</code>, 1,710,821 bytes. 803 requirements; 402 SCOPE=WASM-002.</td></tr>
+<tr><th scope="row">Scoped cut</th><td><code>WASM002_Integrated_Cut_Revision_BM_Day060_H04.html</code>, SHA-256 <code>AFA5CCA9977E7601EA43412E5DBE024180D6533D9C0F34DB5679D1C6652D3C5B</code>, 402 requirements</td></tr>
+<tr><th scope="row">Handoff packet</th><td><code>Red5Sorcery_Data_Sculptor_WASM002_Claude_Final_Handoff_Day060_H04.zip</code>. All 77 entries in <code>SHA256_MANIFEST.txt</code> and all 15 <code>.sha256.txt</code> sidecars verify; every file in the archive is listed in the manifest.</td></tr>
+<tr><th scope="row">Supporting records</th><td>Pass 1 review <code>7BCD850A…4F58A67C</code>, Pass 2 review <code>D87E352F…EB39197</code>, Pass 3 review <code>0598550B…51FC3461</code>, erratum check <code>056499A9…B6B8F7AF</code>, Pass 1 log <code>9A73DB71…FA9255B7</code>, Pass 2 log <code>F564FFC2…E45603</code>, Pass 2 log + Pass 3 erratum <code>F5C2D819…7EE93</code>. Each matches the hash in my own sidecars and project copies.</td></tr>
+<tr><th scope="row">Baseline used for BL→BM</th><td>The packet's full BL master (<code>A5D5D8D0…08813E6</code>, 778 requirements, 384 WASM-002). The 384-requirement projection I reviewed in Passes 1–3 (<code>828C6A81…E025F</code>) is not in the packet; its count matches.</td></tr>
+<tr><th scope="row">Scope</th><td>Whether BM H-04 faithfully and completely integrates the accepted Pass 1, Pass 2, Pass 3/erratum, carried, CAT and H-01 to H-04 decisions; traceability; disposition; ID continuity; sweeps; Receipt/INV byte contracts against the golden fixtures; diagnostic grammar. Settled product choices were not reopened.</td></tr>
+</table></div>
+<p class="boundary"><b>Wording boundary.</b> Nothing here describes WASM-002 or Revision BM as approved, frozen, implemented, built, accepted or ready for implementation. A positive gate would not have frozen the PRD either; T retains acceptance authority.</p>
+
+<h2 id="summary">1. Summary</h2>
+<div class="wrap"><table class="sumtable">
+<tr><td class="n">4</td><th>BLOCKING</th><td>Four frozen Pass 1/Pass 2 decisions (F-06, F-02, F-03, F-10) have no complete normative home in BM. The BM text refers back to the reconciliation records instead of stating the rules.</td></tr>
+<tr><td class="n">8</td><th>MATERIAL NON-BLOCKING</th><td>Traceability that cannot show where decisions live; golden fixtures that encode impossible or unreachable states; undefined Receipt semantics the fixtures had to guess; H-02 diagnostic pins that conflict with Help duties; a missing P3-09 fixture; an unexercised P3-02 oracle; the normative Windows-1252 table outside the freeze set.</td></tr>
+<tr><td class="n">4</td><th>CLARITY</th><td>Stale search index (including the superseded diagnostic spelling), two leftover Pass 2 checklist edits, front-matter duplication and an incomplete omitted-ID table, and two packet gaps.</td></tr>
+</table></div>
+<p>The mechanical layer is in good shape: hashes, counts, ID history, cut fidelity, Receipt grammar and the H-04 normalization all verify (section 4). The defects are in the substance. The traceability record answers "See reconciliation record and integration log" for most Pass 1 decisions, and that answer hid the four blockers. All four are integration omissions of decisions T has already made, so closing them needs no new product decision.</p>
+
+<h2 id="index">2. Finding index</h2>
+<div class="wrap"><table class="index">
+<tr class="blocking"><td><a href="#BM-01">BM-01</a></td><td class="sevcell">BLOCKING</td><td>F-06 CSV refusal oracle is not integrated: five of the seven condition tokens, the location rules, precedence and bare-CR/EOF rules are absent</td></tr>
+<tr class="blocking"><td><a href="#BM-02">BM-02</a></td><td class="sevcell">BLOCKING</td><td>F-02 registry-repair semantics are not integrated: REPAIR WORK ORDER REGISTRY has no stated algorithm, bootstrap or run-eligibility rule</td></tr>
+<tr class="blocking"><td><a href="#BM-03">BM-03</a></td><td class="sevcell">BLOCKING</td><td>F-03 Store-health model is only partly integrated: DEGRADED is never defined, and the DEGRADED gate and REPAIR MAP health precondition are missing</td></tr>
+<tr class="blocking"><td><a href="#BM-04">BM-04</a></td><td class="sevcell">BLOCKING</td><td>F-10 conversion gate is not integrated: nothing stops CONVERT from transcoding an already-valid UTF-8 source into mojibake</td></tr>
+<tr class="material"><td><a href="#BM-05">BM-05</a></td><td class="sevcell">MATERIAL</td><td>Traceability does not map most Pass 1 decisions to requirement IDs, and that gap concealed BM-01 to BM-04</td></tr>
+<tr class="material"><td><a href="#BM-06">BM-06</a></td><td class="sevcell">MATERIAL</td><td>Every success Receipt fixture has an impossible timeline; RUN_STARTED_UTC and RUN_FINISHED_UTC are undefined; the INV fixture depicts an unreachable Suitcase</td></tr>
+<tr class="material"><td><a href="#BM-07">BM-07</a></td><td class="sevcell">MATERIAL</td><td>The registry-repair success fixture omits the bootstrap repair WKO, and the REGISTERED_* counts have no defined meaning</td></tr>
+<tr class="material"><td><a href="#BM-08">BM-08</a></td><td class="sevcell">MATERIAL</td><td>When RID_ACTION is "established" is undefined; the fixtures switch from NOT_RUN to CREATED for a RID that was never created</td></tr>
+<tr class="material"><td><a href="#BM-09">BM-09</a></td><td class="sevcell">MATERIAL</td><td>H-02 pinned meanings are broad classes with fixed facts, which conflict with the P3-05, P3-07 and P2-03 Help and fact duties under closed-world Help</td></tr>
+<tr class="material"><td><a href="#BM-10">BM-10</a></td><td class="sevcell">MATERIAL</td><td>The P3-09 zero-byte golden Receipt is missing, and "differ in the offset value only" is false</td></tr>
+<tr class="material"><td><a href="#BM-11">BM-11</a></td><td class="sevcell">MATERIAL</td><td>The P3-02 CONVERT undefined-byte offset is never exercised by a fixture or an acceptance requirement</td></tr>
+<tr class="material"><td><a href="#BM-12">BM-12</a></td><td class="sevcell">MATERIAL</td><td>The normative Windows-1252 table is SCOPE=PRODUCT and outside the freeze set; the "exhaustive" table covers only 0x80–0x9F</td></tr>
+<tr class="clarity"><td><a href="#BM-13">BM-13</a></td><td class="sevcell">CLARITY</td><td>The data-search index is stale on 213 requirements, including six with the superseded diagnostic spelling; the zero-occurrence audit claims are case-sensitive only</td></tr>
+<tr class="clarity"><td><a href="#BM-14">BM-14</a></td><td class="sevcell">CLARITY</td><td>Two Pass 2 checklist edits were not made: CONV-004.2/.3 still use KEY=VALUE, and STOR-019.10's opening still ties eligibility to RID/COL validity</td></tr>
+<tr class="clarity"><td><a href="#BM-15">BM-15</a></td><td class="sevcell">CLARITY</td><td>Duplicated front matter with a Day 059 "in progress" banner; the omitted-ID table misses the seven IDs re-scoped in BM</td></tr>
+<tr class="clarity"><td><a href="#BM-16">BM-16</a></td><td class="sevcell">CLARITY</td><td>Packet gaps: the P2-07 erratum and its sidecar are cited but not supplied</td></tr>
+</table></div>
+
+<h2 id="findings">3. Findings</h2>
+
+<section class="finding blocking" id="BM-01"><header><p class="fid">BM-01<span class="sev">BLOCKING</span></p><h3>The F-06 CSV refusal oracle is not integrated</h3></header>
+<p class="cites">BM: <code class="rid">W002-MAT-001.7</code><code class="rid">W002-MAT-002.8</code><code class="rid">W002-MAT-003.2</code><code class="rid">W002-MAT-ACC-003</code><code class="rid">W002-RCP-007</code><code class="rid">W002-HELP-001.8</code> (DS-MAT-011) · Source: Pass 2 log §7.1–7.12 · Pass 1/2 severity: BLOCKING</p>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> Pass 2 log §7.2 freezes exactly seven condition tokens. In the 803-requirement master, <code>UNEXPECTED_QUOTE_IN_UNQUOTED_FIELD</code>, <code>BARE_CR_OUTSIDE_QUOTED_FIELD</code>, <code>EOF_INSIDE_QUOTED_FIELD</code>, <code>TOO_FEW_FIELDS</code> and <code>TOO_MANY_FIELDS</code> occur zero times. Only <code>BLANK_LOGICAL_RECORD</code> and <code>INVALID_BYTE_AFTER_CLOSING_QUOTE</code> appear, and only in passing (P3-09 and P3-10 text).</li>
+<li><span class="ei ei-e">E</span> None of the following has BM text: the per-condition location table (§7.3), the field-ordinal rules (§7.4), the PHYSICAL_LINE and LOGICAL_RECORD definitions (§7.1), first-condition precedence (§7.7), bare CR refusing only outside quotes (§7.5), or explicit EOF-inside-quote refusal (§7.6). "precedence", "one-past-end" and "bare CR" each return zero hits.</li>
+<li><span class="ei ei-e">E</span> W002-RCP-007: the five CSV keys "carry the exact F-06 refusal condition and location oracle". W002-MAT-001.7 (P3-09): NO_HEADER_RECORD "extends the frozen structural malformed-CSV condition-token set by exactly one token". Both point to a set that BM never states.</li>
+<li><span class="ei ei-e">E</span> The integration log has no F-06 section, and the traceability row reads "See reconciliation record and integration log".</li></ul>
+<h4>Why it matters</h4><ul class="an">
+<li><span class="ei ei-i">I</span> CSV refusal is the most common MATERIALIZE outcome after UTF-8. An implementer working from BM cannot produce <code>CSV_REFUSAL_CONDITION</code>, <code>CSV_SOURCE_BYTE_OFFSET</code> or <code>CSV_FIELD_ORDINAL</code> for six of the eight conditions, and DS-MAT-011's required facts have no value set. This is exactly the Pass 2 blocking residual that F-06 closed on paper.</li>
+<li><span class="ei ei-i">I</span> W002-MAT-002.8 keeps BL's generic ragged-record and blank-record rules, but it is silent on bare CR and has no tokens or locations. The golden corpus covers only NO_HEADER_RECORD, so nothing else in the packet exposes the gap.</li></ul>
+<p class="ask"><b>Direction.</b> Integrate Pass 2 log §7.1–7.11 verbatim into a named CSV input-profile and refusal-oracle requirement (or into W002-MAT-002.8 and W002-MAT-003.x), with NO_HEADER_RECORD added as the eighth token. Extend W002-MAT-ACC-003 with the §7.11 acceptance cases. No product decision is needed.</p></section>
+
+<section class="finding blocking" id="BM-02"><header><p class="fid">BM-02<span class="sev">BLOCKING</span></p><h3>REPAIR WORK ORDER REGISTRY has no integrated algorithm, bootstrap or run-eligibility rule</h3></header>
+<p class="cites">BM: <code class="rid">W002-STOR-018.3</code><code class="rid">W002-STOR-018.4</code><code class="rid">W002-RCP-008</code><code class="rid">W002-WKO-ACC-004</code> · Source: Pass 2 log §5.2–5.4, §5.5 (line endings), §5.7, §5.9 · Pass 1/2 severity: BLOCKING</p>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> W002-STOR-018.3: "The bounded REPAIR WORK ORDER REGISTRY bootstrap <em>defined by the accepted F-02 reconciliation</em> remains the sole exception…". W002-STOR-018.4: "Its bounded unregistered-repair bootstrap remains governed by W002-STOR-018.3." W002-RCP-008: "…under the frozen registry-repair rules." Each points elsewhere, and the rule itself is never stated.</li>
+<li><span class="ei ei-e">E</span> Absent from BM: §5.2, a repair-only WKO may Run by exact filename while the registry is repair-required, and nothing else gains eligibility; §5.3, Save under a stale registry; §5.4, the reconciliation algorithm (drop rows whose WKO is missing; discover visible valid unregistered WKOs; CURRENT if the alias is unowned, DEPRECATED if owned; all DEPRECATED when several share an unowned alias, with no winner by time); §5.7, a DEPRECATED WKO runs by exact filename only and an unregistered WKO cannot run. Searches for "registered as DEPRECATED", "winner", "stale registry" and "by exact filename" (WKO sense) return nothing.</li>
+<li><span class="ei ei-e">E</span> §5.5's line-ending rule (LF and CRLF accepted, lone CR refused) is also absent. The F-14 WKO validity predicate in W002-STOR-018.3 omits it.</li>
+<li><span class="ei ei-e">E</span> W002-WKO-ACC-004 covers ordinary save and Replace/Cancel only. None of the §5.9 repair acceptance cases appear.</li></ul>
+<h4>Why it matters</h4><ul class="an">
+<li><span class="ei ei-i">I</span> One of the seven executable operations has a Receipt grammar and golden bytes but no specified behavior. Two implementers could publish different successor WKO MAPs from the same Suitcase, and both would match the PRD.</li>
+<li><span class="ei ei-i">I</span> Run eligibility of DEPRECATED and unregistered WKOs is a security-relevant boundary (which bytes may execute), and BM does not state it.</li></ul>
+<p class="ask"><b>Direction.</b> Integrate §5.2–5.4, §5.5 (line endings) and §5.7 as normative text under W002-STOR-018.x and the Run rules. Add the §5.9 acceptance set. See BM-07 for the fixture consequence.</p></section>
+
+<section class="finding blocking" id="BM-03"><header><p class="fid">BM-03<span class="sev">BLOCKING</span></p><h3>The F-03 Store-health model is only partly integrated: DEGRADED is never defined</h3></header>
+<p class="cites">BM: <code class="rid">W002-STOR-019.2</code><code class="rid">W002-STOR-019.10</code><code class="rid">W002-RID-008</code><code class="rid">W002-CAT-007</code><code class="rid">W002-WKO-012.1</code> · Source: Pass 2 log §6.3–6.6, §6.11 · Pass 1/2 severity: BLOCKING</p>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> INVALID is defined (W002-RID-008: "If that bound RID is missing or invalid, the Store is INVALID"). No requirement defines VALID or DEGRADED (§6.3). DEGRADED appears 13 times, always as an already-known term.</li>
+<li><span class="ei ei-e">E</span> W002-STOR-019.2 still says "Current-MAP selection and Store-health evaluation are governed separately by the accepted Store-health rules <em>being integrated into Revision BM</em>." W002-CAT-007 evaluates <code>store_health</code> "under the canonical Store-health rules". Neither has a referent in BM.</li>
+<li><span class="ei ei-e">E</span> Absent: the §6.5 DEGRADED gate (REPAIR MAP is the only enabled Store operation; extension and alias mutation refuse; read-only Help, Inventory and status stay available); §6.6 "the target Store must currently evaluate DEGRADED"; §6.4 "status is evaluated, not persisted". "only enabled" returns zero hits. UPDATE ALIASES with a <code>SOURCE</code> selector has no stated health gate; W002-WKO-012.3's VALID rule covers only explicit MAP selection.</li>
+<li><span class="ei ei-e">E</span> None of the §6.11 acceptance cases appear: target required, historical target refused, WKO MAP as target refused, missing COL gives DEGRADED, missing RID gives INVALID, malformed newest Store MAP falls back.</li></ul>
+<h4>Why it matters</h4><ul class="an">
+<li><span class="ei ei-i">I</span> Whether REPAIR MAP on a VALID Store refuses or publishes a no-op successor, and whether a SOURCE-based alias update on a DEGRADED Store proceeds, cannot be decided from BM. CAT's <code>store_health</code> column and the CATALOG_STORES fixtures depend on the same undefined rule.</li>
+<li><span class="ei ei-i">I</span> The pieces that did land (P3-05 Help exits, P3-06 tiers, P3-07 routing, REPAIR MAP determinism) all presuppose the §6.3 definitions.</li></ul>
+<p class="ask"><b>Direction.</b> Integrate §6.1–6.6 and §6.9–6.11 into W002-STOR-019.x. Replace the "being integrated" sentence with a citation to the new requirement, and point W002-CAT-007 at it.</p></section>
+
+<section class="finding blocking" id="BM-04"><header><p class="fid">BM-04<span class="sev">BLOCKING</span></p><h3>Nothing stops CONVERT from transcoding a source that is already valid UTF-8</h3></header>
+<p class="cites">BM: <code class="rid">W002-CONV-001</code><code class="rid">W002-CONV-002</code><code class="rid">W002-CONV-004</code><code class="rid">W002-RCP-008</code> · Source: Pass 1 log §13.3–13.5 (F-10)</p>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> F-10 §13.3: "If the complete source is already valid strict UTF-8, refuse the conversion as unnecessary; do not create a CVT artifact. Only after strict UTF-8 fails, assess compatibility." BM has no equivalent. W002-CONV-002's "after strict UTF-8 FAIL" governs the read-only assessment inside a refused MATERIALIZE, not the CONVERT operation.</li>
+<li><span class="ei ei-e">E</span> The §13.5 BOM rule (no BOM on CVT output; leading EF BB BF in a failed-UTF-8 source is data, not stripped) and the §13.4 byte-preservation rule (CR, LF and CRLF unchanged; no CSV interpretation) are absent. W002-CONV-004 says only that publication "does not assert … structurally valid CSV".</li>
+<li><span class="ei ei-e">E</span> RCP-008 defines a "Validation/classification refusal before conversion begins" row, but no requirement states the classification conditions or the SOURCE_ENCODING value set beyond <code>WINDOWS-1252-COMPATIBLE</code>.</li></ul>
+<h4>Why it matters</h4><ul class="an">
+<li><span class="ei ei-i">I</span> Nearly every UTF-8 file is also "mappable" under Windows-1252 (for example é = C3 A9). An analyst who writes a CONVERT WKO for a UTF-8 export gets a strict-UTF-8, publishable CVT full of mojibake (Ã©). This is silent data corruption behind a governed success Receipt, the outcome the product exists to prevent.</li></ul>
+<p class="ask"><b>Direction.</b> Integrate F-10 §13.3–13.5 into W002-CONV-001/004, close the SOURCE_ENCODING token set, and add acceptance cases for a valid-UTF-8 refusal, a leading-EF BB BF source, and CR/CRLF preservation.</p></section>
+
+<section class="finding material" id="BM-05"><header><p class="fid">BM-05<span class="sev">MATERIAL NON-BLOCKING</span></p><h3>Traceability does not show where most Pass 1 decisions live, and that gap concealed BM-01 to BM-04</h3></header>
+<p class="cites">Packet: <code>WASM002_Integration_Traceability_Day060_H04.html</code>, <code>WASM002_Carried_Item_Disposition_Day060_H04.html</code>, <code>Day060_Canonical_PRD_Integration_Log_through_H04.html</code></p>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> In the Pass 1 table, 28 of 34 rows say "See reconciliation record and integration log". F-06 and F-10 appear in no row that maps them to requirement IDs. F-02, F-03, F-04, F-09, F-12 and F-18 are reachable only indirectly, through later sections that each cover part of the decision (S-01, P3-05 to P3-07, S-05, H-01, P2-03, P3-04). F-06, F-10 and F-12 do not appear in the integration log at all.</li>
+<li><span class="ei ei-e">E</span> Integration log §27: "this checkpoint does not claim that every affected Revision BL requirement body has already been rewritten. The final integration sweep must fold every accepted decision…". No later section records that sweep for the Pass 1 decisions. S-01 to S-07 are targeted fixes.</li>
+<li><span class="ei ei-e">E</span> The disposition table gives P2-03, P2-04 and P2-05 the homes "Store/WKO chronology targets", "RID/Store validation targets" and "Help/HLP typed-JSON targets", not IDs. The traceability sections do give IDs for these three.</li>
+<li><span class="ei ei-e">E</span> The F-16 row is corrupted: F-22's text is merged into its target column. H-02 and H-03 have no traceability rows.</li>
+<li><span class="ei ei-e">E</span> 25 changed WASM-002 requirements are never named by ID. On inspection, all are covered by range notation (for example "W002-ENC-004.2 through .8") or by the RID-recovery retirement. I found no unexplained change, but a mechanical ID check cannot confirm that.</li></ul>
+<h4>Why it matters</h4><ul class="an">
+<li><span class="ei ei-i">I</span> My handoff note named this as the main thing I would hunt for. A "see the log" row is not a home, and in four cases the log had no home to show.</li>
+<li><span class="ei ei-i">I</span> <b>Coverage limit.</b> I verified F-02, F-03, F-06 and F-10 against their frozen text, and confirmed presence for F-04 (S-05), F-09 (RCP/H-01), F-12 (P2-03) and F-18 (RCP-006). I did not re-verify every clause of F-01, F-05 and F-07 to F-34 against its source section. A gate cannot pass until every decision has an ID-level home.</li></ul>
+<p class="ask"><b>Direction.</b> Rebuild the Pass 1 table with requirement IDs for every finding. Add a column naming each frozen sub-clause (for example F-06 §7.3) with its BM home, so the next check is mechanical.</p></section>
+
+<section class="finding material" id="BM-06"><header><p class="fid">BM-06<span class="sev">MATERIAL NON-BLOCKING</span></p><h3>The golden fixtures encode impossible timelines and an unreachable Suitcase</h3></header>
+<p class="cites">Fixtures: all seven <code>success/*.txt</code>; <code>Inventory/__DS__INV__20261007T120000000Z__…001.txt</code> · BM: <code class="rid">W002-RCP-006</code><code class="rid">W002-RCP-ACC-001</code><code class="rid">W002-STOR-018.3</code><code class="rid">W002-STOR-022</code><code class="rid">W002-INV-003</code></p>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> In every success Receipt, the published artifact's UTC falls outside its own [RUN_STARTED_UTC, RUN_FINISHED_UTC]. In SUCCESS__MATERIALIZE, the RID, COL and MAP are stamped 14:59:59.000, eleven seconds before the run started at 15:00:10. In the other six, the artifact is stamped after RECEIPT_UTC; for example, INVENTORY publishes its INV at 15:01:00 inside a Receipt written at 15:00:22, and CATALOG_STORES publishes its CAT at 15:06:00 inside a Receipt written at 15:01:12.</li>
+<li><span class="ei ei-e">E</span> BM never defines RUN_STARTED_UTC or RUN_FINISHED_UTC. They appear only as names in the W002-RCP-006 envelope list. P2-03 and S-04 require transaction UTCs to be truthful host observations made during publication.</li>
+<li><span class="ei ei-e">E</span> The INV fixture lists the run WKO <code>…000000000002.txt</code>, alpha.csv and beta.csv, but no WKO MAP and no CER. W002-STOR-018.3 publishes the WKO and its WKO MAP in one save transaction, an unregistered WKO cannot Run, and W002-STOR-022 locks analytical execution until a CER exists in the root. W002-INV-003 inventories every regular root file.</li></ul>
+<h4>Why it matters</h4><ul class="an">
+<li><span class="ei ei-i">I</span> A conforming implementation with a monotonic clock seam cannot reproduce these bytes. Matching them requires a seam that runs time backwards, which teaches the opposite of P2-03. A product whose creed is "I know what it actually did" should not keep, as its reference evidence, Receipts that report artifacts created after the Receipt.</li></ul>
+<p class="ask"><b>Direction.</b> Define RUN_STARTED_UTC and RUN_FINISHED_UTC, including their ordering relative to transaction UTCs and RECEIPT_UTC. Regenerate the fixture timestamps so that WKO ≤ run start ≤ transaction UTC ≤ run finish ≤ RECEIPT_UTC. Make the INV fixture list a reachable Suitcase, or state that the INV fixture is a format oracle built by a harness.</p></section>
+
+<section class="finding material" id="BM-07"><header><p class="fid">BM-07<span class="sev">MATERIAL NON-BLOCKING</span></p><h3>The registry-repair success fixture omits the repair WKO, and the REGISTERED_* counts are undefined</h3></header>
+<p class="cites">Fixture: <code>success/SUCCESS__REPAIR_WORK_ORDER_REGISTRY.txt</code> · BM: <code class="rid">W002-RCP-008</code><code class="rid">W002-STOR-018.3</code> (P3-10)</p>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> The base WKO MAP is stamped 14:20. The run's own WKO (<code>…000000000025.txt</code>, 14:50) postdates it and so cannot be registered in it. P3-10 and RCP-008 require the bootstrap repair WKO to be registered by the committed successor and to "appear in the appropriate registered list". The fixture lists only <code>…000000000008</code> as CURRENT, and 0 as DEPRECATED.</li>
+<li><span class="ei ei-e">E</span> RCP-008 names REGISTERED_CURRENT_COUNT and REGISTERED_DEPRECATED_COUNT but never says whether they count rows newly registered by this repair or every CURRENT/DEPRECATED row in the successor MAP.</li></ul>
+<p class="ask"><b>Direction.</b> Define both counts, then correct the fixture once BM-02 is integrated.</p></section>
+
+<section class="finding material" id="BM-08"><header><p class="fid">BM-08<span class="sev">MATERIAL NON-BLOCKING</span></p><h3>When RID_ACTION becomes "established" is undefined, and the fixtures report CREATED for a RID that was never created</h3></header>
+<p class="cites">BM: <code class="rid">W002-RCP-006</code><code class="rid">W002-RCP-007</code> · Fixtures: the MATERIALIZE refusal set · Source: P3-04</p>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> RCP-007: "RID_ACTION is exactly CREATED or REUSED when that action has been established". For REUSED, RID_FILENAME "may be established before publication". Neither requirement says which stage establishes the action.</li>
+<li><span class="ei ei-e">E</span> New-Store fixtures with <code>BASE_MAP_FILENAME: NONE</code> already established show <code>RID_ACTION: NOT_RUN</code> through Stage 1 and Stage 2. The publication refusal shows <code>RID_ACTION: CREATED</code> with <code>RID_FILENAME: NONE</code> and <code>CREATED_ARTIFACT_COUNT: 0</code>.</li>
+<li><span class="ei ei-e">E</span> No fixture or text decides an existing-Store Stage-1 or Stage-2 refusal: REUSED (routing established it) or NOT_RUN (by analogy with the new-Store fixtures).</li></ul>
+<h4>Why it matters</h4><ul class="an"><li><span class="ei ei-i">I</span> This is the P3-04 question ("is RID_ACTION NONE, NOT_RUN or NOT_AVAILABLE?") moved one step along. Separately, a refusal Receipt that says a RID was CREATED when none exists reads as a false claim.</li></ul>
+<p class="ask"><b>Direction.</b> Name RID_ACTION's owning stage and its value at each refusal boundary for both new and existing Stores, and align the fixtures.</p></section>
+
+<section class="finding material" id="BM-09"><header><p class="fid">BM-09<span class="sev">MATERIAL NON-BLOCKING</span></p><h3>H-02 pinned meanings are broad classes that collide with other pinned Help and fact duties</h3></header>
+<p class="cites">BM: <code class="rid">W002-HELP-001.8</code> (H-02 table) <code class="rid">W002-HELP-005</code><code class="rid">W002-STOR-019.2</code><code class="rid">W002-HELP-001.6</code></p>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> DS-MAT-010's frozen meaning is "MATERIALIZE validation/routing refuses before Stage 1 begins…", with required facts <code>[source_filename]</code> only. Optional facts stay empty "unless another requirement explicitly adds optional facts later". That class covers the P3-05 damaged-lineage refusal and the P3-07 malformed-MAP guard.</li>
+<li><span class="ei ei-e">E</span> W002-HELP-005 (closed world): the renderer "may consume only the canonical diagnostic fields and fact keys declared by the applicable diagnostic registry entries". P3-05 and P3-07 require Help to identify the blocked lineage, its current MAP, and the malformed MAP artifacts.</li>
+<li><span class="ei ei-e">E</span> P2-03 requires the monotonic-UTC refusal diagnostic to carry <code>observed_host_utc</code>, <code>predecessor_map_filename</code> and <code>predecessor_utc</code>. DS-MAT-013, DS-ALS-003, DS-RPM-004 and DS-WKR-003 each pin "identity allocation/publication refuses", with only <code>artifact_class</code> and <code>collision_retry_count</code>.</li></ul>
+<h4>Why it matters</h4><ul class="an"><li><span class="ei ei-i">I</span> An implementer who uses the pinned ID cannot satisfy the Help duty. One who allocates a new ID contradicts the pinned meaning. Either way, independent acceptance (F-22) of the pinned mapping fails for one of them.</li></ul>
+<p class="ask"><b>Direction.</b> Narrow each H-02 meaning to the exact fixture condition (for example "UUID-collision exhaustion"), or declare the facts the other duties need. State that P3-05, P3-07 and P2-03 refusals use separately allocated IDs.</p></section>
+
+<section class="finding material" id="BM-10"><header><p class="fid">BM-10<span class="sev">MATERIAL NON-BLOCKING</span></p><h3>The P3-09 zero-byte golden Receipt is missing</h3></header>
+<p class="cites">BM: <code class="rid">W002-RCP-007</code><code class="rid">W002-MAT-ACC-003</code> · Log §12 (P3-09)</p>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> RCP-007: "The zero-byte and UTF-8-BOM-only golden refusal Receipts therefore differ in the offset value only: 0 versus 3." Log §12: "Added deterministic zero-byte and UTF-8-BOM-only acceptance/Receipt fixtures." The corpus contains only <code>bom_only.csv</code> (offset 3).</li>
+<li><span class="ei ei-e">E</span> The two would also differ in <code>CERTIFIED_SOURCE_BYTE_COUNT</code> (0 versus 3) and SOURCE_FILENAME, so "offset only" is wrong.</li></ul>
+<p class="ask"><b>Direction.</b> Add the zero-byte Receipt and correct the RCP-007 sentence.</p></section>
+
+<section class="finding material" id="BM-11"><header><p class="fid">BM-11<span class="sev">MATERIAL NON-BLOCKING</span></p><h3>The P3-02 CONVERT undefined-byte offset is never exercised</h3></header>
+<p class="cites">BM: <code class="rid">W002-RCP-008</code><code class="rid">W002-CONV-ACC-002</code> · Fixtures: <code>REFUSED__CONVERT_*</code></p>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> All four CONVERT fixtures carry <code>UNDEFINED_WINDOWS_1252_BYTE_OFFSET</code> as NOT_RUN or NOT_APPLICABLE. The classification fixture shows a pre-assessment failure (SOURCE_ENCODING NOT_AVAILABLE), not an undefined-byte refusal.</li>
+<li><span class="ei ei-e">E</span> W002-CONV-ACC-002 tests undefined bytes only through the MATERIALIZE compatibility fields. No requirement says whether CONVERT detects undefined bytes in a pre-scan (classification row) or mid-stream (transcoding row).</li></ul>
+<p class="ask"><b>Direction.</b> State which stage detects the undefined byte, then add a CONVERT acceptance case and a golden Receipt carrying a real offset. This was the CONVERT half of a Pass 3 blocker.</p></section>
+
+<section class="finding material" id="BM-12"><header><p class="fid">BM-12<span class="sev">MATERIAL NON-BLOCKING</span></p><h3>The normative Windows-1252 table sits outside the freeze set and is not exhaustive</h3></header>
+<p class="cites">BM: <code class="rid">W002-GLOSS-037</code><code class="rid">W002-GLOSS-037.2</code><code class="rid">W002-CONV-002.1</code><code class="rid">W002-CONV-002.4</code> · Packet: Context-Only Dependencies</p>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> W002-CONV-002.4: "W002-GLOSS-037.2 is the exhaustive normative WASM-002 Windows-1252 mapping table." W002-GLOSS-037.2 is SCOPE=PRODUCT, STATUS N/A, and the packet labels it "not review targets … context only".</li>
+<li><span class="ei ei-e">E</span> GLOSS-037.2 tabulates only 0x80–0x9F. The 0x00–0x7F and 0xA0–0xFF rules are in W002-GLOSS-037, which is also PRODUCT. Its title and body still split one sentence ("…The converter must refuse" / "rather than guess…"), a fragmentation that the WASM-002-only S-06 and S-07 sweeps did not reach.</li></ul>
+<p class="ask"><b>Direction.</b> Either bring the mapping into a WASM-002-scoped requirement covering all 256 bytes, or state in CONV-002.x that GLOSS-037 and 037.2 are frozen with WASM-002. Repair the 037.2 title.</p></section>
+
+<section class="finding clarity" id="BM-13"><header><p class="fid">BM-13<span class="sev">CLARITY</span></p><h3>The search index is stale, including the superseded diagnostic spelling</h3></header>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> The <code>data-search</code> attribute differs from the visible ID, title and body on 213 of 803 requirements (154 WASM-002), 123 of them in substance.</li>
+<li><span class="ei ei-e">E</span> Six requirements (W002-CONV-003, 003.1, HELP-001.6, 001.7, CONV-ACC-001, CONV-ACC-002) still index <code>ds-conv-001</code>: 8 occurrences in the master and 8 in the cut. A search for "DS-CNV-001" misses them, and a search for the superseded ID finds them.</li>
+<li><span class="ei ei-e">E</span> The H-04 and final audits ("superseded … occurrences: 0") and the sweep evidence are case-sensitive only. The 12 cut-versus-master deltas are 11 search attributes that differ only in entity encoding (<code>&amp;#x27;</code>) and one whitespace difference in a table; visible text is identical.</li></ul>
+<p class="ask"><b>Direction.</b> Regenerate <code>data-search</code> from visible text for every article and make the sweeps case-insensitive.</p></section>
+
+<section class="finding clarity" id="BM-14"><header><p class="fid">BM-14<span class="sev">CLARITY</span></p><h3>Two Pass 2 checklist edits were not made</h3></header>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> The Pass 2 checklist called for "W002-CONV-004.2/.3 colon form". Both still read <code>SOURCE_ENCODING=WINDOWS-1252-COMPATIBLE</code> and <code>MATERIALIZED_ENCODING=UTF-8</code>, and 004.2 adds "or the exact equivalent terminology". W002-RCP-005: "KEY=VALUE is not valid canonical Receipt serialization."</li>
+<li><span class="ei ei-e">E</span> The Pass 3 checklist called for "W002-STOR-019.10 to structural validity only". Its opening paragraph still requires RID/COL validity for eligibility. The P3-07 paragraph makes this a deliberate inheritance-versus-routing distinction, so there is no behavioral conflict, but the paragraph reads against F-03 §6.1.</li></ul></section>
+
+<section class="finding clarity" id="BM-15"><header><p class="fid">BM-15<span class="sev">CLARITY</span></p><h3>Front-matter duplication and an incomplete omitted-ID table</h3></header>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> The master begins with three <code>&lt;!DOCTYPE html&gt;</code> lines and contains two title blocks: Day 060 in the hero, and Day 059 in <code>#content</code> ("…continues on Day 059"; "Full text sweep is in progress").</li>
+<li><span class="ei ei-e">E</span> The F-31 omitted-ID table "explains the deliberate numbering gaps seen in narrower WASM-002 review cuts" but lists 19 IDs. It omits the seven IDs re-scoped in BM (W002-RID-009, 010, RID-ACC-005, RCP-011, STEPS-010, STOR-010.3, 010.4), all of which now leave gaps in the 402 cut.</li></ul></section>
+
+<section class="finding clarity" id="BM-16"><header><p class="fid">BM-16<span class="sev">CLARITY</span></p><h3>Packet gaps</h3></header>
+<h4>Evidence</h4><ul class="ev">
+<li><span class="ei ei-e">E</span> Log §22 (P2-07): "A standalone P2-07 erratum and SHA-256 sidecar are created." Neither is in the packet or the project, and the Pass 1 log in the packet is byte-identical to the original. The disposition table cites the "Pass-1 reconciliation record" as P2-07's home.</li>
+<li><span class="ei ei-e">E</span> The disposition H-04 row cites "W002-CONV-003/.3.2", presumably W002-CONV-003.2.</li></ul></section>
+
+<h2 id="verified">4. Verified without findings</h2>
+<ul class="s">
+<li><b>Hashes.</b> Manifest, sidecars, the master and cut hashes in READ_ME_FIRST, and every supporting record against my own sidecars.</li>
+<li><b>Counts and scope.</b> 803 / 402 / 401. The exclusion CSV equals the non-WASM-002 set exactly. No duplicate requirement IDs. Visible ID, SCOPE, BUILD and STATUS agree with the data attributes on every article. All 402 are UNDER REVIEW with blank BUILD.</li>
+<li><b>Cut fidelity.</b> The cut equals the master's WASM-002 articles in canonical order, with identical titles and visible text. The only differences are entity encodings in the search attributes and one whitespace difference in a table.</li>
+<li><b>BL→BM IDs.</b> Recomputed independently: 25 added (all WASM-002), 0 deleted, 7 re-scoped to V1-BACKLOG/DEFERRED, and 384 + 25 − 7 = 402. The 18 non-WASM-002 text changes are covered by F-14/F-33, S-02, S-03, F-32 and the RID-recovery retirement.</li>
+<li><b>Receipt and INV grammar.</b> All 33 Receipts and the INV pass a validator built from RCP-005 to RCP-008 and INV-006: UTF-8 with no BOM, LF only, a single final LF, no trailing spaces or blank lines, exact envelope and per-operation key order, indexed keys with a minimum width of three digits, list counts that match their lines, quoting and doubled quotes, RECEIPT_UTC equal to the filename UTC, and closed RESULT and absence tokens. UNKNOWN_OPERATION has the exact envelope-then-count form. The corpus covers every refusal-boundary row in RCP-007 and RCP-008 plus the three Stage-1 compatibility variants. MATERIALIZE refusal values match the RCP-007 matrix.</li>
+<li><b>H-02 and H-04.</b> The W002-HELP-001.8 allocation table matches the fixture JSON row for row (23 IDs). RECEIPT_VERSION: 1 is frozen. DS-CNV-001 is the only spelling in visible text. All 29 diagnostic tokens fit <code>DS-[A-Z]{3}-[0-9]{3}</code>; the remaining matches are the element IDs <code>ds-help-catalog</code> and <code>ds-hlp-provenance</code> and the language name "DS-STEPS". The rename is recorded as pre-freeze in W002-HELP-001.1 and breaks no permanence rule.</li>
+<li><b>Carried items with confirmed homes.</b> E-01 (bare KEEP; <code>KEEP:</code> explicitly invalid), P3-01 (0..1 MAP after SOURCE), E-02 (historical-MAP health gate in STOR-019.3 and WKO-012.3, applied to UPDATE ALIASES), and P3-02 to P3-10 at the cited IDs (spot-checked). P2-03, P2-04, P2-06 and CAT are present.</li>
+<li><b>Sweeps.</b> Zero occurrences of store_source_filename, optional/unaliased WKO alias wording, Store Index or Map/Index, RECOVERY_ARTIFACT_FILENAME, "six executable" and "nine-column". RID recovery and RCV appear only as boundary or reserved-not-emitted wording.</li>
+</ul>
+
+<h2 id="gate">5. Gate conclusion</h2>
+<div class="gate" style="border-color:var(--red5);background:var(--blk-bg)"><p class="verdict" style="color:var(--red5)">NOT READY FOR WASM-002 PRD FREEZE — INTEGRATION DEFECTS REMAIN</p>
+<p>Four accepted decisions (F-06, F-02, F-03, F-10) have no complete normative home, so an implementer working from BM alone would have to invent the CSV refusal oracle, the registry-repair algorithm, the meaning of DEGRADED, and the conversion precondition. The material items include fixtures that encode states a conforming build cannot reach.</p></div>
+<p><b>Path back.</b> Closing the four blockers requires no new product decision. Each is a transcription of already-frozen text into named requirements. I suggest this order:</p>
+<ol class="q">
+<li>Integrate F-06 §7, F-02 §5.2–5.7, F-03 §6 and F-10 §13.3–13.5.</li>
+<li>Rebuild the Pass 1 traceability with IDs at sub-clause level (BM-05).</li>
+<li>Decide the small undefined points: RUN_* timestamps, RID_ACTION, REGISTERED_* counts, the stage at which CONVERT detects an undefined byte, and the scope of the H-02 meanings.</li>
+<li>Regenerate the affected fixtures.</li>
+<li>Regenerate data-search.</li>
+</ol>
+<p>A focused re-check of BM-01 to BM-12 plus a mechanical rerun should then be enough; a full Pass 2-style review should not be needed.</p>
+
+<footer><p>Data Sculptor WASM-002 adversarial QA review, Revision BM Day 060 H-04 integration faithfulness. Reviewed master SHA-256 E8B41617DABC648482253111E8D3984B9151DFD56BEBA490904AE41ABAE5D79B. Reviewed cut SHA-256 AFA5CCA9977E7601EA43412E5DBE024180D6533D9C0F34DB5679D1C6652D3C5B. This review's own SHA-256 is recorded in its sidecar file.</p></footer>
+</main>
+</body>
+</html>

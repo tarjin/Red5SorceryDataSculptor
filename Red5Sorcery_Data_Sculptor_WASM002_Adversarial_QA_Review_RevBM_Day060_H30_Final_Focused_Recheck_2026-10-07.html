@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WASM-002 BM H-30 Final Re-check</title>
+<style>
+:root {
+  --paper:#FBFBF9; --ink:#1D2330; --muted:#586173; --rule:#D8DCE3; --panel:#F1F3F6;
+  --red5:#C8102E; --blk-bg:#FBEFF1; --mat:#8F5400; --mat-bg:#FBF3E6; --clr:#35598A; --clr-bg:#EEF3F9;
+  --serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+  --sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --mono: Consolas, "Cascadia Mono", "DejaVu Sans Mono", Menlo, monospace;
+}
+* { box-sizing:border-box; }
+html { background:var(--paper); }
+body { margin:0; color:var(--ink); font:1.02rem/1.62 var(--serif); }
+main { max-width:50rem; margin:0 auto; padding:2.5rem 1.25rem 4rem; }
+h1,h2,h3,h4 { font-family:var(--sans); line-height:1.25; }
+h1 { font-size:1.9rem; font-weight:650; margin:.2rem 0 .4rem; letter-spacing:-.01em; }
+h2 { font-size:1.3rem; font-weight:650; margin:2.8rem 0 .8rem; padding-top:1rem; border-top:2px solid var(--ink); }
+h3 { font-size:1.12rem; font-weight:620; margin:.25rem 0 .35rem; }
+h4 { font-size:.86rem; font-weight:650; color:var(--muted); margin:1rem 0 .3rem; }
+p { margin:.55rem 0; }
+code { font-family:var(--mono); font-size:.86em; background:var(--panel); padding:.05em .3em; border-radius:3px; overflow-wrap:anywhere; }
+a { color:var(--clr); }
+a:focus-visible { outline:2px solid var(--red5); outline-offset:2px; }
+.brand { font-family:var(--sans); font-weight:700; font-size:1rem; margin:0; }
+.brand .five { color:var(--red5); }
+.lede { color:var(--muted); font-size:1.05rem; margin-top:0; }
+.idtable, .index, .proto, .sumtable { width:100%; border-collapse:collapse; font-family:var(--sans); font-size:.88rem; }
+.idtable th, .idtable td, .proto th, .proto td { text-align:left; vertical-align:top; padding:.4rem .6rem .4rem 0; border-bottom:1px solid var(--rule); }
+.idtable th, .proto th { width:11rem; font-weight:600; color:var(--muted); }
+.idtable td code { font-size:.8rem; }
+.wrap { overflow-x:auto; }
+.sumtable td, .sumtable th { padding:.45rem .7rem; border:1px solid var(--rule); text-align:left; }
+.sumtable td.n { font-weight:700; font-size:1.1rem; text-align:right; width:4rem; }
+.index td { padding:.38rem .5rem; border-bottom:1px solid var(--rule); vertical-align:top; }
+.index td:first-child { white-space:nowrap; font-weight:600; }
+.index .sevcell { white-space:nowrap; font-size:.74rem; font-weight:700; }
+.index tr.blocking .sevcell { color:var(--red5); }
+.index tr.material .sevcell { color:var(--mat); }
+.index tr.clarity .sevcell { color:var(--clr); }
+.finding { margin:2rem 0; padding:1rem 1.2rem 1rem 1.2rem; border-left:5px solid; background:#fff; border-radius:0 4px 4px 0; box-shadow:0 0 0 1px var(--rule) inset; }
+.finding.blocking { border-left-color:var(--red5); }
+.finding.material { border-left-color:var(--mat); }
+.finding.clarity  { border-left-color:var(--clr); }
+.fid { font-family:var(--sans); font-weight:700; margin:0; font-size:.9rem; display:flex; gap:.7rem; align-items:baseline; flex-wrap:wrap; }
+.sev { font-size:.72rem; font-weight:700; padding:.1rem .45rem; border-radius:3px; }
+.blocking .sev { background:var(--blk-bg); color:var(--red5); }
+.material .sev { background:var(--mat-bg); color:var(--mat); }
+.clarity .sev  { background:var(--clr-bg); color:var(--clr); }
+.cites { font-family:var(--sans); font-size:.8rem; color:var(--muted); margin:.2rem 0 .4rem; }
+.rid { font-size:.76rem; margin-right:.15rem; white-space:nowrap; }
+.finding ul { margin:.2rem 0 .4rem; padding-left:1.25rem; }
+.finding li { margin:.28rem 0; }
+.finding ul.ev, .finding ul.an { list-style:none; padding-left:1.45rem; }
+.finding ul.ev > li, .finding ul.an > li { text-indent:-1.45rem; }
+.finding li.sub { list-style:circle; margin-left:1.2rem; text-indent:0 !important; }
+.ei { display:inline-block; font-family:var(--sans); font-size:.66rem; font-weight:700; width:1.15rem; height:1.15rem; line-height:1.15rem; text-align:center; border-radius:50%; margin-right:.2rem; vertical-align:.1em; text-indent:0; }
+.ei-e { background:var(--ink); color:#fff; }
+.ei-i { background:#fff; color:var(--ink); box-shadow:0 0 0 1.2px var(--ink) inset; }
+.impact { border-top:1px dashed var(--rule); padding-top:.55rem; margin-top:.7rem; }
+.ask { background:var(--panel); padding:.6rem .75rem; border-radius:4px; }
+ol.q li, ul.s li { margin:.45rem 0; }
+.note { font-size:.9rem; color:var(--muted); }
+footer { margin-top:3rem; padding-top:1rem; border-top:1px solid var(--rule); font-family:var(--sans); font-size:.8rem; color:var(--muted); }
+@media print {
+  body { font-size:10pt; }
+  main { max-width:none; padding:0; }
+  .finding { break-inside:avoid-page; box-shadow:none; border:1px solid var(--rule); border-left:5px solid; }
+  .finding.blocking { border-left-color:var(--red5); } .finding.material { border-left-color:var(--mat); } .finding.clarity { border-left-color:var(--clr); }
+  h2 { break-after:avoid; }
+  a { color:inherit; text-decoration:none; }
+}
+
+.gate{margin:1.2rem 0;padding:1rem 1.2rem;border:2px solid #2F6B45;background:#E9F2EC;border-radius:4px}
+.gate .verdict{font-family:var(--sans);font-weight:750;font-size:1.2rem;color:#2F6B45;letter-spacing:.02em;margin:0 0 .4rem}
+.boundary{background:var(--panel);border-left:4px solid var(--ink);padding:.7rem .9rem;border-radius:0 4px 4px 0}
+.disp{font-family:var(--sans);font-size:.72rem;font-weight:700;padding:.1rem .45rem;border-radius:3px;background:#E9F2EC;color:#2F6B45}
+footer p,.idtable td{overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<main>
+<p class="brand">Red<span class="five">5</span>Sorcery / Data Sculptor</p>
+<h1>WASM-002 adversarial QA review — Revision BM Day 060 H-30 final focused re-check</h1>
+<p class="lede">Independent re-check of the ten findings left open by the H-20 focused re-check, with regression checks on the ten findings H-20 closed. Wednesday 7 October 2026. Findings only; no requirement text, fixture or supporting record has been changed.</p>
+
+<h2 id="identity">Review identity</h2>
+<div class="wrap"><table class="idtable">
+<tr><th scope="row">Packet</th><td><code>Claude_Recheck_H30.zip</code>, SHA-256 <code>A486D29018A7B92F7E81BB99BDA3444C5E7431272483932C84CEF8E564E5CF89</code> (computed on receipt; no external hash was supplied). All 23 entries in <code>SHA256_MANIFEST.txt</code> verify, and every file is listed. The packaged README is byte-identical to the one sent separately.</td></tr>
+<tr><th scope="row">Full master</th><td><code>Red5Sorcery_Data_Sculptor_Product_Backlog_PRD_Revision_BM_Day060_H30.html</code>, SHA-256 <code>B8D5BFAF736869513FD63EDBB082CB3C1FB7A6A1C2DA6915FCC8FF5CDF35D064</code></td></tr>
+<tr><th scope="row">Focused cut</th><td><code>Red5Sorcery_Data_Sculptor_WASM002_Focused_Review_Cut_Revision_BM_Day060_H30.html</code>, SHA-256 <code>946C3A16B3AD1CB450312EC253CF488AFE5D071743A0B4F7D182A35B3D2D72EB</code></td></tr>
+<tr><th scope="row">Fixture corpus</th><td><code>WASM002_Day060_H29_Replacement_Fixture_Corpus.zip</code>, SHA-256 <code>618803BFEF07DCC1087BE5119F4FC57372679E96D4218D020F1F2E037DD287F5</code>. All 79 internal manifest entries verify, and every file is listed.</td></tr>
+<tr><th scope="row">Traceability</th><td>Pass 1 refresh <code>E43C201D…EBFF8E8</code> and carried-item disposition <code>0491B68F…7FF1E1F3</code>, matching the H-30 audit.</td></tr>
+<tr><th scope="row">Source review</th><td>My H-20 focused re-check <code>D710139D…E99D0EB</code> and its sidecar <code>10F45A6A…EAC398</code>, both byte-identical to the copies I issued.</td></tr>
+</table></div>
+<p class="boundary"><b>Wording boundary.</b> A positive gate means only that I find no remaining integration defect that should prevent T from deciding to freeze. It does not freeze WASM-002, approve requirements or authorize implementation; T retains acceptance authority.</p>
+
+<h2 id="summary">1. Summary</h2>
+<div class="wrap"><table class="sumtable">
+<tr><td class="n">10</td><th>CLOSED</th><td>N-01, BM-11, BM-06, BM-08, BM-04, BM-09, N-02, N-03, N-04, BM-05. The only blocker (N-01) and all five material residuals are closed.</td></tr>
+<tr><td class="n">0</td><th>RESIDUAL</th><td>None of the ten remains open.</td></tr>
+<tr><td class="n">3</td><th>NEW · CLARITY</th><td>H-21 to H-30 introduced three small wording gaps (C-01 to C-03). None changes behavior, none can produce divergent bytes against the golden corpus, and each is a one-sentence edit.</td></tr>
+<tr><td class="n">0</td><th>REGRESSIONS</th><td>None of the ten findings closed at H-20 has reopened.</td></tr>
+</table></div>
+
+<h2 id="dispositions">2. The ten re-checked findings</h2>
+
+<section class="finding blocking" id="N-01"><header><p class="fid">N-01<span class="sev">H-20: BLOCKING</span><span class="disp">CLOSED</span></p><h3>W002-UI-ACC-019 now tests the F-01 architecture</h3></header>
+<ul class="ev"><li><span class="ei ei-e">E</span> W002-UI-ACC-019 is retitled "No standalone Work Order Description acceptance". Its body is the five-part F-01 §15.4 gate, matching Pass 1 log §15.4 point for point: no editable Description field; no mutable or hidden description store; editing any WKO byte yields a derived draft; predecessor bytes, filename and UUID unchanged; the draft cannot Run until saved. The obsolete "editing the human-facing description" text is gone. The gate now agrees with W002-UI-023 and W002-STOR-018, and no other WASM-002 requirement mentions a description store or editor.</li></ul></section>
+
+<section class="finding material" id="BM-11"><header><p class="fid">BM-11<span class="sev">H-20: MATERIAL</span><span class="disp">CLOSED</span></p><h3>The CONVERT undefined-byte golden Receipt is now reachable</h3></header>
+<ul class="ev"><li><span class="ei ei-e">E</span> The golden Receipt's source is <code>undefined_81.csv</code>, which is eligible under W002-WKO-009.1. Its bytes are <code>41 81 42</code>, and the Receipt serializes <code>WINDOWS-1252-INCOMPATIBLE</code>, offset <code>1</code>, <code>NOT_RUN</code> ×2, <code>NO</code>, <code>NONE</code>. All six review inputs now use <code>.csv</code> names, and I independently recomputed both their first strict-UTF-8 failure and their first undefined byte (1, 2, 0, 3, 1, 1), matching <code>INPUT_ORACLES.csv</code>. The golden and review copies are byte-identical.</li></ul></section>
+
+<section class="finding material" id="BM-06"><header><p class="fid">BM-06<span class="sev">H-20: MATERIAL</span><span class="disp">CLOSED</span></p><h3>The Inventory review Suitcase is now reachable and fully packaged</h3></header>
+<ul class="ev"><li><span class="ei ei-e">E</span> The registry MAP is now <code>__DS__MAP__20261007T145000000Z__…102.csv</code>. It shares the WKO's save UTC (W002-STOR-018.3), registers exactly that WKO with its exact alias, and predates the run.</li>
+<li><span class="ei ei-e">E</span> <code>Archive/.keep</code> survives extraction, so the packaged Suitcase has five regular root files and one immediate directory. Every byte length in the expected INV matches the packaged files; the INV is non-recursive, so <code>.keep</code> is correctly not inventoried. The expected Receipt is byte-identical to the golden copy.</li></ul></section>
+
+<section class="finding material" id="BM-08"><header><p class="fid">BM-08<span class="sev">H-20: MATERIAL</span><span class="disp">CLOSED</span></p><h3>The MATERIALIZE publication row is split by successor-MAP stage, with a fixture for each side</h3></header>
+<ul class="ev"><li><span class="ei ei-e">E</span> W002-RCP-007 now has two publication rows. If the successor-MAP stage was never entered (including new-Store RID/COL identity or promotion refusal), <code>SUCCESSOR_MAP_FILENAME</code> is <code>NOT_RUN</code>. If it was entered but no MAP was published, the value is <code>NONE</code>. Both follow the W002-RCP-006 ownership rule.</li>
+<li><span class="ei ei-e">E</span> <code>REFUSED__MATERIALIZE__PUBLICATION.txt</code> serializes NOT_RUN ×3. The new <code>REFUSED__MATERIALIZE__MAP_PUBLICATION_STAGE.txt</code> serializes <code>RID_ACTION: CREATED</code>, the exact RID filename stamped inside its run (15:02:40.500), and <code>SUCCESSOR_MAP_FILENAME: NONE</code>, consistent with the H-11 RID matrix and with S-04 (MAP identity is allocated after RID/COL promotion). See C-02 for one wording point this fixture exposes.</li></ul></section>
+
+<section class="finding material" id="BM-04"><header><p class="fid">BM-04<span class="sev">H-20: MATERIAL</span><span class="disp">CLOSED</span></p><h3>The already-valid-UTF-8 CONVERT refusal is frozen and fixtured</h3></header>
+<ul class="ev"><li><span class="ei ei-e">E</span> W002-RCP-008 freezes <code>SOURCE_ENCODING: UTF-8</code>, offset <code>NOT_RUN</code>, <code>NOT_RUN</code> ×2, <code>NO</code>, <code>NONE</code>. The vague "earlier frozen F-10 refusal form" clause is replaced by an explicit two-case NONE rule, with NOT_RUN for other classification refusals. W002-CONV-ACC-001 requires the byte-exact Receipt.</li>
+<li><span class="ei ei-e">E</span> The new golden Receipt's source <code>already_valid_utf8.csv</code> is exactly <code>63 61 66 C3 A9 0D 0A</code>, which I confirmed decodes as strict UTF-8. The Receipt matches the frozen values, passes the validator, and is byte-identical to its review copy.</li></ul></section>
+
+<section class="finding material" id="BM-09"><header><p class="fid">BM-09<span class="sev">H-20: MATERIAL</span><span class="disp">CLOSED</span></p><h3>The repairable-DEGRADED routing refusal has its own diagnostic</h3></header>
+<ul class="ev"><li><span class="ei ei-e">E</span> DS-MAT-017 (ERROR, MATERIALIZATION_ROUTING, REFUSE, <code>RUN_REPAIR_MAP</code>) requires <code>source_filename</code>, <code>current_map_filename</code>, <code>rid_filename</code>, <code>store_health</code> and <code>broken_col_count</code>. It applies only when the RID is valid and at least one COL is broken and at least one survives; the all-broken case stays DS-MAT-015.</li>
+<li><span class="ei ei-e">E</span> W002-HELP-001.6 binds the refusal to DS-MAT-017 and makes <code>current_map_filename</code> the exact MAP that the analyst's REPAIR MAP Work Order must name. <code>RUN_REPAIR_MAP</code> is suggestion-only. The DS-MAT-010 ambiguity is resolved. See C-01 for a stale table preamble.</li></ul></section>
+
+<section class="finding clarity" id="N-02"><header><p class="fid">N-02<span class="sev">H-20: CLARITY</span><span class="disp">CLOSED</span></p><h3>Stale routing and recovery-evidence wording is corrected</h3></header>
+<ul class="ev"><li><span class="ei ei-e">E</span> W002-MAT-ACC-002 now routes under W002-STOR-019.2 using "routable Store lineage" and "current structurally valid Store MAP", and tests the no-routable and multiple-routable cases. W002-MAT-002.7 now sends unremovable residue to W002-STOR-023.1 as non-authoritative evidence, with no manufactured attribution.</li></ul></section>
+
+<section class="finding clarity" id="N-03"><header><p class="fid">N-03<span class="sev">H-20: CLARITY</span><span class="disp">CLOSED</span></p><h3>The pinned-diagnostics JSON is canonical</h3></header>
+<ul class="ev"><li><span class="ei ei-e">E</span> Independently checked: UTF-8 with no BOM, LF only, final LF. Exactly <code>registry_version</code> and <code>diagnostics</code>, with <code>"1"</code>. 28 unique IDs in ascending order, all matching <code>DS-[A-Z]{3}-[0-9]{3}</code>. Exactly seven fields per entry, in canonical order, with sorted, unique, disjoint fact arrays. All 28 rows match the two W002-HELP-001.8 tables on severity, phase, behavior, next action and facts. (The filename still carries "H20", which is cosmetic.)</li></ul></section>
+
+<section class="finding clarity" id="N-04"><header><p class="fid">N-04<span class="sev">H-20: CLARITY</span><span class="disp">CLOSED</span></p><h3>DS-UTC-001 declares its MAP profile</h3></header>
+<ul class="ev"><li><span class="ei ei-e">E</span> DS-UTC-001 now requires <code>map_profile</code>, with exactly two values: <code>STORE</code> or <code>WKO</code>. The P2-03 clock-order rule lists it, the undeclared "operation field" sentence is replaced, and Help must select exits from <code>map_profile</code> alone. The JSON and the oracle agree. See C-03 for the acceptance lines.</li></ul></section>
+
+<section class="finding clarity" id="BM-05"><header><p class="fid">BM-05<span class="sev">H-20: CLARITY</span><span class="disp">CLOSED</span></p><h3>Traceability is refreshed against H-29</h3></header>
+<ul class="ev"><li><span class="ei ei-e">E</span> The refresh has 34 findings and 241 clause rows, and every requirement ID it names exists in H-30. It adds a "Target final state" column. F-01 §15.4 names W002-UI-ACC-019 and records its H-21 replacement. F-16 §19.1 now points to W002-CONV-002.4 and W002-RCP-008, and no row uses W002-GLOSS-037 as a home. F-12 §16.6 includes W002-HELP-001.8, the DS-UTC-001 home. The carried-item disposition gives P2-03, P2-04 and P2-05 exact ID sets.</li></ul></section>
+
+<h2 id="new">3. New findings introduced by H-21 to H-30</h2>
+
+<section class="finding clarity" id="C-01"><header><p class="fid">C-01<span class="sev">NEW · CLARITY</span></p><h3>The H-12 table preamble still says every row has next_action NONE</h3></header>
+<p class="cites">BM: <code class="rid">W002-HELP-001.8</code> · Introduced by H-26</p>
+<ul class="ev"><li><span class="ei ei-e">E</span> DS-MAT-017 was added to the H-12 specialized-allocation table, whose preamble still reads "Every row has severity: ERROR, behavior: REFUSE, and next_action: NONE." The DS-MAT-017 row says <code>RUN_REPAIR_MAP</code>.</li></ul>
+<ul class="an"><li><span class="ei ei-i">I</span> The intended value is not in doubt. The row, the H-26 paragraph in W002-HELP-001.8, the binding in W002-HELP-001.6 and the canonical pinned JSON all say RUN_REPAIR_MAP. But a universally quantified normative sentence should not be false in a frozen contract.</li></ul>
+<p class="ask"><b>Direction.</b> Change the preamble to "next_action: NONE except DS-MAT-017, whose next_action is RUN_REPAIR_MAP".</p></section>
+
+<section class="finding clarity" id="C-02"><header><p class="fid">C-02<span class="sev">NEW · CLARITY</span></p><h3>"Successfully published" has two readings after rollback</h3></header>
+<p class="cites">BM: <code class="rid">W002-RCP-006</code><code class="rid">W002-RCP-007</code><code class="rid">W002-MAT-002.7</code> · Fixture: <code>REFUSED__MATERIALIZE__MAP_PUBLICATION_STAGE.txt</code> · Introduced by H-24</p>
+<ul class="ev"><li><span class="ei ei-e">E</span> The later-stage fixture reports <code>RID_ACTION: CREATED</code> with the exact promoted RID filename, which W002-RCP-007 calls "the exact published RID filename". Yet <code>CREATED_ARTIFACT_COUNT: 0</code>, though W002-RCP-006 defines the tail as the filenames "successfully published by the run". The fixture README explains the RID is excluded "under All-or-Refuse rollback/final-publication accounting", but no requirement states that rule, and no Receipt fact says whether the promoted RID was rolled back or survives as non-authoritative residue.</li></ul>
+<ul class="an"><li><span class="ei ei-i">I</span> The golden bytes pin the answer (count 0), so acceptance cannot diverge. The text alone, however, reads both ways.</li></ul>
+<p class="ask"><b>Direction.</b> Add one sentence to W002-RCP-006: the created-artifact list contains only artifacts that remain committed governed artifacts when the Run finishes, so artifacts promoted and then rolled back (or left as non-authoritative residue) under All-or-Refuse are excluded. Also add to W002-RCP-007: with <code>RID_ACTION: CREATED</code>, RID_FILENAME records the RID identity promoted during the Run even if that RID was later rolled back.</p></section>
+
+<section class="finding clarity" id="C-03"><header><p class="fid">C-03<span class="sev">NEW · CLARITY</span></p><h3>The DS-UTC-001 acceptance lines omit map_profile</h3></header>
+<p class="cites">BM: <code class="rid">W002-WKO-ACC-004</code><code class="rid">W002-WKO-ACC-005</code> · Introduced by H-29</p>
+<ul class="ev"><li><span class="ei ei-e">E</span> Both acceptance gates still say chronology refusals "must emit DS-UTC-001 with exact observed_host_utc, predecessor_map_filename, and predecessor_utc facts". Neither mentions the new required <code>map_profile</code>, which should be <code>WKO</code> in W002-WKO-ACC-004 and <code>STORE</code> in W002-WKO-ACC-005. The general F-22 rule in W002-HELP-001.8 still obliges acceptance to test pinned facts, so this is not a coverage hole, but the specific gates now under-describe the frozen contract.</li></ul>
+<p class="ask"><b>Direction.</b> Add <code>map_profile: WKO</code> to W002-WKO-ACC-004 and <code>map_profile: STORE</code> to W002-WKO-ACC-005.</p></section>
+
+<h2 id="verified">4. Independent verification</h2>
+<ul class="s">
+<li><b>Master population.</b> 803 requirements and 0 duplicate IDs. Visible ID, SCOPE, BUILD and STATUS match the data attributes on every article. Exactly 402 have SCOPE=WASM-002, all UNDER REVIEW with blank BUILD. One DOCTYPE. Zero stale <code>data-search</code> entries, regenerated independently.</li>
+<li><b>Delta since H-20.</b> No ID added, removed or re-scoped. Exactly eight requirement texts changed, each matching its claimed repair: W002-UI-ACC-019, MAT-ACC-002, MAT-002.7, RCP-007, RCP-008, CONV-ACC-001, HELP-001.6 and HELP-001.8. The superseded conversion ID appears zero times in the master and the cut; the six occurrences are all in the append-only integration log's historical F-16, F-22 and H-02 entries, as expected.</li>
+<li><b>Focused cut.</b> It contains exactly the master's 402 WASM-002 IDs, in master order, with identical titles and visible text and zero stale search entries.</li>
+<li><b>Fixture corpus.</b> 7 SUCCESS and 29 REFUSED Receipts. Since H-20, two refusals were added (already-valid UTF-8; MAP-stage publication) and one changed (undefined-byte CONVERT); the other 33 are byte-identical to the H-20 corpus I validated. All 36 pass my validator built from W002-RCP-005 to 008 (physical form, envelope and per-operation key order, indexed tails, quoting, RECEIPT_UTC binding, closed tokens) and the W002-RCP-006 temporal chain. Review copies match their golden counterparts.</li>
+<li><b>Traceability.</b> Every one of the 241 rows names IDs present in H-30, final states are recorded for the replace and retire rows, and the disposition uses exact IDs.</li>
+<li><b>Regression.</b> The requirements behind the ten findings closed at H-20 are unchanged since H-20: W002-MAT-002.8, 001.7 and 003.2; STOR-018.x and STOR-019.x; CONV-002.4; CONV-004.2/.3; and front matter. Their fixtures (NO_HEADER_RECORD pair, registry repair) are also unchanged. The only edits to shared Receipt requirements (RCP-007/008) add rows without altering existing ones.</li>
+<li><b>Coverage limit.</b> As requested, this was a focused re-check of the delta plus regression spot-checks, not a fresh full review of all 402 requirements.</li>
+</ul>
+
+<h2 id="gate">5. Gate conclusion</h2>
+<div class="gate"><p class="verdict">READY FOR WASM-002 PRD FREEZE</p>
+<p>All sixteen H-04 findings and N-01 to N-04 are closed against H-30 and the H-29 corpus. I find no blocking or material integration defect, and no regression.</p></div>
+<p><b>Recommended with the freeze edit.</b> C-01 to C-03 are clarity-only and don't affect the gate. Each is a one-sentence change to W002-HELP-001.8, W002-RCP-006/007 and W002-WKO-ACC-004/005, and none alters a golden byte. If T applies them before freezing, the frozen master's hash will differ from H-30. In that case a mechanical audit showing that only those requirements changed is sufficient; no further adversarial pass is needed. T may also freeze H-30 as is and carry C-01 to C-03 as tracked errata.</p>
+
+<footer><p>Data Sculptor WASM-002 adversarial QA review, Revision BM Day 060 H-30 final focused re-check. Reviewed master SHA-256 B8D5BFAF736869513FD63EDBB082CB3C1FB7A6A1C2DA6915FCC8FF5CDF35D064. Reviewed cut SHA-256 946C3A16B3AD1CB450312EC253CF488AFE5D071743A0B4F7D182A35B3D2D72EB. Reviewed fixture corpus SHA-256 618803BFEF07DCC1087BE5119F4FC57372679E96D4218D020F1F2E037DD287F5. Source review SHA-256 D710139DA47314A6A73764F848DCCC478821AF2DF4A8D19677022E4C2E99D0EB. This review's own SHA-256 is recorded in its sidecar file.</p></footer>
+</main>
+</body>
+</html>

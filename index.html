@@ -295,12 +295,12 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 </style>
 </head>
 <body>
-<!-- Day 060 update: Day 059 completed the controlled WASM-002 canonical-integration sweep. Revision BM now contains 803 recorded requirements, with 402 authoritative SCOPE=WASM-002 requirements. The final mechanical audit and the bounded QA-projection verification both passed; four external requirements are carried only as context because the in-scope contract references them. The Claude adversarial-review brief is prepared and Day 060 is dedicated to independent review of the updated contract before implementation. Day 059 also added reporters/data journalists to the explicit professional persona set and carried nine final-form After Hours notes. Revision BM remains DRAFT / UNDER REVIEW / NOT FROZEN. No WASM-002 production implementation is claimed. -->
+<!-- Day 061 opening, 8 October 2026: WASM-002 Revision BM frozen at H-31 (803 full-backlog requirements; 402 scoped to WASM-002). Claude H-30 independent QA final gate passed. Day 060 landed the specification and preserved QA lineage. Day 060 After Hours recorded the prospective first PLDD brick before any accepted commit. Day 061 plans to begin governed coding, with PowerShell/TXT evidence, verification and T acceptance required. No new WASM-002 commit is claimed by this public-site update. -->
 
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 060</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 061</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -328,82 +328,60 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
     <div class="hero-cta">
-      <span class="cta-label">Official working master — HTML</span>
-      <a class="watch" href="Red5Sorcery_Data_Sculptor_Product_Backlog_PRD.html">Open Official Product Backlog PRD<span>&#8594;</span></a>
+      <span class="cta-label">Current full backlog — approved Revision BM H-31</span>
+      <a class="watch" href="DataSculptor_WASM002_RevisionBM_H31_FROZEN.html">Read Full Product Backlog<span>&#8594;</span></a>
+    </div>
+
+    <div class="hero-cta">
+      <span class="cta-label">Approved WASM-002 scope — focused PRD</span>
+      <a class="watch" href="DataSculptor_WASM002_H31_Focused_Cut_FROZEN.html">Read Approved WASM-002 PRD<span>&#8594;</span></a>
+    </div>
+
+    <div class="hero-cta">
+      <span class="cta-label">Approved specification — freeze evidence</span>
+      <a class="watch" href="DataSculptor_WASM002_H31_Freeze_Audit.txt">Read H-31 Freeze Audit<span>&#8594;</span></a>
+    </div>
+
+    <div class="hero-cta">
+      <span class="cta-label">Approved specification — freeze decision</span>
+      <a class="watch" href="DataSculptor_WASM002_H31_Freeze_Record.txt">Read H-31 Freeze Record<span>&#8594;</span></a>
+    </div>
+
+    <div class="hero-cta">
+      <span class="cta-label">Approved specification — integration decisions</span>
+      <a class="watch" href="DataSculptor_WASM002_H31_Integration_Log.html">Read Integration Log<span>&#8594;</span></a>
+    </div>
+
+    <div class="hero-cta">
+      <span class="cta-label">QA lineage — adversarial review and reconciliation</span>
+      <a class="watch" href="Day060_WASM002_QA_History_Index.html">View QA History<span>&#8594;</span></a>
     </div>
 
     <div class="hero-cta">
       <span class="cta-label">WASM-002 interface — design prototype</span>
-      <a class="watch" href="Data_Sculptor_WASM002_Front_End_Prototype.html">Open WASM-002 Front-End Prototype<span>&#8594;</span></a>
+      <a class="watch" href="Data_Sculptor_WASM002_Front_End_Prototype.html">Open HTML Prototype<span>&#8594;</span></a>
     </div>
 
     <div class="hero-cta">
       <span class="cta-label">WASM-002 Help documentation — Scenario 1</span>
-      <a class="watch" href="Data_Sculptor_WASM002_Help_Scenario_001_First_Materialization.html">Read Scenario 1: First Materialization<span>&#8594;</span></a>
+      <a class="watch" href="Data_Sculptor_WASM002_Help_Scenario_001_First_Materialization.html">Read Help Scenario 1<span>&#8594;</span></a>
     </div>
 
-    <div class="hero-cta">
-      <span class="cta-label">WASM-002 independent adversarial QA — Claude Pass 1</span>
-      <a class="watch" href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass1.html">Read Claude's 34-finding QA Review<span>&#8594;</span></a>
-    </div>
-
-    <div class="hero-cta">
-      <span class="cta-label">WASM-002 QA reconciliation — Council decision record</span>
-      <a class="watch" href="Red5Sorcery_Data_Sculptor_WASM002_Claude_QA_Reconciliation_Log_Pass1.html">Open the Claude QA Reconciliation Log<span>&#8594;</span></a>
-    </div>
-
-    <div class="hero-cta">
-      <span class="cta-label">WASM-002 independent adversarial QA — Claude Pass 2</span>
-      <a class="watch" href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass2_2026-09-29.html">Read Claude's Pass 2 Findings<span>&#8594;</span></a>
-    </div>
-
-    <div class="hero-cta">
-      <span class="cta-label">WASM-002 QA reconciliation — Pass 2 Council decisions</span>
-      <a class="watch" href="WASM002_Pass2_Reconciliation_20260929.html">Open the Pass 2 Reconciliation<span>&#8594;</span></a>
-    </div>
-
-    <div class="hero-cta">
-      <span class="cta-label">WASM-002 independent adversarial QA — Claude Pass 3</span>
-      <a class="watch" href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass3_2026-09-29.html">Read Claude's Pass 3 Findings<span>&#8594;</span></a>
-    </div>
-
-    <div class="hero-cta">
-      <span class="cta-label">WASM-002 QA reconciliation — Pass 3 erratum</span>
-      <a class="watch" href="WASM002_Pass2_Reconciliation_Pass3_Erratum_20260929.html">Open the Pass 3 Reconciliation<span>&#8594;</span></a>
-    </div>
-
-    <div class="hero-cta">
-      <span class="cta-label">WASM-002 QA gate — Pass 3 erratum check</span>
-      <a class="watch" href="Red5Sorcery_Data_Sculptor_WASM002_Adversarial_QA_Review_RevBL_Pass3_Erratum_Check_2026-09-29.html">Read the READY Gate Check<span>&#8594;</span></a>
-    </div>
 <div class="state">
-      <div class="state-top">Project state — Day 060, Wednesday 7 October 2026</div>
+      <div class="state-top">Project state — Day 061, Thursday 8 October 2026</div>
       <dl>
-        <dt>Phase</dt>
-        <dd>Independent adversarial review of the integrated WASM-002 contract. Day 059 completed the controlled Revision BM integration sweep and mechanically prepared a bounded review projection for Claude.</dd>
-        <dt>WASM-002 contract</dt>
-        <dd>Revision BL remains the exact reviewed baseline at 778 recorded requirements, 384 scoped to WASM-002. Revision BM is the integrated successor and now contains <strong>803 recorded requirements</strong>, of which <strong>402 are authoritatively SCOPE=WASM-002</strong>. BM remains DRAFT / UNDER REVIEW / NOT FROZEN.</dd>
-        <dt>Day 059 landing</dt>
-        <dd>The final integration sweep closed. A mechanical audit of Revision BM passed, the QA projection was independently verified, and the review packet carries four external requirements only as context because the in-scope contract references them. Claude's independent adversarial QA brief is prepared; no implementation has begun.</dd>
-        <dt>Review target</dt>
-        <dd>The authoritative review target is the <strong>402 SCOPE=WASM-002 requirements</strong>. The bounded projection exists to reduce review noise without changing scope authority or rewriting the full-master PRD.</dd>
-        <dt>Now building</dt>
-        <dd>Day 060 gives the updated WASM-002 Revision BM review packet to Claude for independent adversarial QA. Claude is lead reviewer for this pass; T remains final acceptance authority and Spock supports reconciliation after findings return.</dd>
-        <dt>Personas</dt>
-        <dd>Reporters and data journalists are now explicit members of the Data Sculptor professional persona set. Journalism remains a vertical/use case built from the same general capabilities rather than a separate subsystem.</dd>
-        <dt>Day 059 after hours</dt>
-        <dd>Nine final-form notes extended the design record: spreadsheet interaction contracts; lossless JPEG XL as an RQSM carrier experiment; lessons from Business Central's reduced physical fragmentation; governed COLLECT; DS-SQL's deliberate CTE exclusion; composite keys; row-local multi-value calculated columns; governed rolling windows; and Excel/XLSX compatibility for multi-value cells. None silently amends Revision BM.</dd>
-        <dt>Build state</dt>
-        <dd>No WASM-002 production implementation has started. The current work is contract review and evidence-building, not a release claim.</dd>
-        <dt>Unsettled</dt>
-        <dd class="open">Claude's independent review is now the gate. Any findings must be reconciled deliberately before Revision BM can be considered for freeze or implementation. The Day 059 After Hours notes are design inputs only until separately accepted into requirements.</dd>
-        <dt>Privacy R&amp;D</dt>
-        <dd>RQSM remains an advanced optional capability with separate licensing. PNG remains the baseline carrier; lossless JPEG XL is a future experiment only and must prove deterministic bit-exact recovery before it can become an additional carrier profile.</dd>
-        <dt>Released</dt>
-        <dd>Nothing. There is no V1 build to download.</dd>
+        <dt>Phase</dt><dd>WASM-002 implementation opening. Day 060 finished the independent QA and specification freeze; Day 061 begins from that approved contract.</dd>
+        <dt>Canonical backlog</dt><dd><strong>Revision BM, H-31 frozen</strong>: 803 recorded requirements in the full master, including 402 authoritatively scoped to WASM-002. The earlier Revision BL and draft integration history remain preserved as evidence, not competing current specifications.</dd>
+        <dt>Independent QA</dt><dd>Claude's H-30 adversarial pass cleared the final freeze gate. The original reviews, response rounds, reconciliations and freeze audit are preserved in the linked QA history.</dd>
+        <dt>Day 060 landing</dt><dd>WASM-002 PRD frozen at H-31, with the full backlog, focused cut, freeze record, audit, integration evidence and SHA-256 record banked. Specification review is complete for this approved scope.</dd>
+        <dt>Day 060 after hours</dt><dd>The First Brick recorded the intention behind <strong>Paired Long-Division Development (PLDD)</strong> before the first accepted implementation commit: one bounded change, visible execution, plain-text evidence, verification and explicit human acceptance.</dd>
+        <dt>Day 061 flight plan</dt><dd>Begin coding against the frozen WASM-002 PRD, one inspectable brick at a time. Capture PowerShell commands and output in TXT evidence, review results together, and preserve T's acceptance decision with each accepted change.</dd>
+        <dt>Build state</dt><dd>The first accepted WASM-002 PLDD commit is <strong>pending</strong> at the opening of Day 061. Starting a coding flight is not the same as declaring a completed implementation.</dd>
+        <dt>Product promise</dt><dd>Free. Fast. Private. Pretty. Data work you can explain.</dd>
+        <dt>Released</dt><dd>Nothing. There is no V1 build to download.</dd>
       </dl>
     </div>
-</section>
+    </section>
 
 <section class="band" id="promises">
   <div class="wrap">
@@ -1146,11 +1124,19 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         </div>
       </li>
       <li>
-        <div class="log-day">Day 060<span class="log-date">Wed 7 Oct</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-day">Day 060<span class="log-date">Wed 7 Oct</span><span class="log-tag">Landed</span></div>
         <div class="log-entry">
-          <h3>Give the Integrated Contract Back to Claude</h3>
-          <p>Day 060 opens from the mechanically verified Revision BM landing: 803 recorded requirements in the full master, 402 authoritatively scoped to WASM-002, four context-only dependencies in the QA projection, and both the final mechanical audit and projection verification passing. The successor specification is coherent enough to stop editing it ourselves and let an independent reviewer attack it.</p>
-          <p class="log-after"><b>Planned flight</b>Give Claude the updated WASM-002 Revision BM review packet for independent adversarial review. Claude leads this pass; T remains final acceptance authority; Spock supports reconciliation after findings return. Do not start production implementation, and do not treat yesterday's After Hours notes as requirements unless they are separately integrated and reviewed.</p>
+          <h3>Sixty Days to a Frozen Contract</h3>
+          <p>Day 060 put the integrated Revision BM contract through its final independent adversarial gate. Claude's H-30 review cleared the path to freeze. H-31 banked the frozen full-master Product Backlog PRD with <strong>803 requirements</strong>, of which <strong>402</strong> are scoped to WASM-002. The focused cut, mechanical freeze audit, integration record and checksum evidence travel together. The long chain from adversarial findings through Council reconciliation is preserved rather than polished away. The approved contract now governs implementation.</p>
+          <p class="log-after"><b>After hours — The First Brick</b>Three contemporaneous documents developed Paired Long-Division Development (PLDD) as the implementation discipline and as a future chapter in <em>The Decision to Build</em>. They record the intended significance of the first commit <em>before</em> it exists: bounded change, visible PowerShell commands, TXT evidence, reproducible verification and explicit T acceptance. No first accepted PLDD commit was claimed in these notes.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 061<span class="log-date">Thu 8 Oct</span><span class="log-tag is-build">Flight plan</span></div>
+        <div class="log-entry">
+          <h3>The Contract Meets the Code</h3>
+          <p>Today's flight begins implementation against the approved and frozen WASM-002 Revision BM H-31 requirements. The job is no longer to rewrite the specification: it is to take one bounded brick, show the exact commands and code change, run its tests, inspect what happened and bank the evidence only when T explicitly accepts it.</p>
+          <p class="log-after"><b>Planned flight</b>Establish the first reproducible PLDD checkpoint for WASM-002. Keep failures and refusals visible, link each accepted brick to the requirement it serves, and put commands, test results, acceptance and Suitcase location in the record. The first accepted commit remains pending at preflight.</p>
         </div>
       </li>
     </ol>
