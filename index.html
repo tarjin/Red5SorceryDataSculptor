@@ -295,12 +295,12 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 </style>
 </head>
 <body>
-<!-- Day 063 opening, 10 October 2026: Day 062 closed as research, including the RQSM Rev. 5 scientific working paper. RQSM is future proposed work, not an amendment to the approved WASM-002 H-31 PRD. Day 063 targets the first bounded implementation checkpoint; no accepted Day 063 commit is claimed here. -->
+<!-- Day 064 opening, 11 October 2026: Day 063 began WASM-002 implementation with CP001 setup, RED/GREEN testing, WASM build and hash-inventory evidence. Day 064 continues coding. The Revision BM H-31 PRD remains frozen. Claude performs independent adversarial implementation QA after T and Spock complete WASM-002 and formally hand it over, not after individual coding checkpoints. No V1 release is claimed. -->
 
 <header class="masthead">
   <div class="wrap">
     <div class="mark">Red<span>5</span>Sorcery</div>
-    <div class="mh-status"><b>DAY 063</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 064</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -373,17 +373,19 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
 <div class="state">
-      <div class="state-top">Project state — Day 063, Saturday 10 October 2026</div>
+      <div class="state-top">Project state — Day 064, Sunday 11 October 2026</div>
       <dl>
-        <dt>Phase</dt><dd>Implementation launch planned for Day 063. WASM-002 remains approved and frozen after Day 060; no Day 061 or Day 062 implementation is claimed.</dd>
+        <dt>Phase</dt><dd><strong>Implementation in progress.</strong> Day 063 began WASM-002 coding and toolchain setup against the approved Revision BM H-31 specification. Day 064 continues implementation; no V1 release is claimed.</dd>
         <dt>Canonical backlog</dt><dd><strong>Revision BM, H-31 frozen</strong>: 803 recorded requirements in the full master, including 402 authoritatively scoped to WASM-002. The earlier Revision BL and draft integration history remain preserved as evidence, not competing current specifications.</dd>
-        <dt>Independent QA</dt><dd>Claude's H-30 adversarial pass cleared the final freeze gate. The original reviews, response rounds, reconciliations and freeze audit are preserved in the linked QA history.</dd>
+        <dt>Independent QA</dt><dd>Claude's H-30 adversarial specification review cleared the Day 060 freeze gate; its evidence remains preserved in the linked QA history. <strong>Implementation QA is a later formal handoff:</strong> after T and Spock finish WASM-002, Claude will independently review the completed implementation. He does not review every coding checkpoint.</dd>
         <dt>Day 060 landing</dt><dd>WASM-002 PRD frozen at H-31, with the full backlog, focused cut, freeze record, audit, integration evidence and SHA-256 record banked. Specification review is complete for this approved scope.</dd>
         <dt>Day 060 after hours</dt><dd>The First Brick recorded the intention behind <strong>Paired Long-Division Development (PLDD)</strong> before the first accepted implementation commit: one bounded change, visible execution, plain-text evidence, verification and explicit human acceptance.</dd>
         <dt>Day 061 landing</dt><dd>Research replaced the intended coding start: evidence-led Help, geographic-data interoperability, PLDD comparisons and ROI measurement, RQSM separation and conditional proofs, and Council / PRETTY responsibilities. The first WASM-002 implementation brick remains pending.</dd>
         <dt>Day 062 landing</dt><dd>Research-only flight completed: Google SDF v1.1 and ClickHouse architecture comparisons; extensive RQSM multi-carrier, two-ZIP information-separation, privacy and business research; and a coauthored Revision 5 scientific working paper. The conditional reconstruction theorem in that paper is distinct from any certification of a working RQSM implementation; its proposed successor design remains unfrozen and outside WASM-002.</dd>
-        <dt>Day 063 flight plan</dt><dd>Begin implementing the frozen WASM-002 H-31 contract. Aim to complete at least one meaningful bounded PLDD checkpoint with requirement traceability, repeatable code/build/test evidence, independent QA as appropriate, and explicit T acceptance. This is a target, not an accomplishment.</dd>
-        <dt>Build state</dt><dd>The first accepted WASM-002 PLDD checkpoint remains <strong>pending</strong> at Day 063 opening. Research notes and proposed PRETTY / RQSM directions do not alter the frozen contract.</dd>
+        <dt>Day 063 landing</dt><dd>The first CP001 implementation-and-setup session began. T and Spock captured RED and GREEN test outputs, a WebAssembly build result, a hash inventory and its verification. The work was documented and stopped at a recoverable checkpoint; it does not establish completion of WASM-002 or its full acceptance suite.</dd>
+        <dt>Day 063 after hours</dt><dd>Three research notes examined rising memory costs (RAMageddon), software efficiency through Spotifast, and the analytical gap between Excel and DBeaver. They support the Free / Fast / Private / Pretty product direction without changing the frozen WASM-002 contract.</dd>
+        <dt>Day 064 flight plan</dt><dd><strong>Continue coding WASM-002.</strong> Advance the next bounded PLDD brick with controlled changes, repeatable local tests, build evidence, recorded hashes and explicit T acceptance. Independent adversarial implementation QA is reserved for the formal handoff to Claude after WASM-002 is completed.</dd>
+        <dt>Build state</dt><dd><strong>CP001 coding and environment setup under way.</strong> Initial test, WASM build and hash-inventory evidence was recorded on Day 063. The remaining requirements and completed implementation still need to be built and verified; no overall release or independent implementation QA pass is claimed.</dd>
         <dt>Product promise</dt><dd>Free. Fast. Private. Pretty. Data work you can explain.</dd>
         <dt>Released</dt><dd>Nothing. There is no V1 build to download.</dd>
       </dl>
@@ -1160,11 +1162,20 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         </div>
       </li>
       <li>
-        <div class="log-day">Day 063<span class="log-date">Sat 10 Oct</span><span class="log-tag">Flight plan</span></div>
+        <div class="log-day">Day 063<span class="log-date">Sat 10 Oct</span><span class="log-tag is-build">Build</span></div>
         <div class="log-entry">
-          <h3>From Frozen Contract to First Code</h3>
-          <p>Today's mission is to begin coding WASM-002 against approved Revision BM H-31, rather than expand the specification. Complete at least one meaningful, bounded Paired Long-Division Development checkpoint: select an in-scope requirement, capture a reproducible starting state, implement and test one controlled change, retain the commands and evidence, seek adversarial QA where appropriate, and secure T's explicit acceptance before calling the brick landed.</p>
-          <p class="log-after"><b>Checkpoint target — not yet achieved</b>One verifiable WASM-002 implementation brick with traceability, passing evidence and a recoverable Suitcase record. Research into RQSM, DIR and PRETTY remains separately scoped. No successful build, test result or accepted code is being asserted in advance.</p>
+          <h3>We Started Building</h3>
+          <p>After sixty days of specification and adversarial review, implementation of the frozen WASM-002 Revision BM H-31 contract began. The first CP001 session established working code and toolchain setup and produced RED and GREEN test output, a WebAssembly build record, and a hash inventory with verification. Rather than rely on terminal screenshots or memory, T and Spock preserved the evidence as files and closed the day's work at a recoverable stopping point. This was the start of implementation, not a completed WASM-002 engine or a release.</p>
+          <p class="log-after"><b>Landing — first coding checkpoint</b>The planned transition to code happened. The RED/GREEN exercise, WASM build and fingerprint records give the team a starting evidence trail for the next bounded PLDD bricks. T and Spock continue their own test-and-accept rhythm; Claude's independent adversarial implementation QA will follow only after WASM-002 is finished and formally handed to him.</p>
+          <p class="log-after"><b>After hours — three notes</b>RAMageddon raised the cost of memory and the value of lean software; Spotifast provided another efficiency case study; and the Excel / DBeaver “missing middle” highlighted why ordinary analysts need governed, explainable work beyond disconnected spreadsheets. These are product research notes, not amendments to the frozen WASM-002 PRD or proof of Data Sculptor's final performance.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 064<span class="log-date">Sun 11 Oct</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>Keep Building, One Verified Brick at a Time</h3>
+          <p>Day 064 begins with the CP001 setup and first implementation evidence banked. Today's flight plan is to continue coding against the frozen WASM-002 H-31 contract: make bounded changes, run and inspect tests, record build outputs and hashes, and preserve a recoverable checkpoint before moving on. The engineering work belongs to T and Spock through completion; Claude's independent implementation review comes afterward, at formal handoff.</p>
+          <p class="log-after"><b>Planned flight — in progress</b>Continue implementation and capture evidence of what actually runs. No additional Day 064 coding result, full acceptance, independent QA verdict or V1 release is claimed at preflight.</p>
         </div>
       </li>
     </ol>
