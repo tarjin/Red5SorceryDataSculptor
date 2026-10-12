@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Data Sculptor Workbench | Two-Row Examples</title>
+<title>Data Sculptor Workbench | Collapsible Examples and Suitcase Gate</title>
 <meta name="description" content="Data Sculptor Workbench prototype: eight collapsible panels, multi-domain Work Order examples, certification, and HTML exports.">
 <style>
 :root{color-scheme:dark;--bg:#0a0f16;--panel:#111b29;--panel-deep:#0d1521;--raised:#182538;--line:#2b3c50;--line-strong:#3b5067;--text:#f0f4f8;--soft:#d2dde9;--muted:#a4b5c7;--dim:#7f93a8;--link:#b0cdea;--accent:#88aece;--red:#e1888c;--red5:#d65e63;--good:#9cccb7;--gold:#dfbd78;--shadow:0 10px 30px #00000026;--mono:ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;--sans:Inter,"Segoe UI",Arial,sans-serif}
@@ -39,6 +39,15 @@ html[data-theme="light"]{color-scheme:light;--bg:#edf2f7;--panel:#ffffff;--panel
 .suitcase-gate{border:1px solid var(--gold);border-radius:7px;background:color-mix(in srgb,var(--gold) 4%,var(--panel));padding:13px 18px;margin-top:14px}
 .suitcase-gate.ready{border-color:var(--good);background:color-mix(in srgb,var(--good) 4%,var(--panel))}
 .gate-top{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}
+.gate-actions{display:flex;align-items:center;gap:9px;margin-left:auto}
+.gate-toggle{border:1px solid var(--line-strong);border-radius:5px;min-width:33px;height:33px;padding:0 8px;display:inline-flex;align-items:center;justify-content:center;color:var(--soft);background:transparent;cursor:pointer}
+.gate-toggle:hover{background:var(--raised);border-color:var(--accent)}
+.gate-toggle:focus-visible{outline:2px solid var(--link);outline-offset:3px}
+.gate-toggle .toggle-symbol{font:600 19px/1 var(--mono)}
+.gate-details{margin-top:9px}
+.gate-details[hidden]{display:none!important}
+.suitcase-gate[data-collapsed="true"]{padding-top:10px;padding-bottom:10px}
+
 .gate-eyebrow{font:10px var(--mono);letter-spacing:.12em;color:var(--gold)}
 .suitcase-gate.ready .gate-eyebrow{color:var(--good)}
 .suitcase-gate h2{font-size:14px;line-height:1.25;margin:4px 0;font-weight:700}
@@ -120,22 +129,21 @@ html[data-theme="light"] .wko-template-select{
 /* Two compact rows of example families, plus a teaching-only language selector. */
 .wko-examples{margin:0 0 14px;padding:0 0 12px;border-bottom:1px solid var(--line)}
 .wko-examples-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:9px}
+.examples-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .examples-label{font-size:13px;font-weight:700;color:var(--soft)}
-.example-language{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.examples-toggle{border:1px solid var(--line-strong);border-radius:5px;min-width:33px;height:33px;padding:0 8px;display:inline-flex;justify-content:center;align-items:center;color:var(--soft);background:transparent;cursor:pointer}
+.examples-toggle:hover{background:var(--raised);border-color:var(--accent)}
+.examples-toggle:focus-visible{outline:2px solid var(--link);outline-offset:3px}
+.examples-toggle .toggle-symbol{font:600 19px/1 var(--mono)}
+.wko-examples-content[hidden]{display:none!important}
+.example-language{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}
 .example-language-label{font:11px var(--mono);color:var(--muted);margin-right:3px}
 .example-lang-button{border:1px solid var(--line-strong);background:var(--panel-deep);color:var(--soft);border-radius:4px;font:600 11px var(--mono);padding:7px 10px;min-height:34px}
 .example-lang-button:hover{background:var(--raised)}
 .example-lang-button[aria-pressed="true"]{background:var(--raised);color:var(--link);border-color:var(--accent)}
 .wko-examples-row{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin-top:8px}
-.wko-examples-row .wko-template-select{width:205px;min-width:0;max-width:100%;flex:0 1 auto}
-.wko-examples-row #profilingTemplates{width:198px}
-.wko-examples-row #shapingTemplates{width:194px}
-.wko-examples-row #analyticsTemplates{width:171px}
-.wko-examples-row #verificationTemplates{width:185px}
-.wko-examples-row #suitcaseTemplates{width:245px}
-.wko-examples-row #prettyTemplates{width:212px}
-.wko-examples-row #rqsmTemplates{width:174px}
-@media(max-width:760px){.wko-examples-top{align-items:flex-start}.example-language{width:100%;gap:5px}.example-language-label{flex-basis:100%;margin-bottom:1px}.wko-examples-row{gap:7px}.wko-examples-row .wko-template-select{flex:1 1 195px;width:auto!important;max-width:none}}
+.wko-examples-row .wko-template-select{width:240px;min-width:240px;max-width:240px;flex:0 0 240px}
+@media(max-width:760px){.wko-examples-top{align-items:flex-start}.examples-head{width:100%;justify-content:space-between}.example-language{width:100%;gap:5px;justify-content:flex-start}.example-language-label{flex-basis:100%;margin-bottom:1px}.wko-examples-row{gap:7px}.wko-examples-row .wko-template-select{flex:1 1 195px;width:auto!important;max-width:none}}
 </style>
 </head>
 <body>
@@ -148,36 +156,47 @@ html[data-theme="light"] .wko-template-select{
  <div class="workspace"><strong id="workspaceName">Sample layout</strong><span class="state" id="workspaceStatus">NOT VALIDATED</span><button class="btn primary" id="chooseFolder" type="button">Choose &amp; validate Suitcase</button></div>
  <nav class="quicknav" aria-label="Jump to a panel"><a href="#work-order">Work Order</a><a href="#execution">Console</a><a href="#help">HELP</a><a href="#cat-view">Catalog</a><a href="#map-view">MAP</a><a href="#receipt-select">Receipts</a><a href="#receipt-view">Viewer</a><a href="#directory">Directory</a></nav>
 </div>
-<section class="suitcase-gate" id="suitcaseGate" aria-labelledby="gate-title">
-  <div class="gate-top"><div><div class="gate-eyebrow">SUITCASE GATE</div><h2 id="gate-title">Choose a Suitcase to begin</h2><p>Select a writable folder. Each successful validation writes one new HTML certificate.</p></div><span class="gate-state" id="gateBadge">NOT VALIDATED</span></div>
-  <div class="gate-result" id="gateResult" role="status" aria-live="polite">Workspace locked until certificate creation succeeds.</div>
-  <div class="fileline" id="certificateFile" aria-live="polite"></div>
+<section class="suitcase-gate" id="suitcaseGate" aria-labelledby="gate-title" data-collapsed="false">
+  <div class="gate-top">
+   <div><div class="gate-eyebrow">SUITCASE GATE</div><h2 id="gate-title">Choose a Suitcase to begin</h2></div>
+   <div class="gate-actions"><span class="gate-state" id="gateBadge">NOT VALIDATED</span><button class="gate-toggle" id="gateToggle" type="button" aria-expanded="true" aria-controls="gateDetails" aria-label="Collapse Suitcase Gate" title="Collapse Suitcase Gate"><span class="toggle-symbol" aria-hidden="true">−</span></button></div>
+  </div>
+  <div id="gateDetails" class="gate-details">
+   <p>Select a writable folder. Each successful validation writes one new HTML certificate.</p>
+   <div class="gate-result" id="gateResult" role="status" aria-live="polite">Workspace locked until certificate creation succeeds.</div>
+   <div class="fileline" id="certificateFile" aria-live="polite"></div>
+   <div class="tipline">Certificate creation is real. All analytical Save/Run actions remain disconnected.</div>
+  </div>
 </section>
-<div class="tipline">Certificate creation is real. All analytical Save/Run actions remain disconnected.</div>
 
 <section class="panel" id="work-order" aria-labelledby="title-wo">
  <div class="panel-head"><div class="head-label"><span class="panel-number">01</span><h2 id="title-wo">Work Order</h2></div><div class="panel-tools"><button class="btn subtle" id="newWko" type="button" disabled>New</button><button class="btn subtle" id="loadWko" type="button" aria-expanded="false" aria-controls="wkoLoadBar" disabled>Load</button></div><div class="panel-actions"><button class="btn subtle html-contents-save" type="button" data-export-panel="work-order" disabled title="Validate a Suitcase first">Save HTML Contents</button><button class="panel-toggle" type="button" aria-expanded="true" aria-controls="panel-body-work-order" aria-label="Collapse Work Order" title="Collapse Work Order"><span class="toggle-symbol" aria-hidden="true">−</span></button></div></div>
  <div class="panel-body" id="panel-body-work-order">
-  <div class="wko-examples" aria-label="Work Order example templates">
+  <div class="wko-examples" aria-label="Work Order example templates" data-collapsed="false">
    <div class="wko-examples-top">
-    <span class="examples-label">Examples:</span>
-    <div class="example-language" role="group" aria-label="Analytical example language; changes new templates only">
-     <span class="example-language-label">Analytical language</span>
-     <button class="example-lang-button" type="button" data-example-lang="DS-STEPS" aria-pressed="true" title="Use DS-STEPS for subsequently loaded analytical examples">DS-STEPS</button>
-     <button class="example-lang-button" type="button" data-example-lang="DS-SQL" aria-pressed="false" title="Use illustrative DS-SQL for subsequently loaded analytical examples">DS-SQL</button>
-     <button class="example-lang-button" type="button" data-example-lang="DS-PIPE" aria-pressed="false" title="Use illustrative DS-PIPE for subsequently loaded analytical examples">DS-PIPE</button>
+    <div class="examples-head"><span class="examples-label">Examples:</span><button class="examples-toggle" id="examplesToggle" type="button" aria-expanded="true" aria-controls="wkoExamplesContent" aria-label="Collapse Examples" title="Collapse Examples"><span class="toggle-symbol" aria-hidden="true">−</span></button></div>
+   </div>
+   <div class="wko-examples-content" id="wkoExamplesContent">
+    <div class="wko-examples-top">
+     <div></div>
+     <div class="example-language" role="group" aria-label="Analytical example language; changes new templates only">
+      <span class="example-language-label">Analytical language</span>
+      <button class="example-lang-button" type="button" data-example-lang="DS-STEPS" aria-pressed="true" title="Use DS-STEPS for subsequently loaded analytical examples">DS-STEPS</button>
+      <button class="example-lang-button" type="button" data-example-lang="DS-SQL" aria-pressed="false" title="Use illustrative DS-SQL for subsequently loaded analytical examples">DS-SQL</button>
+      <button class="example-lang-button" type="button" data-example-lang="DS-PIPE" aria-pressed="false" title="Use illustrative DS-PIPE for subsequently loaded analytical examples">DS-PIPE</button>
+     </div>
     </div>
-   </div>
-   <div class="wko-examples-row" role="group" aria-label="Data and verification examples">
-    <select class="field wko-template-select" id="profilingTemplates" aria-label="Data Profiling Work Order templates" disabled><option value="">Data Profiling</option><option value="" disabled>Examples coming later</option></select>
-    <select class="field wko-template-select" id="shapingTemplates" aria-label="Data Shaping Work Order templates" disabled><option value="">Data Shaping</option><option value="columns">Select columns</option><option value="" disabled>More examples later</option></select>
-    <select class="field wko-template-select" id="analyticsTemplates" aria-label="Analytics Work Order templates" disabled><option value="">Analytics</option><option value="" disabled>Examples coming later</option></select>
-    <select class="field wko-template-select" id="verificationTemplates" aria-label="Verification Work Order templates (DS-VERIFY)" disabled><option value="">Verification</option><option value="" disabled>DS-VERIFY examples later</option></select>
-   </div>
-   <div class="wko-examples-row" role="group" aria-label="DS-SHELL operation examples">
-    <select class="field wko-template-select" id="suitcaseTemplates" aria-label="Suitcase Management Work Order templates" disabled><option value="">Suitcase Management</option><option value="create">Create Directory</option><option value="describe">Describe Files</option><option value="style">Style Directory</option><option value="fields">Add Custom Fields</option><option value="search">Search Directory</option><option value="package">Package Files</option><option value="inherit">Inherit Directory</option></select>
-    <select class="field wko-template-select" id="prettyTemplates" aria-label="PRETTY Tables Work Order templates" disabled><option value="">PRETTY Tables</option><option value="" disabled>Examples coming later</option></select>
-    <select class="field wko-template-select" id="rqsmTemplates" aria-label="RQSM Work Order templates" disabled><option value="">RQSM</option><option value="" disabled>Examples coming later</option></select>
+    <div class="wko-examples-row" role="group" aria-label="Data and verification examples">
+     <select class="field wko-template-select" id="profilingTemplates" aria-label="Data Profiling Work Order templates" disabled><option value="">Data Profiling</option><option value="" disabled>Examples coming later</option></select>
+     <select class="field wko-template-select" id="shapingTemplates" aria-label="Data Shaping Work Order templates" disabled><option value="">Data Shaping</option><option value="columns">Select columns</option><option value="" disabled>More examples later</option></select>
+     <select class="field wko-template-select" id="analyticsTemplates" aria-label="Analytics Work Order templates" disabled><option value="">Analytics</option><option value="" disabled>Examples coming later</option></select>
+     <select class="field wko-template-select" id="verificationTemplates" aria-label="Verification Work Order templates (DS-VERIFY)" disabled><option value="">Verification</option><option value="" disabled>DS-VERIFY examples later</option></select>
+    </div>
+    <div class="wko-examples-row" role="group" aria-label="DS-SHELL operation examples">
+     <select class="field wko-template-select" id="suitcaseTemplates" aria-label="Suitcase Management Work Order templates" disabled><option value="">Suitcase Management</option><option value="create">Create Directory</option><option value="describe">Describe Files</option><option value="style">Style Directory</option><option value="fields">Add Custom Fields</option><option value="search">Search Directory</option><option value="package">Package Files</option><option value="inherit">Inherit Directory</option></select>
+     <select class="field wko-template-select" id="prettyTemplates" aria-label="PRETTY Tables Work Order templates" disabled><option value="">PRETTY Tables</option><option value="" disabled>Examples coming later</option></select>
+     <select class="field wko-template-select" id="rqsmTemplates" aria-label="RQSM Work Order templates" disabled><option value="">RQSM</option><option value="" disabled>Examples coming later</option></select>
+    </div>
    </div>
   </div>
   <div class="html-save-status" data-export-status="work-order" role="status" aria-live="polite"></div>
@@ -194,7 +213,7 @@ KEEP
 MATERIALIZE</textarea>
   </div>
   <div class="lint-legend" aria-label="Work Order syntax colours"><span><i class="swatch shell-swatch"></i>DS-SHELL</span><span><i class="swatch steps-swatch"></i><span id="lintAnalyticalLanguage">DS-STEPS</span></span></div>
-  <div class="row below"><span id="wkoStatus" class="tag">DRAFT</span><button type="button" class="btn" id="saveBtn" disabled title="Requires the governed Storage Engine">Save Work Order</button><button type="button" class="btn primary" id="runBtn" disabled title="Requires a saved governed Work Order and Rust/WASM engine">Run saved Work Order</button><span class="status" id="woNote">Validate a Suitcase to unlock this draft editor.</span></div>
+  <div class="row below"><span id="wkoStatus" class="tag">DRAFT</span><button type="button" class="btn" id="saveBtn" disabled title="Requires the governed Storage Engine">Save Work Order</button><button type="button" class="btn primary" id="runBtn" disabled title="Requires a saved governed Work Order and Rust/WASM engine">Run saved Work Order</button><span class="status" id="woNote"></span></div>
  </div>
 </section>
 
@@ -252,7 +271,7 @@ No Work Order has run. No artifacts were created.</pre></div>
   <div class="legend" id="directoryNote">Read-only inspection. CER files are retained.</div>
  </div>
 </section>
-<footer class="footer"><span>Free · Fast · Private · PRETTY</span><span>WASM-002 H-31 governs · Layout is non-binding design evidence</span></footer>
+<footer class="footer"><span>Free · Fast · Private · PRETTY</span></footer>
 </div>
 <script>
 (()=>{'use strict';
@@ -322,7 +341,7 @@ No Work Order has run. No artifacts were created.</pre></div>
  function validateCat(s){const data=checkCsv(s,CAT_HEADER);for(const r of data){if(!r[1]||!r[2]||!r[3]||!['VALID','DEGRADED','INVALID'].includes(r[4]))throw Error('Invalid CAT row')}return data}
  async function fileText(name){const h=fileHandles.get(name);if(!h)throw Error('Referenced file not in selected folder');const f=await h.getFile();if(f.size>4000000)throw Error('File too large for this UI preview');return new TextDecoder('utf-8',{fatal:true}).decode(await f.arrayBuffer())}
  async function chooseFile(f){if(!suitcaseValidated)return;if(fileMode==='sample'){if(f.type==='CAT'){showCatalog(demoCat,CAT,true);revealPanel('cat-view');document.getElementById('cat-view').scrollIntoView({block:'start'});}else if(f.type==='MAP'){const d=demoMaps.get(f.name);if(d){selectedStoreRid=d[0][1];currentMapName=f.name;showMap(d,f.name,'SAMPLE · READ-ONLY','Eight MAP columns; fictional example.');renderCatalog();renderFiles();revealPanel('map-view');document.getElementById('map-view').scrollIntoView({block:'start'})}}else if(f.type==='RCP'){emptyReceipt('Sample reference','No Receipt content has been invented.');revealPanel('receipt-view');document.getElementById('receipt-view').scrollIntoView({block:'start'})}else if(f.type==='WKO')loadSampleWko();return}
- try{if(f.type==='CAT'){const data=validateCat(await fileText(f.name));showCatalog(data,f.name,false);revealPanel('cat-view');document.getElementById('cat-view').scrollIntoView({block:'start'})}else if(f.type==='MAP'){const data=validateMap(await fileText(f.name));currentMapName=f.name;selectedStoreRid=data[0][1];showMap(data,f.name,'FOLDER FILE · UNVERIFIED','Read-only structure preview, not governed validity.');renderCatalog();renderFiles();revealPanel('map-view');document.getElementById('map-view').scrollIntoView({block:'start'})}else if(f.type==='RCP'){await selectReceipt(f.name,true)}else if(f.type==='WKO'){if(!confirmDraftReplacement())return;setWorkOrderDraft(await fileText(f.name),'LOADED · DRAFT','Loaded from '+f.name+' into an unsaved draft.');revealPanel('work-order');document.getElementById('work-order').scrollIntoView({block:'start'})}}
+ try{if(f.type==='CAT'){const data=validateCat(await fileText(f.name));showCatalog(data,f.name,false);revealPanel('cat-view');document.getElementById('cat-view').scrollIntoView({block:'start'})}else if(f.type==='MAP'){const data=validateMap(await fileText(f.name));currentMapName=f.name;selectedStoreRid=data[0][1];showMap(data,f.name,'FOLDER FILE · UNVERIFIED','Read-only structure preview, not governed validity.');renderCatalog();renderFiles();revealPanel('map-view');document.getElementById('map-view').scrollIntoView({block:'start'})}else if(f.type==='RCP'){await selectReceipt(f.name,true)}else if(f.type==='WKO'){if(!confirmDraftReplacement())return;setWorkOrderDraft(await fileText(f.name),'LOADED · DRAFT','');revealPanel('work-order');document.getElementById('work-order').scrollIntoView({block:'start'})}}
  catch(e){el('consoleText').textContent='INSPECTION ONLY\nCannot open '+f.name+'\n'+e.message;el('helpBody').replaceChildren(E('div','help-active','File preview unavailable; no files changed.'))}}
  // Historic DIR note command bodies are kept recognizable; the DS-SHELL grammar
  // and parser ownership must still be reviewed at functional implementation.
@@ -430,7 +449,7 @@ No Work Order has run. No artifacts were created.</pre></div>
   const isIllustrative=exampleLanguage!=='DS-STEPS';
   setWorkOrderDraft(SHAPING_COLUMN_EXAMPLE[exampleLanguage].join('\n'),
    'TEMPLATE · '+exampleLanguage+(isIllustrative?' · ILLUSTRATIVE':''),
-   isIllustrative?'Draft only · SQL/PIPE syntax not frozen. Save/Run not connected.':'Select columns · Edit this draft before saving. No engine connected.');
+   '');
  }
  function confirmDraftReplacement(){return !draftDirty||window.confirm('Replace your unsaved Work Order draft?')}
  function closeWkoLoadPicker(){el('wkoLoadBar').hidden=true;el('loadWko').setAttribute('aria-expanded','false');el('savedWkoSelect').value=''}
@@ -446,7 +465,7 @@ No Work Order has run. No artifacts were created.</pre></div>
   const item=SUITCASE_TEMPLATES[key];if(!item||!suitcaseValidated)return;
   if(!confirmDraftReplacement())return;
   closeWkoLoadPicker();
-  setWorkOrderDraft(item.lines.join('\n'),'TEMPLATE · DS-SHELL',item.title+' · Edit this draft before saving. No engine connected.');
+  setWorkOrderDraft(item.lines.join('\n'),'TEMPLATE · DS-SHELL','');
  }
  function openWkoLoadPicker(){
   if(!suitcaseValidated)return;
@@ -465,11 +484,11 @@ No Work Order has run. No artifacts were created.</pre></div>
   if(!confirmDraftReplacement()){el('savedWkoSelect').value='';return}
   try{
    const value=await fileText(name);
-   setWorkOrderDraft(value,'LOADED · DRAFT','Loaded '+name+' as an editable draft. The saved WKO stays unchanged.');
+   setWorkOrderDraft(value,'LOADED · DRAFT','');
    closeWkoLoadPicker();
   }catch(e){el('wkoLoadNote').textContent='Cannot read WKO: '+e.message}
  }
- function loadSampleWko(){setWorkOrderDraft('# Example only\nSUITCASE: .\nWORK ORDER AS "Prepare crime data"\nSOURCE "35100178.csv"\nKEEP\n  HEADER "GEO"\n  HEADER "VALUE"\nMATERIALIZE','LOADED EXAMPLE','Example only. Save/Run not connected.')}
+ function loadSampleWko(){setWorkOrderDraft('# Example only\nSUITCASE: .\nWORK ORDER AS "Prepare crime data"\nSOURCE "35100178.csv"\nKEEP\n  HEADER "GEO"\n  HEADER "VALUE"\nMATERIALIZE','LOADED EXAMPLE','')}
 
  function setGateState(success,message,cert=''){
   const box=el('suitcaseGate');box.classList.toggle('ready',success);
@@ -793,7 +812,7 @@ ${content}
    emptyReceipt();showEmptyCatalog('Select a CAT file in the Directory.');
    el('receiptSearch').value='';el('directorySearch').value='';el('directoryClass').value='';
    toggleGate(true);
-   el('woNote').textContent='Draft editor available · Save/Run need the Rust/WASM engine.';
+   el('woNote').textContent='';
    el('wkoStatus').textContent='DRAFT · NOT SAVED';
    let scanError='';
    try{await scanSuitcase()}catch(e){scanError=e.message;files=[];fileHandles=new Map();renderFiles()}
@@ -900,6 +919,34 @@ ${content}
  document.querySelectorAll('.quicknav a[href^="#"]').forEach(link=>{
   link.addEventListener('click',()=>revealPanel(link.getAttribute('href').slice(1)));
  });
+ // Examples section can collapse independently inside the Work Order panel.
+ function setExamplesOpen(open){
+  const block=el('wkoExamplesContent'),button=el('examplesToggle'),host=document.querySelector('.wko-examples');
+  if(!block||!button||!host)return;
+  block.hidden=!open;
+  button.setAttribute('aria-expanded',String(open));
+  button.setAttribute('aria-label',(open?'Collapse ':'Expand ')+'Examples');
+  button.title=(open?'Collapse ':'Expand ')+'Examples';
+  button.querySelector('.toggle-symbol').textContent=open?'−':'+';
+  host.dataset.collapsed=String(!open);
+ }
+ setExamplesOpen(true);
+ el('examplesToggle')?.addEventListener('click',()=>setExamplesOpen(el('examplesToggle').getAttribute('aria-expanded')!=='true'));
+
+ // Suitcase details collapse independently; certificate gate stays operational.
+ function setSuitcaseGateOpen(open){
+  const details=el('gateDetails'),button=el('gateToggle'),gate=el('suitcaseGate');
+  if(!details||!button||!gate)return;
+  details.hidden=!open;
+  button.setAttribute('aria-expanded',String(open));
+  button.setAttribute('aria-label',(open?'Collapse ':'Expand ')+'Suitcase Gate');
+  button.title=(open?'Collapse ':'Expand ')+'Suitcase Gate';
+  button.querySelector('.toggle-symbol').textContent=open?'−':'+';
+  gate.dataset.collapsed=String(!open);
+ }
+ setSuitcaseGateOpen(true);
+ el('gateToggle')?.addEventListener('click',()=>setSuitcaseGateOpen(el('gateToggle').getAttribute('aria-expanded')!=='true'));
+
 
  el('chooseFolder').addEventListener('click',authorizeSuitcase);
  el('receiptSearch').addEventListener('input',renderReceiptSelector);
@@ -908,7 +955,7 @@ ${content}
  el('newWko').addEventListener('click',()=>{
   if(!confirmDraftReplacement())return;
   closeWkoLoadPicker();document.querySelectorAll('.wko-examples select').forEach(select=>select.value='');
-  setWorkOrderDraft('','DRAFT','New blank Work Order · Save/Run not connected.');
+  setWorkOrderDraft('','DRAFT','');
  });
  el('loadWko').addEventListener('click',openWkoLoadPicker);
  el('savedWkoSelect').addEventListener('change',event=>loadSavedWko(event.target.value));
@@ -929,7 +976,7 @@ ${content}
  el('workOrderText').addEventListener('input',()=>{
   draftDirty=true;
   el('wkoStatus').textContent='DRAFT · EDITED';
-  el('woNote').textContent='Unsaved draft · Save/Run not connected.';
+  el('woNote').textContent='';
  });
  el('demoHelp').addEventListener('click',renderExampleHelp);
  el('clearHelp').addEventListener('click',clearExampleHelp);
