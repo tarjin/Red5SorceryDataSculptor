@@ -144,6 +144,12 @@ html[data-theme="light"] .wko-template-select{
 .wko-examples-row{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin-top:8px}
 .wko-examples-row .wko-template-select{width:240px;min-width:240px;max-width:240px;flex:0 0 240px}
 @media(max-width:760px){.wko-examples-top{align-items:flex-start}.examples-head{width:100%;justify-content:space-between}.example-language{width:100%;gap:5px;justify-content:flex-start}.example-language-label{flex-basis:100%;margin-bottom:1px}.wko-examples-row{gap:7px}.wko-examples-row .wko-template-select{flex:1 1 195px;width:auto!important;max-width:none}}
+/* Three Help voices: one diagnostic, different wording. */
+.help-voice-switch{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.help-voice-button{min-width:74px;min-height:34px;padding:7px 11px!important}
+.help-voice-button[aria-pressed="true"]{background:var(--raised);border-color:var(--accent);color:var(--link)}
+.help-voice-button:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+@media(max-width:760px){.help-voice-switch{gap:5px}.help-voice-button{min-width:66px}}
 </style>
 </head>
 <body>
@@ -225,7 +231,7 @@ No Work Order has run. No artifacts were created.</pre></div>
 </section>
 
 <section class="panel" id="help" aria-labelledby="title-help">
- <div class="panel-head"><div class="head-label"><span class="panel-number">03</span><h2 id="title-help">HELP</h2></div><div class="panel-tools"><button class="btn subtle" id="demoHelp" type="button">Example</button><button class="btn subtle" id="clearHelp" type="button">Clear</button></div><div class="panel-actions"><button class="btn primary" id="saveHelpReport" type="button" disabled title="Validate a Suitcase and select a diagnostic example">Save Detailed HTML Report</button><button class="panel-toggle" type="button" aria-expanded="true" aria-controls="panel-body-help" aria-label="Collapse HELP" title="Collapse HELP"><span class="toggle-symbol" aria-hidden="true">−</span></button></div></div>
+ <div class="panel-head"><div class="head-label"><span class="panel-number">03</span><h2 id="title-help">HELP</h2></div><div class="panel-tools help-voice-switch" role="group" aria-label="Help explanation voice"><button class="btn subtle help-voice-button" type="button" data-help-voice="technical" aria-pressed="true">Technical</button><button class="btn subtle help-voice-button" type="button" data-help-voice="office" aria-pressed="false" title="Office Speak">Office</button><button class="btn subtle help-voice-button" type="button" data-help-voice="casual" aria-pressed="false">Casual</button></div><div class="panel-actions"><button class="btn primary" id="saveHelpReport" type="button" disabled title="Validate a Suitcase to save the sample Help Report">Save Detailed HTML Report</button><button class="panel-toggle" type="button" aria-expanded="true" aria-controls="panel-body-help" aria-label="Collapse HELP" title="Collapse HELP"><span class="toggle-symbol" aria-hidden="true">−</span></button></div></div>
  <div class="panel-body" id="panel-body-help"><div id="helpBody" aria-live="polite"><div class="quiet">No active diagnostic. Ready.</div></div><div id="helpReportStatus" class="status" role="status" aria-live="polite"></div><details id="helpReportPreview" class="help-report-preview" hidden><summary>Preview saved Detailed HTML Report</summary><iframe id="helpReportFrame" title="Saved HTML Help Report preview" sandbox="" loading="lazy"></iframe></details></div>
 </section>
 
@@ -549,40 +555,54 @@ No Work Order has run. No artifacts were created.</pre></div>
  // diagnostics, governed disclosure and final HLP serialization in the product.
  const SAMPLE_HELP={
   id:'DS-PTP-001',
-  title:'A saved Work Order is required before Run',
-  observed:'The Work Order editor contains a draft; the analytical engine is not connected in this prototype.',
-  next:'In the finished Workbench, save a valid Work Order before running it.',
   facts:{demonstration_event:true,governed_run_started:false,rust_wasm_engine_connected:false}
  };
+ // The voice changes phrasing, never the diagnostic ID, structured facts or severity.
+ const HELP_VOICES={
+  technical:{label:'Technical',id:'technical',
+   title:'Execution unavailable: no saved Work Order',
+   observed:'No eligible saved Work Order is selected for Run. The Rust/WASM execution engine is not connected in this prototype.',
+   next:'Save a valid governed Work Order before requesting Run. Execution is unavailable in this UI prototype.'},
+  office:{label:'Office Speak',id:'office_speak',
+   title:'Save your Work Order before running it',
+   observed:'Your instructions are still a draft. Data Sculptor needs a saved Work Order before it can run them. This prototype does not have its execution engine connected.',
+   next:'When execution is available, save your Work Order, then run that saved version.'},
+  casual:{label:'Casual',id:'casual',
+   title:'Save your Work Order first',
+   observed:'You have a draft, but it is not a saved Work Order yet. And this prototype cannot run anything.',
+   next:'Finish your draft and save it. Once the engine is ready, run the saved copy.'}
+ };
+ let helpVoice='technical';
  function reportThemeIsLight(){return document.documentElement.dataset.theme==='light'}
  function renderExampleHelp(){
   selectedExampleDiagnostic={...SAMPLE_HELP};
+  const v=HELP_VOICES[helpVoice];
   const x=E('div','help-active');
   x.appendChild(E('strong','','EXAMPLE · PREVIEW ONLY'));
-  x.appendChild(E('div','',SAMPLE_HELP.title));
-  x.appendChild(E('div','muted','No governed diagnostic was generated.'));
+  x.appendChild(E('div','',v.title));
+  x.appendChild(E('div','muted',v.observed));
   el('helpBody').replaceChildren(x);
   el('helpReportStatus').textContent='';
   el('helpReportPreview').hidden=true;
   updateHelpReportButton();updateHtmlContentsButtons();
  }
- function clearExampleHelp(){
-  selectedExampleDiagnostic=null;
-  el('helpBody').replaceChildren(E('div','quiet','No active diagnostic. Ready.'));
-  el('helpReportStatus').textContent='';
-  el('helpReportPreview').hidden=true;
-  updateHelpReportButton();updateHtmlContentsButtons();
+ function setHelpVoice(voice){
+  if(!HELP_VOICES[voice])return;
+  helpVoice=voice;
+  document.querySelectorAll('[data-help-voice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.helpVoice===voice)));
+  if(selectedExampleDiagnostic)renderExampleHelp();
  }
  function updateHelpReportButton(){
   const b=el('saveHelpReport');
   b.disabled=!suitcaseValidated||!folderHandle||!selectedExampleDiagnostic;
-  b.title=b.disabled?'Validate a Suitcase and choose Example first':'Save one new standalone HTML sample Help Report';
+  b.title=b.disabled?'Validate a Suitcase to save a sample Help Report':'Save one new standalone HTML sample Help Report';
  }
  function escapeScriptJson(v){return JSON.stringify(v,null,2).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026')}
- function helpReportHtml(name,utc,light,d){
+ function helpReportHtml(name,utc,light,d,voice){
+  const wording=HELP_VOICES[voice]||HELP_VOICES.technical;
   const provenance={schema_version:'2',hlp_filename:name,hlp_generation_utc:utc,
    diagnostic_ids:[d.id],originating_wko_filename:null,originating_rcp_filename:null,
-   selected_help_voice:'office_speak',presentation_id:'red5sorcery-data-sculptor',
+   selected_help_voice:wording.id,presentation_id:'red5sorcery-data-sculptor',
    presentation_version:'1',data_sculptor_build:'workbench-ui-prototype-2026-10-12'};
   const colors=light?{
    bg:'#edf2f7',paper:'#ffffff',ink:'#1a2c40',soft:'#2c4156',muted:'#4d637a',line:'#c7d3e0',
@@ -593,7 +613,7 @@ No Work Order has run. No artifacts were created.</pre></div>
   };
   const facts=Object.entries(d.facts).map(([k,v])=>`<tr><th scope="row">${escHtml(k)}</th><td>${escHtml(JSON.stringify(v))}</td></tr>`).join('');
   const pRows=[['HLP filename',name],['Generation UTC',utc],['Diagnostic ID',d.id],
-   ['Work Order','NOT APPLICABLE'],['Receipt','NOT APPLICABLE'],['Help voice','office_speak'],
+   ['Work Order','NOT APPLICABLE'],['Receipt','NOT APPLICABLE'],['Help voice',wording.label],
    ['Presentation','red5sorcery-data-sculptor / 1'],['Build','workbench-ui-prototype-2026-10-12']]
    .map(([k,v])=>`<tr><th scope="row">${escHtml(k)}</th><td>${escHtml(v)}</td></tr>`).join('');
   return `<!doctype html>
@@ -611,10 +631,10 @@ footer{border-top:1px solid ${colors.line};padding-top:12px;margin-top:24px;colo
 </style></head><body><main>
 <div class="kicker">Red5Sorcery / Data Sculptor Workbench</div><h1>Help Report</h1>
 <div class="status">PROTOTYPE SAMPLE · Not a governed engine diagnostic or production HLP.</div>
-<div class="kicker">${escHtml(d.id)} · Office Speak</div>
-<p class="lead"><strong>${escHtml(d.title)}</strong></p>
-<h2>What happened</h2><p>${escHtml(d.observed)}</p>
-<h2>What to do next</h2><div class="slab">${escHtml(d.next)}</div>
+<div class="kicker">${escHtml(d.id)} · ${escHtml(wording.label)}</div>
+<p class="lead"><strong>${escHtml(wording.title)}</strong></p>
+<h2>What happened</h2><p>${escHtml(wording.observed)}</p>
+<h2>What to do next</h2><div class="slab">${escHtml(wording.next)}</div>
 <h2>Structured facts</h2><table><tbody>${facts}</tbody></table>
 <h2>Provenance</h2><table><tbody>${pRows}</tbody></table>
 <footer>Standalone HTML · ${light?'Modern Light':'Modern Dark'} · Sample presentation only</footer>
@@ -626,6 +646,7 @@ footer{border-top:1px solid ${colors.line};padding-top:12px;margin-top:24px;colo
   const b=el('saveHelpReport');b.disabled=true;
   el('helpReportStatus').textContent='Saving detailed HTML report…';
   const d={...selectedExampleDiagnostic};
+  const voice=helpVoice;
   const light=reportThemeIsLight();
   const utc=utcStamp(new Date());
   try{
@@ -634,7 +655,7 @@ footer{border-top:1px solid ${colors.line};padding-top:12px;margin-top:24px;colo
     try{await folderHandle.getFileHandle(name);continue}
     catch(e){if(e.name!=='NotFoundError')throw e}
     const h=await folderHandle.getFileHandle(name,{create:true});
-    const html=helpReportHtml(name,utc,light,d);
+    const html=helpReportHtml(name,utc,light,d,voice);
     const w=await h.createWritable();
     try{await w.write(new Blob([html],{type:'text/html;charset=utf-8'}));await w.close()}
     catch(e){try{await w.abort()}catch(_){}throw e}
@@ -817,12 +838,14 @@ ${content}
    let scanError='';
    try{await scanSuitcase()}catch(e){scanError=e.message;files=[];fileHandles=new Map();renderFiles()}
    el('consoleText').textContent='SUITCASE VALIDATED\n'+dir.name+'\nCERTIFICATE · '+cerName+'\nCREATE_WRITE_CLOSE · PASS\nAnalytical execution is not connected.'+(scanError?'\nDirectory scan incomplete: '+scanError:'');
-   el('helpBody').replaceChildren(E('div',scanError?'help-active':'quiet',scanError?'Certificate saved, but directory scan failed: '+scanError:'Suitcase validated. '+files.length+' visible files.'));
-   selectedExampleDiagnostic=null;el('helpReportStatus').textContent='';el('helpReportPreview').hidden=true;updateHelpReportButton();updateHtmlContentsButtons();
+   // Keep the voice demonstration available after certification; it is not a governed diagnostic.
+   renderExampleHelp();
+   if(scanError)el('helpReportStatus').textContent='Directory scan incomplete: '+scanError;
   }catch(e){
    if(e.name!=='AbortError'){
     const msg='Certification did not complete: '+e.message;
     el('consoleText').textContent=msg+'\nNo analytical execution occurred.';
+    selectedExampleDiagnostic=null;
     el('helpBody').replaceChildren(E('div','help-active',msg));
     if(!suitcaseValidated)setGateState(false,'VALIDATION FAILED · Choose a writable folder.');
     updateHelpReportButton();updateHtmlContentsButtons();
@@ -978,13 +1001,12 @@ ${content}
   el('wkoStatus').textContent='DRAFT · EDITED';
   el('woNote').textContent='';
  });
- el('demoHelp').addEventListener('click',renderExampleHelp);
- el('clearHelp').addEventListener('click',clearExampleHelp);
+ document.querySelectorAll('[data-help-voice]').forEach(b=>b.addEventListener('click',()=>setHelpVoice(b.dataset.helpVoice)));
  el('saveHelpReport').addEventListener('click',savePrototypeHelpReport);
  el('directorySearch').addEventListener('input',renderFiles);el('directoryClass').addEventListener('change',renderFiles);
  el('refreshBtn').addEventListener('click',async()=>{if(!suitcaseValidated)return;try{await scanSuitcase()}catch(e){el('consoleText').textContent='Directory refresh failed: '+e.message}});
  lintWorkOrder();
- showCatalog(demoCat,CAT,true);selectStore(demoCat[0]);emptyReceipt();toggleGate(false);renderReceiptSelector();updateHelpReportButton();updateHtmlContentsButtons();
+ showCatalog(demoCat,CAT,true);selectStore(demoCat[0]);emptyReceipt();toggleGate(false);renderReceiptSelector();renderExampleHelp();updateHelpReportButton();updateHtmlContentsButtons();
 })();
 </script>
 </body>
