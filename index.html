@@ -260,6 +260,17 @@ tbody td{padding:0;border-bottom:1px solid var(--rule)}
 .watch:hover{background:var(--ink);color:var(--paper)}
 .watch:focus-visible{outline:2px solid var(--source);outline-offset:3px}
 .watch span{color:inherit;opacity:.6;padding-left:9px}
+
+/* Development log: a restrained teal accent, distinct from the specification links. */
+:root{--devlog-accent:#176a77;--devlog-tint:rgba(23,106,119,.07)}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--devlog-accent:#8cd8df;--devlog-tint:rgba(140,216,223,.09)}
+}
+:root[data-theme="dark"]{--devlog-accent:#8cd8df;--devlog-tint:rgba(140,216,223,.09)}
+.watch.devlog-link{color:var(--devlog-accent);border:2px solid var(--devlog-accent);background:var(--devlog-tint);font-weight:500}
+.watch.devlog-link:hover{background:var(--devlog-accent);color:var(--paper)}
+.watch.devlog-link:focus-visible{outline-color:var(--devlog-accent)}
+.cta-label.devlog-label{color:var(--devlog-accent)}
 .closed .watch{margin-top:6px;color:var(--paper);border-color:var(--paper)}
 .closed .watch:hover{background:var(--paper);color:var(--ink)}
 .closed .watch:focus-visible{outline-color:var(--paper)}
@@ -370,6 +381,11 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     <div class="hero-cta">
       <span class="cta-label">WASM-002 Help documentation — Scenario 1</span>
       <a class="watch" href="Data_Sculptor_WASM002_Help_Scenario_001_First_Materialization.html">Read Help Scenario 1<span>&#8594;</span></a>
+    </div>
+
+    <div class="hero-cta">
+      <span class="cta-label devlog-label">WASM-002 implementation — public progress and evidence</span>
+      <a class="watch devlog-link" href="DataSculptor_WASM002_Development_Log.html">View WASM-002 Development Log<span>&#8594;</span></a>
     </div>
 
 <div class="state">
