@@ -93,8 +93,9 @@ body{
 /* masthead */
 .masthead{border-bottom:1px solid var(--rule-strong);position:sticky;top:0;z-index:20;background:var(--paper)}
 .masthead .wrap{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding-block:13px;flex-wrap:wrap}
-.mark{font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:.16em;text-transform:uppercase}
-.mark span{color:var(--fabricated)}
+.mark{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
+.brand-logo{display:block;width:26px;height:26px;flex:none}
+.brand-name span{color:var(--fabricated)}
 .mh-status{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
 .mh-status b{font-weight:500;color:var(--ink)}
 .mh-status i{font-style:normal;color:var(--rule-strong);padding:0 6px}
@@ -310,7 +311,13 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 
 <header class="masthead">
   <div class="wrap">
-    <div class="mark">Red<span>5</span>Sorcery</div>
+    <div class="mark"><svg class="brand-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="presentation" aria-hidden="true" focusable="false">
+  <rect width="32" height="32" fill="#13191F"/>
+  <rect x="4"  y="4"  width="11" height="11" fill="#E7EAEE"/>
+  <rect x="17" y="4"  width="11" height="11" fill="#E7EAEE"/>
+  <rect x="4"  y="17" width="11" height="11" fill="#E7EAEE"/>
+  <rect x="17" y="17" width="11" height="11" fill="#AE2F26"/>
+</svg><span class="brand-name">Red<span>5</span>Sorcery</span></div>
     <div class="mh-status"><b>DAY 066</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
