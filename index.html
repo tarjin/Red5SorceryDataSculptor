@@ -307,7 +307,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 </style>
 </head>
 <body>
-<!-- Public project update: Day 067, Wednesday 14 October 2026. CP014-CP015 T-accepted and Git-banked, native 70/70 PASS and wasm32 library compile PASS; Day 067 landing-preparation archive remained OPEN, not final LANDED. After-hours PLDD notes continued into 15 October. This HTML does not attest to website deployment or V1 release. -->
+<!-- Public project update: records through Day 071, Sunday 18 October 2026. Day 068 CP016 was T-accepted and locally Git-banked (78/78 native regression; wasm32 library compilation PASS). Days 069-071 are documented Non-work/Time out days and count as zeros in calendar-day velocity. Day 064 is classified as HTML Workbench prototype development, not a Rust/WASM implementation checkpoint. No Git push, external publication, independent implementation QA or V1 release is attested here. -->
 
 <header class="masthead">
   <div class="wrap">
@@ -318,7 +318,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
   <rect x="4"  y="17" width="11" height="11" fill="#E7EAEE"/>
   <rect x="17" y="17" width="11" height="11" fill="#AE2F26"/>
 </svg><span class="brand-name">Red<span>5</span>Sorcery</span></div>
-    <div class="mh-status"><b>DAY 067</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 071</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -396,14 +396,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
 <div class="state">
-      <div class="state-top">Latest documented flight — Day 067, Wednesday 14 October 2026 · landing preparation</div>
+      <div class="state-top">Record current through Day 071, Sunday 18 October 2026 · Non-work / Time out</div>
       <dl>
-        <dt>Work</dt><dd><strong>WASM-002 implementation continued.</strong> CP014 checked canonical Receipt filename candidates; CP015 checked the matching identity of SCR/RCP filename pairs. Both were accepted by T and Git-banked.</dd>
-        <dt>Verification</dt><dd><strong>70/70 native tests passed</strong>; Rust formatting and the WebAssembly library compilation passed. These are bounded checks, not completed browser-runtime acceptance.</dd>
-        <dt>Progress</dt><dd><strong>15 accepted checkpoints</strong> against the frozen H-31 contract. Of 402 WASM-002 requirements, 13 are PARTIAL, 389 NOT_STARTED, and none fully accepted.</dd>
-        <dt>Evidence</dt><dd>The <a href="DataSculptor_WASM002_Development_Log.html">Development Log</a> records checkpoints, test results and evidence custody. Local Day 067 landing preparation is documented; final landing and independent implementation QA are not claimed.</dd>
-        <dt>After hours</dt><dd>PLDD marketing and trust-label ideas were examined and then clarified: <strong>PLDD is a development method, not a certification</strong>. The continuous HTML Suitcase was documented as part of that practice.</dd>
-        <dt>Released</dt><dd>Nothing. Data Sculptor V1 is still in development.</dd>
+        <dt>Latest project days</dt><dd><strong>Days 069–071 (16–18 October): Non-work / Time out.</strong> Three calendar days, zero Data Sculptor development check-ins or new checkpoints reported. These days remain visible in the project record and count in calendar-day velocity.</dd>
+        <dt>Last engineering flight</dt><dd><strong>Day 068 (15 October): CP016 accepted and locally Git-banked.</strong> A bounded deterministic Receipt field-line serializer, not a complete Receipt implementation. The separately recorded Git housekeeping deletion is not an implementation checkpoint.</dd>
+        <dt>Verification</dt><dd><strong>78/78 native regression tests passed</strong>; Rust formatting and WebAssembly library compilation passed. CP016 banked 38 paths including 36 evidence ZIPs. These are the last verified implementation results, not browser-runtime or independent adversarial acceptance.</dd>
+        <dt>Progress</dt><dd><strong>16 human-accepted, Git-banked implementation checkpoints.</strong> Of 402 frozen WASM-002 requirements, 14 are PARTIAL, 388 NOT_STARTED, and zero fully accepted. From Day 063 through Day 071: <strong>1.78 checkpoints per calendar day</strong> (16 / 9), including the three non-work days. Day 064 was HTML Workbench prototype development, not Rust/WASM checkpoint work.</dd>
+        <dt>Evidence</dt><dd>The <a href="DataSculptor_WASM002_Development_Log.html">WASM-002 Development Log</a> details the checkpoint tests, refusals, corrections, Git-object volume, evidence custody and non-work day accounting. CP016 was banked locally at <code>fde0f0a</code>; public deployment, Git push and independent implementation QA are not claimed.</dd>
+        <dt>Released</dt><dd>Nothing. Data Sculptor V1 remains in development.</dd>
       </dl>
     </div>
     </section>
@@ -629,7 +629,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
   <div class="wrap">
     <p class="band-label">The log</p>
     <h2>What has actually happened so far</h2>
-    <p>Numbered by working day. Each entry briefly describes the work, followed by any after-hours developments. The engineering evidence is tracked separately in the Development Log.</p>
+    <p>Numbered by project day, including days with no development work. Each entry records what happened; non-work days remain visible and count as zero in calendar-day checkpoint velocity. Detailed engineering evidence is tracked separately in the Development Log.</p>
 
     <ol class="log">
       <li>
@@ -1187,13 +1187,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
         </div>
       </li>
       <li>
-        <div class="log-day">Day 064<span class="log-date">Sun 11 Oct</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-day">Day 064<span class="log-date">Sun 11 Oct</span><span class="log-tag is-build">HTML prototype</span></div>
         <div class="log-entry">
           <h3>Keep Building, One Verified Brick at a Time</h3>
           <p>Day 064 begins with the CP001 setup and first implementation evidence banked. Today's flight plan is to continue coding against the frozen WASM-002 H-31 contract: make bounded changes, run and inspect tests, record build outputs and hashes, and preserve a recoverable checkpoint before moving on. The engineering work belongs to T and Spock through completion; Claude's independent implementation review comes afterward, at formal handoff.</p>
           <p class="log-after"><b>Planned flight — in progress</b>Continue implementation and capture evidence of what actually runs. No additional Day 064 coding result, full acceptance, independent QA verdict or V1 release is claimed at preflight.</p>
           <p class="log-after"><b>Landing — Workbench BUILD checkpoint</b>The day became a substantial HTML/CSS/JavaScript implementation flight. Eight full-width panels gained consistent collapse controls; the Suitcase Gate, CAT/MAP inspection and Receipt views matured; editable examples were added to teach Work Order syntax without creating a second command surface. HELP gained Technical, Office and Casual voices and presentation-only HTML reports. A working interactive prototype was banked with design notes and separate Council diaries.</p>
           <p class="log-after"><b>Boundary preserved</b>The Workbench is a real front-end build checkpoint, not a working analytical execution engine. Its example syntax, provisional saved-HTML classes and future options do not silently amend frozen H-31. Rust/WASM execution and Claude's independent implementation QA remain ahead.</p>
+          <p class="log-after"><b>Retrospective classification — Day 071 update</b>Day 064 counts as a productive HTML/CSS/JavaScript prototype day. The original Rust/WASM coding plan above was superseded by the actual Workbench work. No banked Rust/WASM checkpoint or Git-committed WASM-002 volume is credited to Day 064.</p>
         </div>
       </li>
       <li>
@@ -1224,9 +1225,42 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <p class="log-after"><b>After hours</b>Four notes explored PLDD as a recognizable software-development method, then rejected unsupported certification claims and documented the continuous HTML Suitcase as a teachable practice. Separate music-bingo and software-commentary notes were filed.</p>
         </div>
       </li>
+      <li>
+        <div class="log-day">Day 068<span class="log-date">Thu 15 Oct</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>One More Receipt Brick — and Proof of Its Custody</h3>
+          <p>CP016 implemented one bounded piece of canonical Receipt serialization: a deterministic <code>KEY: VALUE</code> field line with exact validation, escaping and refusal. T approved the checkpoint, and it was banked locally as <code>fde0f0a8b96c92f6cfb80b517396ff5512cccd13</code>. Eight focused tests passed; the full native regression reached <strong>78/78 passing</strong>, with Rust formatting and WebAssembly library compilation also passing. The commit contains 38 paths, including 36 evidence ZIP archives. This is one Receipt field-line component, <em>not</em> a complete Receipt or a finished engine.</p>
+          <p class="log-after"><b>Evidence and corrections</b>Git staging and postcommit checks reconciled the committed source, test and evidence blobs. A two-character SHA-256 transcription mistake in a review procedure caused an appropriate refusal; it was identified, recorded and corrected before banking. The Development Log was then refreshed with CP016 evidence and actual Git-object volume. Sixteen implementation checkpoints are now banked; 14 of 402 requirements are touched, all PARTIAL and none fully accepted. Independent implementation QA and browser runtime acceptance remain pending.</p>
+          <p class="log-after"><b>Record boundary</b>The Day 068 Suitcase's local documentary closeout and later archival work are separate from this engineering checkpoint. No website publication, remote backup verification or Git push is inferred from the local commit.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 069<span class="log-date">Fri 16 Oct</span><span class="log-tag">Non-work / Time out</span></div>
+        <div class="log-entry">
+          <h3>Non-work / Time out</h3>
+          <p>No Data Sculptor engineering work is reported for this project day. No Rust/WASM implementation checkpoint, prototype development, new requirement touch or Git check-in is credited.</p>
+          <p class="log-after"><b>Calendar accounting</b>0 new checkpoints · 0 first-touched requirements · 0 Git commits reported. This day counts in calendar-day velocity.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 070<span class="log-date">Sat 17 Oct</span><span class="log-tag">Non-work / Time out</span></div>
+        <div class="log-entry">
+          <h3>Non-work / Time out</h3>
+          <p>A second consecutive day away from Data Sculptor development. No new engineering work, completed checkpoint or new requirement coverage is claimed.</p>
+          <p class="log-after"><b>Calendar accounting</b>0 new checkpoints · 0 first-touched requirements · 0 Git commits reported. This day counts in calendar-day velocity.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 071<span class="log-date">Sun 18 Oct</span><span class="log-tag">Non-work / Time out</span></div>
+        <div class="log-entry">
+          <h3>Non-work / Time out</h3>
+          <p>Third recorded non-work day. The most recent engineering result remains Day 068's accepted CP016. No fresh Rust/WASM or Workbench check-in is credited for today.</p>
+          <p class="log-after"><b>Calendar accounting</b>0 new checkpoints · 0 first-touched requirements · 0 Git commits reported. Across Days 063–071, 16 banked implementation checkpoints over 9 calendar days gives <strong>1.78 checkpoints per day</strong>; the non-work days are not removed from the denominator. Day 072 is outside this public reporting period.</p>
+        </div>
+      </li>
     </ol>
 
-    <p class="log-note">Original entries are never revised. Where something turns out to be wrong, the correction is filed beside it rather than written over it — what was believed at the time is part of the record too. The After Hours notes are a different kind of record: thinking done once the day's work has closed, usually about what the product should eventually become. None of it binds anything until it has been reviewed and written into the contract, which is why one night's note can narrow the one before it.</p>
+    <p class="log-note">Original narrative entries are preserved. When a status label needs retrospective clarification or something turns out to be wrong, the correction is filed beside it rather than written over the original account — what was believed at the time is part of the record too. The After Hours notes are a different kind of record: thinking done once the day's work has closed, usually about what the product should eventually become. None of it binds anything until it has been reviewed and written into the contract, which is why one night's note can narrow the one before it.</p>
   </div>
 </section>
 
