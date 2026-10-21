@@ -307,7 +307,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 </style>
 </head>
 <body>
-<!-- Public project update: records through Day 072, Monday 19 October 2026. Day 068 CP016 was T-accepted and locally Git-banked (78/78 native regression; wasm32 library compilation PASS). Days 069-072 are four documented Non-work/Time out days, counted as zero-checkpoint days in 10-day calendar velocity; reported post-Day068 Git activity is not independently re-audited. Day 064 was HTML Workbench prototype development, not a Rust/WASM implementation checkpoint. Day 073 is not included in this reporting window. No new Git push, external publication, independent implementation QA or V1 release is attested here. -->
+<!-- Public project update: records through Day 073, Tuesday 20 October 2026. Day 073 CP017 was T-accepted and Git-banked locally; 85/85 native regression tests and the WebAssembly library build passed. Days 069-072 remain four non-work/time-out days with zero checkpoints. The 402 frozen WASM-002 requirements remain 14 PARTIAL, 388 NOT_STARTED, zero fully accepted. Independent implementation QA, browser-runtime acceptance, remote Drive readback and public deployment are not claimed here. -->
 
 <header class="masthead">
   <div class="wrap">
@@ -318,7 +318,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
   <rect x="4"  y="17" width="11" height="11" fill="#E7EAEE"/>
   <rect x="17" y="17" width="11" height="11" fill="#AE2F26"/>
 </svg><span class="brand-name">Red<span>5</span>Sorcery</span></div>
-    <div class="mh-status"><b>DAY 072</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 073</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -396,14 +396,13 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
 <div class="state">
-      <div class="state-top">Record current through Day 072, Monday 19 October 2026 · Non-work / Time out</div>
+      <div class="state-top">Record through Day 073 · Tue 20 October 2026 · Build</div>
       <dl>
-        <dt>Latest project days</dt><dd><strong>Days 069–072 (16–19 October): Non-work / Time out.</strong> Four consecutive calendar days, each with 0 Data Sculptor development check-ins, 0 new checkpoints and 0 first-touched requirements reported. The original Day 072 build preflight was not executed. All four days count in calendar-day velocity.</dd>
-        <dt>Last engineering flight</dt><dd><strong>Day 068 (15 October): CP016 accepted and locally Git-banked.</strong> A bounded deterministic Receipt field-line serializer, not a complete Receipt implementation. The separately recorded Git housekeeping deletion is not an implementation checkpoint.</dd>
-        <dt>Verification</dt><dd><strong>78/78 native regression tests passed</strong>; Rust formatting and WebAssembly library compilation passed. CP016 banked 38 paths including 36 evidence ZIPs. These are the last verified implementation results, not browser-runtime or independent adversarial acceptance.</dd>
-        <dt>Progress</dt><dd><strong>16 human-accepted, Git-banked implementation checkpoints.</strong> Of 402 frozen WASM-002 requirements, 14 are PARTIAL, 388 NOT_STARTED and zero fully accepted. From Day 063 through Day 072: <strong>1.60 checkpoints per elapsed calendar day</strong> (16 / 10) and <strong>1.40 first-touched requirements per calendar day</strong> (14 / 10). Six days were active project-work days, including Day 064 HTML Workbench prototype work; four were non-work days (<strong>40.00%</strong>). No time-out days are excluded from the denominators.</dd>
-        <dt>Evidence</dt><dd>The <a href="DataSculptor_WASM002_Development_Log.html">WASM-002 Development Log</a> details the checkpoint tests, refusals, corrections, Git-object volume, evidence custody and 10-day calendar accounting. CP016 was banked locally at <code>fde0f0a</code>; Git-object volume is independently verified through Day 068 only. Days 069–072 are T-reported non-work days, not a new Git readback. No new Git push, website deployment or independent implementation QA is claimed by this update.</dd>
-        <dt>Public reach</dt><dd>Day 072 LinkedIn snapshot (separate from engineering output): 1,491 post impressions over 7 days, 775 followers, 35 profile viewers over 90 days and 0 search appearances in the displayed reporting window. These are audience metrics, not development check-ins.</dd>
+        <dt>Build</dt><dd><strong>CP017 accepted and Git-banked.</strong> Added caller-ordered Receipt field-sequence serialization; invalid fields refuse the entire sequence. Not a complete Receipt.</dd>
+        <dt>Verification</dt><dd><strong>85/85 native tests PASS</strong>; seven focused CP017 tests, Rust formatting and WebAssembly library compilation PASS. Local commit: <code>339cf12</code>.</dd>
+        <dt>Progress</dt><dd><strong>17 accepted checkpoints.</strong> Of 402 frozen requirements: 14 PARTIAL, 388 NOT_STARTED, none fully accepted. Days 063–073: <strong>1.55 checkpoints per calendar day</strong> (17/11); Days 069–072 remain four zero-checkpoint non-work days.</dd>
+        <dt>Evidence</dt><dd>The <a href="DataSculptor_WASM002_Development_Log.html">Development Log</a> records tests, corrections and Git evidence. Independent implementation QA, browser-runtime acceptance and public deployment remain unverified.</dd>
+        <dt>Public reach</dt><dd>Day 073 LinkedIn snapshot: 1,745 seven-day impressions, 777 followers, 37 profile viewers (90 days), 0 search appearances (Oct 6–12). Audience metrics are separate from engineering output.</dd>
         <dt>Released</dt><dd>Nothing. Data Sculptor V1 remains in development.</dd>
       </dl>
     </div>
@@ -1265,6 +1264,15 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>Fourth Day Away From Development</h3>
           <p>Day 072 was another non-work/time-out day for Data Sculptor. Although a preflight plan existed to resume building, no Data Sculptor development check-in, Rust/WASM checkpoint, Workbench implementation, or newly touched frozen requirement is credited. CP016, accepted and locally banked on Day 068, remains the latest implementation checkpoint.</p>
           <p class="log-after"><b>Calendar accounting</b>0 new checkpoints · 0 first-touched requirements · 0 Git commits reported. Days 063–072 now comprise 10 consecutive calendar days: 6 active project-work days (including Day 064 HTML prototype work) and 4 non-work days. Cumulative velocity is <strong>16 / 10 = 1.60 checkpoints per calendar day</strong> and <strong>14 / 10 = 1.40 first-touched requirements per calendar day</strong>. Non-work share: <strong>4 / 10 = 40.00%</strong>.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 073<span class="log-date">Tue 20 Oct</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>Back to Building: CP017 Accepted</h3>
+          <p>After four non-work days, we built and accepted CP017: a caller-ordered sequence of canonical Receipt fields with all-or-refuse validation. <strong>85/85 native tests passed</strong>; WebAssembly library compilation passed. Git commit <code>339cf12</code>. Total: 17 banked checkpoints; 14 of 402 requirements PARTIAL, none fully accepted.</p>
+          <p class="log-after"><b>Evidence</b>We preserved and corrected two PowerShell evidence-script failures. Test records and the 26 ZIP evidence archives remain part of the local engineering record. No independent implementation QA or finished engine is claimed.</p>
+          <p class="log-after"><b>After hours · 20–21 October</b>Five research and method PDFs explored human judgment, PLDD scaling, adversarial QA and early correction. The proposed four-team PRD protocol remains a draft, not an approved rule.</p>
         </div>
       </li>
     </ol>
