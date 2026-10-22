@@ -21,60 +21,60 @@
   </script>
 <style>
     :root {
-      --ink: #17181b;
-      --muted: #64676e;
-      --paper: #f7f4ee;
-      --surface: #fffdfa;
-      --surface-2: #efe9df;
-      --line: #d9d2c7;
-      --accent: #b5262f;
-      --accent-deep: #7f1820;
-      --accent-soft: #f5dfdf;
-      --night: #17191f;
-      --night-2: #232630;
-      --cream: #fffaf0;
+      --ink: #172832;
+      --muted: #536b7a;
+      --paper: #f3f7fa;
+      --surface: #ffffff;
+      --surface-2: #e8f0f5;
+      --line: #cbdbe5;
+      --accent: #3b7195;
+      --accent-deep: #275678;
+      --accent-soft: #e4f0f8;
+      --night: #091419;
+      --night-2: #17252f;
+      --cream: #eef6fb;
       --shadow: 0 18px 50px rgba(30, 24, 20, .10);
       --radius-lg: 26px;
       --radius-md: 18px;
       --radius-sm: 11px;
       --max: 1180px;
-      --topbar-bg: rgba(247,244,238,.88);
-      --nav-ink: #34363b;
-      --kicker-ink: #3d4047;
-      --copy-ink: #4e5158;
-      --role-ink: #45484f;
-      --methods-bg: #ece6dc;
-      --methods-border: #ddd5ca;
-      --method-card-bg: rgba(255,255,255,.55);
-      --method-card-border: #ddd4c8;
-      --method-copy: #555961;
+      --topbar-bg: rgba(243,247,250,.9);
+      --nav-ink: #2e495b;
+      --kicker-ink: #324f61;
+      --copy-ink: #4b6575;
+      --role-ink: #485f6e;
+      --methods-bg: #e7eef4;
+      --methods-border: #cedde7;
+      --method-card-bg: rgba(255,255,255,.76);
+      --method-card-border: #cedce5;
+      --method-copy: #506b7b;
       color-scheme: light;
     }
 
     html[data-theme="dark"] {
-      --ink: #f3efe8;
-      --muted: #aaa8a4;
-      --paper: #111216;
-      --surface: #1a1c21;
-      --surface-2: #23262d;
-      --line: #353841;
-      --accent: #df5963;
-      --accent-deep: #ff9aa2;
-      --accent-soft: #352126;
-      --night: #0c0d10;
-      --night-2: #17191f;
-      --cream: #fff8ec;
+      --ink: #edf5fa;
+      --muted: #a9beca;
+      --paper: #0b141a;
+      --surface: #14232c;
+      --surface-2: #1b303c;
+      --line: #354c5b;
+      --accent: #96bbdc;
+      --accent-deep: #b6d7ee;
+      --accent-soft: #20394b;
+      --night: #081217;
+      --night-2: #15252f;
+      --cream: #eef6fb;
       --shadow: 0 18px 50px rgba(0,0,0,.28);
-      --topbar-bg: rgba(17,18,22,.88);
-      --nav-ink: #d5d2cc;
-      --kicker-ink: #d6d3cd;
-      --copy-ink: #bbb8b2;
-      --role-ink: #c7c4be;
-      --methods-bg: #15171b;
-      --methods-border: #2f3239;
+      --topbar-bg: rgba(11,20,26,.9);
+      --nav-ink: #c1d7e4;
+      --kicker-ink: #d3e3ed;
+      --copy-ink: #b8cedb;
+      --role-ink: #c3d5df;
+      --methods-bg: #101d25;
+      --methods-border: #304754;
       --method-card-bg: rgba(255,255,255,.035);
-      --method-card-border: #33363d;
-      --method-copy: #b7b4ae;
+      --method-card-border: #334b59;
+      --method-copy: #bbceda;
       color-scheme: dark;
     }
 
@@ -90,7 +90,7 @@
     }
 
     a { color: inherit; }
-    a:focus-visible, button:focus-visible { outline: 3px solid #e6a3a8; outline-offset: 3px; }
+    a:focus-visible, button:focus-visible { outline: 3px solid #96bbdc; outline-offset: 3px; }
     .wrap { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
 
     .topbar {
@@ -99,7 +99,7 @@
       z-index: 30;
       backdrop-filter: blur(18px);
       background: var(--topbar-bg);
-      border-bottom: 1px solid rgba(217,210,199,.8);
+      border-bottom: 1px solid var(--line);
     }
     .topbar-inner {
       min-height: 70px;
@@ -123,8 +123,8 @@
       display: grid;
       place-items: center;
       color: white;
-      background: linear-gradient(145deg, var(--accent), var(--accent-deep));
-      box-shadow: 0 8px 20px rgba(181,38,47,.25);
+      background: linear-gradient(145deg, #487fa5, #234e6b);
+      box-shadow: 0 8px 20px rgba(64,120,157,.26);
       font-family: Georgia, serif;
       font-weight: 800;
     }
@@ -218,6 +218,22 @@
       max-width: 850px;
       color: var(--copy-ink);
     }
+    /* Prominent, accessible current-availability statement in the hero. */
+    .opportunity-note {
+      display: grid;
+      gap: 6px;
+      margin-top: 23px;
+      padding: 17px 19px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      background: var(--accent-soft);
+      max-width: 830px;
+    }
+    .opportunity-note strong { font-size: 1.07rem; line-height: 1.35; color: var(--ink); }
+    .opportunity-note span { font-size: .94rem; line-height: 1.55; color: var(--ink); }
+    .opportunity-note small { font-size: .82rem; font-weight: 720; color: var(--accent-deep); line-height: 1.5; }
+
     .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
     .btn {
       display: inline-flex;
@@ -233,8 +249,9 @@
       border: 1px solid var(--line);
       background: var(--surface);
     }
-    .btn.primary { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 10px 24px rgba(181,38,47,.22); }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 10px 24px rgba(64,120,157,.24); }
     .btn.dark { background: var(--ink); border-color: var(--ink); color: white; }
+    .btn.evidence { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-deep); }
     .btn:hover { transform: translateY(-1px); }
 
     .contact-card {
@@ -254,7 +271,7 @@
       border-radius: 50%;
       right: -70px;
       bottom: -70px;
-      background: radial-gradient(circle, rgba(181,38,47,.6), rgba(181,38,47,0) 68%);
+      background: radial-gradient(circle, rgba(75,142,183,.45), rgba(75,142,183,0) 68%);
     }
     .contact-card h2 { margin: 0 0 4px; font-size: 17px; }
     .contact-card p { margin: 0 0 22px; color: #b9bcc5; font-size: 14px; }
@@ -302,7 +319,7 @@
       position: relative;
       overflow: hidden;
     }
-    .project-card.primary-project { background: linear-gradient(145deg, #2b2024, #1b1d24); }
+    .project-card.primary-project { background: linear-gradient(145deg, #1d3241, #14232d); }
     .project-card::after {
       content: "";
       width: 180px;
@@ -311,13 +328,13 @@
       position: absolute;
       top: -110px;
       right: -75px;
-      border: 36px solid rgba(181,38,47,.16);
+      border: 36px solid rgba(94,152,190,.17);
     }
-    .project-tag { font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: #d97b82; }
+    .project-tag { font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: #a9cee9; }
     .project-card h3 { margin: 18px 0 10px; font-family: Georgia, serif; font-size: 2rem; line-height: 1.05; letter-spacing: -.03em; }
     .project-card p { color: #c4c7ce; font-size: 14px; }
     .project-link { margin-top: auto; color: white; text-decoration: none; font-weight: 800; font-size: 14px; }
-    .project-link span { color: #d97b82; }
+    .project-link span { color: #a9cee9; }
 
     .ai-panel {
       display: grid;
@@ -728,13 +745,14 @@
     .footer-links a { color: white; text-decoration: none; border: 1px solid #393d47; padding: 9px 12px; border-radius: 10px; font-size: 13px; font-weight: 750; }
     .fineprint { margin-top: 38px; padding-top: 18px; border-top: 1px solid #30333c; color: #777d89; font-size: 11px; display: flex; justify-content: space-between; gap: 18px; }
 
+    html[data-theme="dark"] .btn.primary { color: #0b1b26; }
     html[data-theme="dark"] .contact-card { background: #0b0c0f; }
     html[data-theme="dark"] .contact-row { border-color: #2a2d34; }
     html[data-theme="dark"] .contact-card p { color: #aaaeb8; }
     html[data-theme="dark"] .contact-row small { color: #7f8591; }
     html[data-theme="dark"] .featured { background: #0b0c0f; }
-    html[data-theme="dark"] .project-card { border-color: #31343c; background: linear-gradient(160deg, #191b21, #121419); }
-    html[data-theme="dark"] .project-card.primary-project { background: linear-gradient(145deg, #2c1b20, #121419); }
+    html[data-theme="dark"] .project-card { border-color: #31343c; background: linear-gradient(160deg, #191b21, #0d1b24); }
+    html[data-theme="dark"] .project-card.primary-project { background: linear-gradient(145deg, #183142, #0d1b24); }
     html[data-theme="dark"] .project-card p,
     html[data-theme="dark"] .featured .section-intro { color: #b9bcc5; }
     html[data-theme="dark"] .flow-step,
@@ -747,7 +765,7 @@
     html[data-theme="dark"] .release-lane.lead { box-shadow: 0 16px 38px rgba(0,0,0,.18); }
 
     html[data-theme="dark"] .btn.dark,
-    html[data-theme="dark"] .nav-cta { background: #f3efe8; border-color: #f3efe8; color: #17181b !important; }
+    html[data-theme="dark"] .nav-cta { background: #edf5fa; border-color: #edf5fa; color: #172832 !important; }
     html[data-theme="dark"] footer { background: #090a0c; }
 
     @media (max-width: 900px) {
@@ -798,7 +816,7 @@
     @media print {
       .topbar, .hero-actions, .contact-card, .featured, footer { display: none !important; }
       html { color-scheme: light; }
-      body { background: white; color: #17181b; }
+      body { background: white; color: #172832; }
       section, .hero { padding: 24px 0; }
       .wrap { width: 100%; }
       .role, .work-card, .edu-card, .method-card, .ai-statement, .release-lane, .arc-step, .product-record-shell, .product-record-item, .research-card, .research-note { break-inside: avoid; box-shadow: none; }
@@ -871,12 +889,18 @@
 <section class="hero">
 <div class="wrap hero-grid">
 <div>
-<span class="eyebrow">More about me</span>
+<span class="eyebrow">Open to new opportunities</span>
 <h1>Tarjin<br/>Rahman</h1>
 <div class="kicker">Product Owner · Product Manager · Research Professional · AI-Assisted Software Builder</div>
+<div class="opportunity-note" aria-label="Current job search">
+<strong>Currently seeking my next full-time role.</strong>
+<span>I’m exploring opportunities in product management and ownership, senior business analysis, research and analytics, and AI-enabled software and technology delivery—where my experience can make a difference.</span>
+<small>Halifax/Dartmouth · Vancouver (city) · Remote positions open to Canadian candidates</small>
+</div>
 <p class="hero-copy"><span>Product leader and research professional with more than two decades across software, UX, product, analytics, and regulated technology. I began in hands-on usability research at Microsoft, joined Adobe's Global Market Research team for Acrobat and Reader, moved into product ownership at ACD Systems, and led requirements work for a certified EMS product at Medusa.</span><span class="hero-copy-second">Today I build and ship local-first browser software at Red5Sorcery, using AI extensively across requirements, implementation support, adversarial QA, documentation, and release acceptance.</span></p><div aria-label="Career highlights at a glance" class="proof-strip"><span>Microsoft UX + Adobe Global Market Research</span><span>ACDSee Pro for Mac v1 · 0→1</span><span>Siren v4 · NEMSIS 3.4.0</span><span>Founder · Rust / WASM products</span></div>
 <div class="hero-actions">
 <a class="btn primary" href="#product-record">See my product record ↓</a>
+<a class="btn evidence" href="Job_Search_Evidence_Portfolio.html" title="View my public job applications, tailored résumés, job postings, cover letters and podcast episodes">Explore my job-search evidence ↗</a>
 <a class="btn dark" href="https://www.linkedin.com/in/red5sorcery" rel="noopener" target="_blank">LinkedIn ↗</a>
 <a class="btn" href="mailto:tarjin@gmail.com">Email me</a>
 </div>
