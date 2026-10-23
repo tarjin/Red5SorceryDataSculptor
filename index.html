@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Data Sculptor — Red5Sorcery</title>
-<meta name="description" content="A local-first analytical workbench for office analysts. Deterministic execution, visible evidence, PRETTY human-facing outputs, and optional AI help with no automatic data sharing. Built in public.">
+<meta name="description" content="Data Sculptor is a local-first data engineering workbench in development for finance, legal, healthcare, offices, creative work, nonprofits, education and public institutions. Designed for explainable transformations, verification and portable evidence. Open source planned after V1.">
 <meta property="og:title" content="Data Sculptor — Red5Sorcery">
-<meta property="og:description" content="A local-first analytical workbench for office analysts. Deterministic execution, inspectable work, review-ready outputs — and a daily public record of how it is being built.">
+<meta property="og:description" content="Data Sculptor aims to make data preparation and its evidence understandable, reproducible and portable across seven professional audiences. In development; open source planned after V1.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://red5sorcerydatasculptor.com/">
 <meta property="og:site_name" content="Red5Sorcery">
@@ -17,7 +17,7 @@
 <meta property="og:image:alt" content="Data Sculptor — data work you can explain. Free. Fast. Private. Pretty.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Data Sculptor — Red5Sorcery">
-<meta name="twitter:description" content="A local-first analytical workbench for office analysts. In development, built in public.">
+<meta name="twitter:description" content="Explainable, local-first data work for seven professional audiences. Data Sculptor is being built in public; open source planned after V1.">
 <meta name="twitter:image" content="https://red5sorcerydatasculptor.com/og-image.png">
 <link rel="canonical" href="https://red5sorcerydatasculptor.com/">
 <meta name="theme-color" content="#E7EAEE">
@@ -172,6 +172,33 @@ p:last-child{margin-bottom:0}
 }
 .hero-lede em{font-style:italic}
 
+/* First-viewport product definition and seven-audience positioning. */
+.hero-lede strong{font-weight:700;color:var(--ink)}
+.ds-intro{
+  margin:clamp(28px,4vw,44px) 0 clamp(36px,4.5vw,52px);
+  padding:clamp(20px,3.4vw,36px);
+  border:1px solid var(--rule-strong);border-top:4px solid var(--source);
+  background:var(--paper-2)
+}
+.ds-intro-kicker{
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--source);margin:0 0 10px
+}
+.ds-intro h2{font-size:clamp(25px,3.3vw,36px);max-width:none;margin:0 0 18px}
+.ds-intro-lead{font-size:clamp(18px,1.45vw,21px);line-height:1.48;max-width:70ch}
+.ds-intro > p:not(.ds-intro-kicker){max-width:75ch}
+.ds-intro-audiences{margin-top:28px;padding-top:24px;border-top:1px solid var(--rule-strong)}
+.ds-intro-audiences h3{font-size:clamp(19px,2.2vw,25px);margin:0 0 9px;max-width:38ch}
+.ds-audiences-caption{font-size:15px;color:var(--ink-soft);margin-bottom:20px;max-width:70ch}
+.ds-audience-grid{display:grid;grid-template-columns:1fr;gap:18px 28px;list-style:none;padding:0;margin:0}
+@media(min-width:690px){.ds-audience-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ds-audience-grid li{border-top:1px solid var(--rule);padding-top:12px;min-width:0}
+.ds-audience-grid h4{font-family:var(--display);font-size:16px;line-height:1.3;margin:0 0 5px}
+.ds-audience-grid p{font-size:15.5px;line-height:1.48;margin:0;max-width:none}
+.ds-intro-status{margin-top:27px;border-top:1px solid var(--rule-strong);padding-top:17px;
+  font-family:var(--mono);font-size:11.5px;line-height:1.65;color:var(--ink-soft)}
+.ds-intro-status strong{color:var(--ink);font-weight:500}
+
 /* state ledger */
 .state{margin-top:clamp(30px,4vw,44px);border:1px solid var(--rule-strong);background:var(--paper-2)}
 .state-top{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);padding:9px 16px;border-bottom:1px solid var(--rule)}
@@ -219,7 +246,7 @@ tbody td{padding:0;border-bottom:1px solid var(--rule)}
 .log-date{display:block;font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.04em;text-transform:none;color:var(--ink-soft);margin-top:4px}
 .log-tag{display:inline-block;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.11em;color:var(--ink-soft);margin-top:7px;padding:2px 6px;border:1px solid var(--rule-strong);text-transform:uppercase}
 .log-tag.is-build{color:var(--paper);background:var(--ink);border-color:var(--ink)}
-.log-entry{max-width:62ch}
+.log-entry{max-width:62ch;min-width:0;overflow-wrap:anywhere}
 .log-entry h3{font-size:clamp(17px,1.75vw,20px);margin-bottom:7px}
 .log-entry p{font-size:16.5px;margin-bottom:0}
 .log-entry p.log-after{margin-top:12px;padding-left:13px;border-left:2px solid var(--rule-strong);font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--ink-soft);max-width:58ch}
@@ -307,7 +334,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 </style>
 </head>
 <body>
-<!-- Public project update: records through Day 073, Tuesday 20 October 2026. Day 073 CP017 was T-accepted and Git-banked locally; 85/85 native regression tests and the WebAssembly library build passed. Days 069-072 remain four non-work/time-out days with zero checkpoints. The 402 frozen WASM-002 requirements remain 14 PARTIAL, 388 NOT_STARTED, zero fully accepted. Independent implementation QA, browser-runtime acceptance, remote Drive readback and public deployment are not claimed here. -->
+<!-- Public project update through Day 075, Thursday 22 October 2026. Day 074 CP018 and CP019 were T-accepted and locally Git-banked; the latest tested baseline was 100/100 native tests, Rustfmt and WebAssembly library compilation PASS. Day 075 was a research-only day with zero coding checkpoints and an expanded product-vision document. Total 19 accepted checkpoints; 402 frozen WASM-002 requirements: 15 PARTIAL, 387 NOT_STARTED, zero fully accepted. Day 063-075 inclusive is 13 calendar days, including four non-work/time-out days (069-072) and a zero-code research day (075). Linked Development Log is a separate publication and is intentionally not updated as part of this website-only release. Independent implementation QA, browser-runtime acceptance, remote Drive readback and public deployment are not claimed here. -->
 
 <header class="masthead">
   <div class="wrap">
@@ -318,7 +345,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
   <rect x="4"  y="17" width="11" height="11" fill="#E7EAEE"/>
   <rect x="17" y="17" width="11" height="11" fill="#AE2F26"/>
 </svg><span class="brand-name">Red<span>5</span>Sorcery</span></div>
-    <div class="mh-status"><b>DAY 073</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 075</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -329,8 +356,31 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     <p class="eyebrow">A tool being built in public</p>
     <h1>Data<br>Sculptor</h1>
     <p class="tagline">Data work you can explain.</p>
-    <p class="hero-lede">For the person who receives a CSV — small enough to open in Excel, or far too large for it — and has to turn it into an answer somebody else can trust.</p>
+    <p class="hero-lede"><strong>Data Sculptor is a local-first data engineering workbench in development.</strong> It aims to help people prepare, transform and check messy or very large datasets on ordinary computers, without mandatory cloud uploads — and explain exactly how their results were produced.</p>
     <p class="promise"><span>Free.</span><span>Fast.</span><span>Private.</span><span>Pretty.</span></p>
+
+    <div class="ds-intro" aria-labelledby="ds-intro-heading">
+      <p class="ds-intro-kicker">The product, in plain language</p>
+      <h2 id="ds-intro-heading">What is Data Sculptor?</h2>
+      <p class="ds-intro-lead">Most work starts with a practical problem: two exports that do not agree, a monthly report nobody can reproduce, a dataset too large for Excel, or important project files whose history is difficult to follow. Data Sculptor is designed to make that work <strong>understandable, repeatable and verifiable.</strong></p>
+      <p>Its intended workflow joins a <strong>Work Order</strong> (what you asked it to do), a <strong>Receipt</strong> (what happened), supported <strong>verification</strong> (what can be checked) and a portable <strong>Suitcase</strong> (the outputs and evidence worth keeping). Prepared CSV and Excel files can then be used with tools such as Power BI and Tableau. Organizing creative assets and their metadata is an important longer-term direction.</p>
+
+      <div class="ds-intro-audiences" aria-labelledby="ds-audiences-heading">
+        <h3 id="ds-audiences-heading">Who it is for — and what problems it aims to solve</h3>
+        <p class="ds-audiences-caption">One evidence-centred foundation, with potential applications across seven audiences:</p>
+        <ul class="ds-audience-grid">
+          <li><h4>Finance &amp; FinTech</h4><p>Compare transaction or settlement exports, investigate discrepancies and document how records were transformed.</p></li>
+          <li><h4>Legal professionals</h4><p>Organize structured case inventories and document metadata, while keeping processing and exclusion decisions traceable.</p></li>
+          <li><h4>Healthcare &amp; research</h4><p>Prepare authorized research or operational datasets locally, with reproducible steps and evidence for review.</p></li>
+          <li><h4>Office workers</h4><p>Replace fragile, repetitive CSV and spreadsheet chores with documented workflows and reusable outputs.</p></li>
+          <li><h4>Creative professionals</h4><p>Bring order to photography, music, film, writing and publishing assets, including metadata, versions and rights. Full digital asset management (DAM) is a future goal.</p></li>
+          <li><h4>Nonprofits &amp; education</h4><p>Prepare donor, alumni, grant, membership and program-reporting data without assuming enterprise-sized budgets.</p></li>
+          <li><h4>Government &amp; public institutions</h4><p>Make statistical and administrative data preparation easier to inspect, reproduce and retain in locally controlled workflows.</p></li>
+        </ul>
+      </div>
+
+      <div class="ds-intro-status"><strong>Development and open-source status.</strong> Data Sculptor is not yet released. The intention is to make the project <strong>open source after Version 1 is released</strong>; it is not presented as an available open-source download today. These are intended use cases, not proof of shipped sector-specific capabilities, regulatory certification or a completed DAM system. Implementation and testing are recorded in the public Development Log.</div>
+    </div>
 
     <aside class="founder-callout" aria-label="About the founder and product lead">
       <div>
@@ -396,13 +446,14 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     </div>
 
 <div class="state">
-      <div class="state-top">Record through Day 073 · Tue 20 October 2026 · Build</div>
+      <div class="state-top">Record through Day 075 · Thu 22 October 2026 · Research (no coding)</div>
       <dl>
-        <dt>Build</dt><dd><strong>CP017 accepted and Git-banked.</strong> Added caller-ordered Receipt field-sequence serialization; invalid fields refuse the entire sequence. Not a complete Receipt.</dd>
-        <dt>Verification</dt><dd><strong>85/85 native tests PASS</strong>; seven focused CP017 tests, Rust formatting and WebAssembly library compilation PASS. Local commit: <code>339cf12</code>.</dd>
-        <dt>Progress</dt><dd><strong>17 accepted checkpoints.</strong> Of 402 frozen requirements: 14 PARTIAL, 388 NOT_STARTED, none fully accepted. Days 063–073: <strong>1.55 checkpoints per calendar day</strong> (17/11); Days 069–072 remain four zero-checkpoint non-work days.</dd>
-        <dt>Evidence</dt><dd>The <a href="DataSculptor_WASM002_Development_Log.html">Development Log</a> records tests, corrections and Git evidence. Independent implementation QA, browser-runtime acceptance and public deployment remain unverified.</dd>
-        <dt>Public reach</dt><dd>Day 073 LinkedIn snapshot: 1,745 seven-day impressions, 777 followers, 37 profile viewers (90 days), 0 search appearances (Oct 6–12). Audience metrics are separate from engineering output.</dd>
+        <dt>Last build</dt><dd><strong>Day 074: CP018 and CP019 accepted and locally Git-banked.</strong> The Receipt serializer now enforces an exact ten-field core envelope, mandatory field order, and expected value categories. This is a tested component, not a completed execution Receipt.</dd>
+        <dt>Verification</dt><dd><strong>100/100 native tests PASS</strong> at the Day 074 CP019 checkpoint, with Rustfmt and WebAssembly library compilation PASS. Local commits: <code>75620f17</code> (CP018), <code>8f7460ce</code> (CP019). No code or new tests were run on Day 075.</dd>
+        <dt>Progress</dt><dd><strong>19 accepted checkpoints.</strong> Of 402 frozen WASM-002 requirements: 15 PARTIAL, 387 NOT_STARTED, none fully accepted. Days 063–075: <strong>1.46 checkpoints per calendar day</strong> (19/13), counting zero-checkpoint days.</dd>
+        <dt>Research</dt><dd><strong>Day 075: no coding checkpoints.</strong> Product-vision research refined Data Sculptor's proposed uses across seven audiences, explored future creative digital asset management, and clarified its proposed role preparing explainable data for existing visualization tools. These are product directions, not shipped features.</dd>
+        <dt>Evidence</dt><dd>Day 074's locally banked checkpoint evidence and Day 075's product-vision document are preserved in the project record. The linked <a href="DataSculptor_WASM002_Development_Log.html">Development Log</a> is maintained separately and may lag this website update; it has <strong>not</strong> been revised in this publication. Independent implementation QA, browser-runtime acceptance and deployment remain unverified.</dd>
+        <dt>Public reach</dt><dd>Most recent dated snapshot in this reporting period (Day 074): 2,277 rolling seven-day LinkedIn post impressions, 777 followers, 40 rolling 90-day profile viewers; 0 search appearances for the earlier reporting window October 6–12. No Day 075-specific snapshot is claimed. Audience metrics are separate from engineering output.</dd>
         <dt>Released</dt><dd>Nothing. Data Sculptor V1 remains in development.</dd>
       </dl>
     </div>
@@ -1273,6 +1324,22 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <p>After four non-work days, we built and accepted CP017: a caller-ordered sequence of canonical Receipt fields with all-or-refuse validation. <strong>85/85 native tests passed</strong>; WebAssembly library compilation passed. Git commit <code>339cf12</code>. Total: 17 banked checkpoints; 14 of 402 requirements PARTIAL, none fully accepted.</p>
           <p class="log-after"><b>Evidence</b>We preserved and corrected two PowerShell evidence-script failures. Test records and the 26 ZIP evidence archives remain part of the local engineering record. No independent implementation QA or finished engine is claimed.</p>
           <p class="log-after"><b>After hours · 20–21 October</b>Five research and method PDFs explored human judgment, PLDD scaling, adversarial QA and early correction. The proposed four-team PRD protocol remains a draft, not an approved rule.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 074<span class="log-date">Wed 21 Oct</span><span class="log-tag is-build">Build</span></div>
+        <div class="log-entry">
+          <h3>Two More Checkpoints: Receipt Rules Get Stricter</h3>
+          <p>CP018 fixed the Receipt serializer's exact ten-field core envelope and required field order. CP019 then enforced field value categories: non-negative integers, quoted text and machine tokens may not silently substitute for each other. Both checkpoints were accepted by T and banked in local Git (<code>75620f17</code> and <code>8f7460ce</code>). The last native regression passed <strong>100/100 tests</strong>; Rustfmt and the WebAssembly library build passed. Total: <strong>19 accepted checkpoints</strong>; 15 of 402 requirements PARTIAL, 387 NOT_STARTED, none fully accepted.</p>
+          <p class="log-after"><b>Errors and evidence</b>Two PowerShell evidence-staging attempts failed on manifest handling and path resolution. The errors were investigated, corrected and preserved in the custody record. Stale Day 074 dashboard labels in the separately maintained Development Log were also identified and corrected in its local archival version. Neither failure is presented as a Rust engine defect, and browser-runtime or independent QA acceptance is not claimed.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 075<span class="log-date">Thu 22 Oct</span><span class="log-tag">Research / No code</span></div>
+        <div class="log-entry">
+          <h3>More Than CSV: The Product Vision Expands</h3>
+          <p>No Rust or WebAssembly checkpoint was attempted or accepted today: <strong>zero coding checkpoints</strong>. Instead, product research produced an updated eight-page vision document, <em>Data Sculptor: It's More Than You Think</em>. It connects the proposed Work Order → Receipt → verification → Suitcase workflow to seven audiences: FinTech, legal, healthcare, office workers, creative professionals, nonprofits and educational institutions, and government and public institutions. This is one proposed product architecture, not seven specialized applications.</p>
+          <p class="log-after"><b>Research boundaries</b>The vision explores future digital asset management for photography, music, film, writing and publishing; local-first workflows on modest computers; and data preparation before Tableau or Power BI visualization. These uses remain proposals to test, not delivered sector-ready features, audited security or a demonstrated market fit. The 19-checkpoint Day 074 implementation baseline is unchanged.</p>
         </div>
       </li>
     </ol>
