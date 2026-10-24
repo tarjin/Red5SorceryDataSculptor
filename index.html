@@ -334,7 +334,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
 </style>
 </head>
 <body>
-<!-- Public project update through Day 075, Thursday 22 October 2026. Day 074 CP018 and CP019 were T-accepted and locally Git-banked; the latest tested baseline was 100/100 native tests, Rustfmt and WebAssembly library compilation PASS. Day 075 was a research-only day with zero coding checkpoints and an expanded product-vision document. Total 19 accepted checkpoints; 402 frozen WASM-002 requirements: 15 PARTIAL, 387 NOT_STARTED, zero fully accepted. Day 063-075 inclusive is 13 calendar days, including four non-work/time-out days (069-072) and a zero-code research day (075). Linked Development Log is a separate publication and is intentionally not updated as part of this website-only release. Independent implementation QA, browser-runtime acceptance, remote Drive readback and public deployment are not claimed here. -->
+<!-- Public project update through Day 076, Friday 23 October 2026. Day 074 CP018 and CP019 remain the last T-accepted and locally Git-banked engineering checkpoints: 100/100 native tests, Rustfmt and WebAssembly library compilation PASS as last measured on Day 074. Day 075 was research-only, and Day 076 documentation/site maintenance; both have zero new coding checkpoints. Total remains 19 accepted checkpoints; frozen WASM-002 requirements: 15 PARTIAL, 387 NOT_STARTED, zero fully accepted. Days 063-076 span 14 calendar days, with four non-work/time-out days (069-072), one research day (075) and one maintenance day (076). Day 076 generated local candidate HTML for a product explainer, portfolio and separate Development Log. These are not confirmation of production deployment or subsequent tests, and this homepage HTML is a candidate for user publication. Independent implementation QA, browser-runtime acceptance, remote Drive readback and public deployment are not claimed. -->
 
 <header class="masthead">
   <div class="wrap">
@@ -345,7 +345,7 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
   <rect x="4"  y="17" width="11" height="11" fill="#E7EAEE"/>
   <rect x="17" y="17" width="11" height="11" fill="#AE2F26"/>
 </svg><span class="brand-name">Red<span>5</span>Sorcery</span></div>
-    <div class="mh-status"><b>DAY 075</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
+    <div class="mh-status"><b>DAY 076</b><i>·</i>In development<i>·</i>Not open to contributions<button class="theme-btn" id="themeBtn" type="button" aria-live="polite">Dark</button></div>
   </div>
 </header>
 
@@ -393,6 +393,11 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
     <div class="hero-cta">
       <span class="cta-label">Podcast — running now</span>
       <a class="watch" href="https://www.youtube.com/playlist?list=PLf_Lc_UV7evQ" rel="noopener">Listen to The Product Management Diary<span>&#8599;</span></a>
+    </div>
+
+    <div class="hero-cta">
+      <span class="cta-label">Data Sculptor in plain language — Day 076 explainer</span>
+      <a class="watch" href="DataSculptor_What_Is_It_2026-10-23.html">What Is Data Sculptor?<span>&#8594;</span></a>
     </div>
 
     <div class="hero-cta">
@@ -445,15 +450,16 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
       <a class="watch devlog-link" href="DataSculptor_WASM002_Development_Log.html">View WASM-002 Development Log<span>&#8594;</span></a>
     </div>
 
-<div class="state">
-      <div class="state-top">Record through Day 075 · Thu 22 October 2026 · Research (no coding)</div>
+    <div class="state">
+      <div class="state-top">Record through Day 076 · Fri 23 October 2026 · Maintenance (no coding)</div>
       <dl>
-        <dt>Last build</dt><dd><strong>Day 074: CP018 and CP019 accepted and locally Git-banked.</strong> The Receipt serializer now enforces an exact ten-field core envelope, mandatory field order, and expected value categories. This is a tested component, not a completed execution Receipt.</dd>
-        <dt>Verification</dt><dd><strong>100/100 native tests PASS</strong> at the Day 074 CP019 checkpoint, with Rustfmt and WebAssembly library compilation PASS. Local commits: <code>75620f17</code> (CP018), <code>8f7460ce</code> (CP019). No code or new tests were run on Day 075.</dd>
-        <dt>Progress</dt><dd><strong>19 accepted checkpoints.</strong> Of 402 frozen WASM-002 requirements: 15 PARTIAL, 387 NOT_STARTED, none fully accepted. Days 063–075: <strong>1.46 checkpoints per calendar day</strong> (19/13), counting zero-checkpoint days.</dd>
-        <dt>Research</dt><dd><strong>Day 075: no coding checkpoints.</strong> Product-vision research refined Data Sculptor's proposed uses across seven audiences, explored future creative digital asset management, and clarified its proposed role preparing explainable data for existing visualization tools. These are product directions, not shipped features.</dd>
-        <dt>Evidence</dt><dd>Day 074's locally banked checkpoint evidence and Day 075's product-vision document are preserved in the project record. The linked <a href="DataSculptor_WASM002_Development_Log.html">Development Log</a> is maintained separately and may lag this website update; it has <strong>not</strong> been revised in this publication. Independent implementation QA, browser-runtime acceptance and deployment remain unverified.</dd>
-        <dt>Public reach</dt><dd>Most recent dated snapshot in this reporting period (Day 074): 2,277 rolling seven-day LinkedIn post impressions, 777 followers, 40 rolling 90-day profile viewers; 0 search appearances for the earlier reporting window October 6–12. No Day 075-specific snapshot is claimed. Audience metrics are separate from engineering output.</dd>
+        <dt>Last build</dt><dd><strong>Day 074: CP018 and CP019 accepted and locally Git-banked.</strong> Receipt serialization now enforces an exact ten-field core envelope, mandatory field order and expected value categories. This is a tested component, not a complete execution Receipt.</dd>
+        <dt>Verification</dt><dd><strong>100/100 native tests PASS</strong> at the Day 074 CP019 checkpoint, with Rustfmt and WebAssembly library compilation PASS. Local commits: <code>75620f17</code> (CP018), <code>8f7460ce</code> (CP019). No new Rust/WASM tests are claimed for Days 075–076.</dd>
+        <dt>Progress</dt><dd><strong>19 accepted checkpoints</strong> through Day 076. Of 402 frozen WASM-002 requirements: 15 PARTIAL, 387 NOT_STARTED, none fully accepted. Days 063–076: <strong>1.36 checkpoints per calendar day</strong> (19/14), including zero-checkpoint days. Days 069–072 were time-out days; Day 075 was research; Day 076 was maintenance.</dd>
+        <dt>Day 076</dt><dd><strong>Maintenance / no coding checkpoints.</strong> Local publication candidates were prepared: a <a href="DataSculptor_What_Is_It_2026-10-23.html">plain-language Data Sculptor explainer</a>, a revised founder portfolio and a separately maintained Development Log. Two after-hours PDFs recorded professional standards and PLDD governance. No deployment, changed Git HEAD, new engine feature or newly passed test is claimed.</dd>
+        <dt>Research</dt><dd><strong>Day 075: zero coding checkpoints.</strong> Product-vision research explored seven audiences, creative digital asset management and clean-data handoffs to other tools. These are future directions, not completed product capabilities.</dd>
+        <dt>Evidence</dt><dd>The Day 076 maintenance record, documentation candidates, governance notes and performance snapshot are preserved in the project Suitcase. The linked <a href="DataSculptor_WASM002_Development_Log.html">Development Log</a> is a separate publication and may lag this home page; its Day 076 candidate was prepared locally, but no live deployment is claimed. Independent implementation QA and browser-runtime acceptance remain pending.</dd>
+        <dt>Public reach</dt><dd>Day 076 LinkedIn snapshot (23 October): <strong>2,985 rolling seven-day post impressions</strong> (+237% displayed), <strong>777 followers</strong> (+1%), <strong>44 rolling 90-day profile viewers</strong> (+450%), and <strong>2 search appearances</strong> for October 13–19 (0% change). Reporting windows differ; public reach is not engineering progress.</dd>
         <dt>Released</dt><dd>Nothing. Data Sculptor V1 remains in development.</dd>
       </dl>
     </div>
@@ -1340,6 +1346,15 @@ a:focus-visible{outline:2px solid var(--source);outline-offset:2px}
           <h3>More Than CSV: The Product Vision Expands</h3>
           <p>No Rust or WebAssembly checkpoint was attempted or accepted today: <strong>zero coding checkpoints</strong>. Instead, product research produced an updated eight-page vision document, <em>Data Sculptor: It's More Than You Think</em>. It connects the proposed Work Order → Receipt → verification → Suitcase workflow to seven audiences: FinTech, legal, healthcare, office workers, creative professionals, nonprofits and educational institutions, and government and public institutions. This is one proposed product architecture, not seven specialized applications.</p>
           <p class="log-after"><b>Research boundaries</b>The vision explores future digital asset management for photography, music, film, writing and publishing; local-first workflows on modest computers; and data preparation before Tableau or Power BI visualization. These uses remain proposals to test, not delivered sector-ready features, audited security or a demonstrated market fit. The 19-checkpoint Day 074 implementation baseline is unchanged.</p>
+        </div>
+      </li>
+      <li>
+        <div class="log-day">Day 076<span class="log-date">Fri 23 Oct</span><span class="log-tag">Maintenance / No code</span></div>
+        <div class="log-entry">
+          <h3>Explaining the Product Without Pretending It Is Finished</h3>
+          <p>Day 076 was a planned, no-code maintenance day: <strong>zero Rust/WASM checkpoints</strong> and no new implementation tests or Git banking. A standalone plain-language <a href="DataSculptor_What_Is_It_2026-10-23.html">Data Sculptor explainer</a> was prepared, alongside a revised professional portfolio and a separate Day 076 Development Log candidate. The explainer describes Work Orders, Receipts, verification, the Suitcase and the product's proposed audiences without claiming those future capabilities have shipped.</p>
+          <p class="log-after"><b>After hours / governance</b>Two research and decision PDFs recorded professional red flags and PLDD engineering governance. The governing principle is that cost and schedule can change scope or timing, but never the meaning of PASS. These notes are not added to the frozen WASM-002 contract.</p>
+          <p class="log-after"><b>Evidence and limits</b>The Day 076 Suitcase preserves the local HTML candidates, the LinkedIn snapshot (2,985 seven-day impressions; 777 followers; 44 ninety-day profile viewers; 2 search appearances), and the maintenance record. Nineteen accepted checkpoints and the Day 074 100/100 test baseline remain unchanged. Publication and independent QA are not claimed.</p>
         </div>
       </li>
     </ol>
