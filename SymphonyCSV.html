@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SymphonyCSV — Music as Auditable Data | Red5Sorcery</title>
+  <meta name="description" content="SymphonyCSV is an experimental, composer-first music format. Write notes in a spreadsheet, work with an LLM, and create checkable MIDI and MusicXML exports. Download the Composer's Manual and Bach CSV example.">
+  <meta name="theme-color" content="#E7EAEE">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&display=swap" rel="stylesheet">
+  <script>
+    (function(){try{var t=localStorage.getItem('r5-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+  </script>
+  <style>
+    :root{
+      color-scheme:light;
+      --paper:#E7EAEE;--paper-2:#F2F4F6;--ink:#13191F;--ink-soft:#4A5560;
+      --rule:#BFC7D0;--rule-strong:#8D97A3;--source:#1B3A6B;--derived:#5E6A76;
+      --fabricated:#AE2F26;--invert-body:#D3D9E0;
+      --display:'Archivo',system-ui,sans-serif;--body:'Newsreader',Georgia,serif;
+      --mono:'IBM Plex Mono',ui-monospace,monospace;--gut:clamp(20px,5vw,72px);
+    }
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+      color-scheme:dark;--paper:#14181D;--paper-2:#1C222A;--ink:#DEE3E9;
+      --ink-soft:#8E99A5;--rule:#2C343D;--rule-strong:#4B5560;
+      --source:#82ABDE;--derived:#9AA6B2;--fabricated:#E8695C;--invert-body:#39424C;
+    }}
+    :root[data-theme="dark"]{
+      color-scheme:dark;--paper:#14181D;--paper-2:#1C222A;--ink:#DEE3E9;
+      --ink-soft:#8E99A5;--rule:#2C343D;--rule-strong:#4B5560;
+      --source:#82ABDE;--derived:#9AA6B2;--fabricated:#E8695C;--invert-body:#39424C;
+    }
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-weight:300;font-size:clamp(17px,1.15vw,19px);line-height:1.62}
+    .wrap{max-width:1080px;margin:0 auto;padding-inline:var(--gut)}
+    .skip{position:absolute;left:10px;top:-100px;z-index:100;padding:8px 12px;background:var(--ink);color:var(--paper)}
+    .skip:focus{top:10px}
+    .masthead{border-bottom:1px solid var(--rule-strong);position:sticky;top:0;z-index:20;background:var(--paper)}
+    .masthead .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-block:13px;flex-wrap:wrap}
+    .mark{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
+    .brand-logo{display:block;width:26px;height:26px;flex:none}
+    .brand-name span{color:var(--fabricated)}
+    .mh-status{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .mh-status b{font-weight:500;color:var(--ink)}
+    .mh-status i{font-style:normal;color:var(--rule-strong)}
+    .theme-btn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);background:none;border:1px solid var(--rule-strong);padding:5px 9px;margin-left:9px;cursor:pointer;line-height:1.2}
+    .theme-btn:hover{color:var(--ink);border-color:var(--ink)}
+    .band{padding-block:clamp(46px,6.5vw,88px);border-bottom:1px solid var(--rule)}
+    .band-label,.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 20px}
+    h1,h2,h3{font-family:var(--display);letter-spacing:-.02em}
+    h1{font-weight:800;font-size:clamp(52px,10vw,112px);line-height:.88;letter-spacing:-.048em;margin:7px 0 0;text-transform:uppercase;overflow-wrap:anywhere}
+    h2{font-weight:700;font-size:clamp(27px,3.6vw,40px);line-height:1.07;margin:0 0 18px;max-width:26ch}
+    h3{font-weight:700;font-size:clamp(18px,2vw,23px);line-height:1.16;margin:0 0 10px}
+    p{margin:0 0 17px;max-width:64ch}p:last-child{margin-bottom:0}
+    a{color:var(--source);text-underline-offset:3px}
+    a:focus-visible,button:focus-visible{outline:2px solid var(--source);outline-offset:3px}
+    .hero{padding-top:clamp(40px,5.5vw,72px)}
+    .hero .tagline{font-family:var(--display);font-weight:700;font-size:clamp(23px,3.4vw,40px);line-height:1.04;letter-spacing:-.025em;margin:23px 0 14px}
+    .hero-lede{font-size:clamp(19px,1.55vw,22px);line-height:1.47;max-width:53ch}
+    .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--source);text-transform:uppercase;margin-bottom:14px}
+    .intro-panel{display:grid;gap:28px;margin-top:clamp(35px,5vw,60px);padding:clamp(22px,3vw,34px);border:1px solid var(--rule-strong);border-top:4px solid var(--source);background:var(--paper-2)}
+    @media(min-width:760px){.intro-panel{grid-template-columns:1.15fr .85fr}}
+    .intro-panel h2{font-size:clamp(23px,2.6vw,31px);max-width:22ch}
+    .intro-panel p{font-size:17px;line-height:1.5}
+    .metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+    .metric{border-top:2px solid var(--ink);padding-top:13px}
+    .metric strong{display:block;font-family:var(--display);font-weight:800;font-size:clamp(25px,3vw,36px);line-height:1.03}
+    .metric span{display:block;margin-top:7px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;line-height:1.5;text-transform:uppercase;color:var(--ink-soft)}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+    .watch{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.075em;text-transform:uppercase;color:var(--ink);border:1px solid var(--ink);padding:11px 17px;text-decoration:none;transition:background .14s ease,color .14s ease}
+    .watch:hover{background:var(--ink);color:var(--paper)}
+    .watch span{color:inherit;opacity:.6;padding-left:9px}
+    .watch.primary{background:var(--ink);color:var(--paper)}.watch.primary:hover{background:transparent;color:var(--ink)}
+    .small-note{font-family:var(--mono);font-size:11.5px;line-height:1.65;color:var(--ink-soft)}
+    .section-lede{font-size:clamp(18px,1.5vw,21px);max-width:68ch}
+    .demo-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1px solid var(--rule-strong);padding-bottom:9px;margin-top:32px}
+    .demo-grid{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    table{width:100%;min-width:630px;border-collapse:collapse;font-family:var(--mono)}
+    thead th{font-weight:500;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);text-align:left;padding:13px 10px;border-bottom:1px solid var(--rule-strong);white-space:nowrap}
+    tbody td{font-size:13.5px;padding:12px 10px;border-bottom:1px solid var(--rule)}
+    tbody tr:nth-child(even){background:var(--paper-2)}
+    td.note{color:var(--source);font-weight:500}td.num{text-align:right;font-variant-numeric:tabular-nums}th.num{text-align:right}
+    .meaning-grid{display:grid;gap:22px;margin-top:30px}
+    @media(min-width:780px){.meaning-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:35px}}
+    .meaning{border-top:2px solid var(--ink);padding-top:15px}
+    .meaning h3{font-size:20px}.meaning p{font-size:16.5px;line-height:1.53;color:var(--ink-soft)}
+    .steps{display:grid;gap:0;margin-top:35px;list-style:none;padding:0;counter-reset:step}
+    .steps li{display:grid;grid-template-columns:58px 1fr;gap:12px;border-top:1px solid var(--rule-strong);padding:23px 0;counter-increment:step}
+    .steps li::before{content:counter(step,decimal-leading-zero);font-family:var(--mono);font-size:13px;color:var(--source);padding-top:3px}
+    .steps h3{font-size:20px}.steps p{font-size:16.5px;color:var(--ink-soft);line-height:1.5}
+    .receipt{border:1px solid var(--rule-strong);background:var(--paper-2);padding:clamp(19px,3vw,28px);margin-top:27px}
+    .receipt .receipt-top{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1px solid var(--rule);padding-bottom:12px;margin-bottom:15px}
+    .receipt dl{display:grid;grid-template-columns:1fr auto;gap:6px 20px;margin:0;font-family:var(--mono);font-size:12px;line-height:1.8}
+    .receipt dt{color:var(--ink-soft)}.receipt dd{margin:0;text-align:right}.receipt dd strong{color:var(--source);font-weight:500}
+    .callout{padding:22px;border-left:4px solid var(--source);background:var(--paper-2);margin-top:26px}
+    .callout p{font-size:16.5px;line-height:1.56;max-width:70ch}
+    .fact-list{list-style:none;padding:0;margin:25px 0 0}
+    .fact-list li{display:grid;gap:8px;border-top:1px solid var(--rule);padding:20px 0}
+    @media(min-width:760px){.fact-list li{grid-template-columns:190px 1fr;gap:27px}}
+    .fact-key{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+    .fact-list p{font-size:16.5px;max-width:67ch;margin:0}
+    .download-grid{display:grid;gap:18px;margin-top:30px}
+    @media(min-width:760px){.download-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    .download{padding:clamp(22px,3vw,30px);background:var(--paper-2);border:1px solid var(--rule-strong);border-top:3px solid var(--ink);display:flex;flex-direction:column;align-items:flex-start}
+    .download .eyebrow{margin-bottom:13px}.download h3{font-size:23px;max-width:20ch}.download p{font-size:16.5px;line-height:1.48;color:var(--ink-soft)}
+    .download .watch{margin-top:auto}.download .file-name{font-family:var(--mono);font-size:10.5px;overflow-wrap:anywhere;color:var(--ink-soft);margin:8px 0 21px}
+    .closed{background:var(--ink);color:var(--paper);border-bottom:0}.closed .band-label{color:var(--rule-strong)}.closed h2{color:var(--paper)}.closed p{color:var(--invert-body)}
+    .closed strong{color:var(--paper)}.closed .watch{color:var(--paper);border-color:var(--paper)}.closed .watch:hover{color:var(--ink);background:var(--paper)}
+    .foot{padding-block:35px 54px;font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+    .foot-links{display:flex;flex-wrap:wrap;gap:12px 28px;padding-bottom:18px}
+    .foot-row{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;border-top:1px solid var(--rule-strong);padding-top:17px}
+    @media(max-width:580px){.masthead .wrap{align-items:flex-start}.mh-status{font-size:10.5px}.theme-btn{margin-left:0}.hero h1{font-size:clamp(48px,15vw,76px)}.receipt dl{grid-template-columns:1fr}.receipt dd{text-align:left;margin-bottom:6px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="masthead">
+    <div class="wrap">
+      <a class="mark" href="https://red5sorcerydatasculptor.com/" aria-label="Red5Sorcery Data Sculptor home">
+        <svg class="brand-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="presentation" aria-hidden="true" focusable="false">
+          <rect width="32" height="32" fill="#13191F"/><rect x="4" y="4" width="11" height="11" fill="#E7EAEE"/><rect x="17" y="4" width="11" height="11" fill="#E7EAEE"/><rect x="4" y="17" width="11" height="11" fill="#E7EAEE"/><rect x="17" y="17" width="11" height="11" fill="#AE2F26"/>
+        </svg>
+        <span class="brand-name">Red<span>5</span>Sorcery</span>
+      </a>
+      <div class="mh-status"><b>SymphonyCSV</b><i>·</i>Experimental 0.3.2<button class="theme-btn" id="themeBtn" type="button">Dark</button></div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="band hero" aria-labelledby="hero-title">
+      <div class="wrap">
+        <p class="eyebrow">An experimental music format · Red5Sorcery</p>
+        <h1 id="hero-title">Symphony<br>CSV</h1>
+        <p class="tagline">Music as auditable data.</p>
+        <p class="hero-lede">Write music in measures, spoken counts and notes. Work with an LLM if you wish. Keep the musical decisions yours, then create MIDI or MusicXML files that can be checked against the composition.</p>
+        <div class="actions">
+          <a class="watch primary" href="#downloads">Get the manual and example<span>↓</span></a>
+          <a class="watch" href="#example">See the CSV<span>↓</span></a>
+        </div>
+
+        <div class="intro-panel">
+          <div>
+            <p class="kicker">For composers, not just programmers</p>
+            <h2>A score you can read as a spreadsheet.</h2>
+            <p>Each sounding note is a row. You can edit the music in a familiar spreadsheet, ask an LLM to develop ideas, or compose entirely on your own. At export time, calculations are regenerated with code and the resulting files can be independently checked.</p>
+            <p class="small-note">No packaged standalone SymphonyCSV exporter exists yet. The current general export workflow uses an LLM with file and code tools.</p>
+          </div>
+          <div class="metric-grid" aria-label="Format at a glance">
+            <div class="metric"><strong>85</strong><span>Documented columns</span></div>
+            <div class="metric"><strong>10</strong><span>Primary composer inputs</span></div>
+            <div class="metric"><strong>6</strong><span>Defined time signatures</span></div>
+            <div class="metric"><strong>2</strong><span>Export targets: MIDI and MusicXML</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="example" aria-labelledby="example-title">
+      <div class="wrap">
+        <p class="band-label">01 / The composition grid</p>
+        <h2 id="example-title">Music written the way you count it.</h2>
+        <p class="section-lede">Instead of beginning with MIDI ticks, begin with a measure, a spoken count, a pitch and a duration. This excerpt comes from the Bach Prelude in C example at 60 beats per minute.</p>
+        <div class="demo-head"><span>Bach · Prelude in C · BWV 846</span><span>First four note events · 4/4 · 60 BPM</span></div>
+        <div class="demo-grid" role="region" aria-label="Example notes from the CSV" tabindex="0">
+          <table>
+            <thead><tr><th>Staff</th><th class="num">Measure</th><th>Count aloud</th><th>Pitch</th><th class="num">Duration (beats)</th><th class="num">Velocity</th></tr></thead>
+            <tbody>
+              <tr><td>Lower</td><td class="num">1</td><td>One</td><td class="note">C4</td><td class="num">2</td><td class="num">90</td></tr>
+              <tr><td>Lower</td><td class="num">1</td><td>One e</td><td class="note">E4</td><td class="num">1.75</td><td class="num">90</td></tr>
+              <tr><td>Upper</td><td class="num">1</td><td>One and</td><td class="note">G4</td><td class="num">0.25</td><td class="num">90</td></tr>
+              <tr><td>Upper</td><td class="num">1</td><td>One a</td><td class="note">C5</td><td class="num">0.25</td><td class="num">90</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small-note" style="margin-top:15px">This is a readable selection of columns. The downloadable CSV retains all 85 columns, including calculated timing, MIDI and notation settings, source information and optional lyrics.</p>
+        <div class="meaning-grid">
+          <div class="meaning"><h3>Human-readable timing</h3><p>Count with words such as “One and” or “Two la”. Six meters are defined in the experimental manual, including 6/8 and 7/8.</p></div>
+          <div class="meaning"><h3>Running time</h3><p>See approximately where each note begins in minutes and seconds. MIDI ticks remain the precision authority; display time is calculated.</p></div>
+          <div class="meaning"><h3>Room to grow</h3><p>Optional columns cover lyrics, articulation, voices, controllers and provenance. Some of these remain outside current exporter coverage.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="workflow" aria-labelledby="workflow-title">
+      <div class="wrap">
+        <p class="band-label">02 / The workflow</p>
+        <h2 id="workflow-title">The composer decides. Code calculates.</h2>
+        <p class="section-lede">SymphonyCSV is intended for human composers working with LLMs. The LLM can suggest, explain and help export; it does not become the authority over your musical choices.</p>
+        <ol class="steps">
+          <li><div><h3>Write</h3><p>Enter notes, measures, spoken counts, durations, tempo, meter and instruments in a CSV file. No live keyboard performance is required.</p></div></li>
+          <li><div><h3>Explore</h3><p>Make as many revisions as you like. Ask an LLM for ideas, or edit the sheet yourself. A working draft need not recalculate after every tiny change.</p></div></li>
+          <li><div><h3>Prepare</h3><p>Before an export, validate the full file and regenerate dependent fields using deterministic code wherever possible. Keep the previous version and record overwrites.</p></div></li>
+          <li><div><h3>Export and check</h3><p>Create a Standard MIDI File or MusicXML document, then parse and compare the note events. Keep a receipt of what passed, changed or could not be verified.</p></div></li>
+        </ol>
+        <div class="callout"><p><strong>The agreement:</strong> The composer decides. Code calculates. The LLM assists and explains. Exports are verified. These are documented workflow rules, not a promise that an LLM can never make a mistake.</p></div>
+      </div>
+    </section>
+
+    <section class="band" id="evidence" aria-labelledby="evidence-title">
+      <div class="wrap">
+        <p class="band-label">03 / Demonstrations and evidence</p>
+        <h2 id="evidence-title">Show the work. Check the result.</h2>
+        <p class="section-lede">Our public claims follow the evidence. A working demonstration, a verified MIDI reconstruction and a complete standard implementation are different achievements.</p>
+        <div class="receipt" aria-label="Documented Bach MIDI verification checkpoint">
+          <div class="receipt-top">Documented MIDI checkpoint · Bach, Prelude in C, BWV 846</div>
+          <dl>
+            <dt>Notes expected</dt><dd>549</dd>
+            <dt>Notes matched</dt><dd><strong>549 / 549</strong></dd>
+            <dt>Missing / extra notes</dt><dd>0 / 0</dd>
+            <dt>Tempo and meter</dt><dd>60 BPM · 4/4</dd>
+            <dt>Verification</dt><dd>Independent MIDI re-parse</dd>
+          </dl>
+        </div>
+        <ul class="fact-list">
+          <li><span class="fact-key">MIDI</span><p>Export from the 85-column Bach master was reconstructed and verified note by note. The manual documents the comparison and limitations.</p></li>
+          <li><span class="fact-key">MusicXML</span><p>CSV-to-MusicXML export has been demonstrated. Comprehensive validation of MusicXML export from the complete 85-column format remains future work.</p></li>
+          <li><span class="fact-key">Six meters</span><p>2/4, 3/4, 4/4, 5/4, 6/8 and 7/8 have documented count vocabularies. The v0.3.2 manual reports synthetic MIDI round-trip tests; broader real-music and notation-software tests are pending.</p></li>
+          <li><span class="fact-key">Original music</span><p><em>Glass Bells</em> is an original four-measure study composed by Spock using SymphonyCSV. T produced it in MuseScore Studio 4 using a soft-strings sound and shared its score with the announcement of Red5Sorcery Studios.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band" id="downloads" aria-labelledby="downloads-title">
+      <div class="wrap">
+        <p class="band-label">04 / Start experimenting</p>
+        <h2 id="downloads-title">The manual. The music. The CSV.</h2>
+        <p class="section-lede">These files are provided as an experimental starting point. Read the manual, inspect Bach's notes in a spreadsheet, and try composing a few measures of your own.</p>
+        <div class="download-grid">
+          <article class="download">
+            <p class="eyebrow">Document · PDF</p>
+            <h3>Composer's Manual</h3>
+            <p>Experimental Edition 0.3.2. The 85-column dictionary, musical counting rules, timing calculations, limits, collaboration workflow and copy-ready export prompt.</p>
+            <div class="file-name">SymphonyCSV_Composers_Manual_Experimental_Edition_0_3_2.pdf</div>
+            <a class="watch" href="SymphonyCSV_Composers_Manual_Experimental_Edition_0_3_2.pdf" type="application/pdf" download>Download PDF<span>↓</span></a>
+          </article>
+          <article class="download">
+            <p class="eyebrow">Example · UTF-8 CSV</p>
+            <h3>Bach Prelude in C</h3>
+            <p>A complete 60 BPM, 85-column, 549-note example using BWV 846. Open it in LibreOffice Calc or another spreadsheet and explore the rows.</p>
+            <div class="file-name">SymphonyCSV_Bach_Prelude_C_BWV846_Master_60_BPM_v01.csv</div>
+            <a class="watch" href="SymphonyCSV_Bach_Prelude_C_BWV846_Master_60_BPM_v01.csv" type="text/csv" download>Download Bach CSV<span>↓</span></a>
+          </article>
+        </div>
+        <p class="small-note" style="margin-top:19px">Version note: the Bach v01 example predates the v0.3.2 rule for rounding <code>running_time</code> down to whole seconds. Some displayed times will be updated by a pre-export regeneration; the underlying note events are unchanged. Keep the original example and export a newly regenerated version.</p>
+      </div>
+    </section>
+
+    <section class="band closed" aria-labelledby="next-title">
+      <div class="wrap">
+        <p class="band-label">05 / What comes next</p>
+        <h2 id="next-title">An experiment worth sharing.</h2>
+        <p>SymphonyCSV is not a released V1 specification or a packaged application. The format is intended to be openly documented after further testing and review. No public software licence has yet been selected.</p>
+        <p>For now, we are learning by composing, exporting, listening and checking. If you enjoy thinking in notes, measures and patterns, the manual and Bach example are an invitation to experiment.</p>
+        <div class="actions"><a class="watch" href="#downloads">Explore the files<span>↑</span></a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-links">
+        <a href="https://red5sorcerydatasculptor.com/" rel="noopener">Red5Sorcery Data Sculptor</a>
+        <a href="#workflow">How it works</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#downloads">Downloads</a>
+      </div>
+      <div class="foot-row"><span>Red5Sorcery · SymphonyCSV</span><span>Experimental Edition 0.3.2 · Not a V1 release</span></div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      var root=document.documentElement,btn=document.getElementById('themeBtn');
+      var meta=document.querySelector('meta[name="theme-color"]');
+      var mq=window.matchMedia('(prefers-color-scheme: dark)');
+      function active(){var t=root.getAttribute('data-theme');return t==='dark'||t==='light'?t:(mq.matches?'dark':'light');}
+      function paint(){var t=active();btn.textContent=t==='dark'?'Light':'Dark';btn.setAttribute('aria-label','Switch to '+(t==='dark'?'light':'dark')+' theme');if(meta)meta.setAttribute('content',t==='dark'?'#14181D':'#E7EAEE');}
+      btn.addEventListener('click',function(){var next=active()==='dark'?'light':'dark';root.setAttribute('data-theme',next);try{localStorage.setItem('r5-theme',next);}catch(e){}paint();});
+      if(mq.addEventListener)mq.addEventListener('change',paint);
+      paint();
+    })();
+  </script>
+</body>
+</html>
