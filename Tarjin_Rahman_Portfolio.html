@@ -307,7 +307,7 @@
 
     .featured { background: var(--night); color: var(--cream); }
     .featured .section-intro { color: #b9bcc5; }
-    .project-grid { display: grid; grid-template-columns: 1.2fr .8fr .8fr; gap: 18px; }
+    .project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
     .project-card {
       border: 1px solid #353944;
       background: linear-gradient(160deg, var(--night-2), #1c1f26);
@@ -1231,6 +1231,12 @@
 <h3>Red5Sorcery<br/>Data Sculptor</h3>
 <p>A local-first browser application for private, explainable data analysis. I own product definition, workflow design, requirements, acceptance criteria, implementation decisions, QA evidence, documentation, and iterative release acceptance.</p>
 <a class="project-link" href="https://red5sorcerydatasculptor.com" rel="noopener" target="_blank">Visit Red5SorceryDataSculptor.com <span>↗</span></a>
+</article>
+<article class="project-card">
+<div class="project-tag">In development · Experimental v0.3.2</div>
+<h3>SymphonyCSV</h3>
+<p>A human- and AI-assisted music-composition format built around an editable, documented CSV. It supports workflows for creating MIDI and MusicXML files for music notation and digital audio workstations. Currently experimental, with the file format intended to become open source upon its v1 release.</p>
+<a class="project-link" href="https://red5sorcerydatasculptor.com/SymphonyCSV.html" rel="noopener" target="_blank">Visit SymphonyCSV v0.3.2 <span>↗</span></a>
 </article>
 <article class="project-card">
 <div class="project-tag">Shipped product</div>
